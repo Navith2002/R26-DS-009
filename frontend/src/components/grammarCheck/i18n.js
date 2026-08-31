@@ -118,7 +118,7 @@ export const UI_TEXT = {
     btnNewSession: '↺ නව සැසියක්',
     btnNewSessionTitle: 'සැසි ඉතිහාසය මකා අලුතින් ආරම්භ කරන්න',
     skillSectionTitle: 'කුසලතා පැතිකඩ',
-    skillSectionSub: '— පසුගිය දින 30 තුළ ලියූ අකුරු ගණනට සාපේක්ෂව එම වර්ගයේ නැවත නැවත සිදුවන වැරදි ප්‍රමාණය (%)',
+    skillSectionSub: '— පසුගිය දින 30 තුළ ලියූ ගණනට සාපේක්ෂව වැරදි නැවත නැවත සිදුවන ප්‍රමාණය (%)',
     errorSectionTitle: 'මෑත අක්ෂර වින්‍යාස දෝෂ ප්‍රතිඵල',
     tipsTitle: 'සංශෝධන ඉඟි',
     encourageTitle: 'දිගටම ලියන්න!',
