@@ -176,6 +176,144 @@ const translations = {
     'results.reasonWord': 'ප්‍රමාණවත් පැහැදිලි ලිවීමේ කලාප හඳුනාගත නොහැකි විය.',
     'results.reasonDefault': 'ඡායාරූපය තවත් පැහැදිලි විය යුතුයි.',
 
+        // =========================================================
+    // NEW RESULTS PAGE — CHILD FEEDBACK / EXPLAINABILITY
+    // =========================================================
+
+    // Child result headings
+    'results.handwritingLevel': 'අත්අකුරු මට්ටම',
+    'results.whatINoticed': 'මම දැක්ක දේ',
+    'results.workOnFirst': 'මුලින් මේ දේවල් ටික පුහුණු වෙමු',
+    'results.tryThis': '💡 මේක කරලා බලමු',
+
+    // Child-friendly quality presentation
+    'results.childVeryGoodTitle': 'සුපිරි! 🌟',
+    'results.childVeryGoodText': 'ඔයාගේ අත්අකුරු ගොඩක් හොඳයි. මෙහෙමම ඉදිරියට යමු!',
+
+    'results.childGoodTitle': 'හොඳ ලිවීමක්! ⭐',
+    'results.childGoodText': 'මේ පිටුව හොඳට ලියලා තියෙනවා. තවත් ලස්සන කරමු.',
+
+    'results.childAverageTitle': 'හොඳින් දියුණු වෙමින්! 🌱',
+    'results.childAverageText': 'ඔයා දියුණු වෙමින් ඉන්නවා. පොඩි අවධානයක් සහිත පුහුණුවක් තවත් උදව් කරයි.',
+
+    'results.childBelowAverageTitle': 'තව ටිකක් පුහුණු වෙමු! ✏️',
+    'results.childBelowAverageText': 'ඔයා ඉගෙන ගනිමින් ඉන්නවා. පොඩි දේවල් කිහිපයක් එකට පුහුණු වෙමු.',
+
+    'results.childPoorTitle': 'එකට පුහුණු වෙමු! 💪',
+    'results.childPoorText': 'පුහුණු කරන්න දේවල් කිහිපයක් තියෙනවා. එකින් එක දියුණු කරමු.',
+
+
+    // Feedback availability
+    'results.feedbackUnavailableTitle': 'විස්තරාත්මක උපදෙස් මේ වෙලාවේ ලබාගන්න බැහැ',
+    'results.feedbackUnavailableText':
+      'අත්අකුරු මට්ටම පරීක්ෂා කළා. නමුත් මේ නියැදිය සඳහා විශ්වාසදායක විස්තරාත්මක පුහුණු උපදෙස් සකස් කිරීමට නොහැකි වුණා.',
+
+    'results.partialFeedbackTitle': 'අපට පැහැදිලිව හඳුනාගත හැකි උපදෙස් මෙන්න',
+    'results.partialFeedbackText':
+      'බොහෝ අත්අකුරු අංග පරීක්ෂා කළා. මුලින් පුහුණු කරන්න වඩාත් ප්‍රයෝජනවත් දේවල් මෙන්න.',
+
+    'results.noIssueTitle': 'හොඳ වැඩක්! 🌟',
+    'results.noIssueText':
+      'පරීක්ෂා කළ හැකි අත්අකුරු අංග වලින් ප්‍රධාන වශයෙන් පුහුණු කළ යුතු දුර්වලතාවක් හමු වුණේ නැහැ.',
+
+
+    // ---------------------------------------------------------
+    // Child-friendly issue descriptions
+    // ---------------------------------------------------------
+
+    'issue.spacing.title': 'සමහර වචන අතර ඉඩ වෙනස්',
+    'issue.spacing.text':
+      'සමහර වචන ළඟින් තියෙනවා, තවත් සමහර වචන ටිකක් ඈතින් තියෙනවා.',
+
+    'issue.word_spacing.title': 'සමහර වචන අතර ඉඩ වෙනස්',
+    'issue.word_spacing.text':
+      'හැම වචනයක් අතරම සමාන පොඩි ඉඩක් තබන්න පුහුණු වෙමු.',
+
+    'issue.character_spacing.title': 'සමහර අකුරු අතර ඉඩ වෙනස්',
+    'issue.character_spacing.text':
+      'සමහර අකුරු එකිනෙකට වැඩිය ළඟ හෝ වැඩිය ඈතින් තියෙනවා.',
+
+    'issue.baseline_alignment.title': 'සමහර වචන පේළියට උඩට හෝ පහළට යනවා',
+    'issue.baseline_alignment.text':
+      'වචන එකම ලියන පේළියේ තබාගෙන ලියන්න පුහුණු වෙමු.',
+
+    'issue.local_baseline_drift.title': 'ලියන පේළිය ටිකක් උඩට හෝ පහළට යනවා',
+    'issue.local_baseline_drift.text':
+      'හැම ලියන පේළියක්ම කෙළින් ගෙන යන්න උත්සාහ කරමු.',
+
+    'issue.size_variation.title': 'සමහර අකුරු ලොකුයි, සමහර අකුරු පොඩියි',
+    'issue.size_variation.text':
+      'සමාන අකුරු සමාන ප්‍රමාණයකින් ලියන්න පුහුණු වෙමු.',
+
+    'issue.character_proportion.title': 'සමහර අකුරු දිගට හෝ පළලට වෙනස්',
+    'issue.character_proportion.text':
+      'සමාන අකුරුවල උස සහ පළල වඩාත් සමබරව තබමු.',
+
+    'issue.curve_smoothness.title': 'සමහර වක්‍ර කොටස් ටිකක් රළුයි',
+    'issue.curve_smoothness.text':
+      'වක්‍ර කොටස් හෙමින් සහ මෘදු ලෙස ලියන්න පුහුණු වෙමු.',
+
+    'issue.loop_roundness.title': 'සමහර වටකුරු කොටස් තවත් මෘදු කළ හැක',
+    'issue.loop_roundness.text':
+      'වට සහ ලූප් කොටස් පැහැදිලිව සහ සමානව ලියන්න පුහුණු වෙමු.',
+
+    'issue.stroke_continuity.title': 'සමහර රේඛා අවසන් වීමට කලින් නවතිනවා',
+    'issue.stroke_continuity.text':
+      'එක් එක් රේඛාව එක මෘදු චලනයකින් සම්පූර්ණ කරන්න පුහුණු වෙමු.',
+
+    'issue.stroke_thickness.title': 'සමහර රේඛා අනෙක් ඒවාට වඩා තදයි',
+    'issue.stroke_thickness.text':
+      'පැන්සලට මෘදු සහ සමාන පීඩනයක් දීලා ලියමු.',
+
+    'issue.density_distribution.title': 'සමහර අකුරු ඇතුළේ කොටස් ටිකක් තදබදයි',
+    'issue.density_distribution.text':
+      'අකුරේ හැම කොටසකටම ප්‍රමාණවත් ඉඩක් දෙමු.',
+
+    'issue.character_shape.title': 'එකම අකුරේ හැඩය ටිකක් වෙනස් වෙනවා',
+    'issue.character_shape.text':
+      'එකම අකුර නැවත ලියන විට සමාන හැඩයක් තබන්න පුහුණු වෙමු.',
+
+    'issue.upper_lower_balance.title': 'අකුරේ උඩ සහ යට කොටස් තවත් සමබර කළ හැක',
+    'issue.upper_lower_balance.text':
+      'ඉහළ සහ පහළ කොටස් වඩාත් සමානව තබන්න පුහුණු වෙමු.',
+
+    'issue.slant.title': 'සමහර අකුරු වෙනස් දිශාවලට නැමෙනවා',
+    'issue.slant.text':
+      'අකුරු සමාන දිශාවකට නැමෙන ලෙස ලියන්න පුහුණු වෙමු.',
+
+    'issue.general.title': 'පුහුණු කරන්න පොඩි දෙයක් තියෙනවා',
+    'issue.general.text':
+      'හෙමින් ලියලා එක පොඩි දියුණුවකට අවධානය දෙමු.',
+
+
+    // ---------------------------------------------------------
+    // Teacher / Research details
+    // ---------------------------------------------------------
+
+    'results.feedbackStatus': 'ප්‍රතිපෝෂණ තත්ත්වය',
+    'results.reliability': 'විශ්වාසනීයතාව',
+    'results.teacherCorrelation': 'ගුරු ඇගයීම සමඟ සම්බන්ධතාව',
+    'results.thresholdSource': 'සීමා අගයේ මූලාශ්‍රය',
+
+    'results.explainabilityDiagnostics': 'පැහැදිලි කිරීමේ පද්ධති පරීක්ෂණ',
+    'results.suppressedFeatures': 'භාවිතයෙන් ඉවත් කළ විශේෂාංග',
+    'results.softWarningFeatures': 'මෘදු අනතුරු ඇඟවීම් සහිත විශේෂාංග',
+    'results.missingFeatures': 'නොමැති විශේෂාංග',
+
+    // Reliability values
+    'reliability.strong': 'ඉතා විශ්වාසනීය',
+    'reliability.moderate': 'මධ්‍යම',
+    'reliability.weak': 'අඩු',
+    'reliability.unknown': 'නොදනී',
+
+    // Feedback status values
+    'feedback.AVAILABLE': 'ලබා ගත හැක',
+    'feedback.PARTIAL': 'අර්ධ වශයෙන් ලබා ගත හැක',
+    'feedback.UNAVAILABLE': 'ලබා ගත නොහැක',
+    'feedback.NOT_RUN': 'ක්‍රියාත්මක කර නැහැ',
+
+    // Threshold source
+    'threshold.teacher_calibrated': 'ගුරු ඇගයීම් මත සකස් කළ',
     // Progress
     'progress.emptyTitle': 'තවම ප්‍රගතියක් නැහැ',
     'progress.emptyText': 'ප්‍රගති ගමන ආරම්භ කිරීමට පළමු අත්අකුරු පරීක්ෂණය සම්පූර්ණ කරන්න.',
@@ -509,6 +647,199 @@ const translations = {
     'results.reasonWord': 'போதுமான தெளிவான எழுத்துப் பகுதிகளை கண்டறிய முடியவில்லை.',
     'results.reasonDefault': 'புகைப்படம் இன்னும் தெளிவாக இருக்க வேண்டும்.',
 
+    // =========================================================
+    // NEW RESULTS PAGE — CHILD FEEDBACK / EXPLAINABILITY
+    // =========================================================
+
+    // Child result headings
+    'results.handwritingLevel': 'கையெழுத்து நிலை',
+    'results.whatINoticed': 'நான் கவனித்தது',
+    'results.workOnFirst': 'முதலில் இவற்றைப் பயிற்சி செய்வோம்',
+    'results.tryThis': '💡 இதை முயற்சி செய்வோம்',
+
+    // Child-friendly quality presentation
+    'results.childVeryGoodTitle': 'சூப்பர் ஸ்டார்! 🌟',
+    'results.childVeryGoodText':
+      'உங்கள் கையெழுத்து மிகவும் நன்றாக இருக்கிறது. இதேபோல் தொடருங்கள்!',
+
+    'results.childGoodTitle': 'அருமையான எழுத்து! ⭐',
+    'results.childGoodText':
+      'இந்தப் பக்கத்தை நன்றாக எழுதியுள்ளீர்கள். இன்னும் சிறப்பாக்கலாம்.',
+
+    'results.childAverageTitle': 'நன்றாக முன்னேறுகிறீர்கள்! 🌱',
+    'results.childAverageText':
+      'நீங்கள் முன்னேறுகிறீர்கள். சிறிது கவனமான பயிற்சி இன்னும் உதவும்.',
+
+    'results.childBelowAverageTitle': 'இன்னும் கொஞ்சம் பயிற்சி செய்வோம்! ✏️',
+    'results.childBelowAverageText':
+      'நீங்கள் கற்றுக்கொண்டு இருக்கிறீர்கள். சில சிறிய விஷயங்களை ஒன்றாகப் பயிற்சி செய்வோம்.',
+
+    'results.childPoorTitle': 'ஒன்றாகப் பயிற்சி செய்வோம்! 💪',
+    'results.childPoorText':
+      'பயிற்சி செய்ய சில திறன்கள் உள்ளன. ஒவ்வொன்றாக மேம்படுத்தலாம்.',
+
+
+    // Feedback availability
+    'results.feedbackUnavailableTitle':
+      'விரிவான பயிற்சி குறிப்புகள் இப்போது கிடைக்கவில்லை',
+
+    'results.feedbackUnavailableText':
+      'கையெழுத்து நிலை மதிப்பிடப்பட்டது. ஆனால் இந்த மாதிரிக்கான நம்பகமான விரிவான பயிற்சி குறிப்புகளை உருவாக்க முடியவில்லை.',
+
+    'results.partialFeedbackTitle':
+      'நாங்கள் தெளிவாக கண்ட பயிற்சி குறிப்புகள் இவை',
+
+    'results.partialFeedbackText':
+      'பெரும்பாலான கையெழுத்து பகுதிகளைச் சரிபார்த்தோம். முதலில் பயிற்சி செய்ய மிகவும் பயனுள்ள விஷயங்கள் இவை.',
+
+    'results.noIssueTitle': 'நல்ல வேலை! 🌟',
+
+    'results.noIssueText':
+      'சரிபார்க்க முடிந்த கையெழுத்து அம்சங்களில் முக்கியமாகப் பயிற்சி செய்ய வேண்டிய குறைபாடு எதுவும் கண்டுபிடிக்கப்படவில்லை.',
+
+
+    // ---------------------------------------------------------
+    // Child-friendly issue descriptions
+    // ---------------------------------------------------------
+
+    'issue.spacing.title':
+      'சில சொற்களுக்கு இடையிலான இடைவெளி மாறுகிறது',
+
+    'issue.spacing.text':
+      'சில சொற்கள் அருகிலும் சில சொற்கள் அதிக இடைவெளியிலும் உள்ளன.',
+
+    'issue.word_spacing.title':
+      'சில சொற்களுக்கு இடையிலான இடைவெளி மாறுகிறது',
+
+    'issue.word_spacing.text':
+      'ஒவ்வொரு சொல்லுக்கும் இடையில் ஒரே மாதிரியான சிறிய இடைவெளியை விட்டு எழுதிப் பழகுவோம்.',
+
+    'issue.character_spacing.title':
+      'சில எழுத்துகளுக்கிடையிலான இடைவெளி மாறுகிறது',
+
+    'issue.character_spacing.text':
+      'சில எழுத்துகள் மிகவும் அருகிலும் சில எழுத்துகள் அதிக தூரத்திலும் உள்ளன.',
+
+    'issue.baseline_alignment.title':
+      'சில சொற்கள் வரிக்கு மேலே அல்லது கீழே செல்கின்றன',
+
+    'issue.baseline_alignment.text':
+      'எல்லா சொற்களையும் ஒரே எழுதும் வரியில் வைத்துப் பயிற்சி செய்வோம்.',
+
+    'issue.local_baseline_drift.title':
+      'எழுதும் வரி கொஞ்சம் மேலே அல்லது கீழே செல்கிறது',
+
+    'issue.local_baseline_drift.text':
+      'ஒவ்வொரு எழுதும் வரியையும் நேராகக் கொண்டு செல்ல முயற்சி செய்வோம்.',
+
+    'issue.size_variation.title':
+      'சில எழுத்துகள் பெரியதாகவும் சில சிறியதாகவும் உள்ளன',
+
+    'issue.size_variation.text':
+      'ஒத்த எழுத்துகளை ஒரே அளவில் எழுதப் பயிற்சி செய்வோம்.',
+
+    'issue.character_proportion.title':
+      'சில எழுத்துகள் நீளமாக அல்லது அகலமாக மாறுகின்றன',
+
+    'issue.character_proportion.text':
+      'ஒத்த எழுத்துகளின் உயரத்தையும் அகலத்தையும் சமமாக வைத்துப் பயிற்சி செய்வோம்.',
+
+    'issue.curve_smoothness.title':
+      'சில வளைந்த பகுதிகள் கொஞ்சம் கரடுமுரடாக உள்ளன',
+
+    'issue.curve_smoothness.text':
+      'வளைந்த பகுதிகளை மெதுவாகவும் மென்மையாகவும் எழுதிப் பழகுவோம்.',
+
+    'issue.loop_roundness.title':
+      'சில வட்ட வடிவங்களை இன்னும் மென்மையாக்கலாம்',
+
+    'issue.loop_roundness.text':
+      'வட்ட மற்றும் வளைய பகுதிகளை தெளிவாகவும் சீராகவும் எழுதிப் பழகுவோம்.',
+
+    'issue.stroke_continuity.title':
+      'சில கோடுகள் முடிவதற்கு முன் நிற்கின்றன',
+
+    'issue.stroke_continuity.text':
+      'ஒவ்வொரு கோட்டையும் ஒரே மென்மையான இயக்கத்தில் முடிக்கப் பயிற்சி செய்வோம்.',
+
+    'issue.stroke_thickness.title':
+      'சில கோடுகள் மற்றவற்றை விட தடிமனாக உள்ளன',
+
+    'issue.stroke_thickness.text':
+      'பென்சிலில் மென்மையான மற்றும் சீரான அழுத்தத்தைப் பயன்படுத்துவோம்.',
+
+    'issue.density_distribution.title':
+      'சில எழுத்துகளின் உள்ளே பகுதிகள் நெருக்கமாக உள்ளன',
+
+    'issue.density_distribution.text':
+      'எழுத்தின் ஒவ்வொரு பகுதிக்கும் போதுமான இடம் கொடுப்போம்.',
+
+    'issue.character_shape.title':
+      'அதே எழுத்தின் வடிவம் கொஞ்சம் மாறுகிறது',
+
+    'issue.character_shape.text':
+      'அதே எழுத்தை ஒவ்வொரு முறையும் ஒரே மாதிரி எழுதிப் பழகுவோம்.',
+
+    'issue.upper_lower_balance.title':
+      'சில எழுத்துகளின் மேல் மற்றும் கீழ் பகுதிகளை இன்னும் சமப்படுத்தலாம்',
+
+    'issue.upper_lower_balance.text':
+      'மேல் மற்றும் கீழ் பகுதிகளை சமமாக வைத்துப் பயிற்சி செய்வோம்.',
+
+    'issue.slant.title':
+      'சில எழுத்துகள் வேறு திசைகளில் சாய்கின்றன',
+
+    'issue.slant.text':
+      'எழுத்துகளை ஒரே திசையில் சாய்த்துப் பழகுவோம்.',
+
+    'issue.general.title':
+      'பயிற்சி செய்ய ஒரு சிறிய விஷயம் உள்ளது',
+
+    'issue.general.text':
+      'மெதுவாக எழுதுங்கள்; ஒரு சிறிய முன்னேற்றத்தில் கவனம் செலுத்துங்கள்.',
+
+
+    // ---------------------------------------------------------
+    // Teacher / Research details
+    // ---------------------------------------------------------
+
+    'results.feedbackStatus': 'பின்னூட்ட நிலை',
+
+    'results.reliability': 'நம்பகத்தன்மை',
+
+    'results.teacherCorrelation':
+      'ஆசிரியர் மதிப்பீட்டுடனான தொடர்பு',
+
+    'results.thresholdSource':
+      'வரம்பு மதிப்பின் மூலம்',
+
+    'results.explainabilityDiagnostics':
+      'விளக்கத்திறன் கண்டறிதல் விவரங்கள்',
+
+    'results.suppressedFeatures':
+      'பயன்பாட்டிலிருந்து நீக்கப்பட்ட அம்சங்கள்',
+
+    'results.softWarningFeatures':
+      'மென்மையான எச்சரிக்கை கொண்ட அம்சங்கள்',
+
+    'results.missingFeatures':
+      'கிடைக்காத அம்சங்கள்',
+
+    // Reliability values
+    'reliability.strong': 'உயர் நம்பகத்தன்மை',
+    'reliability.moderate': 'மிதமான நம்பகத்தன்மை',
+    'reliability.weak': 'குறைந்த நம்பகத்தன்மை',
+    'reliability.unknown': 'தெரியவில்லை',
+
+    // Feedback status values
+    'feedback.AVAILABLE': 'கிடைக்கிறது',
+    'feedback.PARTIAL': 'பகுதியளவில் கிடைக்கிறது',
+    'feedback.UNAVAILABLE': 'கிடைக்கவில்லை',
+    'feedback.NOT_RUN': 'இயக்கப்படவில்லை',
+
+    // Threshold source
+    'threshold.teacher_calibrated':
+      'ஆசிரியர் மதிப்பீட்டின் அடிப்படையில் அளவமைக்கப்பட்டது',
     // Progress
     'progress.emptyTitle': 'இன்னும் முன்னேற்றம் இல்லை',
     'progress.emptyText': 'உங்கள் முன்னேற்றப் பயணத்தைத் தொடங்க முதல் கையெழுத்துச் சரிபார்ப்பை முடிக்கவும்.',

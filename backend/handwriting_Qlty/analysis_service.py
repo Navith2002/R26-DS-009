@@ -24,6 +24,7 @@ advisory while preserving the predicted class and confidence percentage.
 
 import json
 import os
+import warnings
 
 import cv2
 import joblib
@@ -31,44 +32,93 @@ import numpy as np
 import pandas as pd
 import sklearn
 
-from image_utils import ensure_gray, ensure_ink_white
-from preprocessing import (
-    correct_skew,
-    remove_shadow,
-    binarize,
-    remove_ruled_lines,
-)
-from segmentation import (
-    segment_lines,
-    segment_words,
-    segment_character_regions,
-)
-from segmentation_quality import (
-    evaluate_segmentation_reliability,
-)
-from feature_extraction import (
-    calculate_readability_features,
-    extract_quality_features,
-    validate_feature_vector,
-)
-from character_quality import (
-    analyze_character_records,
-)
-from issue_detection import (
-    detect_issues,
-)
-from recommendations import (
-    generate_recommendations,
-    flatten_recommendations,
-)
+# Package-safe imports. This supports both:
+#   from handwriting_Qlty.analysis_service import ...
+# and direct module execution during local debugging.
+try:
+    from .image_utils import ensure_gray, ensure_ink_white
+    from .preprocessing import (
+        correct_skew,
+        remove_shadow,
+        binarize,
+        remove_ruled_lines,
+    )
+    from .segmentation import (
+        segment_lines,
+        segment_words,
+        segment_character_regions,
+    )
+    from .segmentation_quality import (
+        evaluate_segmentation_reliability,
+    )
+    from .feature_extraction import (
+        calculate_readability_features,
+        extract_quality_features,
+        validate_feature_vector,
+    )
+    from .character_quality import (
+        analyze_character_records,
+    )
+    from .issue_detection import (
+        detect_issues,
+        load_issue_thresholds,
+    )
+    from .recommendations import (
+        generate_recommendations,
+    )
+except ImportError:
+    from image_utils import ensure_gray, ensure_ink_white
+    from preprocessing import (
+        correct_skew,
+        remove_shadow,
+        binarize,
+        remove_ruled_lines,
+    )
+    from segmentation import (
+        segment_lines,
+        segment_words,
+        segment_character_regions,
+    )
+    from segmentation_quality import (
+        evaluate_segmentation_reliability,
+    )
+    from feature_extraction import (
+        calculate_readability_features,
+        extract_quality_features,
+        validate_feature_vector,
+    )
+    from character_quality import (
+        analyze_character_records,
+    )
+    from issue_detection import (
+        detect_issues,
+        load_issue_thresholds,
+    )
+    from recommendations import (
+        generate_recommendations,
+    )
 
 
 # ============================================================
 # PATHS
 # ============================================================
 
-BASE_DIR = os.path.dirname(
+# This file is expected at:
+#   backend/handwriting_Qlty/analysis_service.py
+#
+# HANDWRITING_DIR -> backend/handwriting_Qlty
+# BASE_DIR        -> backend
+#
+# Shared model artifacts intentionally live OUTSIDE handwriting_Qlty:
+#   backend/models/Sinhala/...
+#   backend/models/Tamil/...
+
+HANDWRITING_DIR = os.path.dirname(
     os.path.abspath(__file__)
+)
+
+BASE_DIR = os.path.dirname(
+    HANDWRITING_DIR
 )
 
 UPLOAD_DIR = os.path.join(
@@ -108,10 +158,11 @@ CHARACTERS_DIR = os.path.join(
 
 MODEL_DIR = os.path.join(
     BASE_DIR,
-    "..",
     "models",
 )
 
+# MODEL_DIR may already exist with trained artifacts. Creating it is safe,
+# but nothing in this service writes or overwrites the trained model files.
 for directory in [
     UPLOAD_DIR,
     OUTPUT_DIR,
@@ -194,12 +245,14 @@ MODEL_REGISTRY = {
         "model": None,
         "feature_config": None,
         "metadata": None,
+        "warning": None,
         "error": None,
     },
     "tamil": {
         "model": None,
         "feature_config": None,
         "metadata": None,
+        "warning": None,
         "error": None,
     },
 }
@@ -215,12 +268,23 @@ def _load_json(path):
 
 
 def load_language_artifacts(language):
-    registry = MODEL_REGISTRY[
-        language
-    ]
-    config = MODEL_CONFIGS[
-        language
-    ]
+    """
+    Load model, feature configuration and metadata for one language.
+
+    A scikit-learn version mismatch is reported as a warning instead of
+    automatically disabling the model. If joblib loading is genuinely
+    incompatible, the load itself will fail and the model will correctly
+    become unavailable.
+    """
+
+    registry = MODEL_REGISTRY[language]
+    config = MODEL_CONFIGS[language]
+
+    registry["model"] = None
+    registry["feature_config"] = None
+    registry["metadata"] = None
+    registry["warning"] = None
+    registry["error"] = None
 
     try:
         required = [
@@ -253,26 +317,48 @@ def load_language_artifacts(language):
             "sklearn_version"
         )
 
+        warning_messages = []
+
         if (
             expected_sklearn
             and str(sklearn.__version__) != str(expected_sklearn)
         ):
-            raise RuntimeError(
+            warning_messages.append(
                 "scikit-learn version mismatch: "
-                f"model expects {expected_sklearn}, "
-                f"runtime has {sklearn.__version__}. "
-                "Install requirements.txt before running the API."
+                f"model was created with {expected_sklearn}, "
+                f"runtime is {sklearn.__version__}. "
+                "Use the training version for the final research deployment."
             )
 
-        registry["model"] = joblib.load(
-            config["model_path"]
+        # Capture sklearn/joblib warnings instead of printing noisy stack traces.
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            registry["model"] = joblib.load(
+                config["model_path"]
+            )
+
+        warning_messages.extend(
+            str(item.message)
+            for item in caught
+            if str(item.message).strip()
         )
 
+        registry["warning"] = (
+            " | ".join(dict.fromkeys(warning_messages))
+            if warning_messages
+            else None
+        )
         registry["error"] = None
 
         print(
             f"[MODEL] {language.title()} model loaded successfully."
         )
+
+        if registry["warning"]:
+            print(
+                f"[MODEL WARNING] {language.title()}: "
+                f"{registry['warning']}"
+            )
 
     except Exception as error:
         registry["model"] = None
@@ -292,6 +378,14 @@ load_artifacts()
 
 
 def get_model_status():
+    """
+    Return both ML-model readiness and explanation-threshold readiness.
+
+    ML readiness and feedback readiness are deliberately separate:
+    a model can still classify handwriting even if issue-threshold JSON is
+    missing, but the frontend must then show detailed feedback as unavailable.
+    """
+
     output = {}
 
     for language, registry in MODEL_REGISTRY.items():
@@ -305,15 +399,54 @@ def get_model_status():
 
         metadata = registry.get("metadata") or {}
 
+        threshold_config, threshold_file, threshold_error = (
+            load_issue_thresholds(language)
+        )
+
+        threshold_features = (
+            threshold_config.get("features", {})
+            if isinstance(threshold_config, dict)
+            else {}
+        )
+
+        feedback_ready = bool(
+            threshold_config is not None
+            and isinstance(threshold_features, dict)
+            and len(threshold_features) > 0
+        )
+
+        expected_feature_count = None
+        calibrated_feature_count = len(threshold_features)
+        calibration_coverage = None
+
+        if isinstance(threshold_config, dict):
+            expected_feature_count = threshold_config.get(
+                "expected_feature_count"
+            )
+            calibration_coverage = threshold_config.get(
+                "calibration_coverage"
+            )
+
         output[language] = {
             "ready": bool(ready),
             "model_loaded": registry["model"] is not None,
             "feature_config_loaded":
                 registry["feature_config"] is not None,
-            "metadata_loaded": registry["metadata"] is not None,
+            "metadata_loaded":
+                registry["metadata"] is not None,
+
+            "feedback_ready": feedback_ready,
+            "issue_thresholds_loaded": feedback_ready,
+            "issue_threshold_path": threshold_file,
+            "issue_threshold_error": threshold_error,
+            "expected_issue_feature_count": expected_feature_count,
+            "calibrated_issue_feature_count": calibrated_feature_count,
+            "issue_calibration_coverage": calibration_coverage,
+
             "selected_classifier": metadata.get(
                 "selected_classifier"
             ),
+            "classes": metadata.get("classes"),
             "low_confidence_threshold": metadata.get(
                 "low_confidence_threshold"
             ),
@@ -321,7 +454,11 @@ def get_model_status():
                 "sklearn_version"
             ),
             "runtime_sklearn_version": sklearn.__version__,
-            "paths": config,
+            "model_warning": registry.get("warning"),
+            "paths": {
+                **config,
+                "issue_threshold_path": threshold_file,
+            },
             "error": registry["error"],
         }
 
@@ -360,10 +497,37 @@ def _json_number(value):
 
 
 def _json_features(features):
+    if not isinstance(features, dict):
+        return {}
+
     return {
         name: _json_number(value)
         for name, value in features.items()
     }
+
+
+def _flatten_recommendations(recommendations):
+    """
+    Produce a simple string list for older frontend/API consumers.
+
+    The structured recommendation objects remain the canonical response.
+    """
+
+    if not isinstance(recommendations, list):
+        return []
+
+    texts = []
+
+    for item in recommendations:
+        if not isinstance(item, dict):
+            continue
+
+        for key in ("primary", "secondary"):
+            text = str(item.get(key) or "").strip()
+            if text and text not in texts:
+                texts.append(text)
+
+    return texts
 
 
 def normalize_language(language):
@@ -1568,6 +1732,7 @@ def analyze_handwriting(
             "language": language,
             "analysis_status":
                 "INPUT_RETAKE_REQUIRED",
+            "feedback_status": "NOT_RUN",
             "input_validation": stage1,
             "segmentation_reliability": {
                 "status": "Not Evaluated",
@@ -1651,6 +1816,7 @@ def analyze_handwriting(
             "language": language,
             "analysis_status":
                 "SEGMENTATION_UNRELIABLE",
+            "feedback_status": "NOT_RUN",
             "input_validation": stage1,
             "segmentation_reliability":
                 segmentation_reliability,
@@ -1761,7 +1927,7 @@ def analyze_handwriting(
     )
 
     recommendation_texts = (
-        flatten_recommendations(
+        _flatten_recommendations(
             structured_recommendations
         )
     )
@@ -1774,13 +1940,30 @@ def analyze_handwriting(
     else:
         analysis_status = "COMPLETED"
 
+    feedback_available = bool(
+        explanation.get(
+            "available",
+            False,
+        )
+    )
+
+    partial_feedback = bool(
+        explanation.get(
+            "partial_feedback",
+            False,
+        )
+    )
+
+    if not feedback_available:
+        feedback_status = "UNAVAILABLE"
+    elif partial_feedback:
+        feedback_status = "PARTIAL"
+    else:
+        feedback_status = "AVAILABLE"
+
     explainability = {
-        "available": bool(
-            explanation.get(
-                "available",
-                False,
-            )
-        ),
+        "available": feedback_available,
+        "status": feedback_status,
         "source": explanation.get(
             "source"
         ),
@@ -1790,6 +1973,34 @@ def analyze_handwriting(
         "error": explanation.get(
             "error"
         ),
+        "partial_feedback": partial_feedback,
+        "expected_feature_count": explanation.get(
+            "expected_feature_count"
+        ),
+        "calibrated_feature_count": explanation.get(
+            "calibrated_feature_count"
+        ),
+        "usable_feature_count": explanation.get(
+            "usable_feature_count"
+        ),
+        "evaluated_feature_count": explanation.get(
+            "evaluated_feature_count"
+        ),
+        "calibration_coverage": explanation.get(
+            "calibration_coverage"
+        ),
+        "suppressed_features": explanation.get(
+            "suppressed_features",
+            [],
+        ),
+        "soft_warning_features": explanation.get(
+            "soft_warning_features",
+            [],
+        ),
+        "missing_features": explanation.get(
+            "missing_features",
+            [],
+        ),
         "preliminary_due_to_low_confidence": bool(
             prediction.get(
                 "low_confidence",
@@ -1797,8 +2008,7 @@ def analyze_handwriting(
             )
         ),
         "issues": issues,
-        "recommendations":
-            structured_recommendations,
+        "recommendations": structured_recommendations,
     }
 
     final_label = prediction.get(
@@ -1808,6 +2018,7 @@ def analyze_handwriting(
     return {
         "language": language,
         "analysis_status": analysis_status,
+        "feedback_status": feedback_status,
         "input_validation": stage1,
         "segmentation_reliability":
             segmentation_reliability,
