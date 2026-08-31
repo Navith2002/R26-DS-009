@@ -193,7 +193,7 @@ export default function HomePage() {
                 className="feature-card card-teal"
                 onClick={() => navigate(latestGrammarRun ? `/grammar-results/${latestGrammarRun.id}` : '/grammar-check')}
               >
-                <span className="card-mascot mascot-4" aria-hidden="true">🦭</span>
+                <span className="card-mascot mascot-4" aria-hidden="true">🐯</span>
                 <div className="card-icon"><SpellCheck2 size={22} /></div>
                 <div>
                   <small style={{ fontSize: 12, fontWeight: 800, color: 'var(--muted)', display: 'block' }}>
