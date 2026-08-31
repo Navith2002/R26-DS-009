@@ -1,7 +1,7 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
 import {
-  loadGrammarRuns, loadHistory, loadLanguage, loadProfile,
-  saveGrammarRuns, saveHistory, saveLanguage, saveProfile,
+  loadFluencyRuns, loadGrammarRuns, loadHistory, loadLanguage, loadProfile,
+  saveFluencyRuns, saveGrammarRuns, saveHistory, saveLanguage, saveProfile,
 } from '../utils/storage';
 import { summarizeRun } from '../components/grammarCheck/sessionHistory';
 import { translate } from '../i18n/translations';
@@ -24,11 +24,13 @@ export function AppProvider({ children }) {
   const [language, setLanguageState] = useState(loadLanguage);
   const [history, setHistory] = useState(loadHistory);
   const [grammarRuns, setGrammarRuns] = useState(loadGrammarRuns);
+  const [fluencyRuns, setFluencyRuns] = useState(loadFluencyRuns);
   const [latestResult, setLatestResult] = useState(null);
   const [latestPreview, setLatestPreview] = useState(null);
 
   useEffect(() => saveHistory(history), [history]);
   useEffect(() => saveGrammarRuns(grammarRuns), [grammarRuns]);
+  useEffect(() => saveFluencyRuns(fluencyRuns), [fluencyRuns]);
   useEffect(() => saveProfile(profile), [profile]);
   useEffect(() => saveLanguage(language), [language]);
 
@@ -99,6 +101,27 @@ export function AppProvider({ children }) {
     return entry;
   }
 
+  // Reading-fluency assessment (FluencyPage.jsx): appends one completed
+  // assessment (not a saved-profile *load* -- fetchProfile's read of an
+  // existing student's cumulative profile isn't a new run and must not
+  // call this, or opening a returning student's dashboard would create a
+  // duplicate history entry every time). `result` is the raw
+  // submitAssessment/submitCustomAssessment response (fluency_label,
+  // profile_name, cer, wer, ground_truth, transcript, weakest, ...) --
+  // kept whole, same as registerGrammarRun's `result`, so a future
+  // per-run detail view has everything without a second network call.
+  function registerFluencyRun(result, studentId, runLanguage) {
+    const entry = {
+      id: `${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      language: runLanguage,
+      studentId: studentId || '',
+      result,
+    };
+    setFluencyRuns((current) => [...current, entry]);
+    return entry;
+  }
+
   const t = (key, vars) => translate(language, key, vars);
 
   const value = useMemo(() => ({
@@ -111,12 +134,14 @@ export function AppProvider({ children }) {
     clearHistory,
     grammarRuns,
     registerGrammarRun,
+    fluencyRuns,
+    registerFluencyRun,
     latestResult,
     setLatestResult,
     latestPreview,
     setLatestPreview,
     registerAnalysis,
-  }), [profile, language, history, grammarRuns, latestResult, latestPreview]);
+  }), [profile, language, history, grammarRuns, fluencyRuns, latestResult, latestPreview]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

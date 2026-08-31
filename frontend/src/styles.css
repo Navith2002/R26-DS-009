@@ -40,9 +40,25 @@
 .card-orange .card-icon svg{color:var(--orange)}.card-green .card-icon svg{color:var(--green)}
 .feature-card.card-orange>div:last-of-type,.feature-card.card-green>div:last-of-type{position:relative;z-index:1}
 .feature-card.card-orange h4,.feature-card.card-green h4{color:var(--text);font-size:17px}
+.feature-card.picker-card{min-height:220px;padding:32px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;justify-content:flex-start}
+.picker-card .card-icon{width:64px;height:64px;margin-bottom:10px}
+.picker-card .card-icon svg{width:28px;height:28px}
+.feature-card.picker-card h4{font-size:19px}
+.feature-card.picker-card p{position:relative;z-index:1;font-size:15px;line-height:1.55;opacity:.85;max-width:320px}
 .card-mascot{position:absolute;z-index:1;bottom:8px;right:10px;font-size:36px;line-height:1;filter:drop-shadow(0 4px 6px rgba(0,0,0,.14));animation:mascot-bob 2.6s ease-in-out infinite;transform-origin:bottom center}.card-mascot.mascot-1{animation-delay:0s}.card-mascot.mascot-2{animation-delay:.3s}.card-mascot.mascot-3{animation-delay:.6s}.card-mascot.mascot-4{animation-delay:.9s}
 @keyframes mascot-bob{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-7px) rotate(6deg)}}
 .page-mascot{position:fixed;z-index:2;bottom:16px;right:26px;font-size:92px;line-height:1;pointer-events:none;filter:drop-shadow(0 12px 16px rgba(0,0,0,.16));animation:mascot-bob 3.2s ease-in-out infinite}
+/* Sentencestage.jsx's sentence-picker grid -- "wb-" prefixed rather than
+   reusing fluencyProfiling.css's own (unscoped) .sentence-grid/
+   .sentence-card names, since that stylesheet still defines those and
+   nothing stops both from applying once this screen no longer sits
+   inside .app.fluency-scope. */
+.wb-sentence-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.wb-sentence-card{text-align:left;background:#fff;border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);transition:.2s}
+.wb-sentence-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(50,55,70,.12)}
+.wb-sentence-id{font-weight:800;font-size:14px;letter-spacing:.05em;color:var(--muted)}
+.wb-sentence-text{font-size:17px;line-height:1.55;color:var(--text)}
+.wb-sentence-badge{align-self:flex-start;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;background:var(--orange-light);color:var(--orange);padding:6px 10px;border-radius:20px}
 /* Home-only tint on the two right-column cards (Recent Writing / Recent
    Grammar Errors) -- same soft nude-tone gradients as the activity cards
    above, instead of the plain white .right-card default. Scoped with

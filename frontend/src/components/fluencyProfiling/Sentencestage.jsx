@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react'
+import { XCircle } from 'lucide-react'
 import { fetchSentences } from './api'
 import { useLanguage } from '../../context/FluencyLanguageContext'
 
+// Restyled to match WriteBright's own page styling exactly, same
+// treatment as Pickerstage.jsx/Studentgate.jsx (pulled outside
+// .app.fluency-scope in FluencyPage.jsx). The card grid reuses new
+// .wb-sentence-* classes (styles.css) rather than this component's own
+// .sentence-grid/.sentence-card -- those names are still defined,
+// unscoped, in fluencyProfiling.css, so reusing them here risks the
+// exact class-name collision already fixed once this session for
+// grammar-check's .skill-row -> .grammar-skill-row.
 export default function SentenceStage({ onSelect, onBack }) {
   const [sentences, setSentences] = useState([])
   const [status, setStatus] = useState('loading') // loading | ready | error
@@ -24,34 +33,39 @@ export default function SentenceStage({ onSelect, onBack }) {
   }, [])
 
   return (
-    <section className="stage">
+    <div className="page-stack">
       {onBack && (
-        <button type="button" className="link-back" onClick={onBack}>
-          ← {t('common.back')}
-        </button>
+        <div className="results-topbar">
+          <button type="button" onClick={onBack}>← {t('common.back')}</button>
+        </div>
       )}
 
-      {status === 'loading' && <p className="hint">{t('sentence.loading')}</p>}
+      {status === 'loading' && (
+        <p style={{ color: 'var(--muted)', fontSize: 14 }}>{t('sentence.loading')}</p>
+      )}
 
-      {status === 'error' && <p className="hint hint--error">{t('sentence.error')}</p>}
+      {status === 'error' && (
+        <div className="error-banner"><XCircle size={19} /><span>{t('sentence.error')}</span></div>
+      )}
 
       {status === 'ready' && (
         <>
-          <h2>{t('sentence.heading')}</h2>
-          <p className="stage__subhead">{t('sentence.subhead', { count: sentences.length })}</p>
-          <div className="sentence-grid">
+          <section className="page-intro">
+            <h2>{t('sentence.heading')}</h2>
+            <p>{t('sentence.subhead', { count: sentences.length })}</p>
+          </section>
+
+          <div className="wb-sentence-grid">
             {sentences.map((s) => (
-              <button key={s.sentence_id} className="sentence-card" onClick={() => onSelect(s)}>
-                <span className="sentence-card__id">#{s.sentence_id}</span>
-                <span className="sentence-card__text" lang="si">
-                  {s.text}
-                </span>
-                <span className="sentence-card__badge">{s.length_class}</span>
+              <button key={s.sentence_id} type="button" className="wb-sentence-card" onClick={() => onSelect(s)}>
+                <span className="wb-sentence-id">#{s.sentence_id}</span>
+                <span className="wb-sentence-text" lang="si">{s.text}</span>
+                <span className="wb-sentence-badge">{s.length_class}</span>
               </button>
             ))}
           </div>
         </>
       )}
-    </section>
+    </div>
   )
 }

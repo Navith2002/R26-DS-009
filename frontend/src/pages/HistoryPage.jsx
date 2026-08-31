@@ -23,7 +23,7 @@ function historyStatus(item, language, t) {
 }
 
 export default function HistoryPage() {
-  const { history, grammarRuns, clearHistory, language, t } = useApp();
+  const { history, grammarRuns, fluencyRuns, clearHistory, language, t } = useApp();
   const navigate = useNavigate();
 
   const grammarLang = language === 'tamil' ? 'ta' : 'si';
@@ -32,8 +32,11 @@ export default function HistoryPage() {
   // (registerAnalysis prepends; registerGrammarRun appends, so this list
   // reverses at render time instead).
   const grammarHistory = [...grammarRuns].reverse();
+  // Same reversal, same reason -- registerFluencyRun (AppContext.jsx)
+  // also appends.
+  const fluencyHistory = [...fluencyRuns].reverse();
 
-  if (!history.length && !grammarHistory.length) {
+  if (!history.length && !grammarHistory.length && !fluencyHistory.length) {
     return (
       <EmptyState
         title={t('history.emptyTitle')}
@@ -128,6 +131,54 @@ export default function HistoryPage() {
                   </div>
                   <div className="history-friendly-meta">
                     <span className={`quality-pill tone-${tone}`}>{errorText}</span>
+                  </div>
+                  <span className="history-arrow">→</span>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      {/* Reading-fluency assessment history (FluencyPage.jsx via
+          registerFluencyRun, AppContext.jsx) -- same card layout as the
+          grammar-check section above, placed right after it. Each card
+          opens its own detail view (FluencyResultPage.jsx), same as
+          /results/:id and /grammar-results/:id. */}
+      {!!fluencyHistory.length && (
+        <>
+          <section className="page-intro">
+            <h2>කියවුම් හැකියා පරීක්ෂණ</h2>
+          </section>
+
+          <div className="history-cards">
+            {fluencyHistory.map((item) => {
+              const label = item.result?.fluency_label;
+              const tone = label === 'Fluent' ? 'good' : label === 'Struggling' ? 'below' : 'average';
+              const isTamil = item.language === 'tamil';
+              const statusText = label === 'Fluent'
+                ? (isTamil ? 'சரளம்' : 'ප්‍රවීණයි')
+                : label === 'Struggling'
+                  ? (isTamil ? 'பயிற்சி தேவை' : 'අභ්‍යාස අවශ්‍යයි')
+                  : (isTamil ? 'மிதமானது' : 'මධ්‍යස්ථයි');
+              const fluencyLabelText = isTamil ? 'வாசிப்புத் திறன் மதிப்பீடு' : 'කියවීමේ ප්‍රවීණතා ඇගයීම';
+
+              return (
+                <button
+                  key={item.id}
+                  className="history-card kid-history-card"
+                  onClick={() => navigate(`/fluency-results/${item.id}`)}
+                >
+                  <div className={`history-script ${item.language}`}>
+                    <span>{isTamil ? 'அ' : 'අ'}</span>
+                  </div>
+                  <div className="history-copy">
+                    <small>{fluencyLabelText}</small>
+                    <h3>{statusText}</h3>
+                    <p><Clock3 size={13} /> {formatDate(item.createdAt, language)}</p>
+                  </div>
+                  <div className="history-friendly-meta">
+                    <span className={`quality-pill tone-${tone}`}>{statusText}</span>
                   </div>
                   <span className="history-arrow">→</span>
                 </button>

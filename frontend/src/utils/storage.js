@@ -2,6 +2,7 @@ const HISTORY_KEY = 'writebright_history_v1';
 const PROFILE_KEY = 'writebright_profile_v1';
 const LANGUAGE_KEY = 'writebright_language_v1';
 const GRAMMAR_RUNS_KEY = 'writebright_grammar_runs_v1';
+const FLUENCY_RUNS_KEY = 'writebright_fluency_runs_v1';
 
 export function loadHistory() {
   try {
@@ -101,6 +102,28 @@ export function saveGrammarRuns(runs) {
     }
   }
   /* give up silently -- next successful run will save normally */
+}
+
+// Reading-fluency assessment runs (FluencyPage.jsx). Unlike
+// saveGrammarRuns above, each entry here is plain text/numbers -- no
+// embedded audio (the recording only ever lives as a transient blob: URL,
+// which can't survive/isn't meant to survive a reload) -- so this never
+// runs into the same localStorage-quota risk and doesn't need its
+// degrade-on-failure fallback chain.
+export function loadFluencyRuns() {
+  try {
+    return JSON.parse(localStorage.getItem(FLUENCY_RUNS_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+export function saveFluencyRuns(runs) {
+  try {
+    localStorage.setItem(FLUENCY_RUNS_KEY, JSON.stringify(runs.slice(-100)));
+  } catch {
+    /* give up silently -- next successful run will save normally */
+  }
 }
 
 export function loadLanguage() {
