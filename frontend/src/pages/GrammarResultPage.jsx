@@ -32,6 +32,7 @@ export default function GrammarResultPage() {
         language={run.language}
         onNewPage={() => navigate('/grammar-check')}
         onNewSession={() => navigate('/grammar-check')}
+        grammarRuns={grammarRuns}
       />
     </div>
   );

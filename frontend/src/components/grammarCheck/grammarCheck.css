@@ -157,6 +157,12 @@
   display: flex; align-items: center; gap: 14px;
   position: sticky; top: 0; z-index: 10;
   box-shadow: var(--shadow);
+  /* Same cap + centering as .dash-body below it -- without this, the
+     header (no max-width of its own) stretches to the full #dashboard
+     width while .dash-body caps at 1100px and centers, so on any
+     container wider than 1100px the header reads visibly wider than the
+     metric-card row under it. */
+  max-width: 1100px; margin: 0 auto;
 }
 .dash-logo { font-size: 26px; }
 .dash-title { font-size: 18px; font-weight: 900; color: var(--text); }
@@ -289,11 +295,11 @@
   --kid-orange:     #F2854C; --kid-orange-bg: #FEEEE3;
   --kid-teal:       #3FD9C7; --kid-teal-bg:   #E5FBF8;
   --kid-coral:      #FA8072; --kid-coral-bg:  #FFEEEC;
+  --kid-purple:     #8B5CF6; --kid-purple-bg: #EFEAFF;
 }
 #dashboard .dash-header { background: var(--kid-white, #fff); }
 #dashboard .dash-title { color: var(--kid-green); }
-
-.kid-header-illus { flex-shrink: 0; }
+.kid-header-illus { position: absolute; top: 12px; left: 15px; pointer-events: none; }
 
 .kid-btn-outline, .kid-btn-solid {
   font-family: var(--sans); font-weight: 700; font-size: 13px;
@@ -315,6 +321,7 @@
 .kid-metric-card.kid-orange { background: var(--kid-orange-bg); }
 .kid-metric-card.kid-teal   { background: var(--kid-teal-bg); }
 .kid-metric-card.kid-coral  { background: var(--kid-coral-bg); }
+.kid-metric-card.kid-purple { background: var(--kid-purple-bg); }
 .kid-metric-check {
   position: absolute; top: 12px; right: 12px; width: 20px; height: 20px; border-radius: 50%;
   background: var(--kid-green); color: #fff; display: flex; align-items: center; justify-content: center;
@@ -327,6 +334,7 @@
 .kid-metric-card.kid-orange .kid-metric-icon { background: var(--kid-orange); }
 .kid-metric-card.kid-teal   .kid-metric-icon { background: var(--kid-teal); }
 .kid-metric-card.kid-coral  .kid-metric-icon { background: var(--kid-coral); }
+.kid-metric-card.kid-purple .kid-metric-icon { background: var(--kid-purple); }
 .kid-metric-value { font-size: 26px; font-weight: 900; color: var(--text); line-height: 1; margin-bottom: 4px; }
 .kid-metric-label { font-size: 12px; color: var(--muted); font-weight: 700; }
 
