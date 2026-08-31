@@ -768,6 +768,16 @@ def _has_vowel_error(raw: str, corrected: str) -> bool:
     if _remove_diacritics(raw_clean) == _remove_diacritics(cor_clean):
         return raw_clean != cor_clean
 
+    # Below this point we're only looking for a single vowel-sign swapped
+    # for another (e.g. dirga/hrasva), which by definition can't change
+    # how many graphemes the text has. Without this guard, an unrelated
+    # structural edit -- a whole word inserted/deleted -- trivially moves
+    # some vowel-pair's count too and got misclassified as "vowel" on top
+    # of its real "missing" tag (see classify_correction's sentence-level
+    # use on raw_before_grammar -> text, where whole words get added).
+    if len(_sinhala_graphemes(raw_clean)) != len(_sinhala_graphemes(cor_clean)):
+        return False
+
     # Or an explicit short/long vowel pair changed.
     return any(
         raw_clean.count(a) != cor_clean.count(a) or raw_clean.count(b) != cor_clean.count(b)
@@ -897,17 +907,6 @@ def process_htr_lines(lines: list[dict]) -> dict:
     )
     accuracy = round(correct / max(total, 1) * 100, 1)
 
-
-    # Skill/Profile bars now show the percentage share of each error type
-    # among the errors found below. This avoids the old Fluency=100% problem.
-    total_errors = sum(error_counts.values())
-    skill_scores: dict[str, int] = {}
-    for err_type, label in ERROR_PROFILE_LABELS.items():
-        skill_scores[label] = round(error_counts.get(err_type, 0) / max(total_errors, 1) * 100)
-
-    dominant_error = error_counts.most_common(1)[0][0] if error_counts else "correct"
-    repeated = [err for err, cnt in error_counts.items() if cnt >= 2]
-
     # ── Sentence assembly + grammar correction ──────────────────────────
     # Lines are single OCR text-rows, not sentences: a real sentence often
     # spans two handwriting lines, and a single line can hold two short
@@ -920,6 +919,39 @@ def process_htr_lines(lines: list[dict]) -> dict:
     except Exception as e:
         print(f"[hybrid_corrector] grammar module skipped: {e}")
         sentences = []
+
+    # The Gemini grammar-check pass above can itself fix missing words,
+    # punctuation, and word-boundary issues the spelling pass never
+    # touched -- spelling only compares each line's raw OCR text to its
+    # own spell-corrected text, so a dropped word (every remaining word
+    # spelled correctly) is invisible to it. classify_correction() already
+    # detects exactly these categories generically from any raw->corrected
+    # string pair (it's not word-specific), so reuse it here on each
+    # sentence's raw_before_grammar -> text change and fold the result
+    # into the same error_counts the lines feed -- this is what actually
+    # makes those corrections show up in the කුසලතා පැතිකඩ (Skill Profile)
+    # instead of being visible only as the note under the sentence.
+    for s in sentences:
+        before = s.get("raw_before_grammar")
+        if not before:
+            continue
+        grammar_classification = classify_correction(before, s["text"], s.get("grammar_note_technical", ""))
+        s["error_type"] = grammar_classification["error_type"]
+        s["all_errors"] = grammar_classification["all_errors"]
+        if grammar_classification["error_type"] != "correct":
+            error_counts.update(grammar_classification["all_errors"])
+
+    # Skill/Profile bars now show the percentage share of each error type
+    # among the errors found below (line-level spelling errors + the
+    # sentence-level grammar-stage detections just folded in above). This
+    # avoids the old Fluency=100% problem.
+    total_errors = sum(error_counts.values())
+    skill_scores: dict[str, int] = {}
+    for err_type, label in ERROR_PROFILE_LABELS.items():
+        skill_scores[label] = round(error_counts.get(err_type, 0) / max(total_errors, 1) * 100)
+
+    dominant_error = error_counts.most_common(1)[0][0] if error_counts else "correct"
+    repeated = [err for err, cnt in error_counts.items() if cnt >= 2]
 
     return {
         "total_lines":      total,

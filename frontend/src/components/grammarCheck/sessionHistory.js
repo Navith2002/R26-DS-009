@@ -28,6 +28,24 @@ export function summarizeRun(data) {
     });
   });
 
+  // The backend's Gemini grammar-check pass (data.sentences) can fix
+  // missing words/punctuation/word-boundary issues the line-level
+  // spelling pass never touched -- see hybrid_corrector.py's own comment
+  // on this. Its per-sentence error_type/all_errors (set only when that
+  // sentence's raw_before_grammar text actually changed) are counted the
+  // same way here, into the same errorCounts, so they reach the Skill
+  // Profile too instead of only ever showing as the note under the
+  // sentence. charCount is NOT touched again -- lines above already
+  // cover the whole page's characters.
+  (data.sentences || []).forEach((sentence) => {
+    const types = sentence.all_errors && sentence.all_errors.length
+      ? sentence.all_errors
+      : (sentence.error_type && sentence.error_type !== 'correct' ? [sentence.error_type] : []);
+    types.forEach((type) => {
+      errorCounts[type] = (errorCounts[type] || 0) + 1;
+    });
+  });
+
   return {
     skillScores: data.skill_scores || {},
     total: data.total_lines || lines.length,
@@ -82,7 +100,14 @@ export function createSessionHistory() {
           ? (cumErr / cumChars) * 100
           : 0;
 
-    result[label] = Math.min(100, Math.round(ratio));
+        // Math.round alone rounds any rate under 0.5% down to a flat 0%,
+        // which reads as "this never happened" even though the count
+        // legend right next to this bar (getCumulativeErrors, below)
+        // shows it did -- a single real occurrence spread across a lot
+        // of analyzed characters routinely lands under 0.5%. Floors any
+        // *actually nonzero* count at 1% instead, so it stays visible;
+        // a genuinely error-free skill still reads a plain 0%.
+        result[label] = cumErr > 0 ? Math.max(1, Math.min(100, Math.round(ratio))) : 0;
   });
       return result;
     },

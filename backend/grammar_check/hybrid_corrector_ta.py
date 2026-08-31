@@ -440,6 +440,14 @@ def _has_vowel_error(raw: str, corrected: str) -> bool:
         return False
     raw_clean = _remove_spaces(_remove_punctuation(raw))
     cor_clean = _remove_spaces(_remove_punctuation(corrected))
+    # A vowel-sign swap can't change the grapheme count -- without this
+    # guard, an unrelated structural edit (a whole word inserted/deleted,
+    # e.g. classify_correction's sentence-level use on
+    # raw_before_grammar -> text) trivially moves some vowel-pair's count
+    # too and gets misclassified as "vowel" on top of its real "missing"
+    # tag.
+    if len(_tamil_graphemes(raw_clean)) != len(_tamil_graphemes(cor_clean)):
+        return False
     return any(
         raw_clean.count(a) != cor_clean.count(a) or raw_clean.count(b) != cor_clean.count(b)
         for a, b in VOWEL_PAIRS
@@ -550,6 +558,29 @@ def process_htr_lines(lines: list[dict]) -> dict:
     )
     accuracy = round(correct / max(total, 1) * 100, 1)
 
+    try:
+        from grammar_module_ta import build_sentences
+        sentences = build_sentences(classified)
+    except Exception as e:
+        print(f"[hybrid_corrector_ta] grammar module skipped: {e}")
+        sentences = []
+
+    # Same reasoning as hybrid_corrector.py's Sinhala version: fold the
+    # Gemini grammar-stage's own raw->corrected change per sentence into
+    # error_counts (via the same classify_correction()), since missing
+    # word / punctuation / word-boundary fixes there are invisible to the
+    # line-level spelling pass above -- otherwise they only ever show as
+    # the note under the sentence, never in the Skill Profile.
+    for s in sentences:
+        before = s.get("raw_before_grammar")
+        if not before:
+            continue
+        grammar_classification = classify_correction(before, s["text"], s.get("grammar_note_technical", ""))
+        s["error_type"] = grammar_classification["error_type"]
+        s["all_errors"] = grammar_classification["all_errors"]
+        if grammar_classification["error_type"] != "correct":
+            error_counts.update(grammar_classification["all_errors"])
+
     total_errors = sum(error_counts.values())
     skill_scores: dict[str, int] = {}
     for err_type, label in ERROR_PROFILE_LABELS.items():
@@ -557,13 +588,6 @@ def process_htr_lines(lines: list[dict]) -> dict:
 
     dominant_error = error_counts.most_common(1)[0][0] if error_counts else "correct"
     repeated = [err for err, cnt in error_counts.items() if cnt >= 2]
-
-    try:
-        from grammar_module_ta import build_sentences
-        sentences = build_sentences(classified)
-    except Exception as e:
-        print(f"[hybrid_corrector_ta] grammar module skipped: {e}")
-        sentences = []
 
     return {
         "total_lines":      total,
