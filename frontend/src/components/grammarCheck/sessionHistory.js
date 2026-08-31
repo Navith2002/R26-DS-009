@@ -1,20 +1,8 @@
 import { ERROR_PROFILE_LABELS, ERROR_PROFILE_LABELS_TA } from './i18n';
 
-// Cumulative session skill tracking, ported from dashboard.html's
-// `sessionHistory` object. Kept as a plain mutable object (held in a
-// useRef in App.jsx) rather than React state, since it needs to silently
-// accumulate across every /analyze call in the browser session -- exactly
-// like the original vanilla-JS version.
-// Reduces one /analyze response down to the small plain-object shape a
-// run contributes to cumulative stats -- shared by the in-page
-// sessionHistory below and by AppContext's persisted grammarRuns (see
-// registerGrammarRun), so both draw on exactly one computation instead of
-// two copies of the same error-counting logic.
 export function summarizeRun(data) {
   const lines = data.lines || [];
-  // Count every error category detected for each line. If a line has
-  // both retroflex and missing-letter errors, it contributes to BOTH
-  // categories.
+  
   const errorCounts = {};
   let charCount = 0;
   lines.forEach((line) => {
@@ -28,15 +16,6 @@ export function summarizeRun(data) {
     });
   });
 
-  // The backend's Gemini grammar-check pass (data.sentences) can fix
-  // missing words/punctuation/word-boundary issues the line-level
-  // spelling pass never touched -- see hybrid_corrector.py's own comment
-  // on this. Its per-sentence error_type/all_errors (set only when that
-  // sentence's raw_before_grammar text actually changed) are counted the
-  // same way here, into the same errorCounts, so they reach the Skill
-  // Profile too instead of only ever showing as the note under the
-  // sentence. charCount is NOT touched again -- lines above already
-  // cover the whole page's characters.
   (data.sentences || []).forEach((sentence) => {
     const types = sentence.all_errors && sentence.all_errors.length
       ? sentence.all_errors
@@ -63,52 +42,34 @@ export function createSessionHistory() {
       this.runs.push(summarizeRun(data));
     },
 
-   // Calculates cumulative skill difficulty across all uploads
-    // in the current browser session.
-    //
-    // Formula:
-    //
+  
     // Skill Error Rate =
     //     cumulative errors of that skill
     //     -------------------------------- × 100
-    //     cumulative characters analyzed
+    //     cumulative runs (uploads/checks)
     //
-    // This means:
-    // - starts from 0 when there are no errors
-    // - increases when the same type of error occurs repeatedly
-    // - decreases as the child writes more characters without that error
-    // - does not use arbitrary smoothing constants or weights
     getCumulativeSkills(lang = 'si') {
       const labels = lang === 'ta' ? ERROR_PROFILE_LABELS_TA : ERROR_PROFILE_LABELS;
 
       const result = {};
+      const totalRuns = this.runs.length;
 
       Object.entries(labels).forEach(([errType, label]) => {
         let cumErr = 0;
-        let cumChars = 0;
 
-         // Accumulate errors and characters from all runs
+        // Accumulate errors of this type from all runs
         this.runs.forEach((r) => {
           cumErr += r.errorCounts[errType] || 0;
-          cumChars += r.charCount || 0;
         });
 
-
         // Cumulative Skill Error Rate
-      const ratio =
-        cumChars > 0
-          ? (cumErr / cumChars) * 100
-          : 0;
+        const ratio =
+          totalRuns > 0
+            ? (cumErr / totalRuns) * 100
+            : 0;
 
-        // Math.round alone rounds any rate under 0.5% down to a flat 0%,
-        // which reads as "this never happened" even though the count
-        // legend right next to this bar (getCumulativeErrors, below)
-        // shows it did -- a single real occurrence spread across a lot
-        // of analyzed characters routinely lands under 0.5%. Floors any
-        // *actually nonzero* count at 1% instead, so it stays visible;
-        // a genuinely error-free skill still reads a plain 0%.
-        result[label] = cumErr > 0 ? Math.max(1, Math.min(100, Math.round(ratio))) : 0;
-  });
+        result[label] = Math.min(100, Math.round(ratio));
+      });
       return result;
     },
 
