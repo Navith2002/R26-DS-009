@@ -210,7 +210,7 @@
 .section-sub { font-weight: 400; font-size: 14px; color: var(--muted); margin-left: 6px; }
 /* "⚠ grammar check skipped (no LLM API key)" / grammar-correction note
    under each sentence in ව්‍යාකරණ දෝෂ පරීක්ෂාව. */
-.grammar-note { font-size: 13px; color: #d97706; margin-top: 4px; }
+.grammar-note { font-size: 16px; color: #d97706; margin-top: 4px; }
 .skill-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--r); padding: 18px 20px; }
 /* Named .grammar-skill-row, not .skill-row -- fluencyProfiling.css
    defines its own unrelated .skill-row (display:grid, 3 columns) for its
