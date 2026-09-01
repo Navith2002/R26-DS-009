@@ -32,10 +32,10 @@ export default function HistoryPage() {
   // (registerAnalysis prepends; registerGrammarRun appends, so this list
   // reverses at render time instead).
   const grammarHistory = [...grammarRuns].reverse();
+
   // Same reversal, same reason -- registerFluencyRun (AppContext.jsx)
   // also appends.
   const fluencyHistory = [...fluencyRuns].reverse();
-
   if (!history.length && !grammarHistory.length && !fluencyHistory.length) {
     return (
       <EmptyState
