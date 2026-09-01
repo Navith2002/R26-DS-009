@@ -1,5 +1,5 @@
 export const ERROR_META = {
-  correct:     { icon:'✓', label:'නිවැරදි අක්ෂර වින්‍යාස',                         cls:'err-correct',     color:'#1a9e5c' },
+  correct:     { icon:'✓', label:'අක්ෂර වින්‍යාස වැරදි නම් නැහැ, අපි දැං ව්‍යාකරණත් පරීක්ෂා කරලා බලමු',                         cls:'err-correct',     color:'#1a9e5c' },
   retroflex:   { icon:'ළ', label:'සමාන අකුරු පටලැවීම',                cls:'err-retroflex',   color:'#d97706' },
   vowel:       { icon:'ී', label:'ස්වර ලකුණු වැරදීම',                  cls:'err-vowel',       color:'#7c3aed' },
   zwj:         { icon:'‍', label:'එකට ලියැවෙන අකුරු වැරදීම',          cls:'err-zwj',         color:'#2563eb' },
