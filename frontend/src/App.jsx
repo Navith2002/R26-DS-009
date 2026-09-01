@@ -11,6 +11,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import GrammarCheckPage from './pages/GrammarCheckPage';
 import GrammarResultPage from './pages/GrammarResultPage';
 import FluencyPage from './pages/FluencyPage';
+import FluencyResultPage from './pages/FluencyResultPage';
 import ReadingErrorPage from './pages/ReadingErrorPage';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/grammar-check" element={<GrammarCheckPage />} />
         <Route path="/grammar-results/:id" element={<GrammarResultPage />} />
         <Route path="/fluency" element={<FluencyPage />} />
+        <Route path="/fluency-results/:id" element={<FluencyResultPage />} />
         <Route path="/reading-error" element={<ReadingErrorPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

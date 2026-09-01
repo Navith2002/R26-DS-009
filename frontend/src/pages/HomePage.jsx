@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, Languages, Mic, Sparkles, SpellCheck2, Star, Trophy, Volume2 } from 'lucide-react';
+import { Camera, Mic, Sparkles, SpellCheck2, Star, Volume2 } from 'lucide-react';
 import { useApp } from '../context/useApp';
 import {
   analysisStatus,
@@ -23,7 +23,7 @@ const GRAMMAR_WINDOW_DAYS = 30;
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { history, grammarRuns, language, setLanguage, t } = useApp();
+  const { history, grammarRuns, fluencyRuns, language, setLanguage, t } = useApp();
 
   const completed = useMemo(
     () => history.filter(isAcceptedQualityResult),
@@ -33,10 +33,28 @@ export default function HomePage() {
   const latestCompleted = completed[0] || null;
   const latest = history.slice(0, 3);
 
-  const goodCount = completed.filter((item) => {
-    const label = qualityLabel(item);
-    return label === 'Good' || label === 'Very Good';
-  }).length;
+  // registerFluencyRun (AppContext.jsx) appends, so the newest run is
+  // last -- same convention as grammarRuns elsewhere in this file/
+  // HistoryPage.jsx.
+  const latestFluency = fluencyRuns[fluencyRuns.length - 1] || null;
+  const isTamil = language === 'tamil';
+  const fluencyStatusText = latestFluency
+    ? latestFluency.result?.fluency_label === 'Fluent'
+      ? (isTamil ? 'சரளம்' : 'ප්‍රවීණයි')
+      : latestFluency.result?.fluency_label === 'Struggling'
+        ? (isTamil ? 'பயிற்சி தேவை' : 'අභ්‍යාස අවශ්‍යයි')
+        : (isTamil ? 'மிதமானது' : 'මධ්‍යස්ථයි')
+    : '';
+
+  // "Latest accepted language level" -- same value/definition as the
+  // grammar-check Dashboard's own 5th metric card (Dashboard.jsx):
+  // most-recent grammarRuns entry's accuracy, using the correct/total
+  // registerGrammarRun already flattens onto each entry (sessionHistory.js's
+  // summarizeRun) rather than re-deriving from the raw result.
+  const latestGrammarRun = grammarRuns.length ? grammarRuns[grammarRuns.length - 1] : null;
+  const latestGrammarAccuracy = latestGrammarRun && latestGrammarRun.total > 0
+    ? Math.round((latestGrammarRun.correct / latestGrammarRun.total) * 100)
+    : null;
 
   // Grammar-check (spelling/grammar) error-type count -- same underlying
   // data/computation as the Progress page's skill panel, just the "error
@@ -103,7 +121,7 @@ export default function HomePage() {
               <div><h4>{t('nav.fluency')}</h4></div>
             </button>
             <button className="feature-card card-green" onClick={() => navigate('/reading-error')}>
-              <span className="card-mascot mascot-4" aria-hidden="true">🐢</span>
+              <span className="card-mascot mascot-4" aria-hidden="true">🐷</span>
               <div className="card-icon"><Volume2 size={25} /></div>
               <div><h4>{t('nav.readingError')}</h4></div>
             </button>
@@ -117,33 +135,80 @@ export default function HomePage() {
           </div>
           <div className="performance-panel">
             <div className="performance-grid kid-progress-grid">
-              <div className={`latest-level-card ${qualityTone(qualityLabel(latestCompleted))}`}>
-                <small>{t('home.latestLevel')}</small>
-                {latestCompleted ? (
-                  <>
-                    <div className="latest-level-row">
-                      <span className="latest-level-star"><Star size={22} fill="currentColor" /></span>
-                      <strong>{qualityLabelText(qualityLabel(latestCompleted), language)}</strong>
-                    </div>
-                    <p>{languageName(latestCompleted.language, language)} · {formatDate(latestCompleted.createdAt, language)}</p>
-                  </>
-                ) : (
-                  <>
-                    <div className="latest-level-row"><strong>{t('home.readyBegin')}</strong></div>
-                    <p>{t('home.firstResult')}</p>
-                  </>
-                )}
-              </div>
-              <div className="metric-card orange">
-                <div className="metric-icon"><Trophy /></div>
-                <strong>{completed.length}</strong>
-                <span>{t('home.completedChecks')}</span>
-              </div>
-              <div className="metric-card teal">
-                <div className="metric-icon"><Languages /></div>
-                <strong>{goodCount}</strong>
-                <span>{t('home.goodResults')}</span>
-              </div>
+              <button
+                type="button"
+                className="feature-card card-green"
+                onClick={() => latestCompleted && navigate(`/results/${latestCompleted.id}`)}
+              >
+                <span className="card-mascot mascot-2" aria-hidden="true">🐹</span>
+                <div className="card-icon"><Star size={20} fill="currentColor" /></div>
+                <div>
+                  <small style={{ fontSize: 12, fontWeight: 800, color: 'var(--muted)', display: 'block' }}>{t('home.latestLevel')}</small>
+                  {latestCompleted ? (
+                    <>
+                      <h4 style={{ fontSize: 25 }}>{qualityLabelText(qualityLabel(latestCompleted), language)}</h4>
+                      <p style={{ fontSize: 10 }}>{languageName(latestCompleted.language, language)} · {formatDate(latestCompleted.createdAt, language)}</p>
+                    </>
+                  ) : (
+                    <>
+                      <h4 style={{ fontSize: 25 }}>{t('home.readyBegin')}</h4>
+                      <p style={{ fontSize: 10 }}>{t('home.firstResult')}</p>
+                    </>
+                  )}
+                </div>
+              </button>
+              {/* Latest reading-fluency check, replacing the old
+                  completed-checks/good-results count pair -- same card
+                  system as the handwriting-level card above (label/
+                  title/subtext sizes matched via inline style so both
+                  read as one pair). */}
+              <button
+                type="button"
+                className={`feature-card ${latestFluency?.result?.fluency_label === 'Fluent' ? 'card-green' : 'card-orange'}`}
+                onClick={() => navigate(latestFluency ? `/fluency-results/${latestFluency.id}` : '/fluency')}
+              >
+                <span className="card-mascot mascot-3" aria-hidden="true">🐳</span>
+                <div className="card-icon"><Mic size={22} /></div>
+                <div>
+                  <small style={{ fontSize: 12, fontWeight: 800, color: 'var(--muted)', display: 'block' }}>
+                    {isTamil ? 'சமீபத்திய வாசிப்பு நிலை' : 'අවසන් පිළිගත් කියවුම් මට්ටම'}
+                  </small>
+                  <h4 style={{ fontSize: 25 }}>{latestFluency ? fluencyStatusText : t('nav.fluency')}</h4>
+                  <p style={{ fontSize: 10 }}>
+                    {latestFluency
+                      ? formatDate(latestFluency.createdAt, language)
+                      : (isTamil ? 'இன்னும் வாசிப்புத் திறன் பரிசோதனை இல்லை' : 'තවම කියවුම් හැකියා පරීක්ෂණයක් නැත')}
+                  </p>
+                </div>
+              </button>
+
+              {/* Latest grammar/spelling check -- same "latest accepted
+                  level" idea as the two cards above and as the grammar
+                  Dashboard's own 5th metric card (Dashboard.jsx), just
+                  surfaced here too since it wasn't showing anywhere on
+                  this page yet. Teal so all three read as a distinct
+                  trio rather than repeating orange/green. */}
+              <button
+                type="button"
+                className="feature-card card-teal"
+                onClick={() => navigate(latestGrammarRun ? `/grammar-results/${latestGrammarRun.id}` : '/grammar-check')}
+              >
+                <span className="card-mascot mascot-4" aria-hidden="true">🐯</span>
+                <div className="card-icon"><SpellCheck2 size={22} /></div>
+                <div>
+                  <small style={{ fontSize: 12, fontWeight: 800, color: 'var(--muted)', display: 'block' }}>
+                    {isTamil ? 'சமீபத்திய மொழி நிலை' : 'අවසන් ලිවීම් නිවැරදි මට්ටම'}
+                  </small>
+                  <h4 style={{ fontSize: 25 }}>
+                    {latestGrammarAccuracy !== null ? `${latestGrammarAccuracy}%` : t('nav.grammarCheck')}
+                  </h4>
+                  <p style={{ fontSize: 10 }}>
+                    {latestGrammarRun
+                      ? formatDate(latestGrammarRun.createdAt, language)
+                      : (isTamil ? 'இன்னும் சரிபார்ப்பு இல்லை' : 'තවම පරීක්ෂණයක් නැත')}
+                  </p>
+                </div>
+              </button>
             </div>
           </div>
         </section>

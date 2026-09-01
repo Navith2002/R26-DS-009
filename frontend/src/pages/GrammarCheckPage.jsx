@@ -20,7 +20,7 @@ function toShortCode(language) {
 }
 
 export default function GrammarCheckPage() {
-  const { language, registerGrammarRun } = useApp();
+  const { language, registerGrammarRun, grammarRuns } = useApp();
 
   const [screen, setScreen] = useState('upload'); // 'upload' | 'loading' | 'dashboard'
   const [selectedFile, setSelectedFile] = useState(null);
@@ -87,7 +87,7 @@ export default function GrammarCheckPage() {
   // UploadScreen.jsx) so it isn't wrapped in .grammar-check-scope --
   // that class's CSS variables would otherwise repaint it with this
   // component's separate palette instead of the app's own colors.
-  // Loading/Dashboard keep their existing look for now.
+  // Dashboard keeps its existing look for now.
   if (screen === 'upload') {
     return (
       <UploadScreen
@@ -100,16 +100,22 @@ export default function GrammarCheckPage() {
     );
   }
 
+  // Same fix as the upload screen -- pulled outside .grammar-check-scope
+  // so LoadingScreen.jsx's own WriteBright-styled markup isn't repainted
+  // by this component's separate palette.
+  if (screen === 'loading') {
+    return <LoadingScreen t={t} step={step} />;
+  }
+
   return (
     <div className="grammar-check-scope">
-      {screen === 'loading' && <LoadingScreen t={t} step={step} />}
-
       {screen === 'dashboard' && result && (
         <Dashboard
           data={result}
           language={result.language || shortLang}
           onNewPage={reset}
           onNewSession={reset}
+          grammarRuns={grammarRuns}
         />
       )}
     </div>

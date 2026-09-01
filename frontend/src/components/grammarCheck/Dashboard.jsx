@@ -64,10 +64,21 @@ function KidHeaderIllus() {
   );
 }
 
-export default function Dashboard({ data, language, onNewPage, onNewSession }) {
+export default function Dashboard({ data, language, onNewPage, onNewSession, grammarRuns = [] }) {
   const lang = language || 'si';
   const T = UI_TEXT[lang] || UI_TEXT.si;
   const EM = lang === 'ta' ? ERROR_META_TA : ERROR_META;
+
+  // "Latest accepted language level" -- the most recent grammar-check
+  // run's accuracy, independent of which run `data` above is showing.
+  // grammarRuns entries already carry `correct`/`total` flattened at the
+  // top level (sessionHistory.js's summarizeRun), so no need to re-derive
+  // from each run's own raw `result`. registerGrammarRun (AppContext.jsx)
+  // appends, so the newest run is last.
+  const latestRun = grammarRuns.length ? grammarRuns[grammarRuns.length - 1] : null;
+  const latestAccuracy = latestRun && latestRun.total > 0
+    ? Math.round((latestRun.correct / latestRun.total) * 100)
+    : null;
 
   useEffect(() => {
     document.documentElement.style.setProperty('--script', lang === 'ta' ? 'var(--tam)' : 'var(--sinh)');
@@ -94,10 +105,9 @@ export default function Dashboard({ data, language, onNewPage, onNewSession }) {
   return (
     <div id="dashboard">
       <header className="dash-header">
-        <span className="dash-logo">📖</span>
         <div>
-          <div className="dash-title">{T.dashTitle}</div>
-          <div className="dash-sub">{T.dashSub}</div>
+          <div className="dash-title" style={{ marginLeft: '70px', display: 'flex', gap: 10, alignItems: 'center' }}>{T.dashTitle}</div>
+          <div className="dash-sub" style={{ marginLeft: '70px',marginTop: '8px', display: 'flex', gap: 10, alignItems: 'center' }}>{T.dashSub}</div>
         </div>
         <KidHeaderIllus />
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, alignItems: 'center' }}>

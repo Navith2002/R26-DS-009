@@ -19,7 +19,7 @@ import '../fluencyProfiling.css';
 // this page instead, via the sync effect below) and the .fluency-scope/
 // lang wrapper (see fluencyProfiling.css) instead of a bare <main className="app">.
 function FluencyPageInner() {
-  const { language: appLanguage } = useApp(); // 'sinhala' | 'tamil', from WriteBright's global toggle
+  const { language: appLanguage, registerFluencyRun } = useApp(); // 'sinhala' | 'tamil', from WriteBright's global toggle
   const { lang, setLang, t } = useLanguage();
 
   // Keeps this component's own LanguageContext (used internally by every
@@ -99,6 +99,7 @@ function FluencyPageInner() {
       });
       setResult(data);
       updateAudioUrl(blob);
+      registerFluencyRun(data, studentId, appLanguage);
       setScreen('results');
     } catch (err) {
       setSubmitError(err.message || 'Assessment failed. Try again.');
@@ -118,6 +119,7 @@ function FluencyPageInner() {
       });
       setResult(data);
       updateAudioUrl(audioBlob);
+      registerFluencyRun(data, studentId, appLanguage);
       setScreen('results');
     } catch (err) {
       setSubmitError(err.message || 'Assessment failed. Try again.');
@@ -202,6 +204,44 @@ function FluencyPageInner() {
     );
   }
 
+  // Same fix as gate/dashboard-empty above -- pulled outside
+  // .app.fluency-scope so PickerStage.jsx's own WriteBright-styled
+  // markup isn't repainted by this component's separate palette.
+  if (screen === 'picker') {
+    return (
+      <PickerStage
+        onPickList={() => setScreen('sentence')}
+        onPickCustom={() => setScreen('custom')}
+        onBack={() => setScreen('dashboard')}
+      />
+    );
+  }
+
+  // Same fix again -- pulled outside .app.fluency-scope so
+  // Sentencestage.jsx's own WriteBright-styled markup isn't repainted by
+  // this component's separate palette.
+  if (screen === 'sentence') {
+    return (
+      <SentenceStage onSelect={handleSentenceSelect} onBack={() => setScreen('picker')} />
+    );
+  }
+
+  // CustomStage.jsx now owns its own scoping per internal step (its
+  // 'text' step is unscoped/WriteBright-styled like the screens above;
+  // its 'capture' step wraps itself in a local .fluency-scope div) --
+  // pulled out here the same way, and submitError is now passed down
+  // instead of being rendered alongside it by this file.
+  if (screen === 'custom') {
+    return (
+      <CustomStage
+        onSubmit={handleCustomSubmit}
+        onBack={() => setScreen('picker')}
+        submitting={submitting}
+        submitError={submitError}
+      />
+    );
+  }
+
   return (
     <main className="app fluency-scope" lang={lang}>
       {screen === 'dashboard' && (
@@ -225,35 +265,12 @@ function FluencyPageInner() {
         />
       )}
 
-      {screen === 'picker' && (
-        <PickerStage
-          onPickList={() => setScreen('sentence')}
-          onPickCustom={() => setScreen('custom')}
-          onBack={() => setScreen('dashboard')}
-        />
-      )}
-
-      {screen === 'sentence' && (
-        <SentenceStage onSelect={handleSentenceSelect} onBack={() => setScreen('picker')} />
-      )}
-
       {screen === 'record' && (
         <>
           <RecordStage
             sentence={sentence}
             onSubmit={handleAudioSubmit}
             onBack={() => setScreen('sentence')}
-            submitting={submitting}
-          />
-          {submitError && <p className="hint hint--error">{submitError}</p>}
-        </>
-      )}
-
-      {screen === 'custom' && (
-        <>
-          <CustomStage
-            onSubmit={handleCustomSubmit}
-            onBack={() => setScreen('picker')}
             submitting={submitting}
           />
           {submitError && <p className="hint hint--error">{submitError}</p>}

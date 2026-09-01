@@ -1,16 +1,3 @@
-/*
- * i18n.js
- * All bilingual (Sinhala/Tamil) display text and result-screen label/color
- * tables for the dashboard UI. Ported near-verbatim from the original
- * dashboard.html's i18n.js (same file, same strings) -- just exported as
- * ES modules instead of loaded as globals via <script src="i18n.js">.
- */
-
-// ── Per-line error badge/legend metadata, keyed by the stable `error_type`
-// string both backends return (correct/retroflex/vowel/zwj/boundary/
-// punctuation/missing/other -- same keys in hybrid_corrector.py and
-// hybrid_corrector_ta.py). Only the display `label` differs per language;
-// `error_type` itself never needs translating.
 export const ERROR_META = {
   correct:     { icon:'✓', label:'නිවැරදි අක්ෂර වින්‍යාස',                         cls:'err-correct',     color:'#1a9e5c' },
   retroflex:   { icon:'ළ', label:'සමාන අකුරු පටලැවීම',                cls:'err-retroflex',   color:'#d97706' },
@@ -89,11 +76,6 @@ export const SKILL_COLORS_TA = {
 // HTML/JS-generated text needs a manual translation table.
 export const UI_TEXT = {
   si: {
-    // upload screen -- same photo-upload copy as WriteBright's own
-    // AnalyzePage (analyze.photoHeading/dropTitle/takePhoto/choosePhoto/
-    // submit in i18n/translations.js), reused verbatim since this screen
-    // now shares that exact layout/styling; eyebrow/title stay specific
-    // to this component's own topic.
     eyebrow: 'ශිෂ්‍යයාගේ ලිවීම විශ්ලේෂණය කිරීම',
     title: 'අක්ෂර වින්‍යාස, ව්‍යාකරණ පරීක්ෂාව',
     // history page (HistoryPage.jsx's grammar-check section)
@@ -118,7 +100,7 @@ export const UI_TEXT = {
     btnNewSession: '↺ නව සැසියක්',
     btnNewSessionTitle: 'සැසි ඉතිහාසය මකා අලුතින් ආරම්භ කරන්න',
     skillSectionTitle: 'කුසලතා පැතිකඩ',
-    skillSectionSub: '— පසුගිය දින 30 තුළ ලියූ අකුරු ගණනට සාපේක්ෂව එම වර්ගයේ නැවත නැවත සිදුවන වැරදි ප්‍රමාණය (%)',
+    skillSectionSub: '— පසුගිය දින 30 තුළ ලියූ ගණනට සාපේක්ෂව වැරදි නැවත නැවත සිදුවන ප්‍රමාණය (%)',
     errorSectionTitle: 'මෑත අක්ෂර වින්‍යාස දෝෂ ප්‍රතිඵල',
     tipsTitle: 'සංශෝධන ඉඟි',
     encourageTitle: 'දිගටම ලියන්න!',
