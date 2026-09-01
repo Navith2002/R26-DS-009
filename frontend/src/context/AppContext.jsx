@@ -24,13 +24,17 @@ export function AppProvider({ children }) {
   const [language, setLanguageState] = useState(loadLanguage);
   const [history, setHistory] = useState(loadHistory);
   const [grammarRuns, setGrammarRuns] = useState(loadGrammarRuns);
+
   const [fluencyRuns, setFluencyRuns] = useState(loadFluencyRuns);
+
   const [latestResult, setLatestResult] = useState(null);
   const [latestPreview, setLatestPreview] = useState(null);
 
   useEffect(() => saveHistory(history), [history]);
   useEffect(() => saveGrammarRuns(grammarRuns), [grammarRuns]);
+
   useEffect(() => saveFluencyRuns(fluencyRuns), [fluencyRuns]);
+
   useEffect(() => saveProfile(profile), [profile]);
   useEffect(() => saveLanguage(language), [language]);
 
@@ -121,7 +125,6 @@ export function AppProvider({ children }) {
     setFluencyRuns((current) => [...current, entry]);
     return entry;
   }
-
   const t = (key, vars) => translate(language, key, vars);
 
   const value = useMemo(() => ({
@@ -141,6 +144,7 @@ export function AppProvider({ children }) {
     latestPreview,
     setLatestPreview,
     registerAnalysis,
+
   }), [profile, language, history, grammarRuns, fluencyRuns, latestResult, latestPreview]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

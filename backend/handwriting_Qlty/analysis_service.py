@@ -24,6 +24,7 @@ advisory while preserving the predicted class and confidence percentage.
 
 import json
 import os
+import warnings
 
 import cv2
 import joblib
@@ -31,44 +32,93 @@ import numpy as np
 import pandas as pd
 import sklearn
 
-from image_utils import ensure_gray, ensure_ink_white
-from preprocessing import (
-    correct_skew,
-    remove_shadow,
-    binarize,
-    remove_ruled_lines,
-)
-from segmentation import (
-    segment_lines,
-    segment_words,
-    segment_character_regions,
-)
-from segmentation_quality import (
-    evaluate_segmentation_reliability,
-)
-from feature_extraction import (
-    calculate_readability_features,
-    extract_quality_features,
-    validate_feature_vector,
-)
-from character_quality import (
-    analyze_character_records,
-)
-from issue_detection import (
-    detect_issues,
-)
-from recommendations import (
-    generate_recommendations,
-    flatten_recommendations,
-)
+# Package-safe imports. This supports both:
+#   from handwriting_Qlty.analysis_service import ...
+# and direct module execution during local debugging.
+try:
+    from .image_utils import ensure_gray, ensure_ink_white
+    from .preprocessing import (
+        correct_skew,
+        remove_shadow,
+        binarize,
+        remove_ruled_lines,
+    )
+    from .segmentation import (
+        segment_lines,
+        segment_words,
+        segment_character_regions,
+    )
+    from .segmentation_quality import (
+        evaluate_segmentation_reliability,
+    )
+    from .feature_extraction import (
+        calculate_readability_features,
+        extract_quality_features,
+        validate_feature_vector,
+    )
+    from .character_quality import (
+        analyze_character_records,
+    )
+    from .issue_detection import (
+        detect_issues,
+        load_issue_thresholds,
+    )
+    from .recommendations import (
+        generate_recommendations,
+    )
+except ImportError:
+    from image_utils import ensure_gray, ensure_ink_white
+    from preprocessing import (
+        correct_skew,
+        remove_shadow,
+        binarize,
+        remove_ruled_lines,
+    )
+    from segmentation import (
+        segment_lines,
+        segment_words,
+        segment_character_regions,
+    )
+    from segmentation_quality import (
+        evaluate_segmentation_reliability,
+    )
+    from feature_extraction import (
+        calculate_readability_features,
+        extract_quality_features,
+        validate_feature_vector,
+    )
+    from character_quality import (
+        analyze_character_records,
+    )
+    from issue_detection import (
+        detect_issues,
+        load_issue_thresholds,
+    )
+    from recommendations import (
+        generate_recommendations,
+    )
 
 
 # ============================================================
 # PATHS
 # ============================================================
 
-BASE_DIR = os.path.dirname(
+# This file is expected at:
+#   backend/handwriting_Qlty/analysis_service.py
+#
+# HANDWRITING_DIR -> backend/handwriting_Qlty
+# BASE_DIR        -> backend
+#
+# Shared model artifacts intentionally live OUTSIDE handwriting_Qlty:
+#   backend/models/Sinhala/...
+#   backend/models/Tamil/...
+
+HANDWRITING_DIR = os.path.dirname(
     os.path.abspath(__file__)
+)
+
+BASE_DIR = os.path.dirname(
+    HANDWRITING_DIR
 )
 
 UPLOAD_DIR = os.path.join(
@@ -108,10 +158,11 @@ CHARACTERS_DIR = os.path.join(
 
 MODEL_DIR = os.path.join(
     BASE_DIR,
-    "..",
     "models",
 )
 
+# MODEL_DIR may already exist with trained artifacts. Creating it is safe,
+# but nothing in this service writes or overwrites the trained model files.
 for directory in [
     UPLOAD_DIR,
     OUTPUT_DIR,
@@ -194,12 +245,14 @@ MODEL_REGISTRY = {
         "model": None,
         "feature_config": None,
         "metadata": None,
+        "warning": None,
         "error": None,
     },
     "tamil": {
         "model": None,
         "feature_config": None,
         "metadata": None,
+        "warning": None,
         "error": None,
     },
 }
@@ -215,12 +268,23 @@ def _load_json(path):
 
 
 def load_language_artifacts(language):
-    registry = MODEL_REGISTRY[
-        language
-    ]
-    config = MODEL_CONFIGS[
-        language
-    ]
+    """
+    Load model, feature configuration and metadata for one language.
+
+    A scikit-learn version mismatch is reported as a warning instead of
+    automatically disabling the model. If joblib loading is genuinely
+    incompatible, the load itself will fail and the model will correctly
+    become unavailable.
+    """
+
+    registry = MODEL_REGISTRY[language]
+    config = MODEL_CONFIGS[language]
+
+    registry["model"] = None
+    registry["feature_config"] = None
+    registry["metadata"] = None
+    registry["warning"] = None
+    registry["error"] = None
 
     try:
         required = [
@@ -253,26 +317,48 @@ def load_language_artifacts(language):
             "sklearn_version"
         )
 
+        warning_messages = []
+
         if (
             expected_sklearn
             and str(sklearn.__version__) != str(expected_sklearn)
         ):
-            raise RuntimeError(
+            warning_messages.append(
                 "scikit-learn version mismatch: "
-                f"model expects {expected_sklearn}, "
-                f"runtime has {sklearn.__version__}. "
-                "Install requirements.txt before running the API."
+                f"model was created with {expected_sklearn}, "
+                f"runtime is {sklearn.__version__}. "
+                "Use the training version for the final research deployment."
             )
 
-        registry["model"] = joblib.load(
-            config["model_path"]
+        # Capture sklearn/joblib warnings instead of printing noisy stack traces.
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            registry["model"] = joblib.load(
+                config["model_path"]
+            )
+
+        warning_messages.extend(
+            str(item.message)
+            for item in caught
+            if str(item.message).strip()
         )
 
+        registry["warning"] = (
+            " | ".join(dict.fromkeys(warning_messages))
+            if warning_messages
+            else None
+        )
         registry["error"] = None
 
         print(
             f"[MODEL] {language.title()} model loaded successfully."
         )
+
+        if registry["warning"]:
+            print(
+                f"[MODEL WARNING] {language.title()}: "
+                f"{registry['warning']}"
+            )
 
     except Exception as error:
         registry["model"] = None
@@ -292,6 +378,14 @@ load_artifacts()
 
 
 def get_model_status():
+    """
+    Return both ML-model readiness and explanation-threshold readiness.
+
+    ML readiness and feedback readiness are deliberately separate:
+    a model can still classify handwriting even if issue-threshold JSON is
+    missing, but the frontend must then show detailed feedback as unavailable.
+    """
+
     output = {}
 
     for language, registry in MODEL_REGISTRY.items():
@@ -305,15 +399,54 @@ def get_model_status():
 
         metadata = registry.get("metadata") or {}
 
+        threshold_config, threshold_file, threshold_error = (
+            load_issue_thresholds(language)
+        )
+
+        threshold_features = (
+            threshold_config.get("features", {})
+            if isinstance(threshold_config, dict)
+            else {}
+        )
+
+        feedback_ready = bool(
+            threshold_config is not None
+            and isinstance(threshold_features, dict)
+            and len(threshold_features) > 0
+        )
+
+        expected_feature_count = None
+        calibrated_feature_count = len(threshold_features)
+        calibration_coverage = None
+
+        if isinstance(threshold_config, dict):
+            expected_feature_count = threshold_config.get(
+                "expected_feature_count"
+            )
+            calibration_coverage = threshold_config.get(
+                "calibration_coverage"
+            )
+
         output[language] = {
             "ready": bool(ready),
             "model_loaded": registry["model"] is not None,
             "feature_config_loaded":
                 registry["feature_config"] is not None,
-            "metadata_loaded": registry["metadata"] is not None,
+            "metadata_loaded":
+                registry["metadata"] is not None,
+
+            "feedback_ready": feedback_ready,
+            "issue_thresholds_loaded": feedback_ready,
+            "issue_threshold_path": threshold_file,
+            "issue_threshold_error": threshold_error,
+            "expected_issue_feature_count": expected_feature_count,
+            "calibrated_issue_feature_count": calibrated_feature_count,
+            "issue_calibration_coverage": calibration_coverage,
+
             "selected_classifier": metadata.get(
                 "selected_classifier"
             ),
+            "classes": metadata.get("classes"),
             "low_confidence_threshold": metadata.get(
                 "low_confidence_threshold"
             ),
@@ -321,7 +454,11 @@ def get_model_status():
                 "sklearn_version"
             ),
             "runtime_sklearn_version": sklearn.__version__,
-            "paths": config,
+            "model_warning": registry.get("warning"),
+            "paths": {
+                **config,
+                "issue_threshold_path": threshold_file,
+            },
             "error": registry["error"],
         }
 
@@ -360,10 +497,37 @@ def _json_number(value):
 
 
 def _json_features(features):
+    if not isinstance(features, dict):
+        return {}
+
     return {
         name: _json_number(value)
         for name, value in features.items()
     }
+
+
+def _flatten_recommendations(recommendations):
+    """
+    Produce a simple string list for older frontend/API consumers.
+
+    The structured recommendation objects remain the canonical response.
+    """
+
+    if not isinstance(recommendations, list):
+        return []
+
+    texts = []
+
+    for item in recommendations:
+        if not isinstance(item, dict):
+            continue
+
+        for key in ("primary", "secondary"):
+            text = str(item.get(key) or "").strip()
+            if text and text not in texts:
+                texts.append(text)
+
+    return texts
 
 
 def normalize_language(language):
@@ -930,36 +1094,60 @@ def segment_handwriting(
 
 
 # ============================================================
-# STAGE 1A INPUT QUALITY  —  RELAXED THRESHOLDS
+# STAGE 1A INPUT QUALITY — BALANCED RETAKE GATE
 # ============================================================
 #
-# CHANGES vs previous version:
-#   - word_detection_hard_min:  0.10  ->  0.02   (accept pages with less writing)
-#   - hard  contrast_min:       6.0   ->  3.0    (only reject truly black images)
-#   - hard  blur_min:           8.0   ->  2.0    (only reject extreme blur)
-#   - hard  ink_density_min:    0.12  ->  0.03   (accept faint writing)
-#   - hard  visibility_min:     8.0   ->  3.0    (much more lenient)
-#   - warning contrast_min:    12.0   ->  6.0
-#   - warning blur_min:        20.0   ->  8.0
-#   - warning ink_density_min:  0.40  ->  0.12
-#   - warning visibility_min:  18.0   ->  8.0
+# Purpose
+# -------
+# Stage 1A protects the handwriting-quality model from unusable captures.
+# It must reject genuinely poor / non-page / almost-empty images while still
+# allowing readable, slightly imperfect child photographs to continue.
+#
+# IMPORTANT
+# ---------
+# These values are development thresholds and should still be validated on a
+# labelled set of real mobile captures before the final research evaluation.
+# They are intentionally much less strict than the original development gate,
+# but no longer so permissive that extremely dark / almost-empty captures pass.
 # ============================================================
 
 STAGE1_THRESHOLDS = {
-    "word_detection_hard_min": 0.02,
+    # Segmentation-derived coverage is only a supporting presence signal.
+    # The value returned by calculate_word_detection_ratio() is a percentage.
+    "word_detection_hard_min": 0.50,
 
     "hard": {
+        # Keep contrast relatively permissive: faint but readable writing
+        # should not be rejected solely because the paper is evenly lit.
         "contrast_min": 3.0,
-        "blur_min": 2.0,
-        "ink_density_min": 0.03,
-        "visibility_min": 3.0,
+
+        # Resolution-normalized Laplacian score.
+        # < 3 is normally severe enough to require a retake in the current
+        # pipeline; 3-12 is handled as a warning rather than a rejection.
+        "blur_min": 3.0,
+
+        # Percent of cleaned page pixels classified as ink.
+        # The previous 0.03% threshold was effectively "almost no ink".
+        "ink_density_min": 0.30,
+
+        # Composite readability score. Kept permissive because blur and ink
+        # already receive direct checks below.
+        "visibility_min": 6.0,
+
+        # Obvious capture-level darkness checks. These stop non-page / almost
+        # black captures from reaching Stage 2 even when segmentation invents
+        # a few false word boxes.
+        "mean_gray_min": 45.0,
+        "dark_pixel_ratio_max": 65.0,
     },
 
     "warning": {
-        "contrast_min": 6.0,
-        "blur_min": 8.0,
-        "ink_density_min": 0.12,
-        "visibility_min": 8.0,
+        "contrast_min": 8.0,
+        "blur_min": 12.0,
+        "ink_density_min": 0.75,
+        "visibility_min": 15.0,
+        "mean_gray_min": 75.0,
+        "dark_pixel_ratio_max": 45.0,
     },
 }
 
@@ -1014,6 +1202,39 @@ def _resolution_normalized_blur_score(
         return np.nan
 
 
+def _capture_quality_diagnostics(image):
+    """
+    Capture-level diagnostics independent from handwriting segmentation.
+
+    These measurements are Stage 1 only. They are NOT part of the Stage 2
+    handwriting-quality model and never influence the ML class directly.
+    """
+    gray = ensure_gray(image)
+
+    if gray is None or gray.size == 0:
+        return {
+            "mean_gray": np.nan,
+            "dark_pixel_ratio": np.nan,
+        }
+
+    try:
+        mean_gray = float(np.mean(gray))
+        dark_pixel_ratio = float(
+            np.mean(gray < 40) * 100.0
+        )
+
+        return {
+            "mean_gray": mean_gray,
+            "dark_pixel_ratio": dark_pixel_ratio,
+        }
+
+    except Exception:
+        return {
+            "mean_gray": np.nan,
+            "dark_pixel_ratio": np.nan,
+        }
+
+
 def evaluate_input_quality(
     image,
     binary,
@@ -1022,14 +1243,16 @@ def evaluate_input_quality(
     word_count,
 ):
     """
-    Stage 1A input-quality gate  —  RELAXED.
+    Stage 1A image/input-quality gate.
 
-    Policy
-    ------
-    * Only truly unusable captures (completely black, extreme motion blur,
-      no ink at all) trigger a retake.
-    * Everything else passes through to Stage 2 so the ML model can produce
-      a result. Borderline captures get a warning but are NOT blocked.
+    Behaviour
+    ---------
+    1. Reject images with no usable handwriting structure.
+    2. Reject genuinely severe blur, extremely faint writing, or very dark
+       captures that are unsuitable for handwriting analysis.
+    3. Allow readable but imperfect captures into Stage 2 with warnings.
+    4. Never alter the final handwriting-quality class; this gate only decides
+       whether Stage 2 is allowed to run.
     """
     features = calculate_readability_features(
         image,
@@ -1050,15 +1273,22 @@ def evaluate_input_quality(
         features["blur_score_raw"] = raw_blur
         features["blur_score"] = normalized_blur
 
+    capture = _capture_quality_diagnostics(
+        image
+    )
+    features.update(capture)
+
     json_features = _json_features(features)
 
-    # No usable structural content at all.
-    if line_count <= 0 and word_count <= 0:
+    # --------------------------------------------------------
+    # 1. BASIC HANDWRITING PRESENCE
+    # --------------------------------------------------------
+    if line_count <= 0 or word_count <= 0:
         return {
             "status": "Insufficient Handwriting",
             "valid_for_stage2": False,
             "quality_warning": False,
-            "threshold_source": "relaxed_stage1_v2",
+            "threshold_source": "balanced_stage1_v3",
             "features": json_features,
             "warnings": [],
             "reasons": [
@@ -1073,13 +1303,16 @@ def evaluate_input_quality(
 
     if (
         np.isfinite(detection_ratio)
-        and detection_ratio < STAGE1_THRESHOLDS["word_detection_hard_min"]
+        and detection_ratio
+        < STAGE1_THRESHOLDS[
+            "word_detection_hard_min"
+        ]
     ):
         return {
             "status": "Insufficient Handwriting",
             "valid_for_stage2": False,
             "quality_warning": False,
-            "threshold_source": "relaxed_stage1_v2",
+            "threshold_source": "balanced_stage1_v3",
             "features": json_features,
             "warnings": [],
             "reasons": [
@@ -1087,10 +1320,30 @@ def evaluate_input_quality(
             ],
         }
 
-    contrast = features.get("contrast_score", np.nan)
-    blur = features.get("blur_score", np.nan)
-    ink_density = features.get("ink_density", np.nan)
-    visibility = features.get("text_visibility_score", np.nan)
+    contrast = features.get(
+        "contrast_score",
+        np.nan,
+    )
+    blur = features.get(
+        "blur_score",
+        np.nan,
+    )
+    ink_density = features.get(
+        "ink_density",
+        np.nan,
+    )
+    visibility = features.get(
+        "text_visibility_score",
+        np.nan,
+    )
+    mean_gray = features.get(
+        "mean_gray",
+        np.nan,
+    )
+    dark_pixel_ratio = features.get(
+        "dark_pixel_ratio",
+        np.nan,
+    )
 
     hard = STAGE1_THRESHOLDS["hard"]
     warning = STAGE1_THRESHOLDS["warning"]
@@ -1098,23 +1351,55 @@ def evaluate_input_quality(
     reasons = []
     warnings = []
 
-    # Hard failures: only truly unusable captures.
-    if np.isfinite(contrast) and contrast < hard["contrast_min"]:
+    # --------------------------------------------------------
+    # 2. HARD RETAKE CONDITIONS
+    # --------------------------------------------------------
+    if (
+        np.isfinite(mean_gray)
+        and mean_gray < hard["mean_gray_min"]
+    ):
+        reasons.append(
+            "The photo is too dark to analyse reliably. Please retake it in better lighting."
+        )
+
+    if (
+        np.isfinite(dark_pixel_ratio)
+        and dark_pixel_ratio
+        > hard["dark_pixel_ratio_max"]
+    ):
+        reasons.append(
+            "Too much of the image is very dark. Please photograph the full writing page clearly."
+        )
+
+    if (
+        np.isfinite(contrast)
+        and contrast < hard["contrast_min"]
+    ):
         reasons.append(
             "The handwriting contrast is extremely low. Please retake the photo in better lighting."
         )
 
-    if np.isfinite(blur) and blur < hard["blur_min"]:
+    if (
+        np.isfinite(blur)
+        and blur < hard["blur_min"]
+    ):
         reasons.append(
             "The image is severely blurred. Please keep the camera steady and focus before taking the photo."
         )
 
-    if np.isfinite(ink_density) and ink_density < hard["ink_density_min"]:
+    if (
+        np.isfinite(ink_density)
+        and ink_density
+        < hard["ink_density_min"]
+    ):
         reasons.append(
-            "Almost no usable handwriting ink is visible. Please retake the full writing area clearly."
+            "Too little usable handwriting ink is visible. Please retake the full writing area clearly."
         )
 
-    if np.isfinite(visibility) and visibility < hard["visibility_min"]:
+    if (
+        np.isfinite(visibility)
+        and visibility < hard["visibility_min"]
+    ):
         reasons.append(
             "The handwriting is not visible enough for structural analysis. Please retake the photo."
         )
@@ -1124,40 +1409,75 @@ def evaluate_input_quality(
             "status": "Low Image Quality",
             "valid_for_stage2": False,
             "quality_warning": False,
-            "threshold_source": "relaxed_stage1_v2",
+            "threshold_source": "balanced_stage1_v3",
             "features": json_features,
             "warnings": [],
-            "reasons": reasons,
+            "reasons": list(dict.fromkeys(reasons)),
         }
 
-    # Soft warnings: always continue to Stage 2.
-    if np.isfinite(contrast) and contrast < warning["contrast_min"]:
+    # --------------------------------------------------------
+    # 3. SOFT WARNINGS — CONTINUE TO STAGE 2
+    # --------------------------------------------------------
+    if (
+        np.isfinite(mean_gray)
+        and mean_gray < warning["mean_gray_min"]
+    ):
+        warnings.append(
+            "The photo is a little dark, but the handwriting is still analysable."
+        )
+
+    if (
+        np.isfinite(dark_pixel_ratio)
+        and dark_pixel_ratio
+        > warning["dark_pixel_ratio_max"]
+    ):
+        warnings.append(
+            "A large part of the image is dark, but enough writing is still visible to continue."
+        )
+
+    if (
+        np.isfinite(contrast)
+        and contrast < warning["contrast_min"]
+    ):
         warnings.append(
             "Contrast is a little low, but the handwriting is still analysable."
         )
 
-    if np.isfinite(blur) and blur < warning["blur_min"]:
+    if (
+        np.isfinite(blur)
+        and blur < warning["blur_min"]
+    ):
         warnings.append(
-            "The photo is slightly soft/blurred, but the handwriting is still analysable."
+            "The photo is slightly soft or blurred, but the handwriting is still analysable."
         )
 
-    if np.isfinite(ink_density) and ink_density < warning["ink_density_min"]:
+    if (
+        np.isfinite(ink_density)
+        and ink_density < warning["ink_density_min"]
+    ):
         warnings.append(
             "The writing is faint, but enough handwriting is visible to continue."
         )
 
-    if np.isfinite(visibility) and visibility < warning["visibility_min"]:
+    if (
+        np.isfinite(visibility)
+        and visibility < warning["visibility_min"]
+    ):
         warnings.append(
             "Text visibility is borderline, so interpret the result with a little extra care."
         )
 
     return {
-        "status": "Valid With Warning" if warnings else "Valid",
+        "status": (
+            "Valid With Warning"
+            if warnings
+            else "Valid"
+        ),
         "valid_for_stage2": True,
         "quality_warning": bool(warnings),
-        "threshold_source": "relaxed_stage1_v2",
+        "threshold_source": "balanced_stage1_v3",
         "features": json_features,
-        "warnings": warnings,
+        "warnings": list(dict.fromkeys(warnings)),
         "reasons": [],
     }
 
@@ -1568,6 +1888,7 @@ def analyze_handwriting(
             "language": language,
             "analysis_status":
                 "INPUT_RETAKE_REQUIRED",
+            "feedback_status": "NOT_RUN",
             "input_validation": stage1,
             "segmentation_reliability": {
                 "status": "Not Evaluated",
@@ -1651,6 +1972,7 @@ def analyze_handwriting(
             "language": language,
             "analysis_status":
                 "SEGMENTATION_UNRELIABLE",
+            "feedback_status": "NOT_RUN",
             "input_validation": stage1,
             "segmentation_reliability":
                 segmentation_reliability,
@@ -1761,7 +2083,7 @@ def analyze_handwriting(
     )
 
     recommendation_texts = (
-        flatten_recommendations(
+        _flatten_recommendations(
             structured_recommendations
         )
     )
@@ -1774,13 +2096,30 @@ def analyze_handwriting(
     else:
         analysis_status = "COMPLETED"
 
+    feedback_available = bool(
+        explanation.get(
+            "available",
+            False,
+        )
+    )
+
+    partial_feedback = bool(
+        explanation.get(
+            "partial_feedback",
+            False,
+        )
+    )
+
+    if not feedback_available:
+        feedback_status = "UNAVAILABLE"
+    elif partial_feedback:
+        feedback_status = "PARTIAL"
+    else:
+        feedback_status = "AVAILABLE"
+
     explainability = {
-        "available": bool(
-            explanation.get(
-                "available",
-                False,
-            )
-        ),
+        "available": feedback_available,
+        "status": feedback_status,
         "source": explanation.get(
             "source"
         ),
@@ -1790,6 +2129,34 @@ def analyze_handwriting(
         "error": explanation.get(
             "error"
         ),
+        "partial_feedback": partial_feedback,
+        "expected_feature_count": explanation.get(
+            "expected_feature_count"
+        ),
+        "calibrated_feature_count": explanation.get(
+            "calibrated_feature_count"
+        ),
+        "usable_feature_count": explanation.get(
+            "usable_feature_count"
+        ),
+        "evaluated_feature_count": explanation.get(
+            "evaluated_feature_count"
+        ),
+        "calibration_coverage": explanation.get(
+            "calibration_coverage"
+        ),
+        "suppressed_features": explanation.get(
+            "suppressed_features",
+            [],
+        ),
+        "soft_warning_features": explanation.get(
+            "soft_warning_features",
+            [],
+        ),
+        "missing_features": explanation.get(
+            "missing_features",
+            [],
+        ),
         "preliminary_due_to_low_confidence": bool(
             prediction.get(
                 "low_confidence",
@@ -1797,8 +2164,7 @@ def analyze_handwriting(
             )
         ),
         "issues": issues,
-        "recommendations":
-            structured_recommendations,
+        "recommendations": structured_recommendations,
     }
 
     final_label = prediction.get(
@@ -1808,6 +2174,7 @@ def analyze_handwriting(
     return {
         "language": language,
         "analysis_status": analysis_status,
+        "feedback_status": feedback_status,
         "input_validation": stage1,
         "segmentation_reliability":
             segmentation_reliability,

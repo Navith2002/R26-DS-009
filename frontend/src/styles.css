@@ -218,6 +218,20 @@
 .progress-result-list{display:flex;flex-direction:column}.progress-result-list button{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #f2ece6;background:transparent;text-align:left}.progress-result-list button:last-child{border-bottom:0}.progress-result-script{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:19px;font-weight:800;background:var(--teal-light);color:#259c92}.progress-result-script.tamil{background:var(--green-light);color:var(--green)}.progress-result-list strong{display:block;font-size:11px}.progress-result-list div>span{display:block;color:var(--muted);font-size:9px;margin-top:2px}
 
 /* History */
+.kid-history-card{grid-template-columns:58px 1.2fr minmax(180px,.9fr) 30px}.history-friendly-meta{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.history-friendly-meta small{
+    font-size:9px;
+  color:var(--muted);
+  line-height:1.35;
+
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+
+  -webkit-line-clamp:2;
+  line-clamp:2;
+
+  overflow:hidden;
+}
 .kid-history-card{grid-template-columns:58px 1.2fr minmax(180px,.9fr) 30px}.history-friendly-meta{display:flex;flex-direction:column;align-items:flex-start;gap:6px}.history-friendly-meta small{font-size:9px;color:var(--muted);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
 /* Responsive additions */
@@ -340,4 +354,605 @@
   .feature-card{min-height:104px;padding:14px}.dashboard-right{margin-top:16px}.page-intro h2{font-size:23px}
   .kid-result-hero{padding:20px}.kid-result-copy h2{font-size:28px}.kid-result-mascot{width:68px;height:68px;font-size:34px;margin-top:14px}
   .dropzone{min-height:260px}.segmentation-preview-image{height:190px}
+}
+
+/* =========================================================
+   RESULTS PAGE — KID-FRIENDLY FEEDBACK ADDITIONS
+   ---------------------------------------------------------
+   Append this block at the VERY END of styles.css.
+
+   This block is intentionally scoped to .results-page and to
+   the NEW classes used by the updated ResultsPage.jsx.
+   It does not replace or edit the existing WriteBright CSS.
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   1. CHILD QUALITY SUMMARY
+   --------------------------------------------------------- */
+
+.results-page .child-quality-message{
+  max-width:620px;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.65;
+}
+
+.results-page .child-model-level{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin-top:14px;
+  padding:10px 14px;
+  border-radius:16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid color-mix(in srgb,var(--tone,var(--orange)) 18%,white);
+  box-shadow:0 8px 20px rgba(50,55,70,.05);
+}
+
+.results-page .child-model-level span{
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+.results-page .child-model-level strong{
+  color:var(--tone,var(--navy));
+  font-size:14px;
+  font-weight:900;
+}
+
+
+/* ---------------------------------------------------------
+   2. FEEDBACK STATUS CARDS
+   --------------------------------------------------------- */
+
+.results-page .feedback-state-row{
+  display:flex;
+  align-items:flex-start;
+  gap:13px;
+}
+
+.results-page .feedback-state-row>svg{
+  flex:0 0 auto;
+  margin-top:2px;
+}
+
+.results-page .feedback-state-row h3{
+  margin:0 0 5px;
+  font-size:15px;
+  line-height:1.35;
+}
+
+.results-page .feedback-state-row p{
+  margin:0;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+
+.results-page .feedback-unavailable-card{
+  background:linear-gradient(145deg,#fffaf2,#fff);
+  border:1px solid #f4dfbd;
+}
+
+.results-page .feedback-unavailable-card .feedback-state-row>svg{
+  color:var(--warning);
+}
+
+.results-page .partial-feedback-card{
+  background:linear-gradient(145deg,#eefaf7,#fff);
+  border:1px solid #d9efea;
+}
+
+.results-page .partial-feedback-card .feedback-state-row>svg{
+  color:var(--teal);
+}
+
+
+/* ---------------------------------------------------------
+   3. CHILD-FACING DETECTED ISSUE SECTION
+   --------------------------------------------------------- */
+
+.results-page .child-issues-card{
+  background:
+    radial-gradient(circle at 100% 0,rgba(66,211,198,.08),transparent 34%),
+    linear-gradient(145deg,#fff,#fffaf6);
+}
+
+.results-page .child-issue-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.results-page .child-issue-card{
+  display:grid;
+  grid-template-columns:54px minmax(0,1fr) auto;
+  gap:14px;
+  align-items:start;
+  padding:16px;
+  border-radius:20px;
+  background:#fff;
+  border:1px solid #eee8e1;
+  box-shadow:0 7px 18px rgba(50,55,70,.045);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+
+.results-page .child-issue-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 25px rgba(50,55,70,.075);
+}
+
+.results-page .child-issue-card.severity-high{
+  border-left:4px solid var(--danger);
+}
+
+.results-page .child-issue-card.severity-medium{
+  border-left:4px solid var(--warning);
+}
+
+.results-page .child-issue-card.severity-low{
+  border-left:4px solid var(--teal);
+}
+
+.results-page .child-issue-icon{
+  width:50px;
+  height:50px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  background:var(--orange-light);
+  font-size:24px;
+  line-height:1;
+}
+
+.results-page .child-issue-card.severity-high .child-issue-icon{
+  background:var(--danger-light);
+}
+
+.results-page .child-issue-card.severity-medium .child-issue-icon{
+  background:var(--warning-light);
+}
+
+.results-page .child-issue-card.severity-low .child-issue-icon{
+  background:var(--teal-light);
+}
+
+.results-page .child-issue-copy{
+  min-width:0;
+}
+
+.results-page .child-issue-copy h4{
+  margin:1px 0 5px;
+  color:var(--navy);
+  font-size:13px;
+  line-height:1.4;
+}
+
+.results-page .child-issue-copy>p{
+  margin:0;
+  color:var(--muted);
+  font-size:10.5px;
+  line-height:1.55;
+}
+
+
+/* ---------------------------------------------------------
+   4. "TRY THIS" INSIDE EACH ISSUE
+   --------------------------------------------------------- */
+
+.results-page .child-try-this{
+  margin-top:11px;
+  padding:11px 12px;
+  border-radius:14px;
+  background:#faf7f3;
+  border:1px solid #f1ebe4;
+}
+
+.results-page .child-try-this strong{
+  display:block;
+  margin-bottom:3px;
+  color:var(--orange);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.01em;
+}
+
+.results-page .child-try-this p{
+  margin:0;
+  color:#676b76;
+  font-size:10px;
+  line-height:1.5;
+}
+
+
+/* ---------------------------------------------------------
+   5. ISSUE-SPECIFIC PRACTICE BUTTON
+   --------------------------------------------------------- */
+
+.results-page .issue-practice-button{
+  align-self:center;
+  padding:9px 12px;
+  border-radius:14px;
+  background:var(--orange-light);
+  color:var(--orange);
+  font-size:9px;
+  font-weight:900;
+  white-space:nowrap;
+  transition:transform .16s ease,background .16s ease;
+}
+
+.results-page .issue-practice-button:hover{
+  transform:translateY(-1px);
+  background:#ffe5ce;
+}
+
+.results-page .issue-practice-button:focus-visible{
+  outline:3px solid rgba(255,123,50,.22);
+  outline-offset:2px;
+}
+
+
+/* ---------------------------------------------------------
+   6. TEACHER / RESEARCH ISSUE METADATA
+   --------------------------------------------------------- */
+
+.results-page .teacher-issue-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
+}
+
+.results-page .teacher-issue-meta small{
+  display:inline-flex;
+  align-items:center;
+  width:auto;
+  margin:0;
+  padding:5px 7px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid #ece7e1;
+  color:#8b909b;
+  font-size:8px;
+  line-height:1.2;
+}
+
+
+/* ---------------------------------------------------------
+   7. TEACHER DETAILS — EXPLAINABILITY DIAGNOSTICS
+   --------------------------------------------------------- */
+
+.results-page .technical-details .feature-row{
+  gap:14px;
+}
+
+.results-page .technical-details .feature-row strong{
+  text-align:right;
+}
+
+.results-page .technical-details .issue-item{
+  align-items:start;
+}
+
+
+/* ---------------------------------------------------------
+   8. RESULT HERO POLISH
+   --------------------------------------------------------- */
+
+.results-page .quality-result-hero .kid-result-copy{
+  max-width:760px;
+}
+
+.results-page .quality-result-hero .result-language{
+  display:inline-block;
+  margin-bottom:3px;
+}
+
+.results-page .quality-result-hero .teacher-review-inline{
+  max-width:520px;
+}
+
+
+/* ---------------------------------------------------------
+   9. RECOMMENDATION CARDS FROM NEW BACKEND RESPONSE
+   --------------------------------------------------------- */
+
+.results-page .kid-recommendation.severity-low{
+  border-left:4px solid var(--teal);
+}
+
+.results-page .kid-recommendation.severity-high{
+  border-left:4px solid var(--danger);
+}
+
+.results-page .kid-recommendation.severity-medium{
+  border-left:4px solid var(--warning);
+}
+
+.results-page .kid-recommendation button{
+  transition:transform .16s ease,background .16s ease;
+}
+
+.results-page .kid-recommendation button:hover{
+  transform:translateY(-1px);
+}
+
+
+/* ---------------------------------------------------------
+   10. CHILD RESULT SPACING
+   --------------------------------------------------------- */
+
+.results-page .single-result-column{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.results-page .child-results-grid{
+  width:100%;
+}
+
+
+/* ---------------------------------------------------------
+   11. RESPONSIVE — TABLET
+   --------------------------------------------------------- */
+
+@media(max-width:900px){
+
+  .results-page .child-issue-card{
+    grid-template-columns:48px minmax(0,1fr);
+  }
+
+  .results-page .child-issue-icon{
+    width:46px;
+    height:46px;
+    border-radius:15px;
+    font-size:22px;
+  }
+
+  .results-page .issue-practice-button{
+    grid-column:2;
+    justify-self:start;
+  }
+
+  .results-page .child-model-level{
+    max-width:100%;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   12. RESPONSIVE — MOBILE
+   --------------------------------------------------------- */
+
+@media(max-width:650px){
+
+  .results-page .child-quality-message{
+    font-size:11px;
+    line-height:1.55;
+  }
+
+  .results-page .child-model-level{
+    display:flex;
+    width:max-content;
+    max-width:100%;
+    flex-wrap:wrap;
+    padding:9px 11px;
+  }
+
+  .results-page .child-model-level strong{
+    font-size:12px;
+  }
+
+  .results-page .feedback-state-row{
+    gap:10px;
+  }
+
+  .results-page .feedback-state-row h3{
+    font-size:13px;
+  }
+
+  .results-page .feedback-state-row p{
+    font-size:10px;
+  }
+
+  .results-page .child-issue-card{
+    grid-template-columns:42px minmax(0,1fr);
+    gap:10px;
+    padding:13px;
+    border-radius:17px;
+  }
+
+  .results-page .child-issue-icon{
+    width:40px;
+    height:40px;
+    border-radius:13px;
+    font-size:19px;
+  }
+
+  .results-page .child-issue-copy h4{
+    font-size:11px;
+  }
+
+  .results-page .child-issue-copy>p{
+    font-size:9.5px;
+  }
+
+  .results-page .child-try-this{
+    margin-top:8px;
+    padding:9px 10px;
+  }
+
+  .results-page .child-try-this strong{
+    font-size:8px;
+  }
+
+  .results-page .child-try-this p{
+    font-size:9px;
+  }
+
+  .results-page .issue-practice-button{
+    grid-column:1/-1;
+    justify-self:stretch;
+    width:100%;
+    padding:10px 12px;
+  }
+
+  .results-page .teacher-issue-meta{
+    gap:4px;
+  }
+
+  .results-page .teacher-issue-meta small{
+    font-size:7.5px;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   13. VERY SMALL MOBILE
+   --------------------------------------------------------- */
+
+@media(max-width:390px){
+
+  .results-page .child-model-level{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .results-page .child-issue-card{
+    grid-template-columns:1fr;
+  }
+
+  .results-page .child-issue-icon{
+    width:38px;
+    height:38px;
+  }
+
+  .results-page .issue-practice-button{
+    grid-column:1;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   14. REDUCED MOTION
+   --------------------------------------------------------- */
+
+@media(prefers-reduced-motion:reduce){
+
+  .results-page .child-issue-card,
+  .results-page .issue-practice-button,
+  .results-page .kid-recommendation button{
+    transition:none;
+  }
+
+  .results-page .child-issue-card:hover,
+  .results-page .issue-practice-button:hover,
+  .results-page .kid-recommendation button:hover{
+    transform:none;
+  }
+}
+
+/* =========================================================
+   ANALYZE PAGE — LIVE CAMERA
+   ========================================================= */
+
+.analyze-page .live-camera-shell{
+  margin-top:16px;
+  padding:14px;
+  border-radius:24px;
+  background:#fffaf6;
+  border:1px solid var(--border);
+}
+
+.analyze-page .live-camera-preview{
+  position:relative;
+  overflow:hidden;
+  border-radius:20px;
+  background:#1f2430;
+  min-height:420px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.analyze-page .live-camera-preview video{
+  width:100%;
+  height:100%;
+  min-height:420px;
+  max-height:620px;
+  object-fit:cover;
+}
+
+.analyze-page .camera-guide-frame{
+  position:absolute;
+  inset:7%;
+  border:3px dashed rgba(255,255,255,.9);
+  border-radius:18px;
+  pointer-events:none;
+  box-shadow:
+    0 0 0 9999px rgba(0,0,0,.16);
+}
+
+.analyze-page .camera-guide-frame span{
+  position:absolute;
+  left:50%;
+  bottom:12px;
+  transform:translateX(-50%);
+  width:max-content;
+  max-width:90%;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(0,0,0,.58);
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+  text-align:center;
+}
+
+.analyze-page .live-camera-actions{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-top:13px;
+}
+
+.analyze-page .camera-capture-btn{
+  min-width:150px;
+}
+
+.analyze-page .camera-close-btn{
+  background:#f3f0ed;
+  color:var(--navy);
+}
+
+@media(max-width:650px){
+
+  .analyze-page .live-camera-shell{
+    padding:10px;
+  }
+
+  .analyze-page .live-camera-preview{
+    min-height:360px;
+  }
+
+  .analyze-page .live-camera-preview video{
+    min-height:360px;
+  }
+
+  .analyze-page .live-camera-actions{
+    flex-direction:column;
+  }
+
+  .analyze-page .live-camera-actions button{
+    width:100%;
+    justify-content:center;
+  }
+
 }
