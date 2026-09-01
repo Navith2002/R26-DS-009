@@ -1094,36 +1094,60 @@ def segment_handwriting(
 
 
 # ============================================================
-# STAGE 1A INPUT QUALITY  —  RELAXED THRESHOLDS
+# STAGE 1A INPUT QUALITY — BALANCED RETAKE GATE
 # ============================================================
 #
-# CHANGES vs previous version:
-#   - word_detection_hard_min:  0.10  ->  0.02   (accept pages with less writing)
-#   - hard  contrast_min:       6.0   ->  3.0    (only reject truly black images)
-#   - hard  blur_min:           8.0   ->  2.0    (only reject extreme blur)
-#   - hard  ink_density_min:    0.12  ->  0.03   (accept faint writing)
-#   - hard  visibility_min:     8.0   ->  3.0    (much more lenient)
-#   - warning contrast_min:    12.0   ->  6.0
-#   - warning blur_min:        20.0   ->  8.0
-#   - warning ink_density_min:  0.40  ->  0.12
-#   - warning visibility_min:  18.0   ->  8.0
+# Purpose
+# -------
+# Stage 1A protects the handwriting-quality model from unusable captures.
+# It must reject genuinely poor / non-page / almost-empty images while still
+# allowing readable, slightly imperfect child photographs to continue.
+#
+# IMPORTANT
+# ---------
+# These values are development thresholds and should still be validated on a
+# labelled set of real mobile captures before the final research evaluation.
+# They are intentionally much less strict than the original development gate,
+# but no longer so permissive that extremely dark / almost-empty captures pass.
 # ============================================================
 
 STAGE1_THRESHOLDS = {
-    "word_detection_hard_min": 0.02,
+    # Segmentation-derived coverage is only a supporting presence signal.
+    # The value returned by calculate_word_detection_ratio() is a percentage.
+    "word_detection_hard_min": 0.50,
 
     "hard": {
+        # Keep contrast relatively permissive: faint but readable writing
+        # should not be rejected solely because the paper is evenly lit.
         "contrast_min": 3.0,
-        "blur_min": 2.0,
-        "ink_density_min": 0.03,
-        "visibility_min": 3.0,
+
+        # Resolution-normalized Laplacian score.
+        # < 3 is normally severe enough to require a retake in the current
+        # pipeline; 3-12 is handled as a warning rather than a rejection.
+        "blur_min": 3.0,
+
+        # Percent of cleaned page pixels classified as ink.
+        # The previous 0.03% threshold was effectively "almost no ink".
+        "ink_density_min": 0.30,
+
+        # Composite readability score. Kept permissive because blur and ink
+        # already receive direct checks below.
+        "visibility_min": 6.0,
+
+        # Obvious capture-level darkness checks. These stop non-page / almost
+        # black captures from reaching Stage 2 even when segmentation invents
+        # a few false word boxes.
+        "mean_gray_min": 45.0,
+        "dark_pixel_ratio_max": 65.0,
     },
 
     "warning": {
-        "contrast_min": 6.0,
-        "blur_min": 8.0,
-        "ink_density_min": 0.12,
-        "visibility_min": 8.0,
+        "contrast_min": 8.0,
+        "blur_min": 12.0,
+        "ink_density_min": 0.75,
+        "visibility_min": 15.0,
+        "mean_gray_min": 75.0,
+        "dark_pixel_ratio_max": 45.0,
     },
 }
 
@@ -1178,6 +1202,39 @@ def _resolution_normalized_blur_score(
         return np.nan
 
 
+def _capture_quality_diagnostics(image):
+    """
+    Capture-level diagnostics independent from handwriting segmentation.
+
+    These measurements are Stage 1 only. They are NOT part of the Stage 2
+    handwriting-quality model and never influence the ML class directly.
+    """
+    gray = ensure_gray(image)
+
+    if gray is None or gray.size == 0:
+        return {
+            "mean_gray": np.nan,
+            "dark_pixel_ratio": np.nan,
+        }
+
+    try:
+        mean_gray = float(np.mean(gray))
+        dark_pixel_ratio = float(
+            np.mean(gray < 40) * 100.0
+        )
+
+        return {
+            "mean_gray": mean_gray,
+            "dark_pixel_ratio": dark_pixel_ratio,
+        }
+
+    except Exception:
+        return {
+            "mean_gray": np.nan,
+            "dark_pixel_ratio": np.nan,
+        }
+
+
 def evaluate_input_quality(
     image,
     binary,
@@ -1186,14 +1243,16 @@ def evaluate_input_quality(
     word_count,
 ):
     """
-    Stage 1A input-quality gate  —  RELAXED.
+    Stage 1A image/input-quality gate.
 
-    Policy
-    ------
-    * Only truly unusable captures (completely black, extreme motion blur,
-      no ink at all) trigger a retake.
-    * Everything else passes through to Stage 2 so the ML model can produce
-      a result. Borderline captures get a warning but are NOT blocked.
+    Behaviour
+    ---------
+    1. Reject images with no usable handwriting structure.
+    2. Reject genuinely severe blur, extremely faint writing, or very dark
+       captures that are unsuitable for handwriting analysis.
+    3. Allow readable but imperfect captures into Stage 2 with warnings.
+    4. Never alter the final handwriting-quality class; this gate only decides
+       whether Stage 2 is allowed to run.
     """
     features = calculate_readability_features(
         image,
@@ -1214,15 +1273,22 @@ def evaluate_input_quality(
         features["blur_score_raw"] = raw_blur
         features["blur_score"] = normalized_blur
 
+    capture = _capture_quality_diagnostics(
+        image
+    )
+    features.update(capture)
+
     json_features = _json_features(features)
 
-    # No usable structural content at all.
-    if line_count <= 0 and word_count <= 0:
+    # --------------------------------------------------------
+    # 1. BASIC HANDWRITING PRESENCE
+    # --------------------------------------------------------
+    if line_count <= 0 or word_count <= 0:
         return {
             "status": "Insufficient Handwriting",
             "valid_for_stage2": False,
             "quality_warning": False,
-            "threshold_source": "relaxed_stage1_v2",
+            "threshold_source": "balanced_stage1_v3",
             "features": json_features,
             "warnings": [],
             "reasons": [
@@ -1237,13 +1303,16 @@ def evaluate_input_quality(
 
     if (
         np.isfinite(detection_ratio)
-        and detection_ratio < STAGE1_THRESHOLDS["word_detection_hard_min"]
+        and detection_ratio
+        < STAGE1_THRESHOLDS[
+            "word_detection_hard_min"
+        ]
     ):
         return {
             "status": "Insufficient Handwriting",
             "valid_for_stage2": False,
             "quality_warning": False,
-            "threshold_source": "relaxed_stage1_v2",
+            "threshold_source": "balanced_stage1_v3",
             "features": json_features,
             "warnings": [],
             "reasons": [
@@ -1251,10 +1320,30 @@ def evaluate_input_quality(
             ],
         }
 
-    contrast = features.get("contrast_score", np.nan)
-    blur = features.get("blur_score", np.nan)
-    ink_density = features.get("ink_density", np.nan)
-    visibility = features.get("text_visibility_score", np.nan)
+    contrast = features.get(
+        "contrast_score",
+        np.nan,
+    )
+    blur = features.get(
+        "blur_score",
+        np.nan,
+    )
+    ink_density = features.get(
+        "ink_density",
+        np.nan,
+    )
+    visibility = features.get(
+        "text_visibility_score",
+        np.nan,
+    )
+    mean_gray = features.get(
+        "mean_gray",
+        np.nan,
+    )
+    dark_pixel_ratio = features.get(
+        "dark_pixel_ratio",
+        np.nan,
+    )
 
     hard = STAGE1_THRESHOLDS["hard"]
     warning = STAGE1_THRESHOLDS["warning"]
@@ -1262,23 +1351,55 @@ def evaluate_input_quality(
     reasons = []
     warnings = []
 
-    # Hard failures: only truly unusable captures.
-    if np.isfinite(contrast) and contrast < hard["contrast_min"]:
+    # --------------------------------------------------------
+    # 2. HARD RETAKE CONDITIONS
+    # --------------------------------------------------------
+    if (
+        np.isfinite(mean_gray)
+        and mean_gray < hard["mean_gray_min"]
+    ):
+        reasons.append(
+            "The photo is too dark to analyse reliably. Please retake it in better lighting."
+        )
+
+    if (
+        np.isfinite(dark_pixel_ratio)
+        and dark_pixel_ratio
+        > hard["dark_pixel_ratio_max"]
+    ):
+        reasons.append(
+            "Too much of the image is very dark. Please photograph the full writing page clearly."
+        )
+
+    if (
+        np.isfinite(contrast)
+        and contrast < hard["contrast_min"]
+    ):
         reasons.append(
             "The handwriting contrast is extremely low. Please retake the photo in better lighting."
         )
 
-    if np.isfinite(blur) and blur < hard["blur_min"]:
+    if (
+        np.isfinite(blur)
+        and blur < hard["blur_min"]
+    ):
         reasons.append(
             "The image is severely blurred. Please keep the camera steady and focus before taking the photo."
         )
 
-    if np.isfinite(ink_density) and ink_density < hard["ink_density_min"]:
+    if (
+        np.isfinite(ink_density)
+        and ink_density
+        < hard["ink_density_min"]
+    ):
         reasons.append(
-            "Almost no usable handwriting ink is visible. Please retake the full writing area clearly."
+            "Too little usable handwriting ink is visible. Please retake the full writing area clearly."
         )
 
-    if np.isfinite(visibility) and visibility < hard["visibility_min"]:
+    if (
+        np.isfinite(visibility)
+        and visibility < hard["visibility_min"]
+    ):
         reasons.append(
             "The handwriting is not visible enough for structural analysis. Please retake the photo."
         )
@@ -1288,40 +1409,75 @@ def evaluate_input_quality(
             "status": "Low Image Quality",
             "valid_for_stage2": False,
             "quality_warning": False,
-            "threshold_source": "relaxed_stage1_v2",
+            "threshold_source": "balanced_stage1_v3",
             "features": json_features,
             "warnings": [],
-            "reasons": reasons,
+            "reasons": list(dict.fromkeys(reasons)),
         }
 
-    # Soft warnings: always continue to Stage 2.
-    if np.isfinite(contrast) and contrast < warning["contrast_min"]:
+    # --------------------------------------------------------
+    # 3. SOFT WARNINGS — CONTINUE TO STAGE 2
+    # --------------------------------------------------------
+    if (
+        np.isfinite(mean_gray)
+        and mean_gray < warning["mean_gray_min"]
+    ):
+        warnings.append(
+            "The photo is a little dark, but the handwriting is still analysable."
+        )
+
+    if (
+        np.isfinite(dark_pixel_ratio)
+        and dark_pixel_ratio
+        > warning["dark_pixel_ratio_max"]
+    ):
+        warnings.append(
+            "A large part of the image is dark, but enough writing is still visible to continue."
+        )
+
+    if (
+        np.isfinite(contrast)
+        and contrast < warning["contrast_min"]
+    ):
         warnings.append(
             "Contrast is a little low, but the handwriting is still analysable."
         )
 
-    if np.isfinite(blur) and blur < warning["blur_min"]:
+    if (
+        np.isfinite(blur)
+        and blur < warning["blur_min"]
+    ):
         warnings.append(
-            "The photo is slightly soft/blurred, but the handwriting is still analysable."
+            "The photo is slightly soft or blurred, but the handwriting is still analysable."
         )
 
-    if np.isfinite(ink_density) and ink_density < warning["ink_density_min"]:
+    if (
+        np.isfinite(ink_density)
+        and ink_density < warning["ink_density_min"]
+    ):
         warnings.append(
             "The writing is faint, but enough handwriting is visible to continue."
         )
 
-    if np.isfinite(visibility) and visibility < warning["visibility_min"]:
+    if (
+        np.isfinite(visibility)
+        and visibility < warning["visibility_min"]
+    ):
         warnings.append(
             "Text visibility is borderline, so interpret the result with a little extra care."
         )
 
     return {
-        "status": "Valid With Warning" if warnings else "Valid",
+        "status": (
+            "Valid With Warning"
+            if warnings
+            else "Valid"
+        ),
         "valid_for_stage2": True,
         "quality_warning": bool(warnings),
-        "threshold_source": "relaxed_stage1_v2",
+        "threshold_source": "balanced_stage1_v3",
         "features": json_features,
-        "warnings": warnings,
+        "warnings": list(dict.fromkeys(warnings)),
         "reasons": [],
     }
 
