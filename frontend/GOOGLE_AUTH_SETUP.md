@@ -1,6 +1,6 @@
 # Direct Google sign-in, parent accounts, and private child history
 
-Authentication uses **Google Identity Services directly**, not Firebase Authentication. The browser sends Google's signed ID token to the Python backend, which verifies its signature, Google issuer, expiry, audience, verified email, and a single-use sign-in nonce. The backend issues an opaque HTTP-only session cookie. No Google tokens or application session tokens are stored in browser localStorage.
+Authentication uses **Google Identity Services directly**, not Firebase Authentication. The browser sends Google's signed ID token to the Python backend, which verifies its signature, Google issuer, expiry, audience, verified email, and a single-use sign-in nonce. The backend issues an opaque HTTP-only session cookie. First-time identities must then accept the privacy note through `/auth/privacy` before family-data endpoints are available. Returning parents with recorded acceptance skip this step. No Google tokens or application session tokens are stored in browser localStorage.
 
 Firestore is used only for family profiles and learning history, through the Python backend's Google Cloud credentials. The browser does not connect to Firestore. Parents own named child profiles; children do not need Gmail addresses or passwords.
 
@@ -52,7 +52,11 @@ The existing analysis API remains a separate local service. Family/history endpo
 
 Sinhala is the default, and the shared switcher changes account screens, consent, privacy notes, and sign-out to Tamil. Google's own sign-in widget receives the selected locale; provider-controlled screens use the locales Google supports.
 
-Before Google account creation, a visible privacy note explains Google identity information, child names, reports, storage, analysis uploads, and deletion. A parent/guardian acknowledgement is required before enabling Google sign-in. The server records acknowledgement of notice version 1. A notice is also shown immediately after signup, during first child-profile setup, and on the profile page. The full `/privacy` page is accessible before sign-in. Supply your actual administrator contact and review your deployed retention policy before publishing the app; the notice describes current behavior and does not claim legal certification.
+The flow follows the supplied videos: welcome and direct Google sign-in → first-signup policy (new parents only) → child picker/creation → the child app. Google identity is verified before any private child list is shown. The welcome page includes an optional policy link, without a consent checkbox. For a new parent, a full policy and parent/guardian acknowledgement appear after Google identification and before family-profile creation. Acceptance is persisted in the private session database; future logins skip the policy. No policy or signup notice is repeated on the profile page.
+
+Every new or restored parent session starts at child selection; the first child is never selected automatically. Existing child buttons enter that child's app. The same chooser can create a new child with name, age range (6–9, 10–12, or 13–16), and Sinhala/Tamil language. The child's preferred language is applied on entry. Parent names come from the verified Google profile. The profile page shows parent and child account summaries only: no add-child form, editable fields, signup notice, or Save buttons. Older child documents lacking age/language remain readable and are shown without invented values.
+
+The full `/privacy` page stays accessible before sign-in. Supply your actual administrator contact and review your deployed retention policy before publishing; the note describes current behavior and does not claim legal certification.
 
 ## Verification
 

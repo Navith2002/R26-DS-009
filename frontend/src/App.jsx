@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useAuth } from './auth/AuthContext';
 import { useApp } from './context/useApp';
-import AccountPage, { AccountFrame, FamilySetupPage, SignOutButton } from './pages/AccountPage';
+import AccountPage, { AccountFrame, FamilySetupPage, SignupPrivacyPage, SignOutButton } from './pages/AccountPage';
 import PrivacyPage from './pages/PrivacyPage';
 import ReadingResultPage from './pages/ReadingResultPage';
 import AppShell from './components/AppShell';
@@ -26,6 +26,7 @@ export default function App() {
   if (location.pathname === '/privacy') return <PrivacyPage />;
   if (loading) return <AccountFrame><p role="status">{t('account.busy')}</p></AccountFrame>;
   if (!user) return <><AccountPage />{error && <p role="alert">{t('account.loginError')}</p>}</>;
+  if (user.needsPrivacyConsent) return <SignupPrivacyPage />;
   if (familyError || historyError) return <AccountFrame><p role="alert">{t('account.loadError')}</p><button className="primary-action" onClick={retryFamily}>{t('account.retry')}</button><SignOutButton /></AccountFrame>;
   if (familyLoading || (activeChild && historyLoading)) return <AccountFrame><p role="status">{t('account.historyLoading')}</p><SignOutButton /></AccountFrame>;
   if (!parent || !activeChild) return <FamilySetupPage />;

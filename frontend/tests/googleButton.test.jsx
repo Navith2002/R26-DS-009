@@ -24,7 +24,7 @@ it('uses the direct Google SDK with the server nonce and selected Tamil locale',
   initialized.callback({ credential: 'signed-id-token' });
   expect(callback).toHaveBeenCalledWith('signed-id-token');
 });
-it('does not contact Google or request a nonce before privacy acknowledgement', () => {
+it('does not contact Google or request a nonce when the sign-in control is disabled', () => {
   render(<GoogleSignInButton onCredential={vi.fn()} onError={vi.fn()} disabled />);
   expect(state.nonce).not.toHaveBeenCalled();
   expect(window.google.accounts.id.initialize).not.toHaveBeenCalled();

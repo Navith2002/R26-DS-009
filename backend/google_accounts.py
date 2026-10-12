@@ -121,8 +121,11 @@ class SessionStore:
         token = secrets.token_urlsafe(48)
         now = int(time.time())
         with self.connection() as db:
-            new_account = db.execute("SELECT 1 FROM accounts WHERE subject = ?", (claims["sub"],)).fetchone() is None
-            db.execute("INSERT OR REPLACE INTO accounts VALUES (?, ?, ?, ?, ?)", (claims["sub"], claims.get("name", ""), claims.get("email", ""), PRIVACY_VERSION, now))
+            previous = db.execute("SELECT privacy_version, accepted_at FROM accounts WHERE subject = ?", (claims["sub"],)).fetchone()
+            new_account = previous is None or previous["privacy_version"] != PRIVACY_VERSION or previous["accepted_at"] <= 0
+            db.execute("""INSERT INTO accounts VALUES (?, ?, ?, '', 0)
+                ON CONFLICT(subject) DO UPDATE SET name=excluded.name, email=excluded.email""",
+                (claims["sub"], claims.get("name", ""), claims.get("email", "")))
             db.execute("INSERT INTO sessions VALUES (?, ?, ?, ?)", (self.digest(token), claims["sub"], now + ttl, int(new_account)))
         return token, self.user(token)
 
@@ -135,7 +138,11 @@ class SessionStore:
                 WHERE sessions.token_hash = ? AND sessions.expires_at > ?""", (self.digest(token), int(time.time()))).fetchone()
         if not row:
             return None
-        return {"uid": row["subject"], "displayName": row["name"], "email": row["email"], "privacyVersion": row["privacy_version"], "privacyAcceptedAt": row["accepted_at"], "newAccount": bool(row["new_account"])}
+        return {"uid": row["subject"], "displayName": row["name"], "email": row["email"], "privacyVersion": row["privacy_version"], "privacyAcceptedAt": row["accepted_at"], "newAccount": bool(row["new_account"]), "needsPrivacyConsent": row["privacy_version"] != PRIVACY_VERSION or row["accepted_at"] <= 0}
+
+    def accept_privacy(self, subject):
+        with self.connection() as db:
+            db.execute("UPDATE accounts SET privacy_version = ?, accepted_at = ? WHERE subject = ?", (PRIVACY_VERSION, int(time.time()), subject))
 
     def logout(self, token):
         if token:
@@ -145,12 +152,20 @@ class SessionStore:
 
 class GoogleLogin(BaseModel):
     credential: str = Field(min_length=1, max_length=10000)
+
+
+class PrivacyAcceptance(BaseModel):
     privacy_accepted: StrictBool
     privacy_version: str
 
 
 class NamedProfile(BaseModel):
     name: str = Field(min_length=1, max_length=100)
+
+
+class ChildProfile(NamedProfile):
+    ageRange: Literal["6-9", "10-12", "13-16"] = "6-9"
+    language: Literal["sinhala", "tamil"] = "sinhala"
 
 
 class HistoryRecord(BaseModel):
@@ -174,6 +189,11 @@ def create_account_router(settings=None, store=None, verify_token=None, sessions
         user = sessions.user(request.cookies.get(SESSION_COOKIE))
         if not user:
             raise HTTPException(401, "Sign in required")
+        return user
+
+    def registered_user(user=Depends(current_user)):
+        if user["needsPrivacyConsent"]:
+            raise HTTPException(403, detail={"code": "privacy_required"})
         return user
 
     def family_store():
@@ -205,8 +225,6 @@ def create_account_router(settings=None, store=None, verify_token=None, sessions
     def google_login(body: GoogleLogin, request: Request, response: Response):
         if not settings.google_client_id:
             raise HTTPException(503, "Google sign-in is not configured")
-        if not body.privacy_accepted or body.privacy_version != PRIVACY_VERSION:
-            raise HTTPException(400, "Current privacy notice must be accepted")
         try:
             claims = (verify_token or verify_google_credential)(body.credential, settings.google_client_id)
         except google_errors.TransportError:
@@ -252,32 +270,39 @@ def create_account_router(settings=None, store=None, verify_token=None, sessions
         response.delete_cookie(SESSION_COOKIE, path="/", secure=settings.secure_cookies, httponly=True, samesite="lax")
         return {"ok": True}
 
+    @router.post("/auth/privacy", dependencies=[Depends(origin_check)])
+    def accept_privacy(body: PrivacyAcceptance, request: Request, response: Response, user=Depends(current_user)):
+        if not body.privacy_accepted or body.privacy_version != PRIVACY_VERSION:
+            raise HTTPException(400, "Current privacy notice must be accepted")
+        sessions.accept_privacy(user["uid"])
+        return sessions.user(request.cookies.get(SESSION_COOKIE))
+
     @router.get("/family/parent")
-    def parent(user=Depends(current_user)):
+    def parent(user=Depends(registered_user)):
         return family_store().get_parent(user["uid"])
 
     @router.put("/family/parent", dependencies=[Depends(origin_check)])
-    def save_parent(body: NamedProfile, user=Depends(current_user)):
+    def save_parent(body: NamedProfile, user=Depends(registered_user)):
         return family_store().save_parent(user["uid"], valid_name(body))
 
     @router.get("/family/children")
-    def children(user=Depends(current_user)):
+    def children(user=Depends(registered_user)):
         return family_store().list_children(user["uid"])
 
     @router.post("/family/children", dependencies=[Depends(origin_check)])
-    def add_child(body: NamedProfile, user=Depends(current_user)):
-        return family_store().add_child(user["uid"], valid_name(body))
+    def add_child(body: ChildProfile, user=Depends(registered_user)):
+        return family_store().add_child(user["uid"], valid_name(body), body.ageRange, body.language)
 
     @router.patch("/family/children/{child_id}", dependencies=[Depends(origin_check)])
-    def rename_child(child_id: str, body: NamedProfile, user=Depends(current_user)):
+    def rename_child(child_id: str, body: NamedProfile, user=Depends(registered_user)):
         return family_store().rename_child(user["uid"], child_id, valid_name(body))
 
     @router.get("/family/children/{child_id}/history")
-    def history(child_id: str, user=Depends(current_user)):
+    def history(child_id: str, user=Depends(registered_user)):
         return family_store().list_history(user["uid"], child_id)
 
     @router.post("/family/children/{child_id}/history", dependencies=[Depends(origin_check)])
-    def save_history(child_id: str, body: HistoryRecord, user=Depends(current_user)):
+    def save_history(child_id: str, body: HistoryRecord, user=Depends(registered_user)):
         if len(body.payload.encode("utf-8")) > 800000:
             raise HTTPException(413, "Report too large")
         import json
@@ -290,12 +315,12 @@ def create_account_router(settings=None, store=None, verify_token=None, sessions
         return family_store().save_history(user["uid"], child_id, body.model_dump())
 
     @router.delete("/family/children/{child_id}/history", dependencies=[Depends(origin_check)])
-    def clear_history(child_id: str, user=Depends(current_user)):
+    def clear_history(child_id: str, user=Depends(registered_user)):
         family_store().clear_history(user["uid"], child_id)
         return {"ok": True}
 
     @router.delete("/family/children/{child_id}/history/{record_id}", dependencies=[Depends(origin_check)])
-    def delete_history(child_id: str, record_id: str, user=Depends(current_user)):
+    def delete_history(child_id: str, record_id: str, user=Depends(registered_user)):
         family_store().delete_history(user["uid"], child_id, record_id)
         return {"ok": True}
 

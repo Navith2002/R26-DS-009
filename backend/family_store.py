@@ -42,11 +42,11 @@ class FirestoreFamilyStore:
         values = [{**record.to_dict(), "id": record.id} for record in self.children(uid).stream()]
         return sorted(values, key=lambda item: item["createdAt"])
 
-    def add_child(self, uid, name):
+    def add_child(self, uid, name, age_range="6-9", language="sinhala"):
         if not self.parent(uid).get().exists:
             raise HTTPException(409, "Create parent profile first")
         ref = self.children(uid).document()
-        ref.set({"name": name, "createdAt": timestamp()})
+        ref.set({"name": name, "ageRange": age_range, "language": language, "createdAt": timestamp()})
         return {"id": ref.id}
 
     def rename_child(self, uid, child_id, name):

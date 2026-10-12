@@ -30,7 +30,7 @@ async function mutate(url, method, value) {
   return result;
 }
 export const saveParent = (_uid, name) => mutate('/family/parent', 'PUT', { name: name.trim() });
-export async function addChild(_uid, name) { return (await mutate('/family/children', 'POST', { name: name.trim() })).id; }
+export async function addChild(_uid, name, details = {}) { return (await mutate('/family/children', 'POST', { name: name.trim(), ...details })).id; }
 export const renameChild = (_uid, id, name) => mutate(`/family/children/${encodeURIComponent(id)}`, 'PATCH', { name: name.trim() });
 export async function saveRun(_uid, childId, kind, entry) {
   const saved = await mutate(path(childId), 'POST', { kind, createdAt: entry.createdAt, payload: encodeHistory(entry) });

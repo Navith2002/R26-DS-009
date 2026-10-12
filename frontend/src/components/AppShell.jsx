@@ -11,7 +11,6 @@ import {
   Volume2,
 } from 'lucide-react';
 import Logo from './Logo';
-import { PostSignupNotice } from './PrivacyNotice';
 import LanguageToggle from './LanguageToggle';
 import { useApp } from '../context/useApp';
 
@@ -95,7 +94,8 @@ export default function AppShell() {
                 <div className="profile-info"><strong>{displayName}</strong></div>
               </NavLink>
               <label className="child-selector">{t('account.chooseChild')}
-                <select value={activeChild.id} onChange={(event) => { selectChild(event.target.value); navigate('/', { replace: true, state: null }); }}>
+                <select value={activeChild.id} onChange={(event) => { selectChild(event.target.value || null); navigate('/', { replace: true, state: null }); }}>
+                  <option value="">{t('flow.chooseAnother')}</option>
                   {childrenList.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}
                 </select>
               </label>
@@ -103,7 +103,6 @@ export default function AppShell() {
             </div>
           </header>
         )}
-        <PostSignupNotice />
         <Outlet />
       </main>
 

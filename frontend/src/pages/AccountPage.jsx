@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LogOut, UserRound } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { useApp } from '../context/useApp';
@@ -37,11 +38,10 @@ const loginErrorKeys = {
 export default function AccountPage() {
   const { login, configured } = useAuth();
   const { t } = useApp();
-  const [accepted, setAccepted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [errorKey, setErrorKey] = useState(null);
   async function signIn(credential) {
-    if (!accepted || busy) return;
+    if (busy) return;
     setBusy(true); setErrorKey(null);
     try { await login(credential); } catch (error) {
       setErrorKey(loginErrorKeys[error.code] || 'account.loginError');
@@ -49,37 +49,80 @@ export default function AccountPage() {
   }
   return <AccountFrame>
     <div className="profile-large"><UserRound size={32} /></div>
-    <h1>{t('account.title')}</h1><p>{t('account.intro')}</p>
+    <h1>{t('flow.welcome')}</h1><p>{t('account.intro')}</p>
     {!configured && <p role="alert">{t('account.unavailable')}</p>}
     {errorKey && <p className="account-error" role="alert">{t(errorKey)}</p>}
-    <PrivacyNotice />
-    <label className="privacy-consent"><input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />{t('privacy.accept')}</label>
-    <GoogleSignInButton disabled={busy || !configured || !accepted} onCredential={signIn} onError={(error) => setErrorKey(loginErrorKeys[error?.code] || 'account.unavailable')} />
+    <p>{t('flow.loginHint')}</p>
+    <a href="/privacy">{t('privacy.read')}</a>
+    <GoogleSignInButton disabled={busy || !configured} onCredential={signIn} onError={(error) => setErrorKey(loginErrorKeys[error?.code] || 'account.unavailable')} />
   </AccountFrame>;
 }
+export function SignupPrivacyPage() {
+  const { acceptPrivacy } = useAuth();
+  const { t } = useApp();
+  const [accepted, setAccepted] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(false);
+  async function continueSignup(event) {
+    event.preventDefault();
+    if (!accepted || busy) return;
+    setBusy(true); setError(false);
+    try { await acceptPrivacy(); } catch { setError(true); }
+    finally { setBusy(false); }
+  }
+  return <AccountFrame>
+    <h1>{t('privacy.title')}</h1>
+    <PrivacyNotice full />
+    <form onSubmit={continueSignup} className="profile-form">
+      <label className="privacy-consent"><input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />{t('privacy.accept')}</label>
+      {error && <p role="alert" className="account-error">{t('account.saveError')}</p>}
+      <button className="primary-action" disabled={!accepted || busy}>{t(busy ? 'account.busy' : 'flow.agreeContinue')}</button>
+    </form>
+    <SignOutButton />
+  </AccountFrame>;
+}
+
 export function FamilySetupPage() {
+  const navigate = useNavigate();
   const { user } = useAuth();
-  const { parent, saveParent, createChild, t } = useApp();
-  const [name, setName] = useState(parent?.name || user?.displayName || '');
+  const { parent, childrenList, selectChild, saveParent, createChild, language, t } = useApp();
   const [childName, setChildName] = useState('');
+  const [ageRange, setAgeRange] = useState('6-9');
+  const [childLanguage, setChildLanguage] = useState(language);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   async function submit(event) {
     event.preventDefault();
     if (busy) return;
-    if (!name.trim() || !childName.trim()) { setError('account.nameRequired'); return; }
+    if (!childName.trim()) { setError('account.nameRequired'); return; }
     setBusy(true); setError(null);
-    try { await saveParent(name); await createChild(childName); }
-    catch { setError('account.saveError'); }
+    try {
+      if (!parent) await saveParent(user?.displayName?.trim() || t('account.parent'));
+      await createChild(childName, { ageRange, language: childLanguage });
+      navigate('/', { replace: true, state: null });
+    } catch { setError('account.saveError'); }
     finally { setBusy(false); }
   }
   return <AccountFrame>
-    <h1>{t(parent ? 'account.childSetup' : 'account.parentSetup')}</h1>
-    <p>{t('account.childHelp')}</p>
-    <PrivacyNotice phase="after" />
+    <h1>{t('flow.welcome')}</h1>
+    <p>{t('account.parent')}: {user?.email || parent?.name || user?.displayName}</p>
+    <h2>{t('flow.whoPractices')}</h2>
+    {!!childrenList.length && <div className="child-picker">
+      {childrenList.map((child) => <button type="button" className="child-picker-card" key={child.id} disabled={busy} onClick={() => { selectChild(child.id); navigate('/', { replace: true, state: null }); }}>
+        <span className="profile-avatar">{child.name.slice(0, 1)}</span>
+        <strong>{child.name}</strong>
+        <small>{child.language === 'tamil' ? 'தமிழ்' : child.language === 'sinhala' ? 'සිංහල' : ''}</small>
+      </button>)}
+    </div>}
     <form className="profile-form" onSubmit={submit}>
-      <label>{t('account.parentName')}<input required maxLength={100} autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} /></label>
+      <h3>{t('account.addChild')}</h3>
       <label>{t('account.childName')}<input required maxLength={100} autoComplete="off" value={childName} onChange={(event) => setChildName(event.target.value)} /></label>
+      <label>{t('flow.ageRange')}<select value={ageRange} onChange={(event) => setAgeRange(event.target.value)}>
+        {['6-9', '10-12', '13-16'].map((value) => <option key={value} value={value}>{t('flow.years', { range: value })}</option>)}
+      </select></label>
+      <label>{t('flow.childLanguage')}<select value={childLanguage} onChange={(event) => setChildLanguage(event.target.value)}>
+        <option value="sinhala">සිංහල</option><option value="tamil">தமிழ்</option>
+      </select></label>
       {error && <p className="account-error" role="alert">{t(error)}</p>}
       <button className="primary-action" disabled={busy}>{t(busy ? 'account.busy' : 'account.createChild')}</button>
     </form>

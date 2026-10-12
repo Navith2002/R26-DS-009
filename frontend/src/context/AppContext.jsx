@@ -9,7 +9,7 @@ import { partitionHistory } from '../utils/historyRecord';
 export const AppContext = createContext(null);
 export function AppProvider({ children }) {
   const { user } = useAuth();
-  const uid = user?.uid || null;
+  const uid = user && !user.needsPrivacyConsent ? user.uid : null;
   const [language, setLanguageState] = useState(loadLanguage);
   const [family, setFamily] = useState(null);
   const [selection, setSelection] = useState(null);
@@ -19,7 +19,7 @@ export function AppProvider({ children }) {
   const [retry, setRetry] = useState(0);
   const currentFamily = family?.uid === uid ? family : null;
   const childrenList = currentFamily?.children || [];
-  const activeChild = childrenList.find((item) => selection?.uid === uid && item.id === selection.id) || childrenList[0] || null;
+  const activeChild = childrenList.find((item) => selection?.uid === uid && item.id === selection.id) || null;
   const scope = uid && activeChild ? `${uid}/${activeChild.id}` : null;
   const scopeRef = useRef(scope);
   scopeRef.current = scope;
@@ -32,6 +32,7 @@ export function AppProvider({ children }) {
     document.documentElement.lang = language === 'tamil' ? 'ta' : 'si';
     document.title = translate(language, 'account.brand');
   }, [language]);
+  useEffect(() => { setSelection(null); }, [uid]);
   useEffect(() => {
     if (!uid) return;
     let alive = true;
@@ -58,12 +59,18 @@ export function AppProvider({ children }) {
     if (next === 'sinhala' || next === 'tamil') setLanguageState(next);
   }, []);
   function selectChild(id) {
-    if (childrenList.some((item) => item.id === id)) setSelection({ uid, id });
+    if (id === null) { setSelection(null); return; }
+    const child = childrenList.find((item) => item.id === id);
+    if (child) {
+      setSelection({ uid, id });
+      if (child.language) setLanguageState(child.language);
+    }
   }
-  async function createChild(name) {
+  async function createChild(name, details = {}) {
     if (!name.trim() || name.trim().length > 100) throw new Error('invalid-name');
-    const id = await familyStore.addChild(uid, name);
+    const id = await familyStore.addChild(uid, name, details);
     setSelection({ uid, id });
+    if (details.language) setLanguageState(details.language);
     return id;
   }
   async function persist(kind, entry) {

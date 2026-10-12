@@ -33,9 +33,9 @@ class MemoryFamilyStore:
     def list_children(self, uid):
         return list(self.children.get(uid, {}).values())
 
-    def add_child(self, uid, name):
+    def add_child(self, uid, name, age_range="6-9", language="sinhala"):
         child_id = f"child-{len(self.children.get(uid, {})) + 1}"
-        self.children.setdefault(uid, {})[child_id] = {"id": child_id, "name": name, "createdAt": "today"}
+        self.children.setdefault(uid, {})[child_id] = {"id": child_id, "name": name, "ageRange": age_range, "language": language, "createdAt": "today"}
         return {"id": child_id}
 
     def require_child(self, uid, child_id):
@@ -97,13 +97,19 @@ def system(tmp_path):
     def login(subject="google-parent-a"):
         response = client.post("/auth/google", json=body(token(subject)))
         assert response.status_code == 200
+        if response.json()["needsPrivacyConsent"]:
+            assert client.post("/auth/privacy", json=policy()).status_code == 200
         return response
 
     return SimpleNamespace(client=client, sessions=sessions, store=store, token=token, login=login, settings=settings, verify=verify)
 
 
 def body(credential, **overrides):
-    return {"credential": credential, "privacy_accepted": True, "privacy_version": PRIVACY_VERSION, **overrides}
+    return {"credential": credential, **overrides}
+
+
+def policy(**overrides):
+    return {"privacy_accepted": True, "privacy_version": PRIVACY_VERSION, **overrides}
 
 
 def test_real_google_verifier_and_http_only_session(system):
@@ -151,9 +157,11 @@ def test_nonce_is_single_use(system):
 
 @pytest.mark.parametrize("change", [{"privacy_accepted": False}, {"privacy_version": "old"}])
 def test_privacy_consent_is_required_before_account_creation(system, change):
-    assert system.client.post("/auth/google", json=body(system.token(), **change)).status_code == 400
+    assert system.client.post("/auth/google", json=body(system.token())).status_code == 200
+    assert system.client.post("/auth/privacy", json=policy(**change)).status_code == 400
+    assert system.client.get("/family/children").status_code == 403
     with system.sessions.connection() as db:
-        assert db.execute("SELECT count(*) FROM accounts").fetchone()[0] == 0
+        assert db.execute("SELECT accepted_at FROM accounts").fetchone()[0] == 0
 
 
 def test_cross_origin_mutations_are_denied(system):
@@ -220,6 +228,7 @@ def test_production_cookie_flags_and_private_family_responses(system):
         assert response.status_code == 200
         cookie = response.headers.get_list("set-cookie")[0]
         assert "Secure" in cookie and "HttpOnly" in cookie
+        assert client.post("/auth/privacy", json=policy()).status_code == 200
         assert client.get("/family/parent").headers["cache-control"] == "no-store"
 
 
@@ -255,3 +264,40 @@ def test_google_key_fetch_failure_is_not_reported_as_bad_credentials(system, cap
     assert response.json()["detail"]["code"] == "google_verification_unavailable"
     assert "private-token" not in caplog.text
     assert "secret transport details" not in caplog.text
+
+
+def test_first_signup_and_returning_login_have_different_consent_states(system):
+    client = system.client
+    first = client.post("/auth/google", json=body(system.token()))
+    assert first.json()["needsPrivacyConsent"] is True
+    assert client.get("/family/children").status_code == 403
+    assert client.put("/family/parent", json={"name": "Parent"}).status_code == 403
+    accepted = client.post("/auth/privacy", json=policy())
+    assert accepted.json()["needsPrivacyConsent"] is False
+    accepted_at = accepted.json()["privacyAcceptedAt"]
+    assert client.put("/family/parent", json={"name": "Parent"}).status_code == 200
+    client.post("/auth/logout")
+    returning = client.post("/auth/google", json=body(system.token()))
+    assert returning.json()["needsPrivacyConsent"] is False
+    assert returning.json()["privacyAcceptedAt"] == accepted_at
+    assert client.get("/family/parent").status_code == 200
+
+
+def test_child_age_and_language_are_saved_and_invalid_options_rejected(system):
+    system.login()
+    client = system.client
+    client.put("/family/parent", json={"name": "Parent"})
+    created = client.post("/family/children", json={"name": "Child", "ageRange": "10-12", "language": "tamil"})
+    assert created.status_code == 200
+    child = client.get("/family/children").json()[0]
+    assert child["ageRange"] == "10-12" and child["language"] == "tamil"
+    assert client.post("/family/children", json={"name": "Bad", "language": "english"}).status_code == 422
+
+
+def test_signing_out_before_acceptance_does_not_turn_an_unfinished_signup_into_a_returning_account(system):
+    first = system.client.post("/auth/google", json=body(system.token()))
+    assert first.json()["needsPrivacyConsent"] is True
+    system.client.post("/auth/logout")
+    again = system.client.post("/auth/google", json=body(system.token()))
+    assert again.json()["needsPrivacyConsent"] is True
+    assert system.client.get("/family/children").status_code == 403

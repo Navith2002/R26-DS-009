@@ -24,6 +24,10 @@ export async function accountRequest(path, options = {}) {
 export const getSession = () => accountRequest('/auth/session');
 export const getGoogleNonce = () => accountRequest('/auth/nonce');
 export const exchangeGoogleCredential = (credential) => accountRequest('/auth/google', {
-  method: 'POST', body: JSON.stringify({ credential, privacy_accepted: true, privacy_version: PRIVACY_VERSION }),
+  method: 'POST', body: JSON.stringify({ credential }),
 });
 export const endSession = () => accountRequest('/auth/logout', { method: 'POST' });
+
+export const acceptPrivacy = () => accountRequest('/auth/privacy', {
+  method: 'POST', body: JSON.stringify({ privacy_accepted: true, privacy_version: PRIVACY_VERSION }),
+});

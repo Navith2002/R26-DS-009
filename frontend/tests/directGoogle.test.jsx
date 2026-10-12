@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-libra
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { AuthProvider, useAuth } from '../src/auth/AuthContext';
 
-const api = vi.hoisted(() => ({ getSession: vi.fn(), exchangeGoogleCredential: vi.fn(), endSession: vi.fn() }));
+const api = vi.hoisted(() => ({ acceptPrivacy: vi.fn(), getSession: vi.fn(), exchangeGoogleCredential: vi.fn(), endSession: vi.fn() }));
 vi.mock('../src/services/accountApi', () => api);
 let context;
 function Probe() { context = useAuth(); return <span>{context.user?.uid || 'guest'}</span>; }
@@ -12,16 +12,17 @@ afterEach(cleanup);
 
 it('exchanges the direct Google credential and restores an HTTP-only backend session without storing tokens in localStorage', async () => {
   api.getSession.mockRejectedValue({ status: 401 });
-  api.exchangeGoogleCredential.mockResolvedValue({ uid: 'google-subject', newAccount: true });
+  api.exchangeGoogleCredential.mockResolvedValue({ uid: 'google-subject', newAccount: true, needsPrivacyConsent: true });
   render(<AuthProvider><Probe /></AuthProvider>);
   await waitFor(() => expect(context.loading).toBe(false));
   await act(async () => { await context.login('google-signed-id-token'); });
   expect(api.exchangeGoogleCredential).toHaveBeenCalledWith('google-signed-id-token');
   expect(screen.getByText('google-subject')).toBeTruthy();
-  expect(context.privacyNoticePending).toBe(true);
+  expect(context.user.needsPrivacyConsent).toBe(true);
   expect(localStorage.length).toBe(0);
-  act(() => context.dismissPrivacyNotice());
-  expect(context.privacyNoticePending).toBe(false);
+  api.acceptPrivacy.mockResolvedValue({ uid: 'google-subject', needsPrivacyConsent: false });
+  await act(async () => { await context.acceptPrivacy(); });
+  expect(context.user.needsPrivacyConsent).toBe(false);
   await act(async () => { await context.logout(); });
   expect(api.endSession).toHaveBeenCalled();
   expect(context.user).toBeNull();

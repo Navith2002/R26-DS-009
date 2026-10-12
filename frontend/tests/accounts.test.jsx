@@ -3,15 +3,16 @@ import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { AppProvider } from '../src/context/AppContext';
 import { useApp } from '../src/context/useApp';
-import AccountPage, { FamilySetupPage, SignOutButton } from '../src/pages/AccountPage';
+import AccountPage, { FamilySetupPage, SignupPrivacyPage, SignOutButton } from '../src/pages/AccountPage';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import HistoryPage from '../src/pages/HistoryPage';
 import App from '../src/App';
+import ProfilePage from '../src/pages/ProfilePage';
 import { LanguageProvider, useLanguage } from '../src/context/FluencyLanguageContext';
 
 const mocks = vi.hoisted(() => ({
-  auth: { user: null, configured: true, loading: false, login: vi.fn(), logout: vi.fn(), privacyNoticePending: false, dismissPrivacyNotice: vi.fn() },
+  auth: { user: null, configured: true, loading: false, login: vi.fn(), logout: vi.fn(), acceptPrivacy: vi.fn() },
   listeners: { parent: [], children: [], history: [] },
   addChild: vi.fn(), saveParent: vi.fn(), saveRun: vi.fn(), deleteRun: vi.fn(), deleteAllRuns: vi.fn(),
 }));
@@ -32,11 +33,12 @@ let context;
 function Probe() { context = useApp(); return <span data-testid="records">{context.history.map((item) => item.id).join(',')}</span>; }
 function tree(children, route = '/') { return <MemoryRouter initialEntries={[route]}><AppProvider>{children}</AppProvider></MemoryRouter>; }
 function fixture(children = <Probe />, route = '/') { return render(tree(children, route)); }
-function emitFamily(uid = 'parent-a') {
+function emitFamily(uid = 'parent-a', choose = true) {
   act(() => {
     mocks.listeners.parent.findLast((item) => item.uid === uid).next({ name: 'Parent' });
-    mocks.listeners.children.findLast((item) => item.uid === uid).next([{ id: 'child-a', name: 'අමල්' }, { id: 'child-b', name: 'නිමල්' }]);
+    mocks.listeners.children.findLast((item) => item.uid === uid).next([{ id: 'child-a', name: 'අමල්', ageRange: '6-9', language: 'sinhala' }, { id: 'child-b', name: 'නිමල්', ageRange: '10-12', language: 'tamil' }]);
   });
+  if (choose && context) act(() => context.selectChild('child-a'));
 }
 const record = (id) => ({ id, kind: 'handwriting', createdAt: '2026-10-12', quality_prediction: { final_label: 'Good' } });
 // jsdom does not implement the browser's modal dialog methods.
@@ -45,7 +47,7 @@ Object.defineProperty(HTMLDialogElement.prototype, 'close', { configurable: true
 beforeEach(() => {
   localStorage.clear(); context = null;
   mocks.auth.user = null;
-  mocks.auth.privacyNoticePending = false;
+  mocks.auth.acceptPrivacy.mockReset();
   Object.values(mocks.listeners).forEach((items) => items.splice(0));
   mocks.auth.login.mockReset(); mocks.auth.logout.mockReset();
   mocks.saveParent.mockReset(); mocks.addChild.mockReset(); mocks.saveRun.mockReset();
@@ -60,7 +62,6 @@ describe('localized parent screens', () => {
     fireEvent.click(screen.getByRole('button', { name: /தமிழ்/ }));
     expect(screen.getByRole('button', { name: /Google/ }).textContent).toMatch(/[\u0B80-\u0BFF]/);
     expect(document.documentElement.lang).toBe('ta');
-    fireEvent.click(screen.getByRole('checkbox'));
     fireEvent.click(screen.getByRole('button', { name: /Google/ }));
     await waitFor(() => expect(mocks.auth.login).toHaveBeenCalledWith('signed-google-token'));
     fireEvent.click(screen.getByRole('button', { name: 'வெளியேறவும்' }));
@@ -69,7 +70,6 @@ describe('localized parent screens', () => {
   it('localizes a failed direct Google sign-in without exposing English server errors', async () => {
     mocks.auth.login.mockRejectedValue({ status: 401, message: 'English SDK error' });
     fixture(<AccountPage />);
-    fireEvent.click(screen.getByRole('checkbox'));
     fireEvent.click(screen.getByRole('button', { name: /Google/ }));
     await waitFor(() => expect(screen.getByRole('alert').textContent).toMatch(/[\u0D80-\u0DFF]/));
     expect(screen.queryByText('English SDK error')).toBeNull();
@@ -80,7 +80,7 @@ describe('localized parent screens', () => {
     fixture(<FamilySetupPage />);
     fireEvent.change(screen.getByLabelText('දරුවාගේ නම'), { target: { value: '  අමල්  ' } });
     fireEvent.click(screen.getByRole('button', { name: 'පැතිකඩ සාදන්න' }));
-    await waitFor(() => expect(mocks.addChild).toHaveBeenCalledWith('parent-a', '  අමල්  '));
+    await waitFor(() => expect(mocks.addChild).toHaveBeenCalledWith('parent-a', '  අමල්  ', { ageRange: '6-9', language: 'sinhala' }));
     expect(mocks.saveParent).toHaveBeenCalledWith('parent-a', 'Parent');
     expect(mocks.saveParent.mock.invocationCallOrder[0]).toBeLessThan(mocks.addChild.mock.invocationCallOrder[0]);
   });
@@ -189,7 +189,8 @@ describe('history deletion controls', () => {
 it('opens a returning child fluency dashboard using private history and the current interface language', async () => {
   mocks.auth.user = { uid: 'parent-a' };
   localStorage.setItem('writebright_language_v1', 'tamil');
-  fixture(<><Probe /><App /></>, '/fluency'); emitFamily();
+  fixture(<><Probe /><App /></>, '/fluency'); emitFamily('parent-a', false);
+  act(() => context.selectChild('child-b'));
   act(() => mocks.listeners.history.at(-1).next([{ id: 'private-fluency', kind: 'fluency', createdAt: '2026-10-12', result: { fluency_label: 'Fluent', profile_name: 'Accurate', skill_4d: {}, weakest: [], cer: 0, wer: 0 } }]));
   fireEvent.submit(document.querySelector('form.profile-form'));
   expect(document.querySelector('.fluency-scope').getAttribute('lang')).toBe('ta');
@@ -197,20 +198,50 @@ it('opens a returning child fluency dashboard using private history and the curr
   expect(screen.getByText('சரியாக வாசிப்பவர்')).toBeTruthy();
 });
 
-it('shows the privacy note and requires acknowledgement before Google sign-in', () => {
+it('shows a welcome page without requiring policy acknowledgement before Google identifies the parent', () => {
   fixture(<AccountPage />);
-  expect(screen.getByRole('region', { name: 'පෞද්ගලිකත්ව සටහන' })).toBeTruthy();
-  expect(screen.getByRole('button', { name: /Google/ }).disabled).toBe(true);
-  fireEvent.click(screen.getByRole('button', { name: /Google/ }));
-  expect(mocks.auth.login).not.toHaveBeenCalled();
-  fireEvent.click(screen.getByRole('checkbox'));
+  expect(screen.queryByRole('checkbox')).toBeNull();
+  expect(screen.queryByRole('region', { name: 'පෞද්ගලිකත්ව සටහන' })).toBeNull();
+  expect(screen.getByRole('link', { name: 'සම්පූර්ණ පෞද්ගලිකත්ව සටහන කියවන්න' })).toBeTruthy();
   expect(screen.getByRole('button', { name: /Google/ }).disabled).toBe(false);
 });
 
-it('shows the after-signup privacy note before the first child account is created', () => {
-  mocks.auth.user = { uid: 'google-parent', displayName: 'Parent', newAccount: true };
-  fixture(<FamilySetupPage />);
-  expect(screen.getByText('ඔබේ ගිණුම සෑදී ඇත — ඔබේ දත්ත ගැන')).toBeTruthy();
+it('requires first-signup policy acceptance before any family data is requested', async () => {
+  mocks.auth.user = { uid: 'new-parent', needsPrivacyConsent: true };
+  fixture(<><Probe /><App /></>);
+  expect(screen.getByRole('heading', { name: 'පෞද්ගලිකත්ව සටහන' })).toBeTruthy();
+  expect(mocks.listeners.parent).toHaveLength(0);
+  expect(mocks.listeners.children).toHaveLength(0);
+  const next = screen.getByRole('button', { name: 'එකඟ වී ඉදිරියට යන්න' });
+  expect(next.disabled).toBe(true);
+  fireEvent.click(screen.getByRole('checkbox'));
+  fireEvent.click(next);
+  await waitFor(() => expect(mocks.auth.acceptPrivacy).toHaveBeenCalled());
+});
+
+it('takes an existing parent to child selection without policy, and waits for a child choice', () => {
+  mocks.auth.user = { uid: 'parent-a', needsPrivacyConsent: false, displayName: 'Parent' };
+  fixture(<><Probe /><App /></>); emitFamily('parent-a', false);
+  expect(screen.getByRole('heading', { name: 'අද පුහුණු වන්නේ කවුද?' })).toBeTruthy();
+  expect(screen.queryByRole('checkbox')).toBeNull();
+  expect(screen.queryByRole('region', { name: 'පෞද්ගලිකත්ව සටහන' })).toBeNull();
+  expect(context.activeChild).toBeNull();
+  expect(mocks.listeners.history).toHaveLength(0);
+  fireEvent.click(screen.getByRole('button', { name: /නිමල්/ }));
+  expect(context.activeChild.id).toBe('child-b');
+  expect(context.language).toBe('tamil');
+  expect(mocks.listeners.history.at(-1).id).toBe('child-b');
+});
+
+it('shows only parent and child summaries on profile, without add, save, policy or editable fields', () => {
+  mocks.auth.user = { uid: 'parent-a', needsPrivacyConsent: false };
+  fixture(<><Probe /><ProfilePage /></>); emitFamily();
+  expect(screen.getByText('අමල්')).toBeTruthy(); expect(screen.getByText('නිමල්')).toBeTruthy();
+  expect(screen.getByText('අවුරුදු 6-9')).toBeTruthy();
+  expect(screen.queryByText('දරුවෙකු එක් කරන්න')).toBeNull();
+  expect(screen.queryByRole('button', { name: 'සුරකින්න' })).toBeNull();
+  expect(screen.queryByText('ඔබේ ගිණුම සෑදී ඇත — ඔබේ දත්ත ගැන')).toBeNull();
+  expect(screen.queryByRole('textbox')).toBeNull();
 });
 
 it('makes the full privacy page available before sign-in in Tamil', () => {
@@ -219,4 +250,52 @@ it('makes the full privacy page available before sign-in in Tamil', () => {
   expect(screen.getByRole('heading', { name: 'தனியுரிமைக் குறிப்பு' })).toBeTruthy();
   expect(screen.getByText(/Gmail செய்திகள்/)).toBeTruthy();
   expect(screen.getByText(/பகுப்பாய்வுச் சேவையகத்துக்கு/)).toBeTruthy();
+});
+
+it('matches the complete first-signup flow: Google, policy, child details, then the child app', async () => {
+  const content = <><Probe /><App /></>;
+  const view = fixture(content);
+  expect(screen.queryByRole('checkbox')).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: /Google/ }));
+  await waitFor(() => expect(mocks.auth.login).toHaveBeenCalled());
+  mocks.auth.user = { uid: 'new-parent', displayName: 'Parent', email: 'parent@example.test', needsPrivacyConsent: true };
+  view.rerender(tree(content));
+  expect(mocks.listeners.children).toHaveLength(0);
+  fireEvent.click(screen.getByRole('checkbox'));
+  fireEvent.click(screen.getByRole('button', { name: 'එකඟ වී ඉදිරියට යන්න' }));
+  await waitFor(() => expect(mocks.auth.acceptPrivacy).toHaveBeenCalled());
+  mocks.auth.user = { ...mocks.auth.user, needsPrivacyConsent: false };
+  view.rerender(tree(content));
+  act(() => {
+    mocks.listeners.parent.at(-1).next(null);
+    mocks.listeners.children.at(-1).next([]);
+  });
+  expect(screen.queryByRole('checkbox')).toBeNull();
+  fireEvent.change(screen.getByLabelText('දරුවාගේ නම'), { target: { value: 'කමල්' } });
+  fireEvent.change(screen.getByLabelText('වයස් කාණ්ඩය'), { target: { value: '10-12' } });
+  fireEvent.change(screen.getByLabelText('දරුවාගේ භාෂාව'), { target: { value: 'tamil' } });
+  mocks.addChild.mockResolvedValue('new-child');
+  fireEvent.click(screen.getByRole('button', { name: 'පැතිකඩ සාදන්න' }));
+  await waitFor(() => expect(mocks.addChild).toHaveBeenCalledWith('new-parent', 'කමල්', { ageRange: '10-12', language: 'tamil' }));
+  act(() => {
+    mocks.listeners.parent.at(-1).next({ name: 'Parent' });
+    mocks.listeners.children.at(-1).next([{ id: 'new-child', name: 'කමල්', ageRange: '10-12', language: 'tamil' }]);
+  });
+  expect(context.activeChild.id).toBe('new-child');
+  act(() => mocks.listeners.history.at(-1).next([]));
+  expect(context.language).toBe('tamil');
+  expect(screen.queryByRole('checkbox')).toBeNull();
+  expect(screen.queryByText('ඔබේ ගිණුම සෑදී ඇත — ඔබේ දත්ත ගැන')).toBeNull();
+  expect(document.querySelector('a[href="/profile"]')).toBeTruthy();
+});
+
+it('returns to the child chooser from the header without placing account creation controls on profile', () => {
+  mocks.auth.user = { uid: 'parent-a', needsPrivacyConsent: false };
+  fixture(<><Probe /><App /></>, '/profile'); emitFamily();
+  act(() => mocks.listeners.history.at(-1).next([]));
+  expect(screen.getByRole('heading', { name: 'පවුලේ ගිණුම් සාරාංශය' })).toBeTruthy();
+  expect(screen.queryByRole('heading', { name: 'දරුවෙකු එක් කරන්න' })).toBeNull();
+  fireEvent.change(screen.getByLabelText('දරුවා තෝරන්න'), { target: { value: '' } });
+  expect(context.activeChild).toBeNull();
+  expect(screen.getByRole('heading', { name: 'අද පුහුණු වන්නේ කවුද?' })).toBeTruthy();
 });
