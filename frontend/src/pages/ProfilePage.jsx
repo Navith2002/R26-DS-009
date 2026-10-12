@@ -1,43 +1,41 @@
-import { useState } from 'react';
-import { Save, UserRound } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useApp } from '../context/useApp';
-import { roleLabel } from '../i18n/translations';
-
-const roles = ['Student', 'Teacher', 'Parent', 'Researcher'];
+import { SignOutButton } from './AccountPage';
 
 export default function ProfilePage() {
-  const { profile, setProfile, language, t } = useApp();
-  const [name, setName] = useState(profile.name || '');
-  const [role, setRole] = useState(profile.role || 'Student');
-  const [saved, setSaved] = useState(false);
-
-  function submit(e) {
-    e.preventDefault();
-    setProfile({ name: name.trim() || t('header.learner'), role });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 1800);
+  const { parent, childrenList, activeChild, selectChild, saveParent, createChild, renameChild, t } = useApp();
+  const [parentName, setParentName] = useState(parent?.name || '');
+  const [childName, setChildName] = useState(activeChild?.name || '');
+  const [newName, setNewName] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState(null);
+  useEffect(() => { setChildName(activeChild?.name || ''); setMessage(null); }, [activeChild?.id, activeChild?.name]);
+  async function save(event, action) {
+    event.preventDefault();
+    if (busy) return;
+    setBusy(true); setMessage(null);
+    try { await action(); setMessage('account.saved'); } catch { setMessage('account.saveError'); }
+    finally { setBusy(false); }
   }
-
-  return (
-    <div className="page-stack">
-      <section className="page-intro">
-        <span className="eyebrow">{t('profile.eyebrow')}</span>
-        <h2>{t('profile.title')}</h2>
-      </section>
-      <form className="profile-form result-card" onSubmit={submit}>
-        <div className="profile-large"><UserRound size={32} /></div>
-        <label>
-          {t('profile.displayName')}
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t('profile.namePlaceholder')} />
-        </label>
-        <label>
-          {t('profile.role')}
-          <select value={role} onChange={(e) => setRole(e.target.value)}>
-            {roles.map((value) => <option key={value} value={value}>{roleLabel(value, language)}</option>)}
-          </select>
-        </label>
-        <button className="primary-action" type="submit"><Save size={17} /> {saved ? t('profile.saved') : t('profile.save')}</button>
+  return <div className="page-stack family-profile">
+    <section className="page-intro"><h2>{t('account.parent')}</h2></section>
+    {message && <p role="status">{t(message)}</p>}
+    <form className="profile-form result-card" onSubmit={(event) => save(event, () => saveParent(parentName))}>
+      <label>{t('account.parentName')}<input required maxLength={100} value={parentName} onChange={(event) => setParentName(event.target.value)} /></label>
+      <button className="primary-action" disabled={busy}>{t('account.save')}</button>
+    </form>
+    <section className="result-card"><h3>{t('account.children')}</h3>
+      <div className="family-children">{childrenList.map((child) => <button type="button" key={child.id} className="soft-btn" aria-pressed={child.id === activeChild.id} disabled={busy} onClick={() => selectChild(child.id)}>{child.name}</button>)}</div>
+      <form className="profile-form" onSubmit={(event) => save(event, () => renameChild(activeChild.id, childName))}>
+        <label>{t('account.childName')}<input required maxLength={100} value={childName} onChange={(event) => setChildName(event.target.value)} /></label>
+        <button className="primary-action" disabled={busy}>{t('account.save')}</button>
       </form>
-    </div>
-  );
+    </section>
+    <form className="profile-form result-card" onSubmit={(event) => save(event, async () => { await createChild(newName); setNewName(''); })}>
+      <h3>{t('account.addChild')}</h3>
+      <label>{t('account.childName')}<input required maxLength={100} value={newName} onChange={(event) => setNewName(event.target.value)} /></label>
+      <button className="primary-action" disabled={busy}>{t('account.createChild')}</button>
+    </form>
+    <SignOutButton />
+  </div>;
 }

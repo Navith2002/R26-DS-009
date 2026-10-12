@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useApp } from '../context/useApp';
 import { UI_TEXT } from '../components/grammarCheck/i18n';
-import { getDemoData } from '../components/grammarCheck/demoData';
 import { analyzeGrammar } from '../services/grammarApi';
 import UploadScreen from '../components/grammarCheck/UploadScreen';
 import LoadingScreen from '../components/grammarCheck/LoadingScreen';
@@ -20,13 +19,14 @@ function toShortCode(language) {
 }
 
 export default function GrammarCheckPage() {
-  const { language, registerGrammarRun, grammarRuns } = useApp();
+  const { language, registerGrammarRun, grammarRuns, t: appT } = useApp();
 
   const [screen, setScreen] = useState('upload'); // 'upload' | 'loading' | 'dashboard'
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [step, setStep] = useState(1);
   const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
 
   const stepIntervalRef = useRef(null);
 
@@ -46,14 +46,15 @@ export default function GrammarCheckPage() {
     setPreviewUrl(URL.createObjectURL(file));
   }
 
-  function finishAnalyze(data) {
-    registerGrammarRun(data, shortLang);
+  async function finishAnalyze(data) {
+    await registerGrammarRun(data, shortLang);
     setResult(data);
     setScreen('dashboard');
   }
 
   async function analyze() {
     if (!selectedFile) return;
+    setError(null);
     setScreen('loading');
     setStep(1);
 
@@ -67,12 +68,11 @@ export default function GrammarCheckPage() {
       const data = await analyzeGrammar({ file: selectedFile, language: shortLang });
       clearInterval(stepIntervalRef.current);
       setStep(5);
-      setTimeout(() => finishAnalyze(data), 600);
-    } catch {
+      await finishAnalyze(data);
+    } catch (failure) {
       clearInterval(stepIntervalRef.current);
-      // Demo mode if the grammar-check backend isn't reachable, same
-      // fallback the standalone project used.
-      finishAnalyze(getDemoData());
+      setError(failure.code === 'history-too-large' ? 'account.historyTooLarge' : failure.code === 'history-save-failed' ? 'account.saveError' : 'account.analysisError');
+      setScreen('upload');
     }
   }
 
@@ -90,13 +90,13 @@ export default function GrammarCheckPage() {
   // Dashboard keeps its existing look for now.
   if (screen === 'upload') {
     return (
-      <UploadScreen
+      <>{error && <p className="account-error" role="alert">{appT(error)}</p>}<UploadScreen
         t={t}
         previewUrl={previewUrl}
         onFileSelect={onFileSelect}
         canAnalyze={!!selectedFile}
         onAnalyze={analyze}
-      />
+      /></>
     );
   }
 
@@ -112,7 +112,7 @@ export default function GrammarCheckPage() {
       {screen === 'dashboard' && result && (
         <Dashboard
           data={result}
-          language={result.language || shortLang}
+          language={shortLang}
           onNewPage={reset}
           onNewSession={reset}
           grammarRuns={grammarRuns}

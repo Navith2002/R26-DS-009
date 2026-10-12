@@ -1,3 +1,4 @@
+import { translate } from '../../i18n/translations';
 import { useEffect, useState } from 'react';
 import {
   ERROR_META, ERROR_META_TA, ERROR_PROFILE_LABELS, ERROR_PROFILE_LABELS_TA,
@@ -192,7 +193,7 @@ export default function Dashboard({ data, language, onNewPage, onNewSession, gra
                     )}
                   </div>
                   <div style={{ fontFamily: 'var(--script)', fontSize: 16, lineHeight: 1.7, color: 'var(--text)' }}>{s.text}</div>
-                  {s.grammar_note && <div className="grammar-note">⚠ {s.grammar_note}</div>}
+                  {s.grammar_note && <div className="grammar-note">⚠ {/^grammar check (skipped|failed)/i.test(s.grammar_note) ? translate(lang === 'ta' ? 'tamil' : 'sinhala', 'account.grammarUnavailable') : s.grammar_note}</div>}
                   {s.word_count <= 1 && <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{T.singleWordNote}</div>}
                 </div>
               ))}

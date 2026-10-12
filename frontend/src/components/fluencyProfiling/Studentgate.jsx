@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useApp } from '../../context/useApp'
 import { useLanguage } from '../../context/FluencyLanguageContext'
 
 // Restyled to match WriteBright's own AnalyzePage/ProfilePage layout,
@@ -8,12 +8,12 @@ import { useLanguage } from '../../context/FluencyLanguageContext'
 // approximated the same look with its own separately-tuned tokens.
 // Same treatment as UploadScreen.jsx in the grammar-check component.
 export default function StudentGate({ onStart }) {
-  const [studentId, setStudentId] = useState('')
+  const { activeChild, t: appT } = useApp()
   const { t } = useLanguage()
 
   function handleSubmit(e) {
     e.preventDefault()
-    onStart(studentId.trim())
+    onStart()
   }
 
   return (
@@ -38,17 +38,7 @@ export default function StudentGate({ onStart }) {
           </p>
 
           <form className="profile-form" onSubmit={handleSubmit}>
-            <label htmlFor="student-id" style={{ fontSize: 18 }}>
-              {t('gate.studentIdLabel')}
-              <input
-                id="student-id"
-                type="text"
-                value={studentId}
-                onChange={(e) => setStudentId(e.target.value)}
-                placeholder={t('gate.studentIdPlaceholder')}
-                autoComplete="off"
-              />
-            </label>
+            <p>{appT('account.currentChild', { name: activeChild.name })}</p>
 
             {/* .soft-btn.orange, not .primary-action -- matches
                 "ඡායාරූපයක් ගන්න" on AnalyzePage exactly (font-size:16px,

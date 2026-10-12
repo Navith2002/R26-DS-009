@@ -8,7 +8,7 @@ import RecordStage from '../components/fluencyProfiling/Recordstage';
 import CustomStage from '../components/fluencyProfiling/Customstage';
 import ResultsStage from '../components/fluencyProfiling/Resultsstage';
 import { LanguageProvider, useLanguage } from '../context/FluencyLanguageContext';
-import { submitAssessment, submitCustomAssessment, fetchProfile } from '../components/fluencyProfiling/api';
+import { submitAssessment, submitCustomAssessment } from '../components/fluencyProfiling/api';
 import EmptyState from '../components/EmptyState';
 import '../fluencyProfiling.css';
 
@@ -19,19 +19,8 @@ import '../fluencyProfiling.css';
 // this page instead, via the sync effect below) and the .fluency-scope/
 // lang wrapper (see fluencyProfiling.css) instead of a bare <main className="app">.
 function FluencyPageInner() {
-  const { language: appLanguage, registerFluencyRun } = useApp(); // 'sinhala' | 'tamil', from WriteBright's global toggle
-  const { lang, setLang, t } = useLanguage();
-
-  // Keeps this component's own LanguageContext (used internally by every
-  // stage component below) in lockstep with WriteBright's global language
-  // toggle, instead of requiring a second, separate language control on
-  // this page. This component supports 'en' too (its own LanguageContext
-  // has 3 languages), but WriteBright's global toggle only ever offers
-  // 'sinhala'/'tamil' -- so 'en' is simply never reachable here, same as
-  // the grammar-check component.
-  useEffect(() => {
-    setLang(appLanguage === 'tamil' ? 'ta' : 'si');
-  }, [appLanguage, setLang]);
+  const { language: appLanguage, registerFluencyRun, activeChild, fluencyRuns, t: appT } = useApp(); // 'sinhala' | 'tamil', from WriteBright's global toggle
+  const { lang, t } = useLanguage();
 
   const [screen, setScreen] = useState('gate');
   const [studentId, setStudentId] = useState('');
@@ -40,9 +29,10 @@ function FluencyPageInner() {
   const [result, setResult] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
   const audioUrlRef = useRef(null);
+  useEffect(() => () => { if (audioUrlRef.current) URL.revokeObjectURL(audioUrlRef.current); }, []);
 
-  const [profileLoading, setProfileLoading] = useState(false);
-  const [profileLoadError, setProfileLoadError] = useState(false);
+  const profileLoading = false;
+  const profileLoadError = false;
 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -54,32 +44,13 @@ function FluencyPageInner() {
     setAudioUrl(url);
   }
 
-  async function handleStart(id) {
-    setStudentId(id);
+  async function handleStart() {
+    setStudentId(activeChild.name);
     setSubmitError('');
-
-    if (!id) {
-      setResult(null);
-      updateAudioUrl(null);
-      setProfileLoadError(false);
-      setScreen('dashboard');
-      return;
-    }
+    setResult(fluencyRuns.at(-1)?.result || null);
+    updateAudioUrl(null);
 
     setScreen('dashboard');
-    setProfileLoading(true);
-    setProfileLoadError(false);
-    try {
-      const data = await fetchProfile(id);
-      setResult(data);
-      updateAudioUrl(null); // saved profiles don't carry audio back
-      setProfileLoadError(false);
-    } catch {
-      setResult(null);
-      setProfileLoadError(true);
-    } finally {
-      setProfileLoading(false);
-    }
   }
 
   function handleSentenceSelect(s) {
@@ -95,14 +66,14 @@ function FluencyPageInner() {
       const data = await submitAssessment({
         audioBlob: blob,
         sentenceId: sentence.sentence_id,
-        studentId,
+        studentId: '', // Child history is stored privately in Firestore, not the public backend.
       });
       setResult(data);
       updateAudioUrl(blob);
-      registerFluencyRun(data, studentId, appLanguage);
+      await registerFluencyRun(data, activeChild.id, appLanguage);
       setScreen('results');
     } catch (err) {
-      setSubmitError(err.message || 'Assessment failed. Try again.');
+      setSubmitError(appT(err.code === 'history-too-large' ? 'account.historyTooLarge' : err.code === 'history-save-failed' ? 'account.saveError' : 'account.analysisError'));
     } finally {
       setSubmitting(false);
     }
@@ -115,14 +86,14 @@ function FluencyPageInner() {
       const data = await submitCustomAssessment({
         audioBlob,
         groundTruth,
-        studentId,
+        studentId: '', // Child history is stored privately in Firestore, not the public backend.
       });
       setResult(data);
       updateAudioUrl(audioBlob);
-      registerFluencyRun(data, studentId, appLanguage);
+      await registerFluencyRun(data, activeChild.id, appLanguage);
       setScreen('results');
     } catch (err) {
-      setSubmitError(err.message || 'Assessment failed. Try again.');
+      setSubmitError(appT(err.code === 'history-too-large' ? 'account.historyTooLarge' : err.code === 'history-save-failed' ? 'account.saveError' : 'account.analysisError'));
     } finally {
       setSubmitting(false);
     }
@@ -167,7 +138,7 @@ function FluencyPageInner() {
               setStudentId('');
               setResult(null);
               updateAudioUrl(null);
-              setProfileLoadError(false);
+
               setScreen('gate');
             }}
           >
@@ -259,7 +230,7 @@ function FluencyPageInner() {
             setStudentId('');
             setResult(null);
             updateAudioUrl(null);
-            setProfileLoadError(false);
+
             setScreen('gate');
           }}
         />

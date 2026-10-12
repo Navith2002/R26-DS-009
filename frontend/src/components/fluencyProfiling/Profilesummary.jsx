@@ -1,3 +1,5 @@
+import { useApp } from '../../context/useApp'
+import { localizedActivity } from '../../i18n/fluencyActivities'
 import { wordDiff, werBadgeTone } from '../../utils/wordDiff'
 import { useLanguage } from '../../context/FluencyLanguageContext'
 
@@ -15,6 +17,10 @@ const LABEL_TONE = {
 // showMetrics for a future denser/teacher view if that badge is wanted.
 export default function ProfileSummary({ result, audioUrl, showMetrics = false }) {
   const { t, td } = useLanguage()
+  const { language, t: appT } = useApp()
+  const profileNames = { Accurate: 'account.accurateReader', 'Accurate & Fast Reader': 'account.fastReader', 'Accurate & Slow Reader & Hesitant': 'account.slowReader', 'Moderate Accuracy': 'account.moderateReader', 'Moderate Accuracy & Slow Reader & Hesitant': 'account.moderateSlowReader' }
+  const levels = { Beginner: 'account.beginner', Intermediate: 'account.intermediate', Advanced: 'account.advanced' }
+  const skills = { Accuracy: 'account.accuracy', Fluency: 'account.fluency', Hesitation: 'account.hesitation', 'Sentence Length': 'account.sentenceLength' }
   const weakestSet = new Set(result.weakest || [])
   const hasGroundTruth = Boolean(result.ground_truth)
   const werTone = werBadgeTone(result.wer)
@@ -26,10 +32,10 @@ export default function ProfileSummary({ result, audioUrl, showMetrics = false }
   // else that comes back from the API — activity name/description/skill/
   // difficulty — is free-text from the database and isn't translated here.
   function formatDim(key) {
-    return td(`profile.dims.${key}`, key.replace(/_/g, ' '))
+    return td(`profile.dims.${key}`, appT('account.fluency'))
   }
   function formatFluencyLabel(label) {
-    return td(`profile.fluencyLabel.${label}`, label)
+    return td(`profile.fluencyLabel.${label}`, t('profile.keepPractising'))
   }
   function formatProfileDesc(name) {
     return td(`profile.descs.${name}`, t('profile.keepPractising'))
@@ -40,7 +46,7 @@ export default function ProfileSummary({ result, audioUrl, showMetrics = false }
       <div className={`result-banner ${LABEL_TONE[result.fluency_label] || ''}`}>
         <div>
           <span className="result-banner__label">{formatFluencyLabel(result.fluency_label)}</span>
-          <span className="result-banner__profile">{result.profile_name}</span>
+          <span className="result-banner__profile">{appT(profileNames[result.profile_name] || 'account.fluency')}</span>
         </div>
       </div>
 
@@ -62,9 +68,9 @@ export default function ProfileSummary({ result, audioUrl, showMetrics = false }
             <div className="analysis-audio__head">
               <span className="transcript-compare__label">{t('profile.yourRecording')}</span>
               <span className="audio-meta">
-                CER {result.cer >= 0 ? `${(result.cer * 100).toFixed(1)}%` : 'N/A'}
+                {appT('account.characterErrors')} {result.cer >= 0 ? `${(result.cer * 100).toFixed(1)}%` : appT('account.notAvailable')}
                 <span className="audio-meta__dot"> · </span>
-                WER {result.wer >= 0 ? `${(result.wer * 100).toFixed(1)}%` : 'N/A'}
+                {appT('account.wordErrors')} {result.wer >= 0 ? `${(result.wer * 100).toFixed(1)}%` : appT('account.notAvailable')}
                 <span className="audio-meta__dot"> · </span>
                 {(result.confidence * 100).toFixed(0)}% {t('profile.match')}
               </span>
@@ -102,7 +108,7 @@ export default function ProfileSummary({ result, audioUrl, showMetrics = false }
 
         {showMetrics && werTone && (
           <div className="wer-badge-row">
-            <span className={`wer-badge wer-badge--${werTone}`}>WER {Math.round(result.wer * 100)}%</span>
+            <span className={`wer-badge wer-badge--${werTone}`}>{appT('account.wordErrors')} {Math.round(result.wer * 100)}%</span>
             <span className="wer-hint">{t('profile.lowerIsBetter')}</span>
           </div>
         )}
@@ -110,7 +116,7 @@ export default function ProfileSummary({ result, audioUrl, showMetrics = false }
 
       <div className="skill-panel">
         <h3>{t('profile.readingProfile')}</h3>
-        {Object.entries(result.skill_4d).map(([key, value]) => (
+        {Object.entries(result.skill_4d || {}).map(([key, value]) => (
           <div className={`skill-row ${weakestSet.has(key) ? 'skill-row--weak' : ''}`} key={key}>
             <span className="skill-row__label">{formatDim(key)}</span>
             <div className="skill-row__track">
@@ -130,22 +136,18 @@ export default function ProfileSummary({ result, audioUrl, showMetrics = false }
           <div className="recs__grid">
             {result.recommendations.map((act) => (
               <article className="rec-card" key={act.act_id}>
-                <span className="rec-card__difficulty">{act.difficulty}</span>
-                <h4>{act.name}</h4>
-                <p className="rec-card__skill">{act.target_skill}</p>
-                <p className="rec-card__desc">{act.description}</p>
-                {act.reading_instruction && (
-                  <p className="rec-card__instruction" lang="si">
-                    {act.reading_instruction}
-                  </p>
-                )}
+                <span className="rec-card__difficulty">{appT(levels[act.difficulty] || 'account.beginner')}</span>
+                <h4>{localizedActivity(act, language).name}</h4>
+                <p className="rec-card__skill">{appT(skills[act.target_skill] || 'account.fluency')}</p>
+                <p className="rec-card__desc">{localizedActivity(act, language).description}</p>
+
               </article>
             ))}
           </div>
         </div>
       )}
 
-      {result.note && <p className="result-note">{result.note}</p>}
+      {result.note && <p className="result-note">{t('profile.keepPractising')}</p>}
     </>
   )
 }

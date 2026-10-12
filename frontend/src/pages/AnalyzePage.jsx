@@ -516,7 +516,7 @@ export default function AnalyzePage() {
         });
 
       const entry =
-        registerAnalysis(result);
+        await registerAnalysis(result);
 
       setStatus('success');
 
@@ -540,7 +540,7 @@ export default function AnalyzePage() {
       );
 
       setStatus('error');
-      setError(t('analyze.errGeneric'));
+      setError(t(err.code === 'history-too-large' ? 'account.historyTooLarge' : err.code === 'history-save-failed' ? 'account.saveError' : 'analyze.errGeneric'));
     }
   }
 

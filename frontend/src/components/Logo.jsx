@@ -8,7 +8,7 @@ export default function Logo({ compact = false }) {
       <div className="logo-symbol"><PenLine size={23} strokeWidth={2.6} /></div>
       {!compact && (
         <div className="logo-text">
-          <h2>WriteBright</h2>
+          <h2>{t('account.brand')}</h2>
           <span>{t('logo.tagline')}</span>
         </div>
       )}

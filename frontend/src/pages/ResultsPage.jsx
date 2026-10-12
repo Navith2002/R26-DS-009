@@ -520,26 +520,14 @@ export default function ResultsPage() {
 
   const {
     history,
-    latestResult,
     language,
     t,
   } = useApp();
 
-  const result =
-    location.state?.result
-    ||
-    (
-      latestResult?.analysis_id === id
-        ? latestResult
-        : null
-    )
-    ||
-    history.find(
-      (item) => item.id === id
-    );
-
-  const preview =
-    location.state?.preview;
+  // Resolve from this child's records only. Navigation state can survive a
+  // sign-out or child switch and must never bypass account isolation.
+  const result = history.find((item) => item.id === id);
+  const preview = result ? location.state?.preview : null;
 
 
   /* =======================================================

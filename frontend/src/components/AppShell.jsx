@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   BarChart3,
   BookOpenCheck,
@@ -33,8 +33,9 @@ const PAGE_MASCOTS = {
 };
 
 export default function AppShell() {
-  const { profile, language, t } = useApp();
+  const { profile, language, t, childrenList, activeChild, selectChild } = useApp();
   const location = useLocation();
+  const navigate = useNavigate();
   const hiddenHeader = location.pathname.startsWith('/results');
 
   // Sidebar order per explicit request: Home, then the 4 components in
@@ -92,6 +93,11 @@ export default function AppShell() {
                 <div className="profile-avatar">{displayName.slice(0, 1).toUpperCase()}</div>
                 <div className="profile-info"><strong>{displayName}</strong></div>
               </NavLink>
+              <label className="child-selector">{t('account.chooseChild')}
+                <select value={activeChild.id} onChange={(event) => { selectChild(event.target.value); navigate('/', { replace: true, state: null }); }}>
+                  {childrenList.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}
+                </select>
+              </label>
               <LanguageToggle />
             </div>
           </header>

@@ -1,4 +1,4 @@
-import ProfileSummary from './ProfileSummary'
+import ProfileSummary from './Profilesummary'
 import { useLanguage } from '../../context/FluencyLanguageContext'
 
 export default function Dashboard({

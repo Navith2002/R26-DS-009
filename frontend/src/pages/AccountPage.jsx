@@ -1,0 +1,75 @@
+import { useState } from 'react';
+import { LogIn, LogOut, UserRound } from 'lucide-react';
+import { useAuth } from '../auth/AuthContext';
+import { useApp } from '../context/useApp';
+import LanguageToggle from '../components/LanguageToggle';
+import Logo from '../components/Logo';
+
+export function SignOutButton() {
+  const { logout } = useAuth();
+  const { t } = useApp();
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(false);
+  return <div className="account-signout">
+    <button className="danger-outline" disabled={busy} onClick={async () => {
+      setBusy(true); setError(false);
+      try { await logout(); } catch { setError(true); } finally { setBusy(false); }
+    }}><LogOut size={17} />{t(busy ? 'account.busy' : 'account.signOut')}</button>
+    {error && <p role="alert">{t('account.signOutError')}</p>}
+  </div>;
+}
+export function AccountFrame({ children }) {
+  const { language } = useApp();
+  return <main className={`account-page ui-language-${language}`} lang={language === 'tamil' ? 'ta' : 'si'}>
+    <header className="account-header"><Logo /><LanguageToggle /></header>
+    <section className="account-card result-card">{children}</section>
+  </main>;
+}
+export default function AccountPage() {
+  const { login, configured } = useAuth();
+  const { language, t } = useApp();
+  const [busy, setBusy] = useState(false);
+  const [errorKey, setErrorKey] = useState(null);
+  async function signIn() {
+    setBusy(true); setErrorKey(null);
+    try { await login(language); } catch (error) {
+      setErrorKey(error.code === 'auth/popup-blocked' ? 'account.popupBlocked'
+        : error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request' ? 'account.cancelled' : 'account.loginError');
+    } finally { setBusy(false); }
+  }
+  return <AccountFrame>
+    <div className="profile-large"><UserRound size={32} /></div>
+    <h1>{t('account.title')}</h1><p>{t('account.intro')}</p>
+    {!configured && <p role="alert">{t('account.unavailable')}</p>}
+    {errorKey && <p className="account-error" role="alert">{t(errorKey)}</p>}
+    <button className="primary-action" disabled={busy || !configured} onClick={signIn}><LogIn size={19} />{t(busy ? 'account.busy' : 'account.google')}</button>
+  </AccountFrame>;
+}
+export function FamilySetupPage() {
+  const { user } = useAuth();
+  const { parent, saveParent, createChild, t } = useApp();
+  const [name, setName] = useState(parent?.name || user?.displayName || '');
+  const [childName, setChildName] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+  async function submit(event) {
+    event.preventDefault();
+    if (busy) return;
+    if (!name.trim() || !childName.trim()) { setError('account.nameRequired'); return; }
+    setBusy(true); setError(null);
+    try { await saveParent(name); await createChild(childName); }
+    catch { setError('account.saveError'); }
+    finally { setBusy(false); }
+  }
+  return <AccountFrame>
+    <h1>{t(parent ? 'account.childSetup' : 'account.parentSetup')}</h1>
+    <p>{t('account.childHelp')}</p>
+    <form className="profile-form" onSubmit={submit}>
+      <label>{t('account.parentName')}<input required maxLength={100} autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} /></label>
+      <label>{t('account.childName')}<input required maxLength={100} autoComplete="off" value={childName} onChange={(event) => setChildName(event.target.value)} /></label>
+      {error && <p className="account-error" role="alert">{t(error)}</p>}
+      <button className="primary-action" disabled={busy}>{t(busy ? 'account.busy' : 'account.createChild')}</button>
+    </form>
+    <SignOutButton />
+  </AccountFrame>;
+}

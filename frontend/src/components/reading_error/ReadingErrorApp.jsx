@@ -134,7 +134,7 @@ export default function ReadingErrorApp() {
   // of touching every call site below. There's no in-page language <select>
   // anymore (removed) -- the global header toggle drives this page, same
   // as the grammar-check and fluency-profiling components.
-  const { language: appLanguage } = useApp();
+  const { language: appLanguage, registerReadingRun, t: appT } = useApp();
   const language = appLanguage === "tamil" ? "Tamil" : "Sinhala";
 
   const [selectedTask, setSelectedTask] = useState(
@@ -1146,9 +1146,8 @@ export default function ReadingErrorApp() {
           audioBlob: blob,
         });
 
-      setResult(
-        data
-      );
+      if (data?.status === 'success') await registerReadingRun(data, appLanguage);
+      setResult(data);
 
       if (
         data?.status ===
@@ -1175,11 +1174,7 @@ export default function ReadingErrorApp() {
         "tryAgain"
       );
 
-      alert(
-        language === "Tamil"
-          ? "பகுப்பாய்வு தோல்வியடைந்தது. Backend server ஐ சரிபார்க்கவும்."
-          : "විශ්ලේෂණය අසාර්ථකයි. Backend server එක පරීක්ෂා කරන්න."
-      );
+      alert(appT(error.code === 'history-too-large' ? 'account.historyTooLarge' : error.code === 'history-save-failed' ? 'account.saveError' : 'account.analysisError'));
     } finally {
       setLoading(
         false
@@ -1498,7 +1493,7 @@ export default function ReadingErrorApp() {
                   }
                 >
                   {
-                    task
+                    task.replace(/^Word/, language === 'Tamil' ? 'சொல்' : 'වචනය').replace(/^Sentence/, language === 'Tamil' ? 'வாக்கியம்' : 'වාක්‍යය')
                   }
                 </option>
               )
@@ -2188,9 +2183,7 @@ export default function ReadingErrorApp() {
               "error" && (
 
               <p className="wrong">
-                {language === "Tamil"
-                  ? `பிழை: ${result.message}`
-                  : `දෝෂය: ${result.message}`}
+                {appT("account.analysisError")}
               </p>
 
             )}
