@@ -1,0 +1,264 @@
+"""Direct Google ID-token verification, opaque sessions, and family-data API.
+
+This module never loads .env files. app.py owns normal runtime configuration;
+standalone tests can supply settings, a verifier, and a family store explicitly.
+"""
+from contextlib import contextmanager
+import hashlib
+import os
+import re
+import secrets
+import sqlite3
+import time
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Literal
+
+from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from google.auth.transport.requests import Request as GoogleRequest
+from google.oauth2 import id_token
+from pydantic import BaseModel, Field, StrictBool
+
+PRIVACY_VERSION = "1"
+SESSION_COOKIE = "writebright_session"
+NONCE_COOKIE = "writebright_google_nonce"
+
+
+@dataclass(frozen=True)
+class AccountSettings:
+    google_client_id: str
+    firestore_project_id: str = ""
+    session_db: str = str(Path(__file__).parent / ".sessions" / "accounts.sqlite3")
+    origins: tuple = ("http://localhost:5173", "http://127.0.0.1:5173")
+    secure_cookies: bool = False
+    session_ttl: int = 43200
+
+    @classmethod
+    def from_environment(cls):
+        return cls(
+            google_client_id=os.environ.get("GOOGLE_CLIENT_ID", ""),
+            firestore_project_id=os.environ.get("FIRESTORE_PROJECT_ID", ""),
+            session_db=os.environ.get("ACCOUNT_SESSION_DB", cls.session_db),
+            origins=tuple(value.strip() for value in os.environ.get("FRONTEND_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",") if value.strip()),
+            secure_cookies=os.environ.get("SESSION_COOKIE_SECURE", "false").lower() == "true",
+            session_ttl=43200,
+        )
+
+
+class SessionStore:
+    def __init__(self, path):
+        self.path = path
+        directory = Path(path).parent
+        directory.mkdir(parents=True, exist_ok=True, mode=0o700)
+        with self.connection() as db:
+            db.executescript("""
+                CREATE TABLE IF NOT EXISTS accounts (
+                    subject TEXT PRIMARY KEY, name TEXT NOT NULL, email TEXT NOT NULL,
+                    privacy_version TEXT NOT NULL, accepted_at INTEGER NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS sessions (
+                    token_hash TEXT PRIMARY KEY, subject TEXT NOT NULL,
+                    expires_at INTEGER NOT NULL, new_account INTEGER NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS nonces (
+                    nonce_hash TEXT PRIMARY KEY, expires_at INTEGER NOT NULL
+                );
+            """)
+        os.chmod(path, 0o600)
+
+    @contextmanager
+    def connection(self):
+        db = sqlite3.connect(self.path)
+        db.row_factory = sqlite3.Row
+        try:
+            with db:
+                yield db
+        finally:
+            db.close()
+
+    @staticmethod
+    def digest(value):
+        return hashlib.sha256(value.encode()).hexdigest()
+
+    def nonce(self):
+        value = secrets.token_urlsafe(32)
+        with self.connection() as db:
+            now = int(time.time())
+            db.execute("DELETE FROM nonces WHERE expires_at <= ?", (now,))
+            db.execute("DELETE FROM sessions WHERE expires_at <= ?", (now,))
+            db.execute("INSERT INTO nonces VALUES (?, ?)", (self.digest(value), now + 300))
+        return value
+
+    def consume_nonce(self, value):
+        with self.connection() as db:
+            result = db.execute("DELETE FROM nonces WHERE nonce_hash = ? AND expires_at > ?", (self.digest(value), int(time.time())))
+            return result.rowcount == 1
+
+    def login(self, claims, ttl):
+        token = secrets.token_urlsafe(48)
+        now = int(time.time())
+        with self.connection() as db:
+            new_account = db.execute("SELECT 1 FROM accounts WHERE subject = ?", (claims["sub"],)).fetchone() is None
+            db.execute("INSERT OR REPLACE INTO accounts VALUES (?, ?, ?, ?, ?)", (claims["sub"], claims.get("name", ""), claims.get("email", ""), PRIVACY_VERSION, now))
+            db.execute("INSERT INTO sessions VALUES (?, ?, ?, ?)", (self.digest(token), claims["sub"], now + ttl, int(new_account)))
+        return token, self.user(token)
+
+    def user(self, token):
+        if not token:
+            return None
+        with self.connection() as db:
+            row = db.execute("""SELECT accounts.*, sessions.new_account FROM sessions
+                JOIN accounts ON accounts.subject = sessions.subject
+                WHERE sessions.token_hash = ? AND sessions.expires_at > ?""", (self.digest(token), int(time.time()))).fetchone()
+        if not row:
+            return None
+        return {"uid": row["subject"], "displayName": row["name"], "email": row["email"], "privacyVersion": row["privacy_version"], "privacyAcceptedAt": row["accepted_at"], "newAccount": bool(row["new_account"])}
+
+    def logout(self, token):
+        if token:
+            with self.connection() as db:
+                db.execute("DELETE FROM sessions WHERE token_hash = ?", (self.digest(token),))
+
+
+class GoogleLogin(BaseModel):
+    credential: str = Field(min_length=1, max_length=10000)
+    privacy_accepted: StrictBool
+    privacy_version: str
+
+
+class NamedProfile(BaseModel):
+    name: str = Field(min_length=1, max_length=100)
+
+
+class HistoryRecord(BaseModel):
+    kind: Literal["handwriting", "grammar", "fluency", "reading"]
+    createdAt: str = Field(min_length=1, max_length=40)
+    payload: str = Field(max_length=800000)
+
+
+def create_account_router(settings=None, store=None, verify_token=None, sessions=None):
+    settings = settings or AccountSettings.from_environment()
+    sessions = sessions or SessionStore(settings.session_db)
+    def private_response(response: Response):
+        response.headers['Cache-Control'] = 'no-store'
+    router = APIRouter(dependencies=[Depends(private_response)])
+
+    def origin_check(request: Request):
+        if request.headers.get("origin") not in settings.origins:
+            raise HTTPException(403, "Origin not allowed")
+
+    def current_user(request: Request):
+        user = sessions.user(request.cookies.get(SESSION_COOKIE))
+        if not user:
+            raise HTTPException(401, "Sign in required")
+        return user
+
+    def family_store():
+        nonlocal store
+        if store is None:
+            from family_store import FirestoreFamilyStore
+            try:
+                store = FirestoreFamilyStore(settings.firestore_project_id)
+            except Exception:
+                raise HTTPException(503, "History storage is not configured") from None
+        return store
+
+    def valid_name(profile):
+        name = profile.name.strip()
+        if not name:
+            raise HTTPException(422, "Name required")
+        return name
+
+    @router.get("/auth/nonce")
+    def nonce(response: Response):
+        if not settings.google_client_id:
+            raise HTTPException(503, "Google sign-in is not configured")
+        value = sessions.nonce()
+        response.set_cookie(NONCE_COOKIE, value, max_age=300, httponly=True, secure=settings.secure_cookies, samesite="lax", path="/auth")
+        response.headers["Cache-Control"] = "no-store"
+        return {"nonce": value}
+
+    @router.post("/auth/google", dependencies=[Depends(origin_check)])
+    def google_login(body: GoogleLogin, request: Request, response: Response):
+        if not settings.google_client_id:
+            raise HTTPException(503, "Google sign-in is not configured")
+        if not body.privacy_accepted or body.privacy_version != PRIVACY_VERSION:
+            raise HTTPException(400, "Current privacy notice must be accepted")
+        try:
+            claims = (verify_token or (lambda token, audience: id_token.verify_oauth2_token(token, GoogleRequest(), audience)))(body.credential, settings.google_client_id)
+        except Exception:
+            raise HTTPException(401, "Invalid Google credential") from None
+        if claims.get("iss") not in ("accounts.google.com", "https://accounts.google.com") or claims.get("aud") != settings.google_client_id or claims.get("exp", 0) <= time.time():
+            raise HTTPException(401, "Invalid Google credential")
+        if not isinstance(claims.get("sub"), str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,255}", claims["sub"]) or claims.get("email_verified") is not True:
+            raise HTTPException(401, "Verified Google account required")
+        cookie_nonce = request.cookies.get(NONCE_COOKIE)
+        if not cookie_nonce or not secrets.compare_digest(str(claims.get("nonce", "")), cookie_nonce) or not sessions.consume_nonce(cookie_nonce):
+            raise HTTPException(403, "Invalid or expired sign-in challenge")
+        # Rotate any previous browser session when a parent signs in.
+        sessions.logout(request.cookies.get(SESSION_COOKIE))
+        token, user = sessions.login(claims, settings.session_ttl)
+        response.set_cookie(SESSION_COOKIE, token, max_age=settings.session_ttl, httponly=True, secure=settings.secure_cookies, samesite="lax", path="/")
+        response.delete_cookie(NONCE_COOKIE, path="/auth", secure=settings.secure_cookies, httponly=True, samesite="lax")
+        response.headers["Cache-Control"] = "no-store"
+        return user
+
+    @router.get("/auth/session")
+    def session(response: Response, user=Depends(current_user)):
+        response.headers["Cache-Control"] = "no-store"
+        return user
+
+    @router.post("/auth/logout", dependencies=[Depends(origin_check)])
+    def logout(request: Request, response: Response):
+        sessions.logout(request.cookies.get(SESSION_COOKIE))
+        response.delete_cookie(SESSION_COOKIE, path="/", secure=settings.secure_cookies, httponly=True, samesite="lax")
+        return {"ok": True}
+
+    @router.get("/family/parent")
+    def parent(user=Depends(current_user)):
+        return family_store().get_parent(user["uid"])
+
+    @router.put("/family/parent", dependencies=[Depends(origin_check)])
+    def save_parent(body: NamedProfile, user=Depends(current_user)):
+        return family_store().save_parent(user["uid"], valid_name(body))
+
+    @router.get("/family/children")
+    def children(user=Depends(current_user)):
+        return family_store().list_children(user["uid"])
+
+    @router.post("/family/children", dependencies=[Depends(origin_check)])
+    def add_child(body: NamedProfile, user=Depends(current_user)):
+        return family_store().add_child(user["uid"], valid_name(body))
+
+    @router.patch("/family/children/{child_id}", dependencies=[Depends(origin_check)])
+    def rename_child(child_id: str, body: NamedProfile, user=Depends(current_user)):
+        return family_store().rename_child(user["uid"], child_id, valid_name(body))
+
+    @router.get("/family/children/{child_id}/history")
+    def history(child_id: str, user=Depends(current_user)):
+        return family_store().list_history(user["uid"], child_id)
+
+    @router.post("/family/children/{child_id}/history", dependencies=[Depends(origin_check)])
+    def save_history(child_id: str, body: HistoryRecord, user=Depends(current_user)):
+        if len(body.payload.encode("utf-8")) > 800000:
+            raise HTTPException(413, "Report too large")
+        import json
+        try:
+            decoded = json.loads(body.payload)
+            if not isinstance(decoded, dict):
+                raise ValueError()
+        except ValueError:
+            raise HTTPException(422, "Invalid report") from None
+        return family_store().save_history(user["uid"], child_id, body.model_dump())
+
+    @router.delete("/family/children/{child_id}/history", dependencies=[Depends(origin_check)])
+    def clear_history(child_id: str, user=Depends(current_user)):
+        family_store().clear_history(user["uid"], child_id)
+        return {"ok": True}
+
+    @router.delete("/family/children/{child_id}/history/{record_id}", dependencies=[Depends(origin_check)])
+    def delete_history(child_id: str, record_id: str, user=Depends(current_user)):
+        family_store().delete_history(user["uid"], child_id, record_id)
+        return {"ok": True}
+
+    return router

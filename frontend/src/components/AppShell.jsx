@@ -11,6 +11,7 @@ import {
   Volume2,
 } from 'lucide-react';
 import Logo from './Logo';
+import { PostSignupNotice } from './PrivacyNotice';
 import LanguageToggle from './LanguageToggle';
 import { useApp } from '../context/useApp';
 
@@ -102,6 +103,7 @@ export default function AppShell() {
             </div>
           </header>
         )}
+        <PostSignupNotice />
         <Outlet />
       </main>
 

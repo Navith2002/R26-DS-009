@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { LogIn, LogOut, UserRound } from 'lucide-react';
+import { LogOut, UserRound } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { useApp } from '../context/useApp';
 import LanguageToggle from '../components/LanguageToggle';
 import Logo from '../components/Logo';
+import GoogleSignInButton from '../components/GoogleSignInButton';
+import PrivacyNotice from '../components/PrivacyNotice';
 
 export function SignOutButton() {
   const { logout } = useAuth();
@@ -27,14 +29,15 @@ export function AccountFrame({ children }) {
 }
 export default function AccountPage() {
   const { login, configured } = useAuth();
-  const { language, t } = useApp();
+  const { t } = useApp();
+  const [accepted, setAccepted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [errorKey, setErrorKey] = useState(null);
-  async function signIn() {
+  async function signIn(credential) {
+    if (!accepted || busy) return;
     setBusy(true); setErrorKey(null);
-    try { await login(language); } catch (error) {
-      setErrorKey(error.code === 'auth/popup-blocked' ? 'account.popupBlocked'
-        : error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request' ? 'account.cancelled' : 'account.loginError');
+    try { await login(credential); } catch {
+      setErrorKey('account.loginError');
     } finally { setBusy(false); }
   }
   return <AccountFrame>
@@ -42,7 +45,9 @@ export default function AccountPage() {
     <h1>{t('account.title')}</h1><p>{t('account.intro')}</p>
     {!configured && <p role="alert">{t('account.unavailable')}</p>}
     {errorKey && <p className="account-error" role="alert">{t(errorKey)}</p>}
-    <button className="primary-action" disabled={busy || !configured} onClick={signIn}><LogIn size={19} />{t(busy ? 'account.busy' : 'account.google')}</button>
+    <PrivacyNotice />
+    <label className="privacy-consent"><input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />{t('privacy.accept')}</label>
+    <GoogleSignInButton disabled={busy || !configured || !accepted} onCredential={signIn} onError={() => setErrorKey('account.unavailable')} />
   </AccountFrame>;
 }
 export function FamilySetupPage() {
@@ -64,6 +69,7 @@ export function FamilySetupPage() {
   return <AccountFrame>
     <h1>{t(parent ? 'account.childSetup' : 'account.parentSetup')}</h1>
     <p>{t('account.childHelp')}</p>
+    <PrivacyNotice phase="after" />
     <form className="profile-form" onSubmit={submit}>
       <label>{t('account.parentName')}<input required maxLength={100} autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} /></label>
       <label>{t('account.childName')}<input required maxLength={100} autoComplete="off" value={childName} onChange={(event) => setChildName(event.target.value)} /></label>

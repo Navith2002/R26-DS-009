@@ -1,3 +1,4 @@
+import { privacyTranslations } from './privacyTranslations';
 import { accountTranslations } from './accountTranslations';
 export const UI_LANGUAGES = {
   sinhala: { code: 'sinhala', native: 'සිංහල', short: 'සිං' },
@@ -1005,7 +1006,7 @@ const translations = {
 
 export function translate(language, key, vars = {}) {
   const lang = language === 'tamil' ? 'tamil' : 'sinhala';
-  const template = accountTranslations[lang]?.[key] ?? translations[lang]?.[key] ?? translations.sinhala?.[key] ?? key;
+  const template = privacyTranslations[lang]?.[key] ?? accountTranslations[lang]?.[key] ?? translations[lang]?.[key] ?? translations.sinhala?.[key] ?? key;
   return Object.entries(vars).reduce(
     (text, [name, value]) => text.replaceAll(`{${name}}`, String(value)),
     String(template),

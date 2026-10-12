@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { durableReport, encodeHistory, partitionHistory } from '../src/utils/historyRecord';
+import { privacyTranslations } from '../src/i18n/privacyTranslations';
 import { accountTranslations } from '../src/i18n/accountTranslations';
 import { localizedActivity } from '../src/i18n/fluencyActivities';
 import { translate } from '../src/i18n/translations';
@@ -50,5 +51,14 @@ it('localizes every current assessment activity in Sinhala and Tamil without Eng
       expect(activity.name).not.toMatch(/[a-zA-Z]/);
       expect(script.test(activity.description)).toBe(true);
     }
+  }
+});
+
+it('provides privacy notes and parent acknowledgement in both native scripts', () => {
+  expect(Object.keys(privacyTranslations.tamil).sort()).toEqual(Object.keys(privacyTranslations.sinhala).sort());
+  for (const [language, messages] of Object.entries(privacyTranslations)) {
+    const script = language === 'tamil' ? /[\u0B80-\u0BFF]/ : /[\u0D80-\u0DFF]/;
+    for (const message of Object.values(messages)) expect(script.test(message)).toBe(true);
+    expect(translate(language, 'privacy.accept')).toBe(messages['privacy.accept']);
   }
 });

@@ -1,7 +1,8 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { useAuth } from './auth/AuthContext';
 import { useApp } from './context/useApp';
 import AccountPage, { AccountFrame, FamilySetupPage, SignOutButton } from './pages/AccountPage';
+import PrivacyPage from './pages/PrivacyPage';
 import ReadingResultPage from './pages/ReadingResultPage';
 import AppShell from './components/AppShell';
 import HomePage from './pages/HomePage';
@@ -19,8 +20,10 @@ import FluencyResultPage from './pages/FluencyResultPage';
 import ReadingErrorPage from './pages/ReadingErrorPage';
 
 export default function App() {
+  const location = useLocation();
   const { user, loading, error } = useAuth();
   const { scope, familyLoading, familyError, parent, activeChild, historyLoading, historyError, retryFamily, t } = useApp();
+  if (location.pathname === '/privacy') return <PrivacyPage />;
   if (loading) return <AccountFrame><p role="status">{t('account.busy')}</p></AccountFrame>;
   if (!user) return <><AccountPage />{error && <p role="alert">{t('account.loginError')}</p>}</>;
   if (familyError || historyError) return <AccountFrame><p role="alert">{t('account.loadError')}</p><button className="primary-action" onClick={retryFamily}>{t('account.retry')}</button><SignOutButton /></AccountFrame>;

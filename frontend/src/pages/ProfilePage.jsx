@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useApp } from '../context/useApp';
+import PrivacyNotice from '../components/PrivacyNotice';
 import { SignOutButton } from './AccountPage';
 
 export default function ProfilePage() {
@@ -36,6 +37,7 @@ export default function ProfilePage() {
       <label>{t('account.childName')}<input required maxLength={100} value={newName} onChange={(event) => setNewName(event.target.value)} /></label>
       <button className="primary-action" disabled={busy}>{t('account.createChild')}</button>
     </form>
+    <PrivacyNotice phase="after" />
     <SignOutButton />
   </div>;
 }

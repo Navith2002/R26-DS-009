@@ -1,0 +1,61 @@
+# Direct Google sign-in, parent accounts, and private child history
+
+Authentication uses **Google Identity Services directly**, not Firebase Authentication. The browser sends Google's signed ID token to the Python backend, which verifies its signature, Google issuer, expiry, audience, verified email, and a single-use sign-in nonce. The backend issues an opaque HTTP-only session cookie. No Google tokens or application session tokens are stored in browser localStorage.
+
+Firestore is used only for family profiles and learning history, through the Python backend's Google Cloud credentials. The browser does not connect to Firestore. Parents own named child profiles; children do not need Gmail addresses or passwords.
+
+## Google sign-in configuration
+
+1. In Google Cloud Console, configure the OAuth consent screen and create an **OAuth 2.0 Client ID → Web application**. Add the frontend origin (for development, `http://localhost:5173`, and optionally `http://127.0.0.1:5173`) to **Authorized JavaScript origins**. Add the production frontend origin when deploying. Configure test users if your consent screen is in testing mode.
+2. Put the same client ID in your own configuration files. No OAuth client secret is required for this Google ID-token flow.
+
+`frontend/.env`:
+
+```dotenv
+VITE_GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+# Leave empty when using the Vite development proxy or a same-origin production proxy.
+VITE_ACCOUNT_API_BASE_URL=
+VITE_API_BASE_URL=http://127.0.0.1:8000
+```
+
+`backend/.env`:
+
+```dotenv
+GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+FIRESTORE_PROJECT_ID=your_google_cloud_project_id
+GOOGLE_APPLICATION_CREDENTIALS=/absolute/private/path/to/firestore-service-account.json
+FRONTEND_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+SESSION_COOKIE_SECURE=false
+# Optional: default is backend/.sessions/accounts.sqlite3.
+# ACCOUNT_SESSION_DB=/private/persistent/path/accounts.sqlite3
+```
+
+Neither `.env` file nor any credential file was accessed during implementation. Client IDs are public identifiers. Service-account JSON belongs only on the server; never put private keys or service-account details in `VITE_` variables, the repository, or chat.
+
+## Firestore storage
+
+Create a Firestore database in the selected Google Cloud project. Provide the backend with Application Default Credentials: a deployment workload identity/service account with Firestore access, or for local development a private service-account file referenced by `GOOGLE_APPLICATION_CREDENTIALS`. Grant only the needed Firestore data permissions (for example `roles/datastore.user`). Deploy `firestore.rules` using the database's Rules panel or the Firebase CLI. These rules deny every browser read/write; the backend uses Google Cloud IAM instead of Firebase Authentication.
+
+Data paths remain `parents/{googleSubject}/children/{childId}/history/{recordId}`. The parent identifier is Google's verified `sub`, not a Firebase UID and not an email address. Existing records previously saved under Firebase UIDs are preserved but require an explicit administrative migration to Google subject IDs; this implementation does not silently reassign them.
+
+Histories contain report text, measurements, and recommendations. Original photos, embedded line images, audio, and temporary output URLs are excluded from Firestore reports. Analysis inputs and generated files may still remain on the existing analysis server; deleting a Firestore report does not remove those files. History deletion supports individual reports and all reports for the selected child, using batches of 400 on the server. Other children's reports are unaffected. Child data is authorized from the backend session; browser-supplied parent IDs are never trusted.
+
+## Run
+
+From `backend`, install requirements, then run `python -m uvicorn app:app --host 127.0.0.1 --port 8000`. From `frontend`, run `npm ci --registry=https://registry.npmjs.org --replace-registry-host=always`, then `npm run dev`. Restart both after editing their configuration.
+
+Vite proxies `/auth` and `/family` to the backend, keeping cookies on the frontend origin in development. Keep these routes on the same origin behind your production reverse proxy, or use same-site HTTPS frontend/backend hosts and configure `VITE_ACCOUNT_API_BASE_URL` and `FRONTEND_ORIGINS` accordingly. Cross-site hosting is not supported by the session cookie's `SameSite=Lax` policy. Set `SESSION_COOKIE_SECURE=true` in production and use HTTPS. Persist the private session database, which contains hashed session tokens, parent identity metadata, and privacy-consent records. Session lifetime is 12 hours; logout invalidates the server session.
+
+The existing analysis API remains a separate local service. Family/history endpoints enforce the Google session; existing analysis/output endpoints have their original access behavior. Secure analysis endpoints and uploaded-file retention before publicly exposing that service.
+
+## Privacy and language
+
+Sinhala is the default, and the shared switcher changes account screens, consent, privacy notes, and sign-out to Tamil. Google's own sign-in widget receives the selected locale; provider-controlled screens use the locales Google supports.
+
+Before Google account creation, a visible privacy note explains Google identity information, child names, reports, storage, analysis uploads, and deletion. A parent/guardian acknowledgement is required before enabling Google sign-in. The server records acknowledgement of notice version 1. A notice is also shown immediately after signup, during first child-profile setup, and on the profile page. The full `/privacy` page is accessible before sign-in. Supply your actual administrator contact and review your deployed retention policy before publishing the app; the notice describes current behavior and does not claim legal certification.
+
+## Verification
+
+From `frontend`, run `npm test` and `npm run build`. From `backend`, run `python -m pytest tests/test_google_accounts.py -q`. Backend tests use locally signed test tokens and mocked Google public-key responses to exercise the real Google verifier, plus isolated session databases and an in-memory family store. They do not load `.env` or access live Google/Firestore accounts.
+
+Live verification still requires your real Google client ID, authorized origins, and backend Firestore credentials: sign in, create two children, save reports, reload, switch children, delete one child's history, verify the other child's data, and sign out. Restricted network environments must allow `accounts.google.com`, `www.googleapis.com` (Google ID-token signing certificates), and your Google Cloud Firestore/credential endpoints.

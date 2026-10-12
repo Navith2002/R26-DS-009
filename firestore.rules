@@ -1,36 +1,10 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function owner(uid) {
-      return request.auth != null && request.auth.uid == uid;
-    }
-    function namedProfile(data) {
-      return data.keys().hasAll(['name', 'createdAt'])
-        && data.keys().hasOnly(['name', 'createdAt'])
-        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
-        && data.createdAt is string && data.createdAt.size() <= 40;
-    }
-    match /parents/{uid} {
-      allow read: if owner(uid);
-      allow create, update: if owner(uid) && namedProfile(request.resource.data);
-      match /children/{childId} {
-        allow read: if owner(uid);
-        allow create, update: if owner(uid)
-          && exists(/databases/$(database)/documents/parents/$(uid))
-          && namedProfile(request.resource.data);
-        match /history/{recordId} {
-          allow read, delete: if owner(uid);
-          allow create: if owner(uid)
-            && exists(/databases/$(database)/documents/parents/$(uid)/children/$(childId))
-            && request.resource.data.keys().hasAll(['kind', 'createdAt', 'payload'])
-            && request.resource.data.keys().hasOnly(['kind', 'createdAt', 'payload'])
-            && request.resource.data.kind in ['handwriting', 'grammar', 'fluency', 'reading']
-            && request.resource.data.createdAt is string
-            && request.resource.data.createdAt.size() <= 40
-            && request.resource.data.payload is string
-            && request.resource.data.payload.size() <= 800000;
-        }
-      }
+    // Family data is accessed only by the authenticated Python backend,
+    // using scoped Google Cloud IAM credentials. No public browser access.
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

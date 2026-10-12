@@ -12,3 +12,4 @@ uploads
 venv
 node_modules
 models
+backend/.sessions/

@@ -67,7 +67,7 @@ export function AppProvider({ children }) {
     return id;
   }
   async function persist(kind, entry) {
-    if (!scope || !activeChild) throw new Error('child-required');
+    if (!scope || !activeChild || scopeRef.current !== scope) throw new Error('child-required');
     const requestScope = scope;
     let saved;
     try { saved = await familyStore.saveRun(uid, activeChild.id, kind, entry); }

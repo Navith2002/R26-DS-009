@@ -20,3 +20,11 @@
 .account-confirm::backdrop { background:#24304780; }
 .account-confirm p { line-height:1.8; margin-bottom:22px; }
 .account-confirm-actions { display:flex; justify-content:flex-end; gap:12px; }
+.privacy-notice { padding:18px; border:1px solid #d9e3dd; border-radius:16px; background:#f4f9f4; font-size:14px; line-height:1.8; }
+.privacy-notice h3 { font-size:17px; margin-bottom:12px; }
+.privacy-notice p { margin-bottom:10px; }
+.privacy-consent { display:flex; gap:12px; align-items:flex-start; line-height:1.8; font-size:14px; }
+.privacy-consent input { margin-top:6px; width:20px; height:20px; flex-shrink:0; }
+.post-signup-notice { margin:0 0 24px; }
+.post-signup-notice > button { margin-top:10px; }
+.google-direct-signin { display:flex; flex-direction:column; gap:12px; align-items:flex-start; }

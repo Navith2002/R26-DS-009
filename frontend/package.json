@@ -7,12 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run",
-    "test:rules": "firebase emulators:exec --config ../firebase.json --project demo-writebright --only firestore \"vitest run tests/firestore.test.js\""
+    "test": "vitest run"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
-    "firebase": "13.0.0",
     "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest",
@@ -23,10 +21,8 @@
     "@rolldown/binding-win32-x64-msvc": "^1.2.6"
   },
   "devDependencies": {
-    "@firebase/rules-unit-testing": "6.0.0",
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.7",
-    "firebase-tools": "15.33.0",
     "jsdom": "30.1.2",
     "vitest": "5.0.4"
   }

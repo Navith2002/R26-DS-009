@@ -11,11 +11,15 @@ import App from '../src/App';
 import { LanguageProvider, useLanguage } from '../src/context/FluencyLanguageContext';
 
 const mocks = vi.hoisted(() => ({
-  auth: { user: null, configured: true, loading: false, login: vi.fn(), logout: vi.fn() },
+  auth: { user: null, configured: true, loading: false, login: vi.fn(), logout: vi.fn(), privacyNoticePending: false, dismissPrivacyNotice: vi.fn() },
   listeners: { parent: [], children: [], history: [] },
   addChild: vi.fn(), saveParent: vi.fn(), saveRun: vi.fn(), deleteRun: vi.fn(), deleteAllRuns: vi.fn(),
 }));
 vi.mock('../src/auth/AuthContext', () => ({ useAuth: () => mocks.auth }));
+vi.mock('../src/components/GoogleSignInButton', () => ({ default: ({ onCredential, disabled }) => {
+  const { t } = useApp();
+  return <button disabled={disabled} onClick={() => onCredential('signed-google-token')}>{t('account.google')}</button>;
+} }));
 vi.mock('../src/services/familyStore', () => ({
   watchParent: (uid, next) => { mocks.listeners.parent.push({ uid, next }); return vi.fn(); },
   watchChildren: (uid, next) => { mocks.listeners.children.push({ uid, next }); return vi.fn(); },
@@ -26,7 +30,8 @@ vi.mock('../src/services/familyStore', () => ({
 }));
 let context;
 function Probe() { context = useApp(); return <span data-testid="records">{context.history.map((item) => item.id).join(',')}</span>; }
-function fixture(children = <Probe />) { return render(<AppProvider>{children}</AppProvider>); }
+function tree(children, route = '/') { return <MemoryRouter initialEntries={[route]}><AppProvider>{children}</AppProvider></MemoryRouter>; }
+function fixture(children = <Probe />, route = '/') { return render(tree(children, route)); }
 function emitFamily(uid = 'parent-a') {
   act(() => {
     mocks.listeners.parent.findLast((item) => item.uid === uid).next({ name: 'Parent' });
@@ -40,6 +45,7 @@ Object.defineProperty(HTMLDialogElement.prototype, 'close', { configurable: true
 beforeEach(() => {
   localStorage.clear(); context = null;
   mocks.auth.user = null;
+  mocks.auth.privacyNoticePending = false;
   Object.values(mocks.listeners).forEach((items) => items.splice(0));
   mocks.auth.login.mockReset(); mocks.auth.logout.mockReset();
   mocks.saveParent.mockReset(); mocks.addChild.mockReset(); mocks.saveRun.mockReset();
@@ -54,14 +60,16 @@ describe('localized parent screens', () => {
     fireEvent.click(screen.getByRole('button', { name: /தமிழ்/ }));
     expect(screen.getByRole('button', { name: /Google/ }).textContent).toMatch(/[\u0B80-\u0BFF]/);
     expect(document.documentElement.lang).toBe('ta');
+    fireEvent.click(screen.getByRole('checkbox'));
     fireEvent.click(screen.getByRole('button', { name: /Google/ }));
-    await waitFor(() => expect(mocks.auth.login).toHaveBeenCalledWith('tamil'));
+    await waitFor(() => expect(mocks.auth.login).toHaveBeenCalledWith('signed-google-token'));
     fireEvent.click(screen.getByRole('button', { name: 'வெளியேறவும்' }));
     await waitFor(() => expect(mocks.auth.logout).toHaveBeenCalled());
   });
-  it('shows a localized popup error rather than Firebase English', async () => {
-    mocks.auth.login.mockRejectedValue({ code: 'auth/popup-blocked', message: 'English SDK error' });
+  it('localizes a failed direct Google sign-in without exposing English server errors', async () => {
+    mocks.auth.login.mockRejectedValue({ status: 401, message: 'English SDK error' });
     fixture(<AccountPage />);
+    fireEvent.click(screen.getByRole('checkbox'));
     fireEvent.click(screen.getByRole('button', { name: /Google/ }));
     await waitFor(() => expect(screen.getByRole('alert').textContent).toMatch(/[\u0D80-\u0DFF]/));
     expect(screen.queryByText('English SDK error')).toBeNull();
@@ -102,11 +110,11 @@ describe('child and parent history isolation', () => {
     mocks.auth.user = { uid: 'parent-a' }; const view = fixture(); emitFamily();
     act(() => mocks.listeners.history.at(-1).next([record('private-a')]));
     mocks.auth.user = null;
-    view.rerender(<AppProvider><Probe /></AppProvider>);
+    view.rerender(tree(<Probe />));
     expect(context.history).toEqual([]);
     expect(context.activeChild).toBeNull();
     mocks.auth.user = { uid: 'parent-b' };
-    view.rerender(<AppProvider><Probe /></AppProvider>);
+    view.rerender(tree(<Probe />));
     expect(context.history).toEqual([]);
     emitFamily('parent-b');
     expect(mocks.listeners.history.at(-1).uid).toBe('parent-b');
@@ -150,7 +158,7 @@ describe('history deletion controls', () => {
   it('can clear grammar-only history with a Tamil confirmation, and cancel safely', async () => {
     mocks.auth.user = { uid: 'parent-a' };
     const user = userEvent.setup();
-    fixture(<><Probe /><MemoryRouter><HistoryPage /></MemoryRouter></>); emitFamily();
+    fixture(<><Probe /><HistoryPage /></>); emitFamily();
     act(() => {
       mocks.listeners.history.at(-1).next([{ ...record('grammar-a'), kind: 'grammar', total: 1, correct: 1, language: 'si' }]);
       context.setLanguage('tamil');
@@ -168,7 +176,7 @@ describe('history deletion controls', () => {
   it('deletes a single report only after native-language confirmation', async () => {
     mocks.auth.user = { uid: 'parent-a' };
     const user = userEvent.setup();
-    fixture(<><Probe /><MemoryRouter><HistoryPage /></MemoryRouter></>); emitFamily();
+    fixture(<><Probe /><HistoryPage /></>); emitFamily();
     act(() => mocks.listeners.history.at(-1).next([record('private-a')]));
     await user.click(screen.getByRole('button', { name: 'මකන්න' }));
     expect(mocks.deleteRun).not.toHaveBeenCalled();
@@ -181,10 +189,34 @@ describe('history deletion controls', () => {
 it('opens a returning child fluency dashboard using private history and the current interface language', async () => {
   mocks.auth.user = { uid: 'parent-a' };
   localStorage.setItem('writebright_language_v1', 'tamil');
-  fixture(<><Probe /><MemoryRouter initialEntries={['/fluency']}><App /></MemoryRouter></>); emitFamily();
+  fixture(<><Probe /><App /></>, '/fluency'); emitFamily();
   act(() => mocks.listeners.history.at(-1).next([{ id: 'private-fluency', kind: 'fluency', createdAt: '2026-10-12', result: { fluency_label: 'Fluent', profile_name: 'Accurate', skill_4d: {}, weakest: [], cer: 0, wer: 0 } }]));
   fireEvent.submit(document.querySelector('form.profile-form'));
   expect(document.querySelector('.fluency-scope').getAttribute('lang')).toBe('ta');
   expect(screen.queryByText('Accurate')).toBeNull();
   expect(screen.getByText('சரியாக வாசிப்பவர்')).toBeTruthy();
+});
+
+it('shows the privacy note and requires acknowledgement before Google sign-in', () => {
+  fixture(<AccountPage />);
+  expect(screen.getByRole('region', { name: 'පෞද්ගලිකත්ව සටහන' })).toBeTruthy();
+  expect(screen.getByRole('button', { name: /Google/ }).disabled).toBe(true);
+  fireEvent.click(screen.getByRole('button', { name: /Google/ }));
+  expect(mocks.auth.login).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole('checkbox'));
+  expect(screen.getByRole('button', { name: /Google/ }).disabled).toBe(false);
+});
+
+it('shows the after-signup privacy note before the first child account is created', () => {
+  mocks.auth.user = { uid: 'google-parent', displayName: 'Parent', newAccount: true };
+  fixture(<FamilySetupPage />);
+  expect(screen.getByText('ඔබේ ගිණුම සෑදී ඇත — ඔබේ දත්ත ගැන')).toBeTruthy();
+});
+
+it('makes the full privacy page available before sign-in in Tamil', () => {
+  localStorage.setItem('writebright_language_v1', 'tamil');
+  fixture(<App />, '/privacy');
+  expect(screen.getByRole('heading', { name: 'தனியுரிமைக் குறிப்பு' })).toBeTruthy();
+  expect(screen.getByText(/Gmail செய்திகள்/)).toBeTruthy();
+  expect(screen.getByText(/பகுப்பாய்வுச் சேவையகத்துக்கு/)).toBeTruthy();
 });
