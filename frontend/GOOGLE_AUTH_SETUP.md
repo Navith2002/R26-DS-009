@@ -59,3 +59,15 @@ Before Google account creation, a visible privacy note explains Google identity 
 From `frontend`, run `npm test` and `npm run build`. From `backend`, run `python -m pytest tests/test_google_accounts.py -q`. Backend tests use locally signed test tokens and mocked Google public-key responses to exercise the real Google verifier, plus isolated session databases and an in-memory family store. They do not load `.env` or access live Google/Firestore accounts.
 
 Live verification still requires your real Google client ID, authorized origins, and backend Firestore credentials: sign in, create two children, save reports, reload, switch children, delete one child's history, verify the other child's data, and sign out. Restricted network environments must allow `accounts.google.com`, `www.googleapis.com` (Google ID-token signing certificates), and your Google Cloud Firestore/credential endpoints.
+
+## Diagnose a rejected returning sign-in
+
+`GET /auth/session` returning 401 while signed out is normal. `POST /auth/google` returning 401 means a Google credential was rejected. The backend logs only a safe reason code, never the token or personal information:
+
+- `google_client_mismatch`: use the same Web client ID in frontend and backend, then restart both. The sign-in widget also checks this before opening Google.
+- `google_clock_error`: synchronize the backend machine's clock. A 30-second tolerance supports small differences on newly issued tokens; signatures and expiration remain checked.
+- `google_token_expired` or `google_challenge_expired`: make a fresh Google sign-in attempt.
+- `google_verification_unavailable` (503): the backend cannot verify with Google's signing-key service. Check connectivity to `www.googleapis.com`, trusted certificates, and any firewall/proxy. Never disable TLS verification.
+- `google_credential_invalid` or `google_account_unverified`: the returned token or Google account did not pass verification.
+
+Returning parents use the same Google sign-in button and their original verified Google identity. They do not need to create a second parent account. Share only the reason code when troubleshooting, not Google credentials, cookies or .env contents.

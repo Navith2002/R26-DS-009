@@ -8,7 +8,7 @@ vi.mock('../src/auth/AuthContext', () => ({ googleClientId: 'test-client.apps.go
 vi.mock('../src/context/useApp', () => ({ useApp: () => ({ language: state.language, t: (key) => key }) }));
 vi.mock('../src/services/accountApi', () => ({ getGoogleNonce: () => state.nonce() }));
 beforeEach(() => {
-  state.language = 'sinhala'; state.nonce.mockReset(); state.nonce.mockResolvedValue({ nonce: 'single-use-backend-nonce' });
+  state.language = 'sinhala'; state.nonce.mockReset(); state.nonce.mockResolvedValue({ nonce: 'single-use-backend-nonce', client_id: 'test-client.apps.googleusercontent.com' });
   window.google = { accounts: { id: { initialize: vi.fn(), renderButton: vi.fn() } } };
 });
 afterEach(() => { cleanup(); delete window.google; });
@@ -27,5 +27,13 @@ it('uses the direct Google SDK with the server nonce and selected Tamil locale',
 it('does not contact Google or request a nonce before privacy acknowledgement', () => {
   render(<GoogleSignInButton onCredential={vi.fn()} onError={vi.fn()} disabled />);
   expect(state.nonce).not.toHaveBeenCalled();
+  expect(window.google.accounts.id.initialize).not.toHaveBeenCalled();
+});
+it('blocks Google initialization when frontend and backend use different client IDs', async () => {
+  state.nonce.mockResolvedValue({ nonce: 'fresh-nonce', client_id: 'different-client.apps.googleusercontent.com' });
+  const error = vi.fn();
+  render(<GoogleSignInButton onCredential={vi.fn()} onError={error} disabled={false} />);
+  await waitFor(() => expect(error).toHaveBeenCalled());
+  expect(error.mock.calls[0][0].code).toBe('google_client_mismatch');
   expect(window.google.accounts.id.initialize).not.toHaveBeenCalled();
 });

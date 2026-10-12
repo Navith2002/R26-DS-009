@@ -20,3 +20,14 @@ it('clears an expired family session without exposing raw server errors', async 
   expect(expired).toHaveBeenCalledOnce();
   window.removeEventListener('writebright:session-ended', expired);
 });
+it('preserves only approved sign-in reason codes for localized error messages', async () => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 401, json: async () => ({ detail: { code: 'google_clock_error', token: 'private-token' } }) }));
+  await expect(accountRequest('/auth/google')).rejects.toMatchObject({ code: 'google_clock_error', status: 401 });
+});
+it('does not expose arbitrary server details as a sign-in reason', async () => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 401, json: async () => ({ detail: { code: 'private-token' } }) }));
+  try { await accountRequest('/auth/google'); } catch (error) {
+    expect(error.code).toBeUndefined();
+    expect(error.message).not.toContain('private-token');
+  }
+});

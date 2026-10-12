@@ -31,15 +31,20 @@ export default function GoogleSignInButton({ onCredential, onError, disabled }) 
     if (disabled) return;
     let alive = true;
     setLoading(true); setFailed(false);
-    Promise.all([loadGoogleIdentity(), getGoogleNonce()]).then(([google, { nonce }]) => {
+    Promise.all([loadGoogleIdentity(), getGoogleNonce()]).then(([google, { nonce, client_id: backendClientId }]) => {
       if (!alive) return;
+      if (backendClientId && backendClientId !== googleClientId) {
+        const error = new Error('Google sign-in settings mismatch');
+        error.code = 'google_client_mismatch';
+        throw error;
+      }
       google.initialize({ client_id: googleClientId, nonce, auto_select: false, callback: (response) => {
         if (alive) callback.current(response.credential);
       } });
       ref.current.replaceChildren();
       google.renderButton(ref.current, { type: 'standard', theme: 'outline', size: 'large', text: 'continue_with', locale: language === 'tamil' ? 'ta' : 'si', width: 320 });
       setLoading(false);
-    }).catch(() => { if (alive) { setFailed(true); setLoading(false); failure.current(); } });
+    }).catch((error) => { if (alive) { setFailed(true); setLoading(false); failure.current(error); } });
     return () => { alive = false; };
   }, [language, disabled, retry]);
   if (disabled) return <button className="primary-action" disabled>{t('account.google')}</button>;

@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { endSession, exchangeGoogleCredential, getSession } from '../services/accountApi';
 
 const AuthContext = createContext(null);
-export const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+export const googleClientId = (import.meta.env.VITE_GOOGLE_CLIENT_ID || '').trim();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);

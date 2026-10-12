@@ -11,7 +11,7 @@ from fastapi.testclient import TestClient
 from google.auth import crypt, jwt
 from google.oauth2 import id_token
 
-from google_accounts import AccountSettings, NONCE_COOKIE, PRIVACY_VERSION, SESSION_COOKIE, SessionStore, create_account_router
+from google_accounts import AccountSettings, NONCE_COOKIE, PRIVACY_VERSION, SESSION_COOKIE, SessionStore, create_account_router, verify_google_credential
 
 ORIGIN = "http://localhost:5173"
 CLIENT_ID = "test-client.apps.googleusercontent.com"
@@ -79,7 +79,7 @@ def system(tmp_path):
         return SimpleNamespace(status=200, data=json.dumps({"test-key": public}).encode())
 
     def verify(token, audience):
-        return id_token.verify_oauth2_token(token, certificate_request, audience)
+        return verify_google_credential(token, audience, certificate_request)
 
     sessions = SessionStore(str(tmp_path / "sessions.sqlite3"))
     store = MemoryFamilyStore()
@@ -221,3 +221,37 @@ def test_production_cookie_flags_and_private_family_responses(system):
         cookie = response.headers.get_list("set-cookie")[0]
         assert "Secure" in cookie and "HttpOnly" in cookie
         assert client.get("/family/parent").headers["cache-control"] == "no-store"
+
+
+@pytest.mark.parametrize("overrides,code", [
+    ({"aud": "wrong-client"}, "google_client_mismatch"),
+    ({"exp": 1}, "google_token_expired"),
+    ({"iat": int(time.time()) + 120}, "google_clock_error"),
+])
+def test_verification_failures_have_safe_actionable_reasons(system, overrides, code, caplog):
+    token = system.token(**overrides)
+    response = system.client.post("/auth/google", json=body(token))
+    assert response.status_code == 401
+    assert response.json()["detail"]["code"] == code
+    assert token not in caplog.text
+    assert "parent@example.test" not in caplog.text
+    assert CLIENT_ID not in caplog.text
+
+
+def test_small_clock_skew_does_not_block_a_fresh_valid_google_token(system):
+    response = system.client.post("/auth/google", json=body(system.token(iat=int(time.time()) + 15)))
+    assert response.status_code == 200
+
+
+def test_google_key_fetch_failure_is_not_reported_as_bad_credentials(system, caplog):
+    from google.auth.exceptions import TransportError
+    def unavailable(token, audience):
+        raise TransportError("secret transport details")
+    app = FastAPI()
+    app.include_router(create_account_router(system.settings, store=system.store, sessions=system.sessions, verify_token=unavailable))
+    with TestClient(app, headers={"Origin": ORIGIN}) as client:
+        response = client.post("/auth/google", json=body("private-token"))
+    assert response.status_code == 503
+    assert response.json()["detail"]["code"] == "google_verification_unavailable"
+    assert "private-token" not in caplog.text
+    assert "secret transport details" not in caplog.text

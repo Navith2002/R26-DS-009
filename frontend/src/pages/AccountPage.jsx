@@ -27,6 +27,13 @@ export function AccountFrame({ children }) {
     <section className="account-card result-card">{children}</section>
   </main>;
 }
+const loginErrorKeys = {
+  google_client_mismatch: 'account.clientMismatch',
+  google_token_expired: 'account.loginExpired',
+  google_clock_error: 'account.loginClock',
+  google_verification_unavailable: 'account.googleUnavailable',
+  google_challenge_expired: 'account.loginExpired',
+};
 export default function AccountPage() {
   const { login, configured } = useAuth();
   const { t } = useApp();
@@ -36,8 +43,8 @@ export default function AccountPage() {
   async function signIn(credential) {
     if (!accepted || busy) return;
     setBusy(true); setErrorKey(null);
-    try { await login(credential); } catch {
-      setErrorKey('account.loginError');
+    try { await login(credential); } catch (error) {
+      setErrorKey(loginErrorKeys[error.code] || 'account.loginError');
     } finally { setBusy(false); }
   }
   return <AccountFrame>
@@ -47,7 +54,7 @@ export default function AccountPage() {
     {errorKey && <p className="account-error" role="alert">{t(errorKey)}</p>}
     <PrivacyNotice />
     <label className="privacy-consent"><input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />{t('privacy.accept')}</label>
-    <GoogleSignInButton disabled={busy || !configured || !accepted} onCredential={signIn} onError={() => setErrorKey('account.unavailable')} />
+    <GoogleSignInButton disabled={busy || !configured || !accepted} onCredential={signIn} onError={(error) => setErrorKey(loginErrorKeys[error?.code] || 'account.unavailable')} />
   </AccountFrame>;
 }
 export function FamilySetupPage() {

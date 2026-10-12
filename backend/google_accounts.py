@@ -5,6 +5,7 @@ standalone tests can supply settings, a verifier, and a family store explicitly.
 """
 from contextlib import contextmanager
 import hashlib
+import logging
 import os
 import re
 import secrets
@@ -15,9 +16,31 @@ from pathlib import Path
 from typing import Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from google.auth import exceptions as google_errors
 from google.auth.transport.requests import Request as GoogleRequest
 from google.oauth2 import id_token
 from pydantic import BaseModel, Field, StrictBool
+
+logger = logging.getLogger("uvicorn.error")
+
+
+def verify_google_credential(credential, audience, request=None):
+    if request is None:
+        transport = GoogleRequest()
+        def request(url, **kwargs):
+            kwargs.setdefault("timeout", 10)
+            return transport(url, **kwargs)
+    # Google's verifier supports small clock differences for freshly issued
+    # tokens. Signature, issuer, audience and the final expiry check remain.
+    return id_token.verify_oauth2_token(credential, request, audience, clock_skew_in_seconds=30)
+
+
+def reject_google(code, status=401):
+    # Log only an allowlisted reason, never the token, email, client ID or
+    # underlying exception (which can contain credential material).
+    logger.warning("Google sign-in rejected: %s", code)
+    raise HTTPException(status, detail={"code": code})
+
 
 PRIVACY_VERSION = "1"
 SESSION_COOKIE = "writebright_session"
@@ -36,7 +59,7 @@ class AccountSettings:
     @classmethod
     def from_environment(cls):
         return cls(
-            google_client_id=os.environ.get("GOOGLE_CLIENT_ID", ""),
+            google_client_id=os.environ.get("GOOGLE_CLIENT_ID", "").strip(),
             firestore_project_id=os.environ.get("FIRESTORE_PROJECT_ID", ""),
             session_db=os.environ.get("ACCOUNT_SESSION_DB", cls.session_db),
             origins=tuple(value.strip() for value in os.environ.get("FRONTEND_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",") if value.strip()),
@@ -176,7 +199,7 @@ def create_account_router(settings=None, store=None, verify_token=None, sessions
         value = sessions.nonce()
         response.set_cookie(NONCE_COOKIE, value, max_age=300, httponly=True, secure=settings.secure_cookies, samesite="lax", path="/auth")
         response.headers["Cache-Control"] = "no-store"
-        return {"nonce": value}
+        return {"nonce": value, "client_id": settings.google_client_id}
 
     @router.post("/auth/google", dependencies=[Depends(origin_check)])
     def google_login(body: GoogleLogin, request: Request, response: Response):
@@ -185,16 +208,31 @@ def create_account_router(settings=None, store=None, verify_token=None, sessions
         if not body.privacy_accepted or body.privacy_version != PRIVACY_VERSION:
             raise HTTPException(400, "Current privacy notice must be accepted")
         try:
-            claims = (verify_token or (lambda token, audience: id_token.verify_oauth2_token(token, GoogleRequest(), audience)))(body.credential, settings.google_client_id)
+            claims = (verify_token or verify_google_credential)(body.credential, settings.google_client_id)
+        except google_errors.TransportError:
+            reject_google("google_verification_unavailable", 503)
+        except (google_errors.GoogleAuthError, ValueError) as error:
+            message = str(error)
+            if message.startswith("Token has wrong audience"):
+                reject_google("google_client_mismatch")
+            if message.startswith("Token expired"):
+                reject_google("google_token_expired")
+            if message.startswith("Token used too early"):
+                reject_google("google_clock_error")
+            reject_google("google_credential_invalid")
         except Exception:
-            raise HTTPException(401, "Invalid Google credential") from None
-        if claims.get("iss") not in ("accounts.google.com", "https://accounts.google.com") or claims.get("aud") != settings.google_client_id or claims.get("exp", 0) <= time.time():
-            raise HTTPException(401, "Invalid Google credential")
+            reject_google("google_verification_unavailable", 503)
+        if claims.get("aud") != settings.google_client_id:
+            reject_google("google_client_mismatch")
+        if claims.get("iss") not in ("accounts.google.com", "https://accounts.google.com"):
+            reject_google("google_credential_invalid")
+        if claims.get("exp", 0) <= time.time():
+            reject_google("google_token_expired")
         if not isinstance(claims.get("sub"), str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,255}", claims["sub"]) or claims.get("email_verified") is not True:
-            raise HTTPException(401, "Verified Google account required")
+            reject_google("google_account_unverified")
         cookie_nonce = request.cookies.get(NONCE_COOKIE)
         if not cookie_nonce or not secrets.compare_digest(str(claims.get("nonce", "")), cookie_nonce) or not sessions.consume_nonce(cookie_nonce):
-            raise HTTPException(403, "Invalid or expired sign-in challenge")
+            reject_google("google_challenge_expired", 403)
         # Rotate any previous browser session when a parent signs in.
         sessions.logout(request.cookies.get(SESSION_COOKIE))
         token, user = sessions.login(claims, settings.session_ttl)

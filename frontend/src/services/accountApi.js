@@ -1,5 +1,6 @@
 const BASE = (import.meta.env.VITE_ACCOUNT_API_BASE_URL || '').replace(/\/$/, '');
 export const PRIVACY_VERSION = '1';
+const safeCodes = new Set(['google_client_mismatch', 'google_token_expired', 'google_clock_error', 'google_verification_unavailable', 'google_credential_invalid', 'google_account_unverified', 'google_challenge_expired']);
 
 export async function accountRequest(path, options = {}) {
   const response = await fetch(`${BASE}${path}`, {
@@ -12,6 +13,10 @@ export async function accountRequest(path, options = {}) {
     if (response.status === 401 && path.startsWith('/family/')) window.dispatchEvent(new Event('writebright:session-ended'));
     const error = new Error('Account request failed');
     error.status = response.status;
+    try {
+      const payload = await response.json();
+      if (safeCodes.has(payload?.detail?.code)) error.code = payload.detail.code;
+    } catch { /* Non-JSON failures still use a localized fallback. */ }
     throw error;
   }
   return response.json();
