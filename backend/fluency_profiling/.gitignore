@@ -1,0 +1,34 @@
+# --- Python / Backend ---
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# Secrets - never commit
+serviceAccountKey.json
+*.env
+.env
+
+# Large / generated audio & model artifacts (adjust as needed)
+Backend/raw_audio/
+Backend/processed/
+Backend/dataset_clean/
+Backend/pipeline_output/
+converted_audio_*
+temp_audio_*
+uploaded_audio_*
+*.wav
+
+# --- Node / Frontend ---
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+*.local
+
+# --- OS / Editor ---
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/

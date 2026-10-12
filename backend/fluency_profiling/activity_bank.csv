@@ -1,0 +1,26 @@
+ACT_ID,Name,Target_Skill,Difficulty,Description,reading_instruction,sentence_source,reading_mode
+ACT001,Echo reading,Fluency,Beginner,Read each sentence aloud at a natural pace focusing on rhythm and flow,Read this sentence aloud clearly and naturally,standard_68,normal
+ACT002,Timed reading,Fluency,Intermediate,Read sentences as fast and accurately as possible to build reading speed,Read as fast and accurately as you can,standard_68,timed
+ACT003,Repeated reading,Fluency,Intermediate,Read the same sentence three times aiming to be smoother and faster each time,Read this sentence — aim to be smoother and faster each time,standard_68,repeated
+ACT004,Fluency building,Fluency,Advanced,Read a full set of sentences in one session tracking total time and errors,Read each sentence clearly — your total time and accuracy will be measured,standard_68,timed
+ACT005,Short sentence fluency,Fluency,Beginner,Build reading speed using short sentences before moving to longer ones,Read this short sentence quickly and clearly,short_only,timed
+ACT006,Steady pace reading,Fluency,Beginner,Read each sentence at a slow and steady pace to build consistent rhythm,Read at a slow and steady pace — do not rush,standard_68,slow
+ACT007,Whisper reading,Hesitation,Beginner,Read each sentence silently to yourself first then say it aloud confidently,Read silently first — then say it aloud clearly,standard_68,normal
+ACT008,Confidence reading,Hesitation,Beginner,Read short sentences aloud to build confidence before tackling longer ones,Read this sentence aloud with confidence,short_only,normal
+ACT009,Repeated confidence reading,Hesitation,Intermediate,Read the same sentence three times — each time with more confidence and fewer pauses,Read again — try to pause less than the last time,standard_68,repeated
+ACT010,Pause reduction practice,Hesitation,Intermediate,Read sentences focusing on reducing mid-sentence pauses and hesitations,Read without stopping — keep going even if you make a mistake,standard_68,normal
+ACT011,Slow and clear reading,Hesitation,Beginner,Read each sentence slowly and clearly without any rushing or pausing,Take your time — read every word slowly and clearly,standard_68,slow
+ACT012,Short sentence confidence,Hesitation,Beginner,Build reading confidence by reading only short sentences without pressure,Read this short sentence — take your time,short_only,normal
+ACT013,Long sentence practice,Sentence Length,Intermediate,Read only long sentences to build comfort with complex sentence structures,Read this long sentence carefully all the way to the end,long_only,normal
+ACT014,Long sentence timed reading,Sentence Length,Advanced,Read long sentences as fast and accurately as possible,Read this long sentence as fast and accurately as you can,long_only,timed
+ACT015,Long sentence repeated reading,Sentence Length,Intermediate,Read the same long sentence three times improving smoothness each time,Read this long sentence — aim to be smoother each time,long_only,repeated
+ACT016,Short to long progression,Sentence Length,Beginner,Start with short sentences then move to long ones to build sentence length handling,Read this sentence clearly — notice how the length changes,standard_68,normal
+ACT017,Long sentence slow reading,Sentence Length,Beginner,Read long sentences slowly and clearly to build comfort with their structure,Read this long sentence slowly — do not rush,long_only,slow
+ACT018,Word accuracy practice,Accuracy,Beginner,Read short sentences aloud focusing on pronouncing every word correctly,Read carefully — make sure every word is correct,short_only,normal
+ACT019,Full accuracy reading,Accuracy,Intermediate,Read all 68 sentences focusing on reading every word exactly as written,Read each word exactly as it appears — accuracy is more important than speed,standard_68,normal
+ACT020,Accuracy timed reading,Accuracy,Advanced,Read sentences accurately as fast as possible — speed and accuracy are both measured,Read fast and accurately — both your time and errors are recorded,standard_68,timed
+ACT021,Repeated accuracy reading,Accuracy,Intermediate,Read the same sentence three times focusing on correcting any errors each time,Read again — try to correct any mistakes from your last reading,standard_68,repeated
+ACT022,Short sentence accuracy,Accuracy,Beginner,Read short sentences with a focus on reading every word precisely,Read every word of this short sentence precisely,short_only,normal
+ACT023,Long sentence accuracy,Accuracy,Advanced,Read long sentences with full focus on pronouncing every word correctly,Read this long sentence — every word must be correct,long_only,normal
+ACT024,Slow accuracy reading,Accuracy,Beginner,Read each sentence very slowly to ensure every word is pronounced correctly,Read very slowly — make sure every single word is right,standard_68,slow
+ACT025,Full passage reading,Fluency,Advanced,Read all 68 sentences in one full session to assess overall reading endurance and fluency,Read each sentence clearly — this is a full reading session,standard_68,normal

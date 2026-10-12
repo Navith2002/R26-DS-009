@@ -1,0 +1,2099 @@
+﻿image_path,ground_truth
+image01/line_010.png,උපදෙස් කියවා ප්‍රතිචාර දක්වමු.
+image01/line_015.png,පහත සඳහන් වාක්‍යවලට සුදුසු විරාම
+image01/line_020.png,ලකුනු යොදා වාක්‍ය නැවත ලියන්න
+image01/line_022.png,මම පාසල් යමි
+image01/line_023.png,පුතේ මෙහාට එන්න යැයි
+image02/line_001.png,"යම් අවස්ථාවක්, සිද්ධියක් දෙස බලා සිට"
+image02/line_002.png,පිළිබඳ ව විස්තර කර දීම විස්තර කථන
+image02/line_003.png,"උදා: ක්‍රිකට්,ෆුට්බෝල් වැනි ක්‍රීඩා පැවැත්වෙන"
+image02/line_007.png,පාසලේ පැවැත්වෙන ක්‍රීඩා උත්සවයක්
+image02/line_009.png,ගොඩනැගිල්ලක් විවෘත කිරීමක්
+image02/line_014.png,පොළක
+image02/line_017.png,පෙරහැරක්
+image03/line_007.png,පරිප්පු
+image03/line_011.png,සාක්කුව
+image03/line_018.png,ආභරණ
+image03/line_022.png,අරුතිනි
+image03/line_026.png,අනුසාරයෙනි
+image03/line_028.png,දකුණු පළාත්
+image03/line_030.png,පියාසර
+image03/line_032.png,අවුළුවන්ට
+image03/line_034.png,ව්‍යහාරයේ
+image03/line_036.png,අවස්ථා
+image04/line_001.png,නෙළුම් මල් සියපත්
+image04/line_013.png,නෙළුම් මල් සියපත්
+image05/line_006.png,පැමිණීම නොපැමිණීම
+image05/line_008.png,අවශ්‍ය අනවශ්‍ය
+image05/line_014.png,පුහුණු නුපුහුණු
+image05/line_022.png,නිවැරදි  වැරදි
+image05/line_024.png,අලුත් පරණ
+image06/line_002.png,ඇඟ බේරගන්න වගකීමෙන් බේරීම.
+image06/line_004.png,හීන් දාඩිය දැම්මා දැඩි සේ බියට පත් වීම.
+image06/line_005.png,අහස් මාලිග ඉටු නොවන සිහින මැවීම .
+image06/line_007.png,අබමල් රේණුවක් ඉතාම කුඩා ප්‍රමාණ්‍යක් .
+image06/line_008.png,මුරුංගා අත්තේ තියනවා රවටනු පිණිස
+image07/line_007.png,කර උස්සා අප දෙස බලා සිටින මිනිසුන් මෙන්
+image07/line_012.png,හෙලිකොප්ටර් යානා පරිද්දෙනි .
+image07/line_014.png,ගඟ දෙපස සිටින මුරකරුවන් වැන්න.
+image07/line_015.png,ගඟ හා රහස් කොඳුරන ලෙසිනි .
+image07/line_017.png,අඬු විහිඳාගත් දැවැන්ත සතෙකු මෙනි.
+image08/line_002.png,විස්තර කථන
+image08/line_005.png,"යම් අවස්ථාවක්, සිද්ධියක් දෙස බලා සිට ඒ"
+image08/line_010.png,පිළිබඳ විස්තර කර දීම විස්තර කථනයක්
+image08/line_012.png,ලෙසින් හඳුන්වයි .
+image08/line_014.png,"උදා:-ක්‍රිකට්,ෆුට්බෝල් වැනි ක්‍රීඩා පැවැත්වෙ"
+image08/line_015.png,පාසලේ පැවැත්වෙන ක්‍රීඩා උත්සවයක්
+image08/line_016.png,ගොඩනැගිල්ලක් විවෘත කිරීමක්
+image08/line_020.png,පොළක්
+image08/line_024.png,පෙරහැරක
+image09/line_006.png,කර උස්සා අප දෙස බලා සිටින මිනිසුන් මෙනි
+image09/line_016.png,හෙලිකොප්ටර් යානා පරිද්දෙනි .
+image09/line_018.png,ගඟ දෙපස සිටින මුරකරුවන් වැන්න
+image09/line_021.png,අඩු විහිඳාගත් දැවැන්ත සතෙක මෙනි.
+image10/line_001.png,වැරදී සෑදීම
+image10/line_002.png,කාර්යශූර
+image100/line_001.png,පරවියා
+image100/line_002.png,ගොළුබෙල්ලා
+image100/line_007.png,ගෝරිල්ලා
+image100/line_010.png,අලියා
+image100/line_013.png,ජිරාෆ්
+image100/line_016.png,අශ්වයා
+image100/line_018.png,කුකුළා
+image100/line_022.png,මීයා
+image100/line_024.png,වවුලා
+image101/line_008.png,පබළු ඇට
+image101/line_013.png,හැරමිටිය
+image101/line_015.png,කෝටුවක්
+image101/line_022.png,මල්
+image101/line_028.png,මාලෙ
+image101/line_031.png,පෙට්ටිය
+image101/line_037.png,වෙස්මුහුණු
+image101/line_041.png,කරත්තය
+image101/line_043.png,කබාය
+image101/line_050.png,පොත්
+image102/line_003.png,සමානාර්ථ පද ලිවීමේ දී
+image102/line_004.png,ඒක වචන බහු වචන බේදය
+image102/line_005.png,ගැන සැලකිලිමත් විය යුතුය .
+image102/line_006.png,ලෙස හඳුන්වයි .
+image102/line_007.png,දෙන විවිධ පද  සමානාර්ථ පද
+image102/line_008.png,කියන්නේ නම් එකම අදහස
+image102/line_009.png,මේවා වෙනත් ආකාරයකින්
+image102/line_010.png,යුතුය.
+image103/line_014.png,විරුද්ධාර්ථ පද
+image103/line_022.png,අර්ථයෙන්  විරුද්ධ අදහස දෙන
+image103/line_028.png,පද විරුද්ධ පද ලෙස හඳුන්වයි .
+image103/line_029.png,විරුද්ධාර්ථ  පද ලිවීමේ දී පද
+image103/line_030.png,දෙක අතර කෙටි ඉර යෙදිය
+image103/line_032.png,යුතුය
+image104/line_001.png,කෙනෙක් කියන ලද දෙයකට
+image104/line_003.png,ගැනීමේදී යුගල උඩු කොමාව
+image104/line_004.png,සහ යමකින් උපුටා
+image104/line_005.png,යොදනු ලැබෙයි.
+image105/line_002.png,උපන් දිනය
+image105/line_004.png,පාසලේ නම - බප/හෝ/ ශ්‍රී පරාක්‍රම මහා විද්‍යාලය
+image105/line_012.png,නම-ටෙහාරා මෙත්නා
+image105/line_015.png,මුලකුරු සමඟ නම- ඩ්බ්ලිව්.ඒ.ටෙහාරා මෙත්නා
+image105/line_019.png,සම්පූර්ණ නම - වීරසූරිය ආරච්චිගේ ටෙහාරා මෙත්නා
+image105/line_025.png,උපන් දිනය
+image105/line_026.png,පාසලේ නම - බප/හෝ/ ශ්‍රී පරාක්‍රම මහා විද්‍යාලය
+image106/line_003.png,පහත ප්‍රස්ථා පිරුළුවල තේරුම ලියන්න
+image106/line_005.png,ඉබ්බාගෙන් පිහාටු ඉල්ලනවා වගේ
+image106/line_015.png,කෙනෙකුගෙන් කිසේවත් ලබා ගත නොහැකි දෙයක් ලබා ගැනීමට
+image106/line_026.png,උත්සහ දැරීම
+image106/line_031.png,පරංගියා කෝට්ටේ ගියා වගේ
+image106/line_035.png,කිට්ටු පාරක් තිබියදි දුර පාරකින් යාම
+image107/line_002.png,වල විශේෂත්වයයි.
+image107/line_003.png,මේවා භාවිතය නිසා ලියන දේ වඩා අලංකාරවේ
+image107/line_004.png,යුගල පද ලිවීමේදී පද දෙක වෙන් කර ලිවිය යුතුය
+image108/line_001.png,අයියා සවසට පන්තියට ගොස්
+image108/line_003.png,එයි.
+image108/line_005.png,ගොවියා වනසතුන්ගෙන් ගොවිතැන
+image108/line_009.png,ආරක්ෂා කර ගනියි.
+image108/line_017.png,යහළුවා තෑගි බෝග ගෙන
+image108/line_018.png,පාසලට පැමිණෙයි.
+image108/line_019.png,මහප්පා ගමේ සිට එන විට අපට
+image108/line_020.png,ටොෆි ගෙනෙයි.
+image108/line_021.png,හිරුෂ පාසලේ ප්‍රධාන ගිෂ්‍ය
+image108/line_022.png,නායකයා වෙයි
+image109/line_002.png,නම - දැහැමි දෙව්සරී මීපාගල
+image109/line_003.png,සම්පූර්ණ නම - දැහැමි දෙව්සරී
+image109/line_004.png,මීපාගල
+image109/line_005.png,මුලකුරු සමඟ නම - එම්. දැහැමි
+image109/line_006.png,දෙව්සරී
+image109/line_009.png,"පනාගොඩ, හෝමාගම"
+image109/line_010.png,උපන්දිනය
+image109/line_011.png,පාසලේ නම - බප/හෝ/ ශ්‍රී පරක්‍රම
+image109/line_013.png,මහා විද්‍යාලය
+image11/line_003.png,පිලි සහිත වචන ලියමු.
+image11/line_005.png,මාලය කෙකටිය
+image11/line_006.png,වැස්ස මේසය
+image11/line_007.png,කෑරලා බෝතලය
+image11/line_009.png,සීගිරිය ධෛර්ය
+image11/line_010.png,ගුරුතුමා වෘත්තය
+image11/line_012.png,කේතලය ක්‍රමය
+image11/line_013.png,තොවිලය ගාථාව
+image110/line_002.png,යුගල පද
+image110/line_005.png,"යුගල යනු, දෙකක් වන අතර එකවර"
+image110/line_007.png,පද දෙකක් ලිවීම යුගල පදවල
+image110/line_008.png,විශේෂත්වයයි.
+image110/line_010.png,"මේවා භාවිතය නිසා, ලියන දේ"
+image110/line_011.png,වඩා අලංකාර වේ .
+image110/line_012.png,"යුගල පද ලිවීමේ දී, පද දෙක"
+image110/line_015.png,වෙන්කර ලිවිය යුතු ය.
+image110/line_020.png,අනම් මනම්
+image110/line_028.png,විහිළු  තහළු
+image110/line_029.png,වාද විවාද
+image110/line_030.png,අරුම පුදුම
+image110/line_031.png,අස්සක් මුල්ලක්
+image111/line_008.png,බලා ලිවීම
+image111/line_025.png,"පන්තිය වටා ඇවිද්දාය """
+image111/line_038.png,"""හැමෝම පොත් ගන්න"
+image111/line_043.png,පවනි කිව්වාය.
+image111/line_046.png,"""පවනි ගුරුවරියක් මෙන්"
+image111/line_054.png,අද අපි සෙල්ලමක් කරමු .
+image112/line_009.png,බලා ලිවීම
+image112/line_023.png,'හැමෝම පොතේ
+image112/line_032.png,ගැහැනු / පිරිමි/ පලතුරු/ සත්තු
+image112/line_047.png,"ගම් කියා ලියන්න """
+image113/line_019.png,සෙල්ලම් පන්තියේ සිටි ළමයින්
+image113/line_022.png,කිහිප දෙනෙකු නම් සඳහන්
+image113/line_024.png,කරන්න ? මනුක  සහන්
+image113/line_026.png,රාධා නිපුණ .
+image113/line_037.png,සියලු දෙනා ම මනුකට
+image113/line_044.png,අත් පොළසන් දුන්නේ
+image113/line_052.png,ඇයි?
+image113/line_062.png,ඔහු දින්න නිසා .
+image114/line_020.png,දිනිති දිය ඇල්ල නරඹයි .
+image114/line_024.png,දෑතට දෑකැති දෙකක්
+image114/line_025.png,දුර ගමන් යෑම දුෂ්කරය.
+image114/line_026.png,දොළ ළඟ දොඹ ගසක්
+image114/line_027.png,ගන්න .
+image114/line_028.png,ඇත .
+image114/line_029.png,දීපා දීකිරි දීසියට දමයි .
+image115/line_001.png,වෛද්‍ය
+image115/line_002.png,දෛවය.
+image115/line_003.png,මෛතිය.
+image116/line_014.png,යුගල උඩු කොමාව
+image116/line_015.png,"""හොඳින් ඉගෙනගන්න"" යැයි"
+image116/line_016.png,පැවසුවේ ය
+image116/line_017.png,ගුරුතුමා අප දෙස බලා
+image117/line_003.png,රටේ අසිරිය
+image117/line_005.png,අපේ රටේ පොළෝවේ සාරවත් ව
+image117/line_006.png,ගස් පැළවී තිබෙයි.
+image117/line_007.png,"අපේ රටේ ගස්,වැල් වලින් පිරී"
+image118/line_001.png,දා ඇලපිල්ල
+image118/line_002.png,දි දීර්ඝ ඉස්පිල්ල
+image118/line_003.png,දු පාපිල්ල
+image118/line_004.png,දේ කොම්බුව සහ හල්කිරීම
+image118/line_005.png,දෙ කොම්බුව
+image118/line_006.png,දූ දීර්ඝ පාපිල්ල
+image118/line_007.png,දී කෙටි ඉස්පිල්ල
+image118/line_008.png,දෑ දික් ඇදැපිල්ල
+image118/line_009.png,දැ කෙටි ඇදපිල්ල
+image118/line_010.png,දැ කෙටි ඇදපිල්ල
+image118/line_013.png,දො කොම්බුව සහ ඇලපිල්ල
+image118/line_016.png,දෝ කොම්බුව සහ ඇලපිල්ල හා
+image118/line_023.png,හල්කිරීම .
+image119/line_007.png,"සිහිනයක, ජීවත් වූ පුංචි දැරියක්"
+image119/line_011.png,"සිටියා ය. ඇයගේ අම්මා, තාත්තා,"
+image119/line_018.png,"අත්තම්මා, ලොකු අම්මා වගේ පවුලේ"
+image119/line_019.png,ම අය ඒ සිහිනවල ජීවත් වූහ.
+image119/line_025.png,ඒ වගේ ම ගමේ අසල්වැසි වාඩිහිටියෝ
+image119/line_032.png,"සහ නෑ හිතමිතුරෝ ද, ගමට ආ ගිය"
+image119/line_034.png,අය ද ඒ අතර වූහ. එපමණක්
+image119/line_038.png,"නොව, ඇය ජීවත් වූ පරිසරය."
+image12/line_002.png,තොවිලය
+image12/line_005.png,ශෛල
+image12/line_006.png,ගෞරවය
+image12/line_009.png,ත්‍යාගය
+image12/line_011.png,රාමාණය
+image120/line_005.png,"උදා ÷අම්මා පොළට ගොස් අඹ, කෙසෙල්,"
+image120/line_009.png,අන්නාසි ගෙනාවාය.
+image120/line_014.png,"ඇයගේ අම්මා, තාත්තා, අත්තම්මා,"
+image120/line_016.png,ලොකු අම්මා වගේ පවුලේ ම අය ඒ
+image120/line_018.png,සිහිනවල ජීවත්  වූහ.
+image121/line_003.png,බලා ලිවීම
+image121/line_011.png,මම හොඳින් වැඩ කර ජය
+image121/line_013.png,ලබමි
+image121/line_021.png,මම හොඳින් වැඩ කර ජය
+image121/line_030.png,ලබමි
+image122/line_001.png,"ඇලපිල්ල රාධා,වාඩි"
+image122/line_002.png,ලකුණ ක්‍රීඩාවේ
+image122/line_003.png,කොම්බුව සහිත ඇලපිල්ල
+image122/line_004.png,"බොහෝම , හොඳයි"
+image122/line_005.png,දික් ඉස්පිල්ල තීරු
+image122/line_006.png,"කෙටි ඉස්පිල්ල පිරිමි,පිලි"
+image122/line_008.png,දික් ඇදපිල්ල ඕනෑ
+image122/line_010.png,"කෙටි ඇදපිල්ල හැමෝම, දැන්"
+image122/line_011.png,"කොම්බුව සෙල්ලම, වෙන්න"
+image122/line_012.png,කොම්බුව සහිත හල් කිරීමේ
+image123/line_001.png,වෛවර්ණ
+image123/line_005.png,වෛවර්ණ
+image123/line_008.png,වෛවර්ණ
+image123/line_014.png,වෛවර්ණ
+image123/line_018.png,වෛවර්ණ
+image123/line_026.png,වෛවර්ණ
+image123/line_037.png,වෛවර්ණ
+image124/line_013.png,නා.හ නාවික හමුදාව
+image124/line_015.png,ම.වි මහා විද්‍යාලය
+image124/line_026.png,ප්‍රශ්නාර්ථ ලකුණ
+image124/line_035.png,උදා ඇයගේ ප්‍රියතම නෑදෑ
+image124/line_036.png,කරපු දේවල් ගැනද ?
+image124/line_037.png,කිරි අම්මා ඔය ලියන්නෙ අපි
+image124/line_038.png,කවුද ?
+image124/line_039.png,මං ගැනත් ලියනවාද ?
+image125/line_003.png,චරිතාරෝපිතව කතා
+image125/line_005.png,කරමු .
+image125/line_019.png,අපට අසනීප වූ විට බෙහෙත්
+image125/line_021.png,ලබා දෙයි.
+image125/line_022.png,ඔහුට වෙද නළාවක් ද ඇත.
+image125/line_023.png,ඔහු අපේ රටට විශේෂ
+image125/line_024.png,සේවාවක් සපයයි.
+image126/line_001.png,කෲසෝ
+image126/line_002.png,කෲර
+image126/line_003.png,බෲනායි
+image127/line_001.png,දෝත පුරා මල් අරගෙන
+image127/line_002.png,සුවඳ ගෙනෙන්නේ කවුද?
+image127/line_003.png,සීගිරියේ ලෙන්දොරකඩ
+image127/line_006.png,ලංකාව හැඳින්වීමට කවි
+image127/line_007.png,සිටින සුරංගනාවෝ.
+image127/line_008.png,පන්තියේ යොදා ඇති වෙනත්
+image127/line_009.png,ඉන්දීය සයුරේ මුතු ඇටය
+image127/line_010.png,නම් මොනවද?
+image127/line_011.png,රත්නදීප
+image127/line_012.png,ලංකාව
+image128/line_004.png,මේ ශ්‍රී ලංකාවයි  මිතුරනි
+image128/line_005.png,මා ඉපදුණ මගේ මව් රට
+image128/line_007.png,සැමදා  සුරකිමු මිතුරනි.
+image128/line_008.png,හැදී වැඩී දිලෙන මගේ රට
+image129/line_010.png,තෑගි ගොඩක් ඇත.
+image129/line_014.png,තුරු සෙවණ
+image129/line_018.png,කොහොඹ තුරු සෙවණ යට
+image129/line_022.png,හරි ම සිසිලක් දැනෙයි.
+image129/line_028.png,මල් සුවඳ
+image129/line_029.png,සේපාලිකා මල් සුවඳ රාත්‍රිය
+image129/line_033.png,පුරා දසත පතුරවයි.
+image129/line_050.png,අවබෝධය
+image129/line_069.png,සතුටින් පොත් තෝරා ගත්
+image13/line_002.png,සූකිරි
+image13/line_014.png,සූරය
+image13/line_018.png,බූරුවා
+image13/line_019.png,කූඹියා
+image130/line_014.png,ඉවුරේ
+image130/line_017.png,හැංගුණා
+image130/line_019.png,රැවුළ
+image130/line_020.png,සම්මාන
+image130/line_023.png,හීනයක
+image130/line_029.png,අඟුරු
+image130/line_032.png,ඊළඟට
+image130/line_040.png,මකුළුවා
+image130/line_045.png,අපූරු
+image131/line_001.png,විදෙස් පුවත්
+image131/line_002.png,ක්‍රීඩා පුවත්
+image131/line_003.png,දෙකකට හානි සිදු වී ඇත .
+image131/line_004.png,ලෝකඩ පදක්කම් දිනා ගත්
+image131/line_005.png,එල්ලවී ඇත. එහි ඉන්ධන ටැංකි
+image131/line_006.png,ගබඩාවකට යුක්‍රේන ප්‍රහාරයක්
+image131/line_007.png,දකුණු රුසියාවේ ඉන්ධන
+image131/line_008.png,නුවන් ඉන්දික සහ ප්‍රදීප්
+image131/line_016.png,සෝමසිරි ඇතුළු ක්‍රීඩකයින්
+image131/line_021.png,කටුනායක බණ්ඩාර නායක
+image131/line_029.png,ජාත්‍යන්තර නිලධාරීන් විසින්
+image132/line_001.png,පාඩමෙහි කියවෙන ජන
+image132/line_002.png,රබන් ගැසීම.
+image132/line_003.png,ක්‍රීඩාව කුමක්ද?
+image133/line_007.png,පාසලේ සිට නිවසට
+image133/line_009.png,පැමිණීම
+image133/line_012.png,"ස්නානය කිරීම, අහාර"
+image133/line_024.png,"ගැනීම, විවේක ගැනීම."
+image133/line_032.png,නිවසේ කටයුතුවලට
+image133/line_035.png,පාඩම් වැඩ කටයුතු
+image133/line_036.png,සහය  වීම.
+image133/line_037.png,බුදුන් වැඳීම හා පාඩ
+image133/line_040.png,"රූපවාහිනි නැරඹීම ,"
+image134/line_003.png,ඉහත ඡේදය නිශ්ශබ්ද ව
+image134/line_005.png,පටන් ගන්නා වචන
+image134/line_006.png,ඡේදයෙන් සොයා ලියන්න
+image135/line_004.png,වචන කියවමු
+image135/line_010.png,පුරු පුරු
+image135/line_020.png,බුහ් බුහ්
+image135/line_026.png,කුස්සිය
+image135/line_027.png,පුතා
+image135/line_028.png,කුරුලු
+image136/line_003.png,කෙටි විරාමයක් කෙටි නැවතීමක්
+image136/line_005.png,සඳහා වාබ්‍ය ලිවීමේදී
+image136/line_006.png,"උදා:-ගැහැනිය කැලයට ගොස්,"
+image136/line_007.png,"දර කඩාගෙන, පලාද නෙළාගෙන"
+image136/line_010.png,ගෙදර ගියා ය.
+image137/line_001.png,මුවා
+image137/line_003.png,තුන
+image137/line_004.png,මුල
+image137/line_005.png,රුවල
+image138/line_001.png,පාඩමට අනුව පැන්සලේ ගුණාංග
+image138/line_002.png,ගලන ගඟ වගේ
+image138/line_003.png,මුල් කෘතියේ නම කුමක් ද?
+image138/line_004.png,පැන්සලේ කතන්දරය සඳහන්
+image138/line_005.png,කීයද?
+image139/line_001.png,කාමරය පැමිණියේ කෙසේද?
+image139/line_002.png,මකුළුවා යොසාකුට කළගුණ
+image139/line_003.png,සැලකුවේ කෙසේද?
+image139/line_004.png,සර්පයා යොසාකුගේ රෙදි වියන
+image14/line_006.png,විරාම ලක්ෂණ යොදන්න
+image14/line_007.png,ඉතිං  පහුවදාත්  නරිහාමි
+image14/line_009.png,ලොකු බඩගින්නක්
+image14/line_013.png,හැදුණ.එදත් කන්න
+image14/line_016.png,දෙයක් හොයාගෙන
+image14/line_021.png,ඇවිදගෙන යනකොට
+image14/line_024.png,නරිහාමිට ඉත්තෑවෙක්
+image140/line_001.png,වනන්තරේ ඈත එපිට නෙලුම්
+image140/line_002.png,පිපුණ විලක් ඇතී නිල් වතු
+image140/line_003.png,බලා ලිවීම
+image140/line_004.png,ඇදෙති.
+image140/line_005.png,පිරුණු කලට වන සිවුපාවෝ
+image141/line_001.png,ආදී චරිත අපට හඳුන්වා දුන්
+image141/line_002.png,"බටකොළ ආච්චි, බූ බබා"
+image141/line_003.png,බලා ලිවීම
+image142/line_001.png,හරි වැරදි
+image142/line_002.png,යමි නොයමි
+image142/line_003.png,උඩ යට
+image142/line_004.png,අඩු නොඅඩු
+image143/line_001.png,පින්තූර මගින් කතා කීම ඈත
+image143/line_002.png,කාලයේ සිට පැවත එන ක්‍රමයකි.
+image143/line_003.png,පින්තූර කතා කියවීම අපි කැමැත්තෙමු
+image143/line_004.png,භාවිතා කරමින් ඉදිරිපත් කෙරෙන
+image143/line_010.png,චිත්‍ර කතා යනු පින්තූර බහුලව
+image143/line_016.png,ක්‍රියා ඇස්‍ටරි ක්ස් ආදිය ලෝකය
+image143/line_017.png,කතන්දර වර්ගයකි. ටින් ටින්ගේ වීර
+image143/line_018.png,පුරා අදත් ජනපිය චිත්‍ර කතා වේ .
+image144/line_005.png,ආරම්භ අවසාන
+image144/line_013.png,කරනවා නොකරනවා
+image145/line_002.png,පොළොව තුළින් මතුවන ධන
+image145/line_008.png,නිධාන මොනවාද ?
+image145/line_010.png,ගෙනෙන්නේ කවුද?
+image145/line_017.png,පාට පාට මැණික් ජාති
+image145/line_028.png,කවි පෙළෙහි සඳහන් ගංගා
+image145/line_030.png,දෝත පුරා මල් අරගෙන සුවඳ
+image146/line_009.png,මකුළුවා නූල් ලබා ගත්තේ
+image146/line_012.png,මොනවායින්ද?
+image146/line_023.png,කපු පුලුන්
+image146/line_030.png,මකුළුවා යොසාකුට කළගුණ
+image146/line_033.png,සැළකුවේ කෙසේද
+image147/line_009.png,මකුළුවා යොසාකුට කළගුණ
+image147/line_012.png,සැළකුවේ කෙසේද
+image147/line_020.png,හිස නමා
+image147/line_039.png,සර්පයා යොසාකුගේ රෙදි වියන
+image147/line_044.png,කාමරයට පැමිණියේ කෙසේද?
+image147/line_045.png,කපු පුලුන් පොදියට රිංගා
+image147/line_053.png,ගෙන
+image148/line_001.png,ලූලා
+image148/line_002.png,පූසා
+image148/line_003.png,කූඩය
+image148/line_004.png,කූර
+image148/line_005.png,නූල
+image148/line_007.png,රූකඩ
+image149/line_001.png,ඈත
+image149/line_009.png,මම
+image15/line_001.png,දෙයක් හොයාගෙන
+image15/line_006.png,ඇවිදගෙන යනකොට
+image15/line_009.png,නරිහාමිට ඉත්තෑවෙක්
+image15/line_017.png,"හම්බ වුණා. ""කොහෙද"
+image15/line_023.png,ඉත්තෑවෝ යන්නෙ
+image15/line_026.png,නරිහාමි ඇහුවා.
+image150/line_002.png,බඩගින්නක් හැදුණා. එදත්
+image150/line_003.png,කන්න දෙයක් හොයාගෙන කැලේ
+image150/line_004.png,ඇවිදගෙන යනකොට නරිහාමිට
+image150/line_005.png,ඉතිං  පහුවදාත්  නරිහාමිට  ලොකු
+image151/line_005.png,මාලා ගාල්ලට යනවා.
+image151/line_014.png,මාමා මාලයක් ගත්තා.
+image151/line_015.png,නයනා මාතරට ආවා.
+image151/line_016.png,තාරාවා පාරට ආවා.
+image152/line_003.png,තුලාව
+image152/line_004.png,සුහද
+image152/line_013.png,රුලං
+image152/line_014.png,සුළඟ
+image153/line_001.png,කුරුල්ලෝ
+image154/line_001.png,පෘතුගාලයේ සිට පෘතුගීසින්
+image154/line_003.png,දිනපතා ප්‍රවෘත්ති බලන්න.
+image154/line_004.png,වෘත්තයක් අඳින්න.
+image154/line_005.png,මේ කෘතිය කියවන්න.
+image155/line_001.png,වෛද්‍ය
+image155/line_002.png,දෛව්‍ය
+image155/line_012.png,මෛත්‍රිය
+image155/line_030.png,චෛත්‍යය
+image156/line_001.png,සහ යමකින් උපුටා
+image156/line_002.png,යොදනු ලැබෙයි.
+image156/line_003.png,ගැනීමේදී යුගල උඩු කොමාව
+image157/line_006.png,යුගල උඩු කොමාව.
+image157/line_007.png,කෙනෙක් කියන ලද
+image157/line_009.png,"""මමත් එනවා."" නංගී"
+image158/line_011.png,වෛද්‍ය.
+image158/line_020.png,මෛත්‍රිය
+image158/line_021.png,දෛවය.
+image159/line_004.png,මුල
+image159/line_005.png,මුවා
+image159/line_006.png,දුර
+image159/line_007.png,ගුහාව
+image159/line_009.png,පුටුව
+image159/line_021.png,දුන්න
+image16/line_003.png,අතරමඟ
+image16/line_012.png,ඉලපත
+image16/line_016.png,එක
+image16/line_018.png,ඖෂධ
+image16/line_021.png,ආභරණ
+image16/line_027.png,ඊතලය
+image16/line_033.png,ණය
+image16/line_035.png,කතරගම
+image16/line_038.png,ඇසළ
+image16/line_042.png,උමඟ
+image16/line_046.png,ඓක්‍යය
+image16/line_047.png,දඹල
+image16/line_048.png,පරණ
+image160/line_001.png,කෲසෝ
+image160/line_002.png,බෲනායි
+image161/line_001.png,ලූලා
+image161/line_002.png,පූසා
+image161/line_003.png,කූඩය
+image161/line_004.png,සූකිරි
+image161/line_005.png,රූකඩ
+image161/line_006.png,කූර
+image161/line_007.png,නූල
+image162/line_002.png,කෙනෙක් කියන ලද දෙයකට සහ
+image162/line_003.png,යමකින් උපුටා ගැනීමේදී  යුගල
+image162/line_004.png,උඩු කොමාව යොදනු ලැබෙයි.
+image163/line_001.png,බඩගින්නක් හැදුණා.එදත් කන්න
+image163/line_002.png,යනකොට නරිහාමිට ඉත්තෑවෙක්
+image163/line_003.png,ඉතිං  පහුවදා  නරිහාමිට  ලොකු
+image164/line_001.png,මිහිරි
+image164/line_002.png,තොවිලය
+image164/line_003.png,ශෛල
+image164/line_004.png,ගෞරවය
+image164/line_005.png,ත්‍යාගය
+image164/line_006.png,රාමායණය
+image165/line_001.png,කීවා
+image165/line_015.png,අකීකරුයි
+image165/line_029.png,කවීශා
+image165/line_045.png,දීපේ
+image165/line_055.png,ගීතේ
+image165/line_077.png,පිපී
+image165/line_085.png,මී පැණි
+image166/line_003.png,වාක්‍යයක්  අවසන් වීමට
+image166/line_008.png,පෙර තබන විරාමය සඳහා
+image166/line_013.png,කොමාව යොදයි.
+image166/line_020.png,උදාහරණ
+image167/line_001.png,මාලා ගාල්ලට යනවා.
+image167/line_002.png,තාරාවා පාරට ආවා.
+image168/line_013.png,රුලං
+image168/line_026.png,සුළඟ
+image168/line_028.png,පුළුන්
+image169/line_003.png,විරාම ලකුණු යොදන්න
+image169/line_004.png,ඉතිං  පහුවදාත්  නරිහාමිට  ලොකු
+image169/line_005.png,බඩගින්නක් හැදුණා.එදත් කන්න
+image169/line_007.png,දෙයක් හොයාගෙන කැලේ ඇවිදගෙන
+image17/line_007.png,මිහිරි මීකිරි කනවා
+image17/line_009.png,ගිහාන් ගීතයක් ගයනවා
+image17/line_011.png,දිලිනි දීප්තිට කතා කර
+image17/line_015.png,චින්තක චීනයට යනවා
+image170/line_001.png,දූපත
+image170/line_002.png,පූසා
+image170/line_003.png,කූර
+image170/line_004.png,නූල
+image170/line_005.png,ලූලා
+image170/line_006.png,ලූලා
+image171/line_001.png,ලොකු බඩගින්නක් හැදුණ.
+image171/line_002.png,ඉතිං  පහුවදාත්  නරිහාමිට
+image171/line_008.png,එදත් කන්න දෙයක් හොයගෙන
+image171/line_012.png,කැලේ ඇවිදගෙන යනකොට
+image171/line_013.png,නරිහාමිට ඉත්තෑවෙක්
+image171/line_016.png,"හම්බ වුණා.""කොහෙද"
+image172/line_025.png,කෙනෙක් කියන ලද දෙයකට
+image172/line_027.png,සහ යමකින් උපුටා ගැනීමේදී
+image172/line_030.png,යුගල උඩු කොමාව යොදනු
+image172/line_032.png,ලැබෙයි.
+image173/line_011.png,මාලා ගාල්ලට යනවා.
+image173/line_013.png,තාරාවා පාරට ආවා.
+image173/line_016.png,මාමා මාලයක් ගත්තා.
+image174/line_001.png,ඉතිං  පහුවදාත්  නරිහාමිට  ලොකු
+image174/line_002.png,විරාම ලක්ෂණ යොදන්න.
+image174/line_003.png,දෙයක් හොයාගෙන කැලේ ඇවිදගෙන
+image174/line_004.png,බඩගින්නක් හැදුණා. එදත් කන්න
+image175/line_084.png,අග්ගලා
+image175/line_096.png,අග්ගලා
+image175/line_114.png,අග්ගලා
+image175/line_126.png,අධිෂ්ඨානය
+image175/line_142.png,අධිෂ්ඨානය
+image176/line_006.png,කාලයගත කරමි
+image176/line_021.png,සැදෑ කාලයේ දී මම මුහුදු වෙරළේ
+image176/line_037.png,සරුංගලේ යවමි
+image176/line_057.png,සැදෑ අඳුරත් සමග මම මුහුදු වෙරළේ
+image176/line_071.png,වැලිමාලිගා සාදමි.
+image176/line_094.png,සැදෑ  අහසේ ඉර බැස යන ආකාර මම
+image176/line_114.png,මුහුදු වෙරළේ සිට නරඹමි.
+image177/line_010.png,ඉවත දමන දඬුව වුවද සරු පොළවේ
+image177/line_018.png,දලු ලා යළි පැළ වෙයි.
+image177/line_030.png,සරු පොළොව මිනිසාට මෙන්ම සතා සි
+image177/line_046.png,වුපාවන් සඳහා සම්පත් ගෙන දෙයි.
+image177/line_055.png,සරු පොළොව නරඹා සියල්ලෝම
+image177/line_069.png,සතුටු වෙති.
+image178/line_001.png,කරමි
+image178/line_003.png,සැදෑ කාලයේදී මම මුහුදු වෙරළේ
+image178/line_005.png,සරුංගලේ යවමි.
+image178/line_008.png,සැදෑ  අඳුරත් සමඟ මම මුහුදු වෙරළේ
+image178/line_009.png,වැලි මාලිගා සාදමි
+image178/line_010.png,සැදෑ  අහසේ ඉර බැස යන ආකාර
+image178/line_011.png,මම මුහුදු වෙරළේ සිට නරඹමි.
+image179/line_014.png,මම කැමැතිම පොත
+image179/line_024.png,ගඟ අද්දර නම් කෘතියට බොහෝ
+image179/line_033.png,සේ ප්‍රිය කරමි
+image179/line_042.png,එහි සරල ගැමි භාෂාවට මම බොහෝ
+image179/line_054.png,සේ ප්‍රිය කරමි
+image179/line_063.png,ගහ අද්දර නම් කෘතිය තුළ මම ළළු
+image179/line_072.png,වන් සමග සිටින ආකාරය දැන ගත්
+image18/line_002.png,කූර
+image18/line_003.png,පූසා
+image18/line_004.png,නූල
+image18/line_006.png,ලූලා
+image18/line_008.png,දූපත
+image180/line_010.png,"රවිඳු, සහන් සහ අතුල ක්‍රකට්  සෙල්ලම් කරමින්"
+image180/line_015.png,සිටියේ අතුලයේ නිවසේ ඉදිරිපස මිදුලේ ය
+image180/line_023.png,රවිඳු එවන ලද බෝල පහරක් වැදීමෙන්
+image180/line_028.png,අතුලයේ නිවසේ ජනේලයක් බිදි ගියේය
+image180/line_033.png,එතැන් සිදුවන්නට ඇති දේ පිළිඳව
+image180/line_039.png,නිර්මණත්මක වැකි තුනක් ලියන්න
+image181/line_028.png,තුලාව
+image182/line_012.png,සැදෑ කාලයේදී මම මුහුදු වෙරළේ සරුංගල්
+image182/line_028.png,යවමි
+image182/line_044.png,සැදෑ  අඳුරත් සමග මම මුහුදු වෙරළේ
+image182/line_054.png,වැලි මාලිගා සාදමි
+image182/line_066.png,සැදෑ  අහසේ ඉර බැස යන ආකාරය මම
+image182/line_073.png,මුහුදු වෙරළේ නරඹමි.
+image183/line_008.png,අපි වැඩිහිටියන්ට ආදරයෙන් කරුණාවෙන්
+image183/line_016.png,"සලකමු,"
+image183/line_039.png,අපි ඔවුන් අසනීප වූ විට බෙහෙත් දී ඉතා
+image183/line_053.png,හොදින් සලකමු.
+image183/line_070.png,අපි වැඩිහිටියන් දුටු විට ඔවුන්ට ඉතා
+image183/line_079.png,ගෞරවයෙන් සලකමු.
+image184/line_014.png,අපේ පාසලේ ක්‍රීඩා උත්සවය අදයි
+image184/line_017.png,වර්තමාන
+image184/line_026.png,විවිධ වර්ණයේ කොඩි ක්‍රීඩා පිටිය වටා ලෙළ
+image184/line_038.png,දෙයි
+image184/line_044.png,ක්‍රීඩා නායක නායකයෝ ඔලිම්පික් පහන
+image184/line_051.png,දල්වති
+image184/line_061.png,ක්‍රීඩක ක්‍රීඩිකාවෝ ධාවන පථයේ වේගයෙන්
+image184/line_067.png,දුවති.
+image185/line_001.png,අපි සීගීරිය නැරඹීමට ගියෙමු.
+image185/line_004.png,අතීතකාලය
+image185/line_005.png,විනෝද පොකුණු මැදින් අපි සිගිරි ගල
+image185/line_006.png,මුදුනට ගියෙමු.
+image185/line_015.png,සිගිරි බිතු සිතුවම් බලා අපි සතුටු වුණෙමි.
+image186/line_001.png,විරාම ලකුණු
+image186/line_008.png,තිත
+image186/line_031.png,ප්‍රශ්නාර්ථ ලකුණ
+image186/line_046.png,කොමාව
+image187/line_022.png,යුගල උඩු කොමා
+image187/line_031.png,"යමෙකු විසින් කළ ප්‍රකාශයක්, යමකින්"
+image187/line_036.png,උපුටා ගැනීමක් සඳහා වන කොටසක්
+image188/line_001.png,"විස්මයක්,ආශිර්වාදයක්,ශෝකයක්,"
+image188/line_002.png,නගා කරන ආමන්ත්‍රණයකදී මෙය යොදයි.
+image188/line_003.png,"සතුටක්,ප්‍රාර්ථනයක්,නියෝගයක්,හඩ"
+image189/line_001.png,සොබාදහමට ආදරය කළ ශ්‍රේෂ්ඨ රතු ඉන්දීය
+image189/line_008.png,නායකයා කවුද
+image189/line_017.png,එකම පවුලකට අයත් වන දේ ලෙස මෙහි
+image189/line_029.png,දක්වා ඇත්තේ මොනවාද ?
+image189/line_035.png,"සුගන්ධවත් පුෂ්පයෝ,පිනි මුවා"
+image19/line_002.png,මුහුද
+image19/line_004.png,තිබණා
+image19/line_008.png,තඹුරු
+image19/line_013.png,සුදු
+image19/line_038.png,හැපුණා
+image190/line_001.png,කොට්ඨාශය
+image190/line_002.png,කිලිටි
+image190/line_003.png,කැලණි
+image190/line_004.png,කැලෑව
+image190/line_005.png,ගවේෂණශීලී
+image191/line_001.png,මධ්‍යම
+image191/line_002.png,රකාරාංශය
+image191/line_003.png,මධ්‍ය
+image191/line_004.png,ධාන්‍ය
+image192/line_003.png,සූකිරි
+image192/line_019.png,රූකඩ
+image192/line_048.png,සූරයා
+image192/line_070.png,බූරුවා
+image193/line_049.png,වාක්‍ය
+image193/line_078.png,සෞඛ්‍ය
+image193/line_095.png,රාජ්‍ය
+image193/line_112.png,ද්‍රව්‍ය
+image194/line_003.png,කොන් පාපිල්ල
+image194/line_008.png,"ඛු ,ඝු,චු,ජු,ඡූ,ඣු,ඤු"
+image194/line_014.png,"ටු,ඨු,ඩු,ණු,ථු,දු,නු"
+image195/line_001.png,"අයියේ, සීනිබෝල ගෙනාවද ?"
+image195/line_002.png,එක් වර්ගයක වචන වෙන් කිරීමේ දී
+image195/line_003.png,"සෙරමත් අරගෙන, ආපහු එනවා."
+image195/line_004.png,හතරකින් විවේක අරගෙන එහෙ ලියුම්
+image195/line_005.png,"උදා පැය අටකින් පිතාරවලට ගිහින්, පැය"
+image196/line_001.png,වඩාත් ඇලුම් කරමි.
+image196/line_002.png,උපාලි හා ජින්නා අතර සිදුවන වීරක්‍රියා
+image196/line_003.png,කරමි.
+image196/line_004.png,නිසා මම  එයට  වඩ  වඩාත් ඇලුම්
+image196/line_005.png,මාර්ටින් වික්‍රමසිංහ මහතා රචනා කළ මඩොල්
+image196/line_006.png,දූව නම් ළමා නව කතා පොතට මම බොහෝ
+image196/line_007.png,ප්‍රිය කරමි.
+image196/line_008.png,එහි ඇති අපූරු සිතුවම් නිසා මම එයට
+image197/line_001.png,රූපවාහිනිය
+image197/line_003.png,ප්‍රබල සන්නිවේදන මාධ්‍යයක් වන රූපවාහිනිය
+image197/line_004.png,ජෝන් ලොගී බෙයාර්ඩ් මහතා ලොවට
+image197/line_005.png,හදුන්වා දුන්නේ ය
+image197/line_007.png,ශ්‍රව්‍ය දෘශ්‍ය සන්නිවේදන මාධ්‍යයක් වන
+image197/line_008.png,රූපවාහිනිය ලොව තොරතුරු එසැණින් අප
+image197/line_020.png,අප  වෙත  ගෙන එයි.
+image197/line_033.png,"ආගමික ,දේශාපාලික ,ක්‍රීඩා,ආර්ථික හා"
+image197/line_035.png,සාමාජිය තොරතුරු ගෙන එන රූපවාහිනිය
+image197/line_038.png,අපේ යහපැවත්මට  අපි භාවිතා කරමු.
+image198/line_001.png,මම බොහෝ ප්‍රිය කරමි .
+image198/line_002.png,පොලියානා නම් ළමා නව කතා පොතට
+image198/line_003.png,එහි ඇති පොලියානා නම් චරිතයට
+image198/line_004.png,එහි ඇති සතුටු බෙදන සෙල්ලමට
+image199/line_001.png,මා ගිය විනෝද ගමනක්
+image199/line_005.png,මම පවුලේ අය සමඟ මාතලේ රිවස්ටන්
+image199/line_015.png,සිරි නැරඹීමට විනෝද චාරිකාවක් ගියෙමි.
+image199/line_022.png,"මීදුමෙන් වැසුණු කඳු  පන්ති,කඩා හැලෙන"
+image199/line_030.png,දිය ඇලි එහි ඇති ගස් වැල් දැක මම
+image199/line_037.png,සතුටු  වුණෙමි.
+image199/line_040.png,"නටා,ගයා,වයා ආ ගිය එම විනෝද ගමනෙන්"
+image199/line_043.png,මම බොහෝ සතුටට පත් වුණෙමි.
+image20/line_001.png,ගෘහය අසළ තෘණ භූමියක් තියෙ
+image20/line_002.png,මේ කෘතිය කියවන්න.
+image20/line_003.png,වෘත්තයක් අඳින්න.
+image200/line_001.png,මම පවුලේ අය සමඟ නුවරඑළිය සිරි
+image200/line_002.png,නැරඹීමට විනෝද චාරකාවක් ගියෙමි
+image200/line_003.png,"මීදුමෙන් වැසී ගිය කඳු පන්ති, කඩා හැලෙන"
+image200/line_005.png,"දිය ඇලි, තේ වතු, මල් වතු දැක මම"
+image200/line_008.png,සතුටු  වුණෙමි
+image200/line_010.png,"නටා,ගයා,වයා ආ ගිය එම විනෝද"
+image200/line_012.png,ගමනෙන් මම බොහෝ සතුටට පත් වුණෙමි.
+image201/line_001.png,අපද්‍රව්‍ය ජලයට එක් නොකර අපි ජල සම්පත සුරකිමු.
+image201/line_002.png,ජල සම්පත සුරකිමු .
+image201/line_003.png,කර අපි ජල සම්පත සුරකිමු.
+image201/line_004.png,"කැඩී බිදී ගිය ජල නළ පද්ධති, ජල කරාම අලුත්වැඩියා"
+image201/line_005.png,"සතුන්ගේ මළ මුත්‍රා, කර්මාන්තශාලා වලින් පැමිණෙන"
+image201/line_029.png,මිනිස් පරිභෝජනයට සීමිත වූ ජලයෙහි අගය අන් අයට
+image202/line_001.png,"දේපළ පිරිසිදුව, පිළිවෙලට තබා ගනිමින් අපි ඒවා සුරකිමු."
+image202/line_002.png,"අනවශ්‍ය ලෙස කඩා බිඳ නොදමින්, නිසි ලෙස"
+image202/line_003.png,නඩත්තු කරමින් අපි පොදු දේපළ සුරැකිමු.
+image202/line_004.png,"පාසල,පන්සල,බැංකුව,බස් නැවතුම වැනි පොදු"
+image202/line_005.png,මෙවැනි ස්ථානවල අගය සැමට වටහා දී අපි පොදු
+image202/line_006.png,දේපළ සුරකීමට දායක වෙමු.
+image203/line_001.png,පුදුමයි
+image203/line_002.png,පුංචි
+image203/line_003.png,දැනුණා.
+image203/line_004.png,සිනිඳු
+image203/line_005.png,වුණා
+image203/line_006.png,අලුත්
+image203/line_007.png,මුළු
+image203/line_008.png,අත්තටු
+image204/line_001.png,ඔබ පරිසරයට අපූරු සුන්දරත්වයක් ගෙන දෙන
+image204/line_002.png,මම ගසක් වෙමි.
+image204/line_003.png,වාතය ලබා දීමට මම සහය වෙමි.
+image204/line_004.png,මම වටිනා දෙල් ගසක් වෙමි.
+image204/line_005.png,"මිනිසාට අවශ්‍ය ආහාර ,සෙවණ,සිසිලස හා පිරිසිදු"
+image204/line_006.png,අමතක නොකරමි.
+image204/line_007.png,"සතුනට අවශ්‍ය ආහාර,වාසස්ථාන ලබා දීමට මම"
+image206/line_001.png,අපගේ දෙවැනි මව් වැනි මගේ ගුරුතුමිය අප
+image206/line_002.png,වර්ණවත් සාරිවලින් සැරසී ඇය උදයම පාසලට
+image206/line_003.png,පැමිණෙයි
+image206/line_004.png,මගේ ආදරණීය ගුරුතුමිය
+image206/line_005.png,යහපත් ගුණ ධර්ම හා අපට අවශ්‍ය විවිධ විෂය
+image206/line_006.png,කොටස් ඇය මැණවින් උගන්වයි.
+image208/line_004.png,නිසි කලට වැඩ කරන ඔබට අවැසි වේලාව
+image208/line_006.png,මම නිවැරදිව ලබා දෙමි.
+image208/line_007.png,"පැය කටුව ,මිනිත්තු කටුව, තප්පර කටුව හා මම"
+image208/line_009.png,විහිසුරුවම වැඩ කරමි.
+image208/line_010.png,නිවසේ බිත්තියක රැඳී සිටින මා ඔබ බලන
+image21/line_001.png,යුගල පද භාවිතයෙන් වැකි සාදමු .
+image21/line_007.png,අයියා සහ අක්කා අනම් මනම් කතා කරති.
+image21/line_009.png,ගමේ මිනිස්සු වාද විවාද කරති.
+image21/line_010.png,යාචකයාට ළමයි විහිළු තහළු කරති.
+image21/line_011.png,"මැජික් කරුවා ගේ වේදිකාවේ ""අරුම පුදුම මැජික්"""
+image21/line_013.png,යනුවෙන් පුවරුවක් තිබෙයි.
+image21/line_015.png,තාත්තා අලුත් අවුරුදු දවසට පෙර අස්සක් මුල්ලක් නෑර
+image21/line_017.png,පිරිසිදු කරයි.
+image214/line_001.png,මාලය
+image214/line_002.png,ශෛල
+image214/line_003.png,කේතලය
+image214/line_004.png,ගුරුතුමා
+image214/line_006.png,කෑරලා
+image214/line_007.png,වැස්ස
+image222/line_001.png,සියලු දෙනා ගැන නිතර සොයා බලයි.
+image223/line_015.png,දබරැගිල්ල
+image223/line_035.png,දබරැගිල්ල
+image223/line_051.png,දබරැගිල්ල
+image223/line_055.png,මැදැගිල්ල
+image223/line_069.png,මැදැගිල්ල
+image223/line_096.png,මැදැගිල්ල
+image224/line_053.png,දහළුය
+image224/line_054.png,දහඳිය
+image224/line_055.png,දහඳිය
+image224/line_056.png,ගිණිමැල
+image225/line_001.png,කෙකටිය
+image225/line_002.png,මේසය
+image225/line_003.png,බෝතලය
+image225/line_004.png,වෘත්තය
+image225/line_005.png,ධෛර්ය
+image225/line_006.png,ක්‍රමය
+image225/line_007.png,ගාථාව
+image226/line_001.png,වීමර්ෂණ
+image226/line_002.png,පොළඟා
+image227/line_006.png,ප්‍රහේලිකාව
+image228/line_004.png,නිරූවණය
+image228/line_005.png,නිරූපණය
+image229/line_003.png,ප්‍රශ්නාර්ථ ලකුණ
+image229/line_004.png,යම් වාක්‍යයකින් ප්‍රශ්නයක්
+image229/line_006.png,ප්‍රශ්න පදය කුමන ස්ථානයේ තිබුණ ද
+image229/line_009.png,වාක්‍යය  අවසානයේ
+image23/line_001.png,යුගල උඩ කොමාව.
+image23/line_002.png,යුගල උඩ කොමාව යොදනු
+image23/line_003.png,ලැබෙයි.
+image23/line_005.png,කෙනෙක් කියන ලද දෙයකට
+image23/line_007.png,සහ යමකින් උපුටා ගැනීමේදී
+image23/line_008.png,"""මමත් එනවා."" නංගී කිව්වා."
+image230/line_027.png,"විස්මයාදී ලකුණ, හර්ෂයාදී ලකුණ, තිත්හුල"
+image230/line_039.png,පුදුමයක් හැඟවීමේ දී
+image230/line_052.png,පාර්ථනාවක දී
+image230/line_070.png,සතුටක දී
+image230/line_086.png,ශෝකයක්‍ දී
+image24/line_002.png,මාලා ගාල්ලට යනවා.
+image24/line_004.png,තාරාවා පාරට ආවා.
+image24/line_006.png,මාමා මාලයක් ගත්තා.
+image24/line_007.png,නයනා මාතරට ආවා.
+image241/line_001.png,ඒ කොහොමද සීයේ මනුක ඇසුවා
+image241/line_002.png,"හවසට ආප්ප,පිට්ටු ඉඳි ආප්ප විකිණීමට"
+image241/line_003.png,තෑග්ග දුටු නිමල් ෂා හරිම ලස්සනයි කිව්වා
+image241/line_004.png,පුතේ ඔයා මෙහෙට එනව ද
+image241/line_005.png,පත්තරේ දානවා යනුවෙන් හඳුන්වන්නේ
+image241/line_006.png,අර තනි කකුලෙ මේසයක් කවීෂා කිව්වා
+image241/line_007.png,ඔබද මේක ලිව්වේ
+image242/line_001.png,ග ජ ඩ ද බ
+image242/line_002.png,මහප්‍රාණ අක්ෂර
+image242/line_003.png,ඛ ඡ ඪ ථ ඵ
+image242/line_004.png,අලපප්‍රාණ අක්ෂර
+image242/line_005.png,ඝ ඣ ඪ ධ භ
+image242/line_006.png,ක ච ට ත ප
+image242/line_007.png,මර්ධජ අක්ෂර
+image242/line_008.png,ණ ළ ෂ
+image242/line_030.png,සඤ්ඤක අක්ෂර
+image244/line_002.png,පාසලේ පැවැත්වෙන ක්‍රීඩා උත්සවයක්
+image244/line_003.png,ගොඩනැඟිල්ලක් විවෘත කිරීමක්
+image244/line_004.png,පොළක්
+image244/line_005.png,"ක්‍රිකට්,ෆිට්බෝල් වැනි ක්‍රීඩා පැවැත්වෙන අවස්ථා"
+image244/line_006.png,පෙරහැරක්
+image245/line_008.png,මම පුවතක් වෙමි
+image245/line_013.png,තීන්ත හා කඩදාසි යොදාගෙන මම මුද්‍රණ
+image245/line_018.png,යන්ත්‍රයෙන් උපත ලබමි.
+image245/line_023.png,"රටේ සිදුවන වැදගත් සිදුවීම්, වෙනස්කම්"
+image245/line_025.png,හා දැන්වීම් ආදිය මගෙන් දැනගත හැකි
+image245/line_032.png,ලොකු කුඩා සැම දෙනාගේ ම දැනුම වර්ධ
+image245/line_035.png,සඳහා මම විශාල මෙහෙරක් ඉටු කරමි
+image246/line_006.png,මම සෑම දරුවෙකුටම
+image246/line_008.png,දැනුම මෙන්ම
+image246/line_020.png,ලබා දෙමි
+image246/line_023.png,හොඳින් ඉගෙන ගන්නා දරුවන්
+image246/line_026.png,මා හට සතුටක් ගෙන දෙයි.
+image246/line_028.png,ඉගෙන ගැනීමට
+image246/line_030.png,විට මා හට දුකක් ගෙන දෙයි.
+image246/line_034.png,මගෙන් ඉගෙන ගත්
+image247/line_020.png,රුලං
+image247/line_029.png,සුළඟ
+image249/line_010.png,හොඳට
+image249/line_012.png,ළඟට
+image249/line_015.png,ඇඟිලි
+image249/line_018.png,දබරැඟිල්ල
+image249/line_020.png,මැදැඟිල්ල
+image250/line_015.png,කොමාව
+image250/line_026.png,"මම උදෑසන අවදි වී, දත් මැද මුහුණ"
+image250/line_029.png,පාසල් ගියෙමි.
+image250/line_032.png,"මාත් අම්මායි, තාත්තායි දෙන්නම"
+image250/line_034.png,බලා ගන්නවා.
+image250/line_047.png,"ඇරිස්ටෝවල්, රොටියක් සේ වටකුරු පුප"
+image250/line_049.png,ගෙන එය හිරු එළියට ඇල්ලී ය.
+image250/line_051.png,"ජීවක වෛද්‍යතුමනි, මාහට අවුරුදු හයක්"
+image250/line_054.png,තිස්සේ ම නින්දක් නැත.
+image250/line_061.png,"ක්ලැරිබෙල්, කහ පාට කැනේරි වර්ගයට"
+image250/line_064.png,අයත් කුඩා ෂක්ෂියෙක්
+image251/line_001.png,එකවර ඇසුවා
+image251/line_002.png,"""හොඳයි, දැන් ඇගිලි දිග අරින්නකෝ."""
+image251/line_018.png,යමෙකු විසින් කළ ප්‍රකාශයක් දැක්වීමේ දී
+image251/line_019.png,යුගල උඩු කොමා
+image251/line_021.png,"""සමන් මෙහෙට එන්න"" යැයි ගුරුතුමිය පැවසුවා"
+image251/line_022.png,ය
+image251/line_025.png,යමකින් උපුටා ගැනීමක් සඳහා වන කොටස
+image251/line_026.png,ක් පෙන්වීමේ දී
+image251/line_029.png,සිංහලයනි අවධිවව් අනගරික ධර්මපාල පවසා
+image251/line_031.png,ඇත
+image251/line_034.png,"""මැදඟිල්ල තමයි ලොක්කා"" නංගි උත්තර දුන්නා."
+image251/line_035.png,"""නෑ,මගේ පුතේ. මෙන්න මෙයයි ලොක්කා"""
+image251/line_036.png,"""මට නම් මේක තේරෙන්නේ නැහැ."""
+image251/line_037.png,"""මොකද වුණේ"" කියා අපි හැමෝම"
+image252/line_004.png,සමානාර්ථ පද
+image252/line_008.png,අර්ථයෙන් සමාන පද සමානාර්ථ පද
+image252/line_018.png,සමානාර්ථ පද ලිවීමේ දී පද දෙක අතරට
+image252/line_021.png,කිරීමේ ලකුණ යෙදිය යුතුය.
+image252/line_022.png,මේවා වෙනත් ආකාරයකින් කියන්නේනම් එකම
+image252/line_025.png,අදහස දෙන විවිධ පද සමානාර්ථ ලෙස හඳුන්
+image252/line_027.png,සමානාර්ථ පද ඒකවචන බහුවචන බෙදය
+image252/line_032.png,පිළිඳව සැළකිලිමත් විය යුතුව.
+image253/line_002.png,සමානාර්ත පද
+image253/line_005.png,අර්තයෙන් සමාන පද සමානාර්ත පද ලෙස
+image253/line_006.png,හඳුන්වයි. සමානාර්ත පද ලිවීමේ දී පද දෙක
+image253/line_007.png,අතරට සමාන කිරීමේ ලකුණ යෙදිය යුතු ය
+image253/line_012.png,මේවා වෙනත් ආකාරයකින් කියන්නේනම් එකම
+image253/line_021.png,අදහස දෙන විවිධ පද සමානාර්ත පද ලෙස
+image253/line_026.png,සමානාර්ථ පද ලිවීමේදී ඒක වචන බහු වචන
+image253/line_028.png,ගැන සැලකිලිමක් විය යුතුය
+image254/line_003.png,සත්ව
+image254/line_008.png,පක්ෂියකු
+image254/line_011.png,මීයා
+image254/line_014.png,කුකුළා
+image254/line_016.png,බකමූණා
+image254/line_024.png,ඌරා
+image254/line_030.png,හාවා
+image255/line_001.png,පුද්ගල නාමපද
+image255/line_004.png,බින්දු
+image255/line_021.png,පොලීසිය
+image255/line_033.png,ඔල්සන්
+image255/line_037.png,නංගි
+image256/line_001.png,රට
+image256/line_010.png,පාසල
+image256/line_014.png,හැරමිටිය
+image256/line_020.png,කෝටුව
+image256/line_023.png,ගෙදර
+image256/line_026.png,ගේට්ටුව
+image256/line_029.png,කුරුණෑගල
+image256/line_030.png,පොත
+image256/line_035.png,වැල්
+image257/line_001.png,පහත ප්‍රස්ථාව පිරුළුවල තේරුම
+image257/line_002.png,ලියන්න
+image257/line_003.png,ඉබ්බාගෙන් පිහාටු ඉල්ලනවා වගේ
+image257/line_004.png,කෙනෙකුගෙන් කෙසේවත් ලබා ගත
+image258/line_001.png,මුවා
+image258/line_002.png,තුන
+image258/line_003.png,මුල
+image258/line_004.png,දුර
+image258/line_005.png,රුවල
+image259/line_004.png,රාජකාරිය නිවැරදිව කිරීම
+image259/line_008.png,පාසලට එන දරුවන් ආරක්ෂිතව පාර මාරු කිරීම.
+image259/line_010.png,තොමෝ දරුවන්ට මෙන්ම වැඩිහිටියන්ට ද මාර්ග
+image259/line_014.png,නීති මතක් කර දෙයි.
+image259/line_019.png,දරුවන්ට කරුණාවෙන් මග පෙන්වීම.
+image259/line_024.png,කිසිදු ප්‍රතිලාභයක් ලබා නොගෙන ඇය සිදු කරන
+image260/line_001.png,ඊ එ ඒ ඓ ඔ ඕ
+image260/line_002.png,ඣ ඦ ට ඨ ඩ ඪ
+image260/line_003.png,ඖ ඛ ඞ ච ඡ ජ
+image260/line_004.png,ණ ඬ ථ ධ ඵ බ
+image260/line_005.png,ම ඔ ර ව ළු
+image261/line_001.png,පිහිටා තිබුණු පොල් මුල
+image261/line_002.png,"මගේ මාලිගාව, දිව්‍ය"
+image261/line_003.png,බලා ලිවීම
+image261/line_004.png,වත්ත කෙළවරේ උස්
+image261/line_005.png,"වනය, සිරිපාද කන්ද, පාස"
+image261/line_006.png,තරම් හීන මවන්න මට
+image262/line_001.png,බලා ලිවීම
+image262/line_002.png,ඇගේ ගම ගිංතොට ය එය ගාල
+image262/line_010.png,"ගම්මානයකි. මල්, පලතුරු, ගහකොළවලින්"
+image262/line_011.png,පිරුණු නිතර ම සිහිල් සුළඟ හමන
+image262/line_013.png,මේ ගම ගැන අපූරු මතක සටහන්
+image262/line_014.png,ඇයගේ සිහිනවල තිබිණි.හිමිදිරියේ ම
+image262/line_016.png,අවදී වී ගේ අවට සිරියාව අත්
+image262/line_017.png,විඳිමින් මේ පුංචි දැරිය ඒ අමුතු ම
+image262/line_018.png,සිහින සිතින් මවා ගත්තා ය.
+image263/line_001.png,සිබිල් නැන්දා සිතුවම් සහිතව රචනා කළ
+image263/line_003.png,අන්තර්ජාතික සම්මානයට පාත්‍ර වූ
+image263/line_005.png,ජනප්‍රිය ළමා කතා පොත කුමක් ද?
+image263/line_006.png,කුඩ හොරා
+image264/line_001.png,මකුළුවා යොසාකුට උදව් කළ නිසා
+image264/line_002.png,මකුළුවා හැදිවීමට ජපන් භාෂාවේ
+image264/line_003.png,කිමෝනෝ අටක් මහන්න.
+image264/line_004.png,සර්පයා යොසාකුගේ රෙදි වියන
+image264/line_005.png,කාමරයට පැමිණියේ කෙසේ ද?
+image264/line_006.png,කපු පුළුල් පොදියට රින්ගා.
+image264/line_007.png,"ඉර,මකුළුවාට උදවු කළේ ඇයි?"
+image265/line_027.png,"""වත්ත කෙළවරේ උස් තැනක පිහිටා"
+image265/line_029.png,"තිබුණු පොල් මුල උඩයි, මගේ"
+image265/line_033.png,"රාජධානය.එතැනයි මගේ මාලිගාව,දිව්‍ය"
+image265/line_035.png,"ලෝකය, වනය, සිරිපාද කන්ද, පාසල,"
+image265/line_037.png,"නෑ ගෙදර, මඟුල් ගෙදර, ඕනෑ තරම් හීන"
+image265/line_039.png,මවන්න මට පුළුවන් වුණ තැනක්
+image265/line_042.png,තමයි ඒ පොල් මුල
+image266/line_006.png,විරාම ලකුණු
+image266/line_009.png,තිත
+image266/line_011.png,වාක්‍යයක් අවසන් වන විට තිත
+image266/line_014.png,යොදයි.
+image266/line_016.png,තාත්තා වැඩට ගියේ ය.
+image266/line_019.png,දෙයක් කෙටි කර දැක්වීමේ දී
+image266/line_024.png,තිත යොදයි.
+image266/line_029.png,පෙරවරු පෙ.ව.
+image266/line_031.png,නැවතීම සහිත වාක්‍ය 2ක් පෙළපෙතෙන්
+image266/line_034.png,සොයා ලියන්න.
+image267/line_001.png,ලිවීම
+image267/line_004.png,අමුතු කතා
+image267/line_006.png,පින්තූර මගින් කතා කීම ඈත
+image267/line_007.png,සිට පැවත එන ක්‍රමයකි
+image267/line_009.png,පින්තූර කතා කියවීමට අපි කැමැත්
+image267/line_013.png,චිත්‍ර කතා යනු පින්තූර බහුලව භාවිත
+image267/line_015.png,කරමින් ඉදිරිපත් කෙරෙන කතන්දර
+image267/line_017.png,"වර්ගයකි. ටින් ටින්ගේ වීර ක්‍රියා,"
+image267/line_019.png,ඇස්ටරික්ස් ආදිය ලෝකය පුරා
+image268/line_003.png,වෛද්‍ය
+image268/line_004.png,දෛවය
+image268/line_008.png,මෛත්‍රිය
+image268/line_017.png,චෛත්‍යය
+image268/line_021.png,ශෛල
+image269/line_014.png,පැන්සලක් කතා කරයි.
+image269/line_018.png,පැන්සලක් කතා කරන විට
+image269/line_020.png,අපට හරිම සතුටුය
+image269/line_023.png,කතා කරන පැන්සල අපට
+image269/line_024.png,ලස්සන අකුරු ලියන්න
+image269/line_027.png,උදවු කරයි.
+image269/line_028.png,පැන්සල හරිම හොඳයි.
+image269/line_029.png,කතා කරන පැන්සල අපට
+image269/line_030.png,චිත්‍ර අදින්න බොහෝ උදවු
+image269/line_031.png,කරයි.
+image269/line_032.png,පැන්සල අපේ යාළුවෙක්.
+image270/line_006.png,ක්‍රියාකාරකම
+image270/line_013.png,'මගේ රට' ගැන කවියක්
+image270/line_019.png,නිර්මාණය කරන්න.
+image270/line_029.png,සරු පොළොවක් ඇති මගේ රට
+image270/line_031.png,මුහුදෙන් වටවුනු මගේ රට
+image270/line_032.png,ඉන්දිය සයුරේ මුතු ඇටයයි මගේ රට
+image270/line_033.png,හැම විටම ලස්සනයි මගේ රට
+image271/line_001.png,නායක කම ගන්නවා කළු කුකු
+image271/line_002.png,හාමි හිතවා ඔන්න දවසක් රතු කු
+image271/line_004.png,හාමි වී ටිකක් කනකොට කළු කුකු
+image271/line_005.png,හාමි එතනට ඇවිල්ලා ටිකට රණඩු
+image271/line_010.png,වුණා.
+image272/line_001.png,කුරුලු නාද දසින් නැගෙයි
+image272/line_002.png,සිරි නරඹමින් ඡන්න ඇමති
+image272/line_003.png,සමඟ උයන කරා යන අතර
+image272/line_004.png,සැරමිටියක් ගෙන ගමන්
+image272/line_005.png,සිදුහත් කුමරු මඟ දෙපස
+image272/line_008.png,කරන මිනිසෙකු දකියි.
+image273/line_001.png,ජලය
+image273/line_002.png,අපූර්තම දායාදයක් තමයි මේ
+image273/line_003.png,සොබාදාම අපට ලබාදුන්
+image273/line_004.png,අපට සම්පතක් වෙයි.
+image273/line_006.png,මිනිසාගේ ජීවිතය ජීවත්
+image273/line_007.png,ජලය අප පරිස්සමෙන්
+image273/line_008.png,භාවිතා කළ යුතුය.
+image273/line_009.png,කරවීමට උපකාර වන ජලය
+image274/line_006.png,මගේ විනෝදාංශය වන්නේ අලංකාර
+image274/line_007.png,චිත්‍ර ඇඳීමයි.
+image274/line_010.png,මම නිවාඩු කාලයට බොහෝ ම
+image274/line_011.png,සතුටින් චිත්‍ර අඳිමි.
+image274/line_012.png,මගේ කාමරයේ ද මම ඇඳූ චිත්‍ර
+image274/line_015.png,එල්ලා තිබෙයි.
+image275/line_003.png,මා දුටු සුන්දර ස්ථානය
+image275/line_004.png,මා දුටු සුන්දර ස්ථානය වන්නේ
+image275/line_008.png,නුවරඑළිය හෝට්න් තැන්න
+image275/line_013.png,එහි වන සතුන්ගේ පරාදීසයක්
+image275/line_014.png,"මම එහි ලෝකාන්ත,පුංචි ලෝකා"
+image275/line_015.png,නැරඹීමට ගියෙමි.
+image275/line_016.png,එහි බොහෝ ඇවිදීමට තිබෙයි.
+image275/line_017.png,බේකර්ස් ඇල්ල වගේ බොහෝ දේවල්
+image275/line_019.png,හෝට්න් තැන්න බොහෝ
+image275/line_022.png,චමත්කාර ය.
+image276/line_001.png,කරමි.
+image276/line_002.png,මම වෛද්‍යවරියක් වී රටට සේවය
+image276/line_003.png,වෛද්‍යවරියක් වීමයි.
+image276/line_004.png,මගේ අනාගත බලාපොරොත්තුව මාතෘකාවට
+image276/line_005.png,මම වෛද්‍යවරියක් වීම ගැන මගේ
+image276/line_006.png,මගේ අනාගත බලාපොරොත්තුව වන්නේ
+image276/line_008.png,දෙමව්පියන් සතුටු වුණෙමි.
+image277/line_008.png,මගේ විනෝදාංශය
+image277/line_016.png,මගේ විනෝදාංශය පොත්
+image277/line_019.png,මම කැමති පොත  මඩොල්
+image277/line_021.png,දූවයි.
+image277/line_025.png,මට විවේක කාලයක් හමුවූ
+image277/line_027.png,විට මම පොතක් කියවමි.
+image277/line_029.png,මගේ විනෝදාංශයම මගේ යහළු
+image277/line_030.png,වන්ටත් තෝරා ගන්නා ලෙස
+image277/line_032.png,ඉල්ලා සිටීමි.
+image277/line_033.png,වීමයි.
+image278/line_001.png,ඉතිං පහුවදාත් නරිහාමිටත්
+image278/line_002.png,ලොකු බඩගින්නක් හැදුණ.
+image278/line_007.png,එදත් කන්න දෙයක් හොයාගෙන
+image278/line_012.png,කැලේ ඇවිදගෙන යනකොට
+image278/line_014.png,නරිහාමිට ඉත්තෑවෙක්
+image278/line_017.png,"හම්බ වුණා. ""කොහෙද"
+image279/line_004.png,කවියේ සඳහන් පොත් කියවන
+image279/line_011.png,ඉරියවු මොනවා ද?
+image279/line_015.png,ඇඳේ වැටී පුටුවෙ  ඇදී පොළොවෙ
+image279/line_018.png,වැතිරිලා
+image279/line_021.png,මේ කවි පෙළෙහි 'පොත් කුරුල්ල'
+image279/line_023.png,මෙම කවි පන්තියේ පොත්
+image279/line_024.png,ලෙස හැඳින්වෙන්නේ කවරෙක්ද ?
+image279/line_025.png,කියවන ළමයා
+image281/line_001.png,ඉලපත
+image281/line_002.png,ඊතලය
+image281/line_003.png,එක
+image281/line_004.png,ඖෂධ
+image281/line_005.png,ආභරණ
+image281/line_006.png,පිලි රහිත වචන ලියමු
+image281/line_007.png,ණය
+image281/line_008.png,අතරමග
+image281/line_009.png,ඇසළ
+image281/line_010.png,කතරගම
+image282/line_001.png,මධ්‍ය අක්ෂර
+image282/line_006.png,සිංහල අක්ෂර
+image282/line_010.png,මාලාව
+image282/line_015.png,අවරෝහණ අක්ෂර
+image282/line_016.png,ලෙස කොටස තුනකයට
+image282/line_017.png,වෙනකරයි
+image282/line_019.png,ආරෝහණ අක්ෂර
+image282/line_021.png,මධ්‍ය අක්ෂර
+image282/line_022.png,අක්ෂර මධ්‍ය
+image282/line_023.png,අක්ෂරවේ.
+image282/line_024.png,රූල මැද ලියවෙන
+image283/line_001.png,"'ඔ',ශබ්දය 'ඕ',ශබ්දය"
+image283/line_010.png,කොළඹ කෝරල
+image283/line_011.png,ගොරක ගෝනිය
+image283/line_012.png,නොරොන් නෝනා හමි
+image283/line_013.png,සොරබොර සෝමා
+image283/line_014.png,පොළේ පොද්දිවෙල
+image284/line_028.png,කෙනෙක් කියන ලද දෙයකට
+image284/line_031.png,සහ යමකින් උපුටා ගැනීමේදී
+image284/line_034.png,යුගල උඩු කොමාව යොදනු
+image285/line_002.png,'ඎ' ශබ්දය හඳුනා  ගනිමු.
+image285/line_017.png,ඎ ශබ්දය සඳහා ගැට ඇලපිල්
+image285/line_021.png,දෙක යෙදේ.
+image285/line_024.png,එම ශබ්ද සඳහා ගැට ඇලපිලි
+image285/line_026.png,දෙක යෙදේ.
+image285/line_028.png,කෲ
+image285/line_031.png,ගෲ
+image285/line_033.png,තෲ
+image285/line_036.png,දෲ
+image285/line_040.png,සෲ
+image285/line_043.png,බෲ
+image286/line_004.png,අද
+image286/line_007.png,පහන
+image286/line_008.png,පාලම
+image286/line_009.png,පැළය
+image286/line_010.png,පෑන
+image286/line_011.png,පිහිය
+image286/line_012.png,පීල්ල
+image286/line_013.png,පුටුව
+image286/line_014.png,පූසා
+image286/line_015.png,පෙරහැර
+image286/line_017.png,පේර
+image287/line_011.png,පොළ
+image287/line_019.png,පෝළිම
+image287/line_024.png,පෞරානික
+image287/line_030.png,පෞතිවිය
+image288/line_012.png,අද මාර්තු
+image288/line_013.png,අසා  ලිවීම
+image288/line_027.png,ගොරකා
+image288/line_029.png,ගෝනිය
+image288/line_030.png,බෝලය
+image288/line_031.png,තොවිලය
+image288/line_032.png,රෝදය
+image288/line_034.png,නෝනා කොළඹ ගියා.
+image288/line_040.png,ගෝනිය ගත්තා.
+image288/line_061.png,අම්මා පූජාව තැබුවා.
+image289/line_010.png,අද අප්‍රේල්
+image289/line_012.png,අසා  ලිවීම
+image289/line_016.png,පහන
+image289/line_018.png,පාලම
+image289/line_020.png,පැළය
+image289/line_022.png,පෑන
+image289/line_024.png,පිහිය
+image289/line_025.png,පීල්ල
+image289/line_027.png,පුටුව
+image289/line_030.png,පූසා
+image289/line_033.png,පෙරහැර
+image290/line_001.png,අද මාර්තු
+image290/line_007.png,අසා  ලිවීම.
+image290/line_009.png,කෘමියා
+image290/line_010.png,ගෘහය
+image290/line_016.png,තෘන
+image290/line_017.png,වෘත්තය
+image290/line_018.png,වෘක්ෂය
+image290/line_020.png,පෘවත්ති
+image290/line_022.png,පෘතුවිය
+image290/line_024.png,හෘර්දය
+image290/line_025.png,කෘමියා ගුළට ගියා
+image291/line_005.png,අද අප්‍රේල්
+image291/line_007.png,අසා ලිවීම
+image291/line_011.png,පහන
+image291/line_017.png,පාලම
+image291/line_019.png,පැළය
+image291/line_021.png,පෑන
+image291/line_023.png,පිහිය
+image291/line_028.png,පීල්ල
+image291/line_030.png,පුටුව
+image291/line_038.png,පසා
+image291/line_044.png,පෙරහැර
+image292/line_017.png,පේර
+image292/line_020.png,පොළ
+image292/line_022.png,පෝළිම
+image292/line_028.png,පෞරාණික
+image292/line_032.png,පෘථිවිය
+image293/line_031.png,පෑන්
+image293/line_033.png,පිහිය
+image293/line_034.png,පීල්ල
+image293/line_035.png,පුටුව
+image294/line_001.png,පුටුව
+image294/line_002.png,පූසා
+image294/line_003.png,පෙරහැර
+image294/line_004.png,පේර
+image294/line_005.png,අද අප්‍රේල්
+image294/line_006.png,අසා ලිවීම
+image294/line_007.png,පහන  පෝළිම
+image294/line_008.png,පැළය පෘථිවිය
+image294/line_009.png,පාලම  පෞරාණික
+image294/line_010.png,පෑන
+image294/line_011.png,පිහිය
+image294/line_012.png,පොළ
+image294/line_013.png,පීල්ල
+image295/line_005.png,කූඹියා
+image295/line_006.png,රූපය
+image295/line_010.png,සූදුව
+image295/line_015.png,මූලික
+image295/line_020.png,භූමිය
+image296/line_001.png,"උදා:-දරුව, මෙහි එන්න"
+image296/line_002.png,"මෑණියනි, හෙට ගමට එන්න."
+image296/line_003.png,සඳහා වාඛ්‍ය ලිවීම දී යොදයි
+image296/line_004.png,උදා:-ගැහැනිය කැලට ගොස්
+image296/line_005.png,"දර කඩාගෙන, පලා ද නෙලාගෙන"
+image296/line_006.png,ගෙදරට ගියා ය.
+image296/line_007.png,කොමාව යෙදෙනු අවස්ථා
+image296/line_008.png,ඇමතීකම දී යෙද
+image296/line_009.png,"උදා සල්, සපු, නා, පනා,"
+image296/line_010.png,කෙටි විරාමයක් කෙටි විරාමය
+image296/line_011.png,නව් කීපයක් දැක්වීමේ  දී යෙදී.
+image297/line_003.png,බලන්න
+image297/line_004.png,අද සිකුරාදා
+image297/line_005.png,අපි යන්නේ ග්‍රහලෝකාගාරය
+image297/line_017.png,විරාම ලක්ෂණ
+image297/line_024.png,තිත
+image297/line_029.png,අද අපේ පාසලේ චාරිකාව
+image297/line_030.png,ලමයි හැමෝම බස් රථයට නැග්
+image298/line_001.png,ඉහත චේදය නශ්ශබ්ද ව
+image298/line_002.png,කියවා පහත අකුරුවලින්
+image298/line_003.png,පටන් ගන්නාවචන ඡේදයෙන්
+image298/line_004.png,සොයා ලියන්න
+image299/line_011.png,ප්‍රදර්ශනය
+image299/line_022.png,යාළුවෝ
+image299/line_039.png,නෙලුම් මල
+image299/line_043.png,ඇළ දෙළ
+image299/line_047.png,වලාකුළු
+image299/line_051.png,පොකුරු
+image299/line_056.png,වෘක්ෂය
+image299/line_065.png,බෲනායි
+image300/line_002.png,චෛත්‍යය
+image300/line_010.png,පෞද්ගලික
+image301/line_002.png,ගියා ය
+image301/line_004.png,ආදී ගස් වලින් ඒ උයන
+image301/line_008.png,දර කඩා ගෙන
+image301/line_012.png,පලාදී නෙළාගෙන ගෙදර
+image301/line_013.png,නම් කීපයක් දැක් වීමේ
+image301/line_014.png,වැසී තිබුණි.
+image301/line_015.png,දී යෙදේ.
+image301/line_016.png,"උදා සල්, සපු, නා පනා"
+image302/line_005.png,අද බ්‍රහස්පතින්දා
+image302/line_006.png,කෝමාව යෙදෙන අවස්ථා
+image302/line_008.png,ඇමතීමක දී යෙදේ
+image302/line_012.png,"උදා දරුවා, මෙහි එන්න."
+image302/line_015.png,"මෑණියන, හෙට ගමට එන්න."
+image302/line_020.png,කෙටි විරාමයක් කෙටි නැවතීමක්
+image302/line_022.png,සඳහා වාඛ්‍ය ලිවීමේ දී යොදයි.
+image302/line_025.png,"උදා ගැහැනිය කැලයට ගොස්,"
+image302/line_027.png,"දර කඩාගෙන, පලා ද නෙළාගෙන"
+image302/line_034.png,ගෙදර ගියා ය.
+image302/line_042.png,නම් කිහිපයක්
+image303/line_018.png,විරාම ලක්ෂණ
+image303/line_044.png,අප යන්නේ ග්‍රහලෝකාගාරය
+image304/line_001.png,කෙටි විරාමයක් කෙටි නැවතීමක්
+image304/line_003.png,සඳහා වාඛ්‍ය ලිවීමේදී යොදයි.
+image304/line_004.png,උදා:- ගැහැනිය කැලයට
+image304/line_005.png,"ගොස් දර කඩාගෙන, පලාද"
+image304/line_007.png,නෙළාගෙන ගියා ය.
+image305/line_003.png,මම මුහුදු වෙරළක සදෑ
+image305/line_006.png,කාලයගත කරමි.
+image305/line_018.png,සැදෑ කාලයේ දි මම මුහුදු වෙරළේ
+image305/line_028.png,සරුංගල් යවමි
+image305/line_042.png,සැදෑ අඳුරත් සමඟ මම මුහුදු වෙරළේ
+image305/line_052.png,වැලිමාලිගා සාදමි.
+image305/line_073.png,සැදෑ අහසේ ඉර බැස යන ආකාර මම
+image305/line_089.png,මුහුදු වෙරළේ සිට නරඹමි.
+image306/line_001.png,නම් කීපයක් දැක්වීමේ දී
+image306/line_006.png,යෙදේ
+image306/line_009.png,"උද:- සල්,සපු,නා,පනා,"
+image306/line_010.png,ආදී ගස් වලින් ඒ උයන වැසි
+image306/line_012.png,තිබුණි.
+image307/line_002.png,අතරමඟ
+image307/line_003.png,ආභරණ
+image307/line_004.png,ඇසල
+image307/line_005.png,පරණ
+image307/line_011.png,ඉලපත
+image308/line_001.png,කොමාව යෙදෙන අවස්ථා.
+image308/line_005.png,"උදා:- දරුව,මෙහි එන්න."
+image308/line_006.png,"මෑණියනි,හෙට ගමන එන්"
+image308/line_014.png,කෙටි විරාමනයක් කෙටි
+image308/line_016.png,නැවතිමක් සඳහා වාඛය
+image308/line_017.png,උදා:-ගැහැනිය කැලයට
+image308/line_019.png,"ගොස්,දර කඩාගෙන පලාද"
+image308/line_022.png,නෙළාගෙන ගෙදර ගියා ය.
+image308/line_024.png,ලිවීමේ දී යොදයි
+image308/line_029.png,නවු කිපයක් දැක්වීමේ දී
+image309/line_011.png,"උදා:-සල්,සපු,නා,පනා"
+image309/line_012.png,ආදී ගස් වලින් ඒ උයන
+image309/line_016.png,වැසි තිබුණි.
+image310/line_001.png,වෘක්ෂය
+image310/line_002.png,කෘතිය
+image310/line_003.png,ගෘහය
+image310/line_005.png,තෘණ
+image310/line_006.png,හෘදය
+image311/line_001.png,ඇලපිල්ල
+image311/line_002.png,පිල්ලම් සහිතව ලියමු
+image311/line_003.png,පිල්ලම් මගින් අකුරු වලට ශඕද ලැබේ.
+image312/line_003.png,පිලි රහිතව ලියමු
+image312/line_013.png,ඈත
+image312/line_017.png,සරම
+image312/line_019.png,ආදරය
+image312/line_023.png,ඇදය
+image312/line_026.png,ටකය
+image312/line_028.png,ඖෂධ
+image313/line_007.png,නෙලුම
+image313/line_011.png,ගෙදර
+image313/line_013.png,කෙත
+image314/line_005.png,මෝඩ
+image314/line_009.png,ගෝනා
+image314/line_020.png,රෝග
+image315/line_008.png,අවබෝදය
+image315/line_015.png,පාර කියන අත්තම්මාගේ නම කුමක්ද
+image315/line_019.png,ලිලී වයලට්
+image315/line_020.png,ඇය ස්වේච්ඡාවෙන් ඉටු කළ රාජකාරිය
+image315/line_021.png,කුමක්ද
+image315/line_025.png,පාසලට එන එන දරුවන් පාර මාරු කිරීම
+image315/line_033.png,අත්තම්මාට පොලීසියෙන් ලැබුණු තෑගි නම්
+image315/line_034.png,කරන්න
+image315/line_036.png,"නිල කබායක්, වැස්සට අඳින කාබයක්, තොප්පි"
+image315/line_040.png,යක්.
+image316/line_013.png,ඉවත දමන දඬුව වුවද සරු පොළොවේ
+image316/line_026.png,දලු ලා යළි පැළ වෙයි.
+image316/line_027.png,සරු පොළොව මිනිසාට මෙන්ම සතා සි
+image316/line_031.png,වුපාවුන් සඳහා සම්පත් ගෙන දෙයි.
+image316/line_032.png,සරු පොළොව නරඹා සියල්ලෝම
+image316/line_034.png,සතුටු වෙති .
+image317/line_014.png,ඇඟ බේරා ගන්නවා
+image317/line_018.png,වගකීමෙන් බේරීම
+image317/line_025.png,හීන්දාඩිය දැම්මා
+image317/line_027.png,දැඩි සේ බියට පත් වීම
+image317/line_030.png,අහසේ මාලිගා
+image317/line_033.png,ඉටු නොවන සිහින මැවීම
+image317/line_036.png,අබමල් රේණුවක්
+image317/line_038.png,ඉත කුඩා ප්‍රමාණයක්
+image317/line_040.png,මුරුංගා අත්තේ තියනවා
+image317/line_042.png,රවටනු  පිණිස වර්ණන කීරීම
+image318/line_001.png,"ඝ,ඣ,ඪ,ධ,භ"
+image318/line_002.png,ශබ්දය අනුව අකුරු හඳුනා ගනිමු.
+image318/line_003.png,අල්පප්‍රාණ අක්ෂර
+image318/line_007.png,"ක,ච,ට,ත,ප"
+image318/line_008.png,"ග,ජ,ඩ,ද,බ"
+image318/line_009.png,මහප්‍රාණ අක්ෂර
+image318/line_010.png,"ඛ,ඡ,ඨ,ථ,ඵ"
+image318/line_011.png,මුර්ධජ අක්ෂර
+image318/line_012.png,"ණ,ළ,ෂ"
+image318/line_013.png,තාලුජ අක්ෂ‍ර
+image318/line_016.png,සඤ්ඤක අක්ෂර
+image318/line_017.png,"ඟ,ඦ,ඬ,ඳ,ඹ"
+image319/line_003.png,සැදෑ කාලයේ දී මම මුහුදු වෙරළේ
+image319/line_004.png,සරුංගල් යවමි.
+image319/line_006.png,සැදෑ අඳුරත් සමඟ මුහුදු වෙරළේ
+image319/line_008.png,වැලි මාලිගා සාදමි
+image319/line_010.png,සැදෑ අහසේ ඉර බැස යන ආකාර
+image319/line_011.png,මම මුහුදු වෙරළේ සිට නරඹමි.
+image320/line_005.png,මම කැමතිම පොත
+image320/line_012.png,ගඟ අද්දර නම් කෘතියට බොහෝ
+image320/line_019.png,සේ ප්‍රිය කරමි
+image320/line_027.png,එහි සරල ගැමි භාෂාවට මම බොහෝ
+image320/line_036.png,සේ ප්‍රිය කරමි
+image320/line_042.png,ගඟ අද්දර නම් කෘතිය තුළ මම ළළු
+image320/line_047.png,වන් සමඟ සිටින ආකාරය දැන ගත්
+image320/line_056.png,තෙමි
+image321/line_014.png,"රවිදු, සහන් සහ අතුල ක්‍රකට් සෙල්ලම් කරමින්"
+image321/line_018.png,සිටියේ අතුලයේ නිවසේ ඉදිරිපස මිදුලේ ය
+image321/line_025.png,රවිදු එවන ලද බෝල පහරක් වැදීමෙන්
+image321/line_033.png,අතුලයේ නිවසේ ජනේලයක් බිදි ගියේ ය
+image321/line_041.png,එතැන් සිදුවන්නට ඇති දේ පිළිඳව
+image321/line_051.png,නිර්මණත්මක වැකි තුනක් ලියන්න
+image322/line_008.png,සැදෑ කාලයේ දී  මම මුහුදු වෙරළේ සරුංගල්
+image322/line_012.png,යවමි.
+image322/line_024.png,සැදෑ අඳුරත් සමඟ මම මුහුදු වෙරළේ
+image322/line_037.png,වැලි මාලිගා සාදමි.
+image322/line_054.png,සැදෑ අහසේ ඉර බැස යන ආකාරය මම
+image322/line_066.png,මුහුදු වෙරළේ නරඹමි.
+image323/line_012.png,අපි වැඩිහිටියන්ට ආදරයෙන් කරුණාවෙන්
+image323/line_019.png,සලකමු.
+image323/line_042.png,අපි ඔවුන් අසනීප වූ විට බෙහෙත් දී ඉතා
+image323/line_061.png,හොඳින් සලකමු.
+image323/line_079.png,අපි වැඩිහිටියන් දුටු විට ඔවුන්ට ඉතා
+image323/line_084.png,ගෞරවයෙන් සලකමු.
+image324/line_002.png,විවිධ වර්ණයේ කොඩි ක්‍රීඩා පිටිය වටා ලෙළ
+image324/line_004.png,දෙයි.
+image324/line_005.png,ක්‍රීඩා නායක නායකයෝ ඔලිම්පික් පහන
+image324/line_007.png,දල්වති.
+image324/line_012.png,ක්‍රීඩක ක්‍රීඩිකාවෝ ධාවන පථයේ වේගයෙන්
+image324/line_013.png,දුවති.
+image325/line_007.png,විනෝද පොකුණු මැදින් අපි සිගිරි ගල
+image325/line_012.png,මුදුනට ගියෙමු.
+image325/line_015.png,පර්වතයේ මුදුනේ තිබුණු මාලිගා අපි ඉතා
+image325/line_016.png,සිගිරි බිතු සිතුවම් බලා අපි සතුටු වුණෙමි.
+image326/line_001.png,පළඟැටියා
+image326/line_002.png,පිඟාන
+image326/line_003.png,පිරුළි
+image326/line_004.png,පිලි
+image326/line_005.png,පිල්ල
+image326/line_006.png,පිළිගැනීම
+image326/line_007.png,පිළියෙළ
+image326/line_008.png,පිළිවෙළ
+image326/line_009.png,පුලුන්
+image326/line_010.png,පැලඳවීම
+image327/line_015.png,විරාම ලකුණුු
+image327/line_023.png,තිත
+image327/line_043.png,ප්‍රශ්නාර්ථ ලකුණ
+image327/line_059.png,කොමාව
+image328/line_001.png,සොබාදහමට ආදරය කළ ශ්‍රේෂ්ඨ රතු ඉන්දීය
+image328/line_002.png,නායකයා කවුද සියටල්
+image328/line_008.png,එකම පවුලකට අයත් වන දේ ලෙස මෙහි
+image328/line_019.png,දක්වා ඇත්තේ මොනවාද?
+image328/line_025.png,"සුගන්ධවත් පුෂ්පයෝ, පිනි මුවා,"
+image328/line_029.png,සදාකාලික හැම කාලයට ම අයත්
+image329/line_001.png,කිලිටි
+image329/line_002.png,කැලණි
+image329/line_003.png,කොට්ඨාශය
+image329/line_004.png,ගවේෂණශීලී
+image329/line_005.png,කැලෑව/කැළෑව
+image330/line_007.png,මධ්‍යම
+image330/line_008.png,මධ්‍ය
+image330/line_010.png,ධාන්‍ය
+image330/line_011.png,රකාරාංශය
+image331/line_003.png,කොන් පාපිල්ල
+image331/line_006.png,"ඛු,ඝු,චු,ජු,ඡු,ඣු,ඤු"
+image331/line_012.png,"ටු,ඨු,ඩු,ඪු,ණු,ථු,දු,නු"
+image332/line_001.png,දූව නම් ළමා නව කතා පොතට මම බොහෝ
+image332/line_002.png,එහි ඇති අපූරු සිතුවම් නිසා මම එයට
+image332/line_003.png,මාර්ටින් වික්‍රමසිංහ මහතා රචනා කළ මඩොල්
+image332/line_004.png,මා කැමති ම කතා පොත
+image332/line_005.png,ප්‍රිය කරමි.
+image332/line_006.png,වඩාත් ඇලුම් කරමි.
+image332/line_007.png,නිසා මම එයට වඩා ඇලුම්
+image332/line_008.png,උපාලි හා ජින්නා අතර සිදුවන වීරක්‍රියා
+image333/line_001.png,රූපවාහිනිය
+image333/line_004.png,ප්‍රබල සන්නිවේදන මාධ්‍යයක් වන රූපවාහිනිය
+image333/line_006.png,ජෝන් ලොගී  බෙයාර්ඩ් මහතා ලොවට
+image333/line_007.png,ශ්‍රව්‍ය දෘශ්‍ය සන්නිවේදන මාධ්‍යයක් වන
+image333/line_011.png,රූපවාහිනිය ලොව තොරතුරු එසැණින් අප
+image333/line_018.png,හඳුන්වා දුන්නේ ය
+image333/line_020.png,අප වෙත ගෙන එයි.
+image333/line_031.png,"ආගමික,දේශපාලික,ක්‍රීඩා,ආර්ථික හා"
+image333/line_035.png,සාමාජිය තොරතුරු ගෙන එන රූපවාහිනිය
+image333/line_043.png,අපේ යහපැවැත්මට අපි භාවිතා කරමු.
+image334/line_001.png,මා කැමති ම කතා පොත
+image334/line_002.png,එහි ඇති පොලියානා නම් චරිතයට
+image334/line_003.png,මම බොහෝ ඇලුම් කරමි.
+image334/line_004.png,එහි ඇති සතුටු බෙදන සෙල්ලමට
+image334/line_018.png,පොලියානා නම් ළමා නව කතා පොතට
+image334/line_022.png,මම බොහෝ ප්‍රිය කරමි.
+image334/line_027.png,මම බොහෝ ප්‍රිය කරමි.
+image335/line_001.png,මා ගිය විනෝද ගමනක්
+image335/line_011.png,මම පවුලේ අය සමඟ මාතලේ රිවස්ටන්
+image335/line_017.png,සිරි නැරඹීමට විනෝද චාරිකාවක් ගියෙමි.
+image335/line_025.png,"මීදුමෙන් වැසුණු කඳු පන්ති,කඩා හැලෙන"
+image335/line_027.png,දිය ඇලි එහි ඇති ගස් වැල් දැක මම
+image335/line_030.png,සතුටු වුණෙමි.
+image335/line_032.png,"නටා,ගයා,වයා ආ ගිය එම විනෝද ගමනෙන්"
+image335/line_035.png,මම බොහෝ සතුටට පත් වුණෙමි
+image336/line_001.png,මම පවුලේ අය සමඟ නුවරඑළිය සිරි
+image336/line_002.png,"මීදුමෙන්  වැසී ගිය කඳුපන්ති, කඩා හැලෙන"
+image336/line_003.png,නැරඹීමට විනෝද චාරිකාවක් ගියෙමි.
+image336/line_004.png,"දිය ඇලි,තේ වතු,මල් වතු දැක මම"
+image336/line_007.png,සතුටු වුණෙමි
+image336/line_011.png,"නටා,ගයා,වයා ආ ගිය එම විනෝද"
+image336/line_013.png,ගමනෙන් මම බොහෝ සතුටට පත් වුණෙමි
+image337/line_009.png,ජල සම්පත සුරකිමු.
+image337/line_010.png,අපද්‍රව්‍ය ජලයට එක් නොකර අපි ජල සම්පත සුරකිමුු.
+image337/line_012.png,"කැඩී බිඳී ගිය ජල නළ පද්ධති,ජල කරාම අලුත්වැඩියා"
+image337/line_016.png,කර අපි ජල සම්පත සුරකිමු.
+image337/line_017.png,කියා දී අපි ජල සම්පත සුරකිමු.
+image337/line_018.png,මිනිස් පරිභෝජනයට සීමිත වූ ජලයෙහි අගය අන් අයට
+image338/line_005.png,"පාසල,පන්සල,බැංකුව,බස් නැවතුම වැනි පොදු"
+image338/line_012.png,"අනවශ්‍ය ලෙස කඩා බිඳ නොදමින්,නිසි ලෙස"
+image338/line_013.png,නඩත්තු කරමින් අපි පොදු දේපළ සුරකිමු.
+image338/line_015.png,මෙවැනි ස්ථානවල අගය සැමට වටහා දී අපි පොදු
+image338/line_016.png,දේපළ සුරකීමට දායක වෙමු.
+image338/line_017.png,"දේපළ පිරිසුදුව, පිළිවෙළට තබා ගනිමින් අපි ඒවා සුරකිමු."
+image339/line_005.png,මම ගසක් වෙමි.
+image339/line_006.png,"මිනිසාට අවශ්‍ය ආහාර,සෙවණ,සිසිලස හා පිරිසිදු"
+image339/line_007.png,වාතය ලබා දීමට මම සහය වෙමි.
+image339/line_009.png,"සතුන්ට අවශ්‍ය ආහාර,වාසස්ථාන ලබා දීමට මම"
+image339/line_011.png,අමතක නොකරමි.
+image339/line_015.png,ඔබ පරිසරයට අපූරු සුන්දරත්වයක් ගෙන දෙන
+image339/line_017.png,මම වටිනා දෙල් ගසක් වෙමි.
+image341/line_001.png,වර්ණවත් සාරිවලින් සැරසී ඇය උදයම පාසලට
+image341/line_002.png,යහපත් ගුණ ධර්ම හා අපට අවශ්‍ය විවිධ විෂය
+image341/line_003.png,සියලු දෙනා ගැන නිතර සොයා බලයි.
+image341/line_004.png,පැමිණෙයි.
+image341/line_005.png,අපගේ දෙවැනි මව් වැනි මගේ ගුරුතුමිය අප
+image341/line_006.png,කොටස් ඇය අපට මැණවින් උගන්වයි.
+image342/line_006.png,ගුරුත්වාකර්ෂණය අඩු යැයි දැන සිටි සඳෙහි දී
+image342/line_009.png,මා පාවී යන ආකාරය මම අත් දුටු වෙමි.
+image342/line_012.png,තැන තැන වූ විශාල වලවල් දුටු මම පුදුමයට
+image342/line_015.png,පත් වුණෙමි.
+image342/line_019.png,හිරු කිරණ ලැබීමත් සමඟ සඳ ආලෝකමත් වූ
+image342/line_021.png,අයුරු මම දුටුවෙමි.
+image343/line_005.png,නිසි කලට වැඩ කරන ඔබට අවැසි වේලාව
+image343/line_008.png,මම නිවැරදි ව ලබා දෙමි.
+image343/line_010.png,"පැය කටුව,මිනිත්තු කටුව,තත්පර කටුව හා මම"
+image343/line_012.png,විහිසුරුවම වැඩ කරමි.
+image343/line_015.png,නිවසේ බිත්තියක රැඳී සිටින මා ඔබ බලන
+image343/line_023.png,වාරයක් පාසා මම සතුටු වෙමි.
+image344/line_004.png,අපි දිනකට නියමිත ප්‍රධාන ආහාර වේල් තුන
+image344/line_008.png,නිසි කළට ගෙන යහපත් ආහාර රටාවකට හුරු
+image344/line_010.png,වෙමු.
+image344/line_012.png,"තෙල්,මිරිස්,ලුණු,සීනි අධික ආහාර මෙන්ම"
+image344/line_013.png,ක්ෂණික ආහාර භාවිතයෙන් ඇත් වී අපි යහපත්
+image344/line_016.png,ආහාර රටාවකට හුරු වෙමු .
+image344/line_018.png,හැකි සෑම විටම පෝෂ්‍යදායි ආහාර වේලක්
+image344/line_019.png,ගෙන අපි යහපත් ආහාර රටාවකට හුරු වෙමු.
+image345/line_004.png,ගෙවී ගිය කාලය නැවත ලබා ගත නොහැකි නිසා
+image345/line_007.png,කාලය රන් හා සමාන බව අපි දනිමු.
+image345/line_013.png,"ක්‍රීඩාවේ යෙදුනු ධාවකයෙකුටත්, ශල්‍ය කර්මයක යෙදෙන"
+image345/line_015.png,"රෝගියෙකුටත්, බරපතළ රිය අනතුරකදීත් කාලයේ"
+image345/line_017.png,වටිනාකම ගැන අපි දනිමු.
+image345/line_020.png,"දරුවෙකුත් මෙළොව බිහිවන විටත්, විවිධ සුභ  කටයුතු"
+image345/line_023.png,සඳහා ද වැදගත්වන කාලය අපි නිසිලෙස
+image346/line_002.png,"මගේ ගෙවත්තේ සෑම පැළයකම,වැලකම වූ ළපටි"
+image346/line_005.png,"ගෙඩි, කරල් ළඟම දවසක හොඳ පලඳාවක් වන බව"
+image346/line_007.png,මම දනිමි.
+image346/line_010.png,එම අස්වැන්න රැකගැනීමට මෙම දිනවල මම
+image346/line_013.png,බොහෝ වෙහෙසෙමි.
+image346/line_014.png,කෘමි උවදුරෙන් මෙන් ද කුරුලු කොබෙයියන්ගෙන් ද
+image346/line_016.png,ආරක්ෂා කර ගනිමින් නුදුරු දිනයක මම සරු
+image346/line_018.png,පලදාවක් ලබා ගනිමි.
+image347/line_004.png,නිල්වන් ජලකඳක් දරා සිටින මම විශාල මත්ස්‍ය
+image347/line_005.png,යන් පිරිසකට රැකවරණය සලසමි.
+image347/line_006.png,ලොකු කුඩා කවුරුත් ප්‍රිය කරන මහ සයුර මා
+image347/line_007.png,වන අතර මම බොහෝ ආඩම්බරයෙන් කල්
+image347/line_009.png,ගෙවම.
+image347/line_011.png,"රටවල් අතර විශාල නැව්,බෝට්ටු යාත්‍රා"
+image347/line_013.png,කරවීමට ඉඩ ලබාදෙමින් මම ප්‍රවාහනයට ද
+image347/line_015.png,උදවු කරමි.
+image347/line_016.png,"ලුණු නිපදවීම,ධීවර කර්මාන්තය,සංචාරක"
+image347/line_017.png,කර්මාන්තය මම ඍජුව ම දායක වෙමි.
+image347/line_018.png,මා හා ජීවත්වන සියලු ජීවීන් සමඟ
+image347/line_019.png,මම ඉතා කුළුපගව කටයුතු කරමි.
+image348/line_001.png,මම ගිය විනෝද චාරිකාව
+image348/line_002.png,මා ගිය චාරිකාවේ සීත කදු සහ දිය ඇළි
+image348/line_003.png,නැරඹීමට ගියෙමි
+image348/line_005.png,නැරඹීමට විනෝද චාරිකාවක් ගියෙමි
+image348/line_006.png,මල් වතු සහ තේ වතු කඩා හැලෙන
+image348/line_007.png,මම පවුලෙ අය සමග නුවරඑළියේ සිරි
+image348/line_008.png,දිය ඇළි දැක මම සතුටු වුණෙමි
+image349/line_001.png,"කැඩී බිදී ගිය ජල නළ පද්ධති,ජල කරාම"
+image349/line_002.png,අපි වැළකී සිටිමු.
+image349/line_003.png,මිනිස් පරිභෝජනයට ජලය අවශ්‍ය වන බව
+image349/line_004.png,"ජලයට සත්ව මළ මුත්‍රා,කුණු කසළ"
+image350/line_001.png,මම හඳ මතට පා තැබුවෙමි
+image350/line_002.png,ගුරුත්වාකර්ෂණය අඩු දැන සිටි සදෙහි දී
+image350/line_003.png,තැන වූ විශාල වලවල් දුටු මම
+image350/line_004.png,හිරු කිරුණ ලැබීමත් සමඟ සඳ ආලෝකමත්
+image350/line_005.png,මා පාවී යන ආකාරය මම අත්දුටුවෙමි.
+image350/line_006.png,පුදුමයට පත් වුණෙමි.
+image350/line_007.png,වූ ආකාරය මම දුටුවෙමි
+image351/line_001.png,පොදු දේපළ සුරකිමු
+image351/line_002.png,පොදු දේපළ පිරිසිදුව පිළිවෙලට තබා
+image351/line_003.png,"පාසල,පන්සල,බැංකුව,බස් නැවතුම වැනි"
+image351/line_005.png,"අවෂ්‍ය ලෙස කඩා බිද නොදමින්, නිසි ලෙස"
+image351/line_006.png,මෙවැනි ස්ථානවල අගය සැමට වට හා
+image351/line_007.png,ගනිමින් අපි ඒවා සුරකිමු
+image351/line_008.png,නඩත්තු කරමින් අපි පොදු දේපළ සුරකිමු
+image351/line_009.png,දී අපි පොදු දේපළ සුරකීමට දායද
+image351/line_010.png,වෙමු
+image352/line_011.png,යහපත් ආහාර රටාවකට
+image352/line_017.png,හුරු වෙමු
+image352/line_030.png,අපි දිනකට නියමිත ප්‍රධාන ආහාර වේල්
+image352/line_031.png,"තෙල්,මිරිස්,සීනි,ලුණු අධික ආහාර මෙන් ම"
+image352/line_032.png,යහපත් ආහාර රටාවකට හුරු වෙමු
+image352/line_035.png,හැකි සෑම විටම පෝෂ්‍ය දායි ආහාර රටාවකට
+image352/line_039.png,ආහාර රටාවකට හුරු වෙමු
+image352/line_042.png,ක්ෂණික ආහාරවලින් ඈත් වී අපි
+image353/line_005.png,"මගේ ගෙවත්තේ සෑම පැළයකම,වැලකම"
+image353/line_008.png,"උ ළපටි ගෙඩි, කරල් ලඟම දවසක හොඳ"
+image353/line_010.png,ඵලදාවක් එන බව මම දන්නෙමි.
+image353/line_014.png,එම අස්වැන්න රැක ගැනීමට මෙම දිනවල
+image353/line_017.png,මම බොහෝ වෙහෙසෙමි.
+image353/line_020.png,කෘමි උවදුරෙන්ම කුරුළු කොබෙයියන්ගෙන්ද
+image353/line_022.png,ආරක්ෂා කර ගනිමින් නුදුරු දිනයක මම සරු
+image353/line_024.png,ඵලදාවක් ලබා ගනිමි.
+image354/line_006.png,ඔරලෝසුව මමයි
+image354/line_007.png,නිසි කළට වැඩ කිරීමට මම ඔබට වේලව
+image354/line_009.png,කියා දෙමි
+image354/line_011.png,පැය කටුව මිනිත්තු කටුව
+image354/line_012.png,මම සහයෝගයෙන් වැඩ කරමි
+image354/line_020.png,බිත්තියක රැඳී සිටින මම ඔබ බලන
+image354/line_025.png,වාරයක් පාසා සතුටු වෙමි
+image355/line_001.png,මම මහ මුහුද වෙමි
+image355/line_005.png,දෙමි
+image355/line_012.png,විශාල මත්ස්‍යයන් රැකරණය සළසමි
+image355/line_015.png,සයුර වන මා බොහෝ ආඩම්බරයෙන්
+image355/line_020.png,"ලොකු,පොඩි කවුරුත් ප්‍රිය කරන මහ"
+image355/line_024.png,නිල්වන් ජලකඳක් දරා සිටින මම
+image355/line_027.png,කළ් ගෙවමි
+image355/line_028.png,"රටවල් අතර බොහෝ  විශාල නැව්,"
+image355/line_029.png,බෝට්ටු යාත්‍රා කරන්නට ඉඩ ලබා
+image356/line_005.png,අසා ලිවීම
+image356/line_010.png,කෘෂි කර්මාන්තයේ දි කෘත්‍රිම කෘමි
+image356/line_013.png,නාශක භාවිතයෙන් වැළකීම වැදගත් ය
+image356/line_015.png,උපකරණයකි.
+image356/line_016.png,රූපවාහිනිය ශ්‍රව්‍ය දෘෂ්‍ය සන්නිවේදන
+image356/line_018.png,නළුවෝ නෘත්‍ය ශාලාවට ප්‍රවිෂ්ට වෙති
+image358/line_014.png,දබරැගිල්ල
+image358/line_035.png,දබරැගිල්ල
+image358/line_055.png,දබරැගිල්ල
+image358/line_059.png,මැදැගිල්ල
+image358/line_072.png,මැදැගිල්ල
+image358/line_094.png,මැදැගිල්ල
+image359/line_004.png,නිරූවණය
+image359/line_005.png,නිරූපණය
+image359/line_009.png,ප්‍රතිකාර
+image360/line_001.png,ප්‍රශ්නාර්ථ ලකුණ
+image360/line_002.png,යම් වාක්‍යයකින් ප්‍රශ්නයක් අසන්නේ නම්
+image360/line_003.png,ප්‍රශ්න පදය කුමන ස්ථානයේ තිබුණ ද
+image360/line_006.png,වාක්‍යය අවසානයේ යොදයි.
+image361/line_010.png,"විස්මයාදී ලකුණ,හර්ෂයාදී ලකුණ, තිත්හුල"
+image361/line_012.png,පුදුමයක් හැඟවීමේ දී
+image361/line_017.png,ප්‍රාර්ථනාවක දී
+image361/line_031.png,සතුටක දී
+image361/line_048.png,ශෝකයක්‍ර දී
+image362/line_008.png,"කැඩී බිදී ගිය නළ පද්ධති, ජල කරාම අලුත්වැඩියා"
+image362/line_024.png,කර අපි ජල සම්පත සුරකිමු
+image362/line_039.png,"සත්ත්ව මළ මුත්‍රා,කර්මාන්තශාලාවල අපද්‍රව්‍ය අපි"
+image362/line_048.png,ජලයට මුසු නොකර අපි ජල සම්පත සුරකිමුු.
+image362/line_051.png,මිනිස් පරිභෝජනයට සීමිත වූ ජලයේ අගය
+image362/line_057.png,සැමට කියා දී අපි ජල සම්පත සුරකිමු.
+image363/line_015.png,ගුරුත්වාකර්ෂණය අඩු යැයි දැන සිටි සඳෙහි දී  මා
+image363/line_018.png,පාවී යන ආකාරය මම දත්  දුටුවෙමි
+image363/line_034.png,තැන තැන වූ විශාල වලවල් දුටු මම පුදුමයට පත්
+image363/line_049.png,වුණෙමි.
+image363/line_061.png,හිරු කිරණ දැවී මත් සමඟ සඳ ආලෝකමත් වූ අයුරු
+image363/line_077.png,මම දුටුවෙමි.
+image364/line_015.png,අකාරාදි පිළිවෙළට ලියන්න
+image364/line_033.png,"යසිදු,සෙත්වි,ඉෂාන්, මින්තක,ශස්මිණ."
+image364/line_040.png,"සඳැසි,බවිදු,වත්මා,හිරුන්,නෙතුමි."
+image364/line_052.png,"චාතූර්,බෙවින්දි,ටුනාල්,සෙනිරු,යුහස්"
+image364/line_055.png,"විනුදි,තෂ්මිල,ඉමිර,චෙනූල්, කෙමිදුු"
+image364/line_058.png,"සෙනුදි,දෙසඳි,ඕෂධී,මනිෂා,යෙතුල"
+image364/line_061.png,"චතුලි,සුමෙත්යා,දහම්සා,ටෙනායා,රිතික"
+image365/line_005.png,කෘෂි කර්මාන්තයේ දී කෘතිම කෘමිනාශක
+image365/line_006.png,භාවිතයෙන් වැළකීම වැදගත් ය.
+image365/line_010.png,රූපවාහිනිය ශ්‍රව්‍ය  දෘශ්‍ය සන්නිවේදන
+image365/line_013.png,උපකරණයකි.
+image366/line_002.png,වෛද්‍යවරයා
+image366/line_006.png,පුණ්‍ය
+image366/line_009.png,රාජ්‍ය
+image366/line_014.png,රම්‍ය
+image366/line_024.png,චෛත්‍යය
+image367/line_001.png,මාර්ටින් වික්‍රමසිංහ මහතා රචනා කළ මඩොල්
+image367/line_002.png,දූව නම් ළමා නව කතා පොතට මම බොහෝ
+image367/line_016.png,ප්‍රිය කරමි.
+image367/line_021.png,එහි ඇති අපූරු සිතුවම් නිසා මම එයට
+image367/line_028.png,වඩාත් ඇලුම් කරමි
+image367/line_029.png,උපාලි හා ජින්නා අතර සිදුවන වීරක්‍රියා
+image367/line_030.png,නිසා මම එයට වඩාත් ඇලුම්
+image368/line_001.png,ප්‍රබල සන්නිවේදන මාධ්‍යයක් වන රූපවාහිනිය
+image368/line_002.png,හඳුන්වා දුන්නේ ය
+image368/line_003.png,ශ්‍රව්‍ය දෘශ්‍ය සන්නිවේදන මාධ්‍යයක් වන
+image368/line_004.png,රූපවාහිනිය ලොව තොරතුරු එසැණින් අප
+image368/line_006.png,අප වෙත ගෙන එයි.
+image368/line_007.png,"ආගමික,දේශපාලික,ක්‍රීඩා,ආර්ථික හා"
+image368/line_013.png,ජෝන් ලෝගී  බෙයාර්ඩ් මහතා ලොවට
+image368/line_014.png,සාමාජිය තොරතුරු ගෙන එන රූපවාහිනිය
+image368/line_018.png,අපේ යහපැවැත්මට අපි භාවිතා කරමු.
+image369/line_001.png,මම පවුලේ අය සමඟ මාතලේ රිවස්ටන්
+image369/line_002.png,සිරි නැරඹීමට විනෝද චාරිකාවක් ගියෙමි.
+image369/line_003.png,"මීදුමෙන් වැසුණු කඳු පන්ති, කඩා හැලෙන"
+image369/line_004.png,දිය ඇලි එහි ඇති ගස්වැල් දැක මම
+image369/line_005.png,සතුටු වුණෙමි.
+image369/line_006.png,"නටා,ගයා,වයා ආ ගිය එම විනෝද ගමනෙන්"
+image369/line_007.png,මම බොහෝ සතුටට පත් වුණෙමි
+image370/line_003.png,ජල සම්පත සුරකිමු.
+image370/line_006.png,"කැඩී බිදී ගිය ජල නළ පද්ධති, ජල කරාම අලුත්වැඩියා"
+image370/line_008.png,කර අපි ජල සම්පත සුරකිමු.
+image370/line_011.png,"සතුන්ගේ මළ මුත්‍රා,කර්මාන්තශාලා වලින් පැමිණෙන"
+image370/line_013.png,අපද්‍රව්‍ය ජලයට  එක් නොකර අපි ජල සම්පත සුරකිමුු.
+image370/line_017.png,මිනිස් පරිභෝජනයට සීමිත වූ ජලයෙහි අගය අන්  අයට
+image372/line_001.png,උදෑසනක අසිරිය
+image372/line_013.png,මඳ සුළඟට පීපී නළවෙන පුෂ්පයෝ උදෑසන අසිරිමත්
+image372/line_028.png,කරති
+image372/line_038.png,උදෑසන අසිරිමත් කරයි.
+image372/line_040.png,"දසතින් ඇසෙන කුරුලු ගීතය,සුදු කොක් රෑනක සේ"
+image372/line_044.png,පාසල වෙත පිය නගන සිසූහු උදැසන තවතවත්
+image372/line_046.png,මීදුම් සලු පෙරවූ කඳු අතරින් නැගඑන හිරු කුමරා
+image373/line_011.png,"මම ගොඩක් කවි,කතන්දර"
+image373/line_014.png,ලියලා තියෙනවා.
+image373/line_023.png,මම මිනිසුන්ගේ දැනුම වර්ධන
+image373/line_024.png,කර ගැනීමට උදවු වෙනවා.
+image374/line_015.png,"පුස්තකාලයකට,ආගමික ස්ථානයකට"
+image374/line_016.png,සහ වෙනත් පොදු ස්ථාන වලට
+image374/line_017.png,ගිය විට එහි ඇති උපදෙස් කියවා
+image374/line_021.png,හෝ අසා එම උපදෙස් වලට අනුව
+image374/line_022.png,කටයුතු කිරීමට සිදුවීම.
+image374/line_024.png,පාඩමක් කර අවසානයේ දී දෙනු
+image375/line_003.png,වැස්ස අපට ස්ව්භාවිකව ලැබෙන
+image375/line_007.png,සම්පතකි
+image375/line_010.png,වැස්ස යනු අපට ජලය ලැබෙන
+image375/line_014.png,ප්‍රධාන මාර්ගයකි
+image375/line_016.png,කෘෂිකර්මාන්ත කටයුතු සඳහා
+image375/line_017.png,වැස්ස අවශ්‍ය වේ
+image375/line_019.png,අධික වර්ෂාව නිසා ගංගා පිටාර
+image375/line_021.png,ගලය
+image375/line_027.png,වැස්ස ලැබීමෙන් අවට පරිසරය
+image375/line_030.png,හා ගස්කොළත් ප්‍රණවත් වේ.
+image376/line_001.png,කළණ ළමා
+image376/line_003.png,ප්‍රවෘත්ති ප්‍රකාශයකදී මුලින්ම සිදු
+image376/line_006.png,ජාත්‍යන්තර මාතෘ භාෂාව සමරන
+image376/line_008.png,දිනය කුමක්ද?
+image376/line_011.png,ප්‍රවෘත්ති කියවා පිළිතුරු ලියන්න
+image376/line_014.png,කරන්නේ කුමක්ද?
+image376/line_015.png,සේවයේ නම කුමක්ද?
+image376/line_018.png,මාතෘ භාෂාව සමරන රටවල් ගණන
+image376/line_020.png,සිරස්තල
+image376/line_021.png,ප්‍රවෘත්ති ඉදිරිපත් කරන රූපවාහිනී
+image378/line_002.png,කතරගම
+image378/line_003.png,ඇසළ
+image378/line_007.png,උමඟ
+image378/line_021.png,ඓක්‍යය
+image378/line_027.png,දඹල
+image378/line_028.png,පරණ
+image378/line_029.png,ටකය
+image42/line_008.png,මම මුහුදු වෙරළ සැදෑ කලය ගත කරමි
+image42/line_009.png,සැදෑ කාලයේ දී මම මුහුදු වෙරළෙ සරුංගළ්
+image42/line_011.png,යවමි
+image42/line_012.png,සැදෑ අඳුර සමඟ මම මුහුදු වෙරළේ වැළි
+image42/line_013.png,සැදෑ අහසේ ඉර බැස යන ආකාරය මම
+image42/line_014.png,මුහුදු වෙරළේ සිට නරඹමි.
+image43/line_009.png,මේවාට ස්ත්‍රීලිංග පද ලියමු
+image43/line_018.png,දරුවා  දැරිය
+image43/line_033.png,තාත්තා  අම්මා
+image43/line_042.png,ආතා  අත්තම්මා
+image43/line_054.png,ලොකු තාත්තා  ලොකු අම්මා
+image43/line_060.png,ස්වාමිපුරුෂයා  බිරිඳ
+image43/line_074.png,පූසා  පූසි
+image43/line_077.png,ගුරුතුමා  ගුරුතුමිය
+image43/line_079.png,සිගිත්තා  සිගිත්තිය
+image44/line_011.png,අසා ලිවීම
+image44/line_014.png,කරණම
+image44/line_020.png,කළගුණ
+image44/line_024.png,කළමණාකරනය
+image44/line_025.png,කළු
+image44/line_029.png,කළු ගල
+image44/line_031.png,කැකුළු
+image44/line_035.png,කැළණි
+image44/line_038.png,කැලෑව
+image44/line_041.png,කලඹ
+image46/line_003.png,හොඳ දෙයක් කෑම.
+image46/line_006.png,දඟ වැඩ නොකිරීම.
+image46/line_008.png,ගුරුවරුන්ට කීකරු වීම.
+image46/line_010.png,මකුළු දැල් කැඩීම.
+image46/line_013.png,කුරුට නොගෑම.
+image46/line_015.png,සතටින් පාඩම් වැඩ කිරීම.
+image46/line_018.png,වැඩිහිටියන් කීකරු වීම.
+image46/line_019.png,හොඳ වචන කතා කිරීම.
+image47/line_005.png,පහත වාක්‍ය වල ඇති වචන
+image47/line_006.png,පාපිල්ලේ ප්‍රභේද තුන අනුව
+image47/line_008.png,වෙන වෙන ම ලියන්න
+image47/line_009.png,අම්මා තුඹ කරවිල තුනට කපා
+image47/line_010.png,තුනපහ දා රසට ඉව්වා ය.
+image47/line_012.png,මුද්දර එකතු කිරීම මුදිතාගේ
+image47/line_016.png,විනොදාංශයය.
+image47/line_020.png,රුචිර රුවන්වැල්ල විදුහලේ
+image47/line_024.png,ඉගෙනම ලබය
+image47/line_030.png,රුවන් පොළට ගොස් මුරුංගා
+image47/line_033.png,සහ තුඹ කරවිල ගෙනාවේ ය.
+image48/line_003.png,කෙටි වක් පාපිල්ල
+image48/line_008.png,තුඹ
+image48/line_019.png,කෙටි කොන් පාපිල්ල
+image49/line_001.png,උදෑසනක අසිරිය
+image49/line_002.png,මීදුම් සලු පෙරවූ කඳු අතරින් නැගඑන හිරු කුමරා
+image49/line_003.png,උදැසන අසිරිමත් කරයි.
+image49/line_005.png,"දසතින් ඇසෙන කුරුලු ගීතය, සුදු කොක් රෑනක සේ"
+image49/line_006.png,පාසල වෙත පිය නගන සිසූහු උදෑසන තවතවත්
+image49/line_007.png,මඳ සුළඟට පීපී නැළවෙන පුෂ්පයෝ උදෑසන අසිරිමත්
+image49/line_008.png,අසිරිමත් කරති.
+image49/line_009.png,කරති.
+image50/line_009.png,පොදු දේපළ සුරකිමු
+image50/line_017.png,"පාසල, පන්සල, බැංකුව, බස්නැවතුම වැනි"
+image50/line_019.png,පොදු දේපළ පිරිසිදුව පිළිවෙළට තබා ගනිමින්
+image50/line_021.png,අපි ඒවා සුරකිමු.
+image50/line_025.png,"අනවශ්‍ය ලෙස කඩා බිඳ නොදමමින්, නිසි ලෙස නඩත්තු"
+image50/line_032.png,කරමින් අපි පොදු දේපළ සුරකිමු.
+image50/line_039.png,මෙවැනි ස්ථානවල අගය සැමට වටහ දී අපි පොදු
+image51/line_004.png,ජල සම්පත සුරකිමු
+image51/line_006.png,"කැඩී බිඳි ගිය ජල පද්ධති, ජල කරාම අලුත්වැඩියාකර"
+image51/line_009.png,අපි ජල සම්පත සුරකිමු
+image51/line_013.png,අපවිත්‍ර දේ ජලයට මුසු නොකළ අපි ජල සම්පත
+image51/line_022.png,මිනිස් පරිභෝජනයට සීමීත ව ජලයෙහි අගය සැමට
+image51/line_026.png,කියා දී අපි ජල සම්පත සුරකිමු
+image52/line_004.png,මම හඳමතට පා තැබුවෙමි.
+image52/line_007.png,ගුරුත්වාකර්ෂණය අඩු යැයි දැන සිටි සඳෙහි දී
+image52/line_011.png,මා පාවී යන ආකාරය මම අත් දුටුවෙමි.
+image52/line_013.png,තැන තැන වූ විශාල වලවල් දුටු මම පුදුමයට
+image52/line_016.png,පත්වුණෙමි.
+image52/line_020.png,හිරු කිරණ ලැබීමත් සමග සඳ ආලෝකමත්
+image52/line_022.png,වූ අයුරු මම දුටුවෙමි.
+image53/line_001.png,මගේ ආදරණීය ගුරුතුමිය
+image53/line_002.png,යහපත් ගුණ ධර්ම හා අපට අවශ්‍ය විවිධ විෂය
+image53/line_003.png,වර්ණවත් සාරිවලින් සැරසී ඇය උදේම පාසලට
+image53/line_004.png,කොටස් ඇය අපට මැනවින් උගන්වයි.
+image53/line_005.png,පැමිණෙයි.
+image53/line_006.png,අපගේ දෙවැනි මවු වැනි මගේ ගුරුතුමිය
+image53/line_008.png,සියළු දෙනා ගැන නිතර සොයා බලයි.
+image54/line_001.png,ඉතිං පහුවදාත් නරිහාමිට ලොකු
+image54/line_002.png,ඇවිදගෙන යනකොට නරිහාමිට
+image54/line_003.png,කන්න දෙයක් හොයාගෙන කැලේ
+image54/line_004.png,බඩගින්නක් හැදුණා. එදත්
+image55/line_017.png,ඔරලෝසුව මමයි
+image55/line_025.png,නිසි කලට වැඩ කරන ඔබට අවැසි වේලාව මම
+image55/line_034.png,නිවැරදිව ලබා දෙමි.
+image55/line_038.png,"පැය කටුව, මිනිත්තු කටුව, තප්පර කටුව හා"
+image55/line_041.png,මම යුහුසුලුව වැඩ කරමි.
+image55/line_043.png,නිවසේ බිත්තියක රැඳී සිටින මා ඔබ බලන බලන
+image55/line_045.png,වාරයක් පාසා මම සතුටු වෙමි.
+image56/line_007.png,යහපත් ආහාර රටාවකට හුරුවෙමු.
+image56/line_011.png,අපි දිනකට නියමිත ප්‍රධාන ආහාර වේල් තුන නිසි
+image56/line_015.png,කලට ගෙන යහපත් ආහාර රටාවකට හුරුවෙමු
+image56/line_019.png,"තෙල්, මිරිස්, සීනි, ලුණු අධික ආහාර මෙන්ම"
+image56/line_023.png,ක්ෂණික භාවිතයෙන් ඈත් වී අපි යහපත්
+image56/line_027.png,ආහාර රටාවකට හුරුවෙමු.
+image56/line_033.png,හැකි සෑම විටම පෝශ්‍යදායී ආහාර වේලක්ම
+image56/line_043.png,අපි යහපත් ආහාර රටාවකට හුරුවෙමු.
+image58/line_003.png,උපදෙස් කියවා ප්‍රතිචාර දක්වමු.
+image58/line_005.png,පහත සඳහන් වාක්‍යවල සුදුසු විරාම
+image58/line_006.png,ලකුණු යොදා වාක්‍ය නැවත ලියන්න
+image58/line_008.png,මම පාසල් යමි
+image58/line_009.png,මම පාසල් යමි
+image58/line_012.png,පුතේ මෙහාට එන්න යැයි තාත්තා
+image59/line_001.png,විස්තර කථන
+image59/line_003.png,"ක්‍රිකට්, ෆුට්බෝල් වැනි ක්‍රීඩා පැවැත්වෙ"
+image59/line_004.png,පාසලේ පැවැත්වෙන ක්‍රීඩා උත්සවයක්
+image59/line_006.png,ගොඩනැඟිල්ලක් විවෘත කිරීමක්
+image59/line_009.png,"යම් අවස්ථාවක්, සිද්ධියක් දෙස බලා සි"
+image59/line_012.png,පොළක්
+image59/line_015.png,පෙරහරක් ආද
+image60/line_002.png,වැරැදි සෑදීම
+image60/line_006.png,ප්‍රතිසංස්කරණය
+image60/line_007.png,ප්‍රතිසංස්කරණය
+image60/line_009.png,ප්‍රතිසංස්කරණය
+image60/line_010.png,ප්‍රතිසංස්කරණය
+image60/line_015.png,ප්‍රතිසංස්කරණය
+image60/line_020.png,ජ්‍යේෂ්ඨ
+image60/line_022.png,ජ්‍යේෂ්ඨ
+image60/line_024.png,ජ්‍යේෂ්ඨ
+image60/line_026.png,ජ්‍යේෂ්ඨ
+image61/line_004.png,පරිප්පු
+image61/line_005.png,සාක්කුව
+image61/line_009.png,ආභරණ
+image61/line_010.png,අරුතිනි
+image61/line_012.png,අනුසාරයෙනි
+image61/line_014.png,දකුණු පළාත්
+image61/line_016.png,පියාසර
+image61/line_018.png,අවුළුවන්ට
+image61/line_020.png,ව්‍යහාරයේ
+image61/line_022.png,අවස්ථා
+image62/line_004.png,නෙලුම් මල් සියපත්
+image62/line_005.png,නෙලුම් මල් සියපත්
+image62/line_007.png,නෙලුම් මල් සියපත්
+image62/line_009.png,නෙලුම් මල් සියපත්
+image62/line_012.png,නෙලුම් මල් සියපත්
+image62/line_016.png,නෙලුම් මල් සියපත්
+image62/line_020.png,නෙලුම් මල් සියපත්
+image62/line_024.png,නෙලුම්මල් සියපත්
+image63/line_005.png,මාලා ගාල්ලට යනවා.
+image63/line_010.png,නයනා මාතරට ආවා
+image63/line_015.png,තාරාවා පාරට ආවා.
+image64/line_012.png,පැමිණීම නොපැමිණීම
+image64/line_014.png,අවශ්‍ය අනවශ්‍ය
+image64/line_020.png,පුහුණු නුපුහුණු
+image64/line_027.png,නිවැරදි වැරදි
+image64/line_029.png,අලුත් පරණ
+image64/line_033.png,වගන්ති ලියන්න
+image65/line_003.png,ඇඟ බේරගන්න වගකීමෙන් බේරීම.
+image65/line_004.png,හීන් දාඩිය දැම්මා දැඩි සේ බියට පත් වීම
+image65/line_005.png,අහසේ මාලිග ඉටු නොවන සිහින මැවීම.
+image65/line_006.png,අබමල් රේණුවක් ඉතාම කුඩා ප්‍රමාණයක්.
+image66/line_006.png,කර උස්සා අප දෙස බලා සිටින මිනිසුන්
+image66/line_012.png,හෙලිකොප්ටර් යනා පරිද්දෙනි.
+image66/line_014.png,ගඟ දෙපස සිටින මුරකරුවන් වැන්න.
+image66/line_016.png,ගඟ හා රහස් කොඳුරන ලෙසිනි.
+image66/line_018.png,අඬු විහිඳාගත් දැවැන්ත සතෙකු මෙනි.
+image67/line_005.png,විස්තර කථන
+image67/line_008.png,"යම් අවස්ථාවක්, සිද්ධියක් දෙස බලා සිට ඒ"
+image67/line_013.png,පිළිබඳව විස්තර කර දීම විස්තර කථනයක
+image67/line_015.png,ලෙසින් හඳුන්වයි.
+image67/line_018.png,පාසලේ පැවැත්වෙන ක්‍රීඩා උත්සවයක්
+image67/line_019.png,ගොඩනැඟිල්ලක් විවෘත කිරීමක්
+image67/line_023.png,පොළක්
+image67/line_026.png,පෙරහරක
+image68/line_005.png,මම ගුරුවරියක් වෙමි.
+image68/line_007.png,පුංචි දරුවන්ට දැනුම කුසලතා
+image68/line_012.png,ම හොඳ අකල්ප ලබා දීමට ම
+image68/line_015.png,කැපවෙමි.
+image68/line_019.png,දරුවන්ගේ දක්ෂතා දකින විට මා
+image68/line_020.png,හට සතුටක් ඇති වෙයි.
+image68/line_021.png,ඉගෙනගැනීමට කම්මැලි දරුව
+image68/line_022.png,දැක මට දුකක් සිතෙයි.
+image68/line_023.png,මගෙන් ඉගෙන ගන්නා දරුවන්
+image69/line_013.png,අවබෝධය
+image69/line_015.png,පාඩම කියවා උත්තර ලියන්න
+image69/line_016.png,තැපැල් සේවාවේ නිරත පරෙවි
+image69/line_017.png,කණ්ඩායමට සම්මාන ලැබුණේ
+image69/line_019.png,වෙනුවෙන් ද?
+image69/line_023.png,දෙපාර්තුමේන්තුවේ කාරයක්ෂම සහ
+image69/line_026.png,ගුණාත්මක සේවාවි වෙනුවෙන්
+image69/line_032.png,කම්බුට තම රැකියාව නැති වේ
+image69/line_041.png,යැයි සැක පහළ වීමට හේතුව
+image69/line_044.png,කුමක් ද?
+image69/line_046.png,පරිගණක මගින් එකිනෙකා අතර
+image69/line_053.png,කතා කර ගන්න පුළුවන් ක්‍රමයක්
+image69/line_054.png,කම්බු නමැති තැපැල්කරු ලිපි
+image70/line_007.png,මුදල නම් කාසි
+image70/line_008.png,ගහක නොපිපෙන මල බිම්මල
+image70/line_010.png,දකුණු අත
+image70/line_014.png,වන්දි මුදල වන්දි නම් දඩ
+image70/line_015.png,කඩදාසි
+image70/line_017.png,"මිනිසෙක් කොටියෙකු, එළුවකු සහ"
+image70/line_019.png,තම්පලා මිටියකුත් රැගෙන ගඟකින්
+image70/line_021.png,එතර වීමට ගියා වරකට ඔරුවෙන්
+image70/line_023.png,එගොඩ විය හැක්කේ දෙදෙනෙකුටයි.
+image70/line_024.png,මිනිස් මුලින් කොටියා රැගෙන ගියහොත්
+image70/line_025.png,එළුවා තම්පලා මිටිය කනවා මුලින්
+image71/line_004.png,එළුවා ව කනවා කෙසේ හෝ
+image71/line_008.png,ගැටලුවක් නොමැතිව එගොඩ වීම
+image71/line_011.png,සිදු වුණා ඒ කෙසේ ද?
+image71/line_012.png,සත් සමුදුරේ දිය පලලේ උපන්නේ
+image71/line_013.png,එම සමුදුරේ දිය මතු පිට පිපෙන් නේ
+image71/line_014.png,වැස්සට පිනි බාබා නිතරම මෝරන් නේ
+image71/line_015.png,අද බැරි නම් හෙට තෝරා එවන් නේ
+image71/line_018.png,සත් සමුදුරේ දිය පල්ලේ තිබෙයි අල
+image71/line_019.png,එම සමුදුරේ දිය මතුපිට තිබෙයි කොළ
+image71/line_020.png,වැස්සට පිනි බබා මෝරන කැකුළු මල
+image71/line_021.png,මස්ටකයන්ට මුතු කුඩයක් නෙලුම් මල
+image72/line_007.png,කර උස්සා අප දෙස බලා සිටින මිනිසුන් මෙනි
+image72/line_012.png,හෙලිකොප්ටර් යානා පරිද්දෙනි.
+image72/line_014.png,අඬු විහිදාගත් දැවැන්ත සතෙකු මෙනි.
+image72/line_016.png,ගඟ දෙපස සිටින මුරකරුවන් වැන්න
+image73/line_005.png,සුහද
+image73/line_015.png,රුලං
+image73/line_017.png,තුලාව
+image73/line_018.png,සුළඟ
+image74/line_004.png,යම් දෙයක් කෙනෙක් හෝ  අවස්ථවක් යම්
+image74/line_006.png,දෙයක්ව කෙනෙකුට හෝ අවස්ථාවකට සමාන
+image74/line_007.png,කිරීම සඳහා යොදන පද
+image74/line_008.png,මෙනි
+image74/line_015.png,පරිද්දෙනි
+image74/line_019.png,වැන්න
+image74/line_022.png,ලෙසිනි
+image74/line_025.png,සේ
+image74/line_033.png,වගේ
+image74/line_041.png,වගෙයි
+image74/line_046.png,වාගේ
+image74/line_049.png,බඳ
+image74/line_053.png,වැනි
+image74/line_060.png,මෙත්
+image75/line_001.png,කාර්යශූර
+image75/line_002.png,රූඩි ඉඟි වැකි
+image75/line_003.png,කාර්යශූර
+image76/line_001.png,යුගල පද භාවිතයෙන් වැකි සාදමු.
+image76/line_009.png,අයියා සහ අක්කා අනම් මනම් කතා කරති.
+image76/line_010.png,ගමේ මිනිස්සු වාද විවාද කරති.
+image76/line_011.png,යාචකයාට ළමයි විහිළු තහළු කරති
+image76/line_012.png,"මැජික් කරුවා ගේ වේදිකාවේ ""අරුම පුදුම මැජික්"""
+image76/line_014.png,යනවෙන් පුවරුවක් තිබෙයි.
+image76/line_017.png,තාත්තා අලුත් අවුරුදු දවසට පෙර අස්සක් මුල්ලක් නෑර
+image76/line_019.png,පිරිසිදු කරයි.
+image77/line_002.png,සැඟවුණු අර්ථයක් ඇත
+image77/line_005.png,අවස්ථාවට ගැළපෙන ලෙස යොදයි.
+image77/line_013.png,ඇඟ බේරා ගන්නවා.
+image77/line_019.png,වගකීමකින් බේරීම.
+image77/line_022.png,ඉටු නොවන සිහින මැවීම.
+image77/line_024.png,අබ මල් රේණුවක්
+image77/line_025.png,දැඩි සේ බියට පත්වීම
+image77/line_027.png,හීන් දාඩිය දැම්මා.
+image77/line_028.png,අහසේ මාලිගා
+image77/line_029.png,මුරුංගා අත්තේ තියනවා.
+image77/line_030.png,රවටණු පිණිස වර්ණනා කිරීම.
+image78/line_003.png,උපදේශාත්මක වැකි මෙලෙස හඳුන්වයි.
+image78/line_007.png,අද කළ යුතු දේ හෙටට කල් නොදමන්න.
+image78/line_010.png,අද කළ යුතු දේ අදම කරන්න හෙටට කල් නොදමන්න
+image78/line_012.png,ඇඟිල්ලේ තරමට ඉදිමෙන්න.
+image78/line_014.png,ප්‍රමාණයට වඩා අහංකාර නොවන්න.
+image78/line_017.png,පනින්න පෙර සිතා බලනු
+image78/line_019.png,යමක් කිරීමට පෙර සිතා බලන්න.
+image79/line_002.png,සවන්දී නිවැරදිව ලියමු.
+image79/line_007.png,උදෙන් ම අවදි වූ මම පාසල් යාමට
+image79/line_010.png,"සූදානම් වුණෙමි. ""අද වහිද,"" තාත්තා නිවස"
+image79/line_011.png,"තුළ සිට ඇසුවේ ය. ""වහින්න වගේ"" අම්මා"
+image79/line_013.png,කියා ආශිර්වාද කළහ.
+image79/line_014.png,පිට වන විට අම්මා සහ තාත්තා බුදු සරණ
+image79/line_015.png,"කිවුවේය. මම පැන්සල්, මකනය, රූල, ගම්"
+image79/line_016.png,බෝතලය ආදි ද්‍රව්‍ය සූදානම් කළෙමි. නිවසින්
+image80/line_002.png,වර්ග කි.
+image80/line_003.png,මධ්‍ය අක්ෂර රූල මැද
+image80/line_007.png,"ග,ස,න,ත,ප,ක"
+image80/line_010.png,අරෝහණ අක්ෂර රූලෙන් උඩට
+image80/line_012.png,"ඩ,ට,ජ,ර,ම, බ,එ"
+image80/line_014.png,අවරෝහණ අක්ෂර රූලෙන් පහළට
+image80/line_017.png,"ළ,ල,අ,ඉ,උ,ද,ආ"
+image81/line_009.png,අල්පප්‍රාණ අක්ෂර
+image81/line_011.png,"ක,ච,ට,ත,ප"
+image81/line_013.png,"ග,ජ,ඩ,ද,බ"
+image81/line_014.png,මහප්‍රාණ අක්ෂර
+image81/line_015.png,"ඛ,ඡ,ඨ,ථ,ඵ"
+image81/line_016.png,"ඝ,ඣ,ඪ,ධ,භ"
+image81/line_017.png,මුර්ධජ අක්ෂර කි.
+image81/line_022.png,"ණ,ළ,ෂ"
+image81/line_023.png,තාලුජ අක්ෂර කි
+image81/line_025.png,ශ
+image81/line_027.png,සඤ්ඤක අක්ෂර කි.
+image81/line_028.png,"ඟ,ඦ,ඬ,ඳ,ඹ"
+image82/line_005.png,කෙටි ඇදපිල්ල
+image82/line_006.png,"""ඇ"" ශබ්දය"
+image82/line_008.png,කැලය
+image82/line_009.png,කැටය
+image82/line_013.png,පැන්සල
+image82/line_015.png,දික් ඇදපිල්ල
+image82/line_016.png,"""ඈ"" ශබ්දය"
+image82/line_018.png,මෑ කරල
+image82/line_023.png,පෑන
+image82/line_025.png,බෑගය
+image82/line_026.png,කෙටි ඉස්පිල්ල
+image82/line_027.png,"""ඉ"" ශබ්දය"
+image82/line_030.png,කිරි පිලි
+image82/line_032.png,මිදි
+image83/line_005.png,දික් ඉස්පිල්ල
+image83/line_007.png,"""ඊ"" ශබ්දය"
+image83/line_009.png,මී කිරි
+image83/line_012.png,දී කිරි
+image83/line_016.png,කීටයා
+image83/line_017.png,කෙටි පාපිල්ල
+image83/line_018.png,"""උ"" ශබ්දය"
+image83/line_019.png,පුටුව ගුවන රුහුන
+image83/line_020.png,නුවණ කුඩය රුලං
+image83/line_022.png,නුවර කුලය රුවල
+image83/line_023.png,දික් පාපිල්ල
+image83/line_026.png,පූසා කූඩය රූල
+image83/line_029.png,මූණ කූර රූකඩ
+image83/line_030.png,ථූපාරාමය කූඩැල්ලා රූස්ස
+image84/line_001.png,පුළුවන්
+image84/line_002.png,කුරුල්ලෝ
+image84/line_003.png,හුඟාක්
+image85/line_001.png,අවබෝධය
+image85/line_003.png,මුළු මිදුලම සුවඳවත් වන්නේ කුමක් නිසා
+image85/line_005.png,දක්වන්න
+image85/line_006.png,සමන් වැලේ මල් ජයට පිපී ඇති නිසා
+image85/line_007.png,ගීතයේ සංවාදය ඇතිවන්නේ කවුරුන්
+image85/line_009.png,අතරද
+image85/line_010.png,පියා සහ දුව අතර
+image85/line_011.png,පියාගේ ප්‍රාර්ථනාව කුමක් ද
+image85/line_012.png,මලක් වී පිපෙන්න ජීවන මල් ගොමුවේ.
+image85/line_014.png,'මිනිසා මිය ගියත් කළ හොඳ ඉතිරි වේ'
+image85/line_015.png,යන අදහස දැක්වෙන ගී පද දෙක උපුටා
+image86/line_004.png,සමන් වැලක් වී පිපෙන් දුවේ
+image86/line_005.png,ජීවිත මල් ගොමුවේ
+image86/line_013.png,පර වී හැළුණත් මිනිස් මලේ
+image86/line_017.png,පවතී සුවඳ ලොවේ.
+image86/line_022.png,මේ ගීතය ගැන ඔබට දැනෙන හැඟීම
+image86/line_029.png,විස්තර කරන්න
+image86/line_039.png,සෑම ගෙදරකම සමන් මල් පිපුණා නම් මුළු
+image86/line_043.png,රටම සුවඳ හමයි
+image87/line_002.png,සරල තේරවිලි
+image87/line_005.png,අලියා නොකන දල්ල ගිනි දල්ල
+image87/line_007.png,වත්ත පහළ ලේ බිංදුව මදටිය
+image87/line_008.png,අහසට රිට වැහි බිංදුව
+image87/line_014.png,අලියා නොයන මඟ ඉණිමඟ
+image87/line_017.png,කැලයට පාන හඳපාන
+image88/line_004.png,"ක,ච,ට,ත,ප,ග,ජ,ඩ,ද,බ,"
+image88/line_007.png,මහප්‍රාණ අක්ෂර
+image88/line_011.png,"ඛ,ඡ,ඨ,ථ,ඵ,ඝ,ඣ,ඪ,ධ,භ"
+image88/line_012.png,මුර්ධජ අක්ෂර
+image88/line_016.png,"ණ,ළ,ෂ"
+image88/line_018.png,තාලුජ අක්ෂර
+image88/line_019.png,ශ
+image88/line_020.png,සඤ්ඤක අක්ෂර
+image88/line_021.png,"ඟ,ඦ,ඬ,ඳ,ඹ"
+image89/line_002.png,කෙටි පාපිල්ල
+image89/line_003.png,"""උ"" ශබ්දය"
+image89/line_005.png,"පුටුව,කුඩය,රුවල"
+image89/line_014.png,දික් පාපිල්ල
+image89/line_017.png,"""ඌ"" ශබ්දය"
+image89/line_018.png,"ලූලා,කූඩය,රූල"
+image90/line_001.png,කෞතුකාගාරය
+image90/line_002.png,පෞරාණික
+image90/line_012.png,ගෞරවයෙන්
+image90/line_019.png,කෞශල්‍ය
+image91/line_003.png,උපදේශාත්මක වැකි මෙලෙස හඳුන්
+image91/line_007.png,අද කළ යුතු දේ හෙටට කල් නොදමන්න
+image91/line_010.png,අද කළ යුතු දේ අදම කරන්න හෙටට කල්
+image91/line_017.png,ඇඟිල්ලෙ තරම ට ඉදිමෙන්න
+image91/line_023.png,ප්‍රමාණයට වඩා අහංකාර නොවන්න
+image91/line_031.png,පනින්න පෙර සිතා බලනු
+image91/line_032.png,යමක් කිරීමට පෙර සිතා බලන්න
+image92/line_001.png,ප්‍රස්තාව පිරුළු
+image92/line_006.png,අවස්ථාවට ගැළපෙන කියමන්
+image92/line_009.png,විශේෂයකි.
+image92/line_018.png,ප්‍රකාශ කළ අයෙක් නැත.
+image92/line_021.png,සැම පිරුළකටම පාහේ කතා
+image92/line_027.png,ප්‍රවෘත්තියක් ඇත.
+image93/line_009.png,ගෘහය අසළ තෘණ භූමියක්
+image93/line_012.png,මේ කෘතිය කියවන්න
+image93/line_016.png,වෘත්තයක් අඳින්න
+image93/line_018.png,දිනපතා ප්‍රවෘත්ති බලන්න
+image93/line_022.png,පෘතුගාලයේ සිට පෘතුගීසීන්
+image94/line_009.png,සරල තේරවිලි
+image94/line_012.png,අලියා නොකන දල්ල ගිනි දල්ල
+image94/line_016.png,ගසක නොපිපෙන මල බිම් මල
+image94/line_027.png,අහසට දිග රිට වැහි බිංදුව
+image94/line_029.png,කැලේට පාන හඳපාන
+image95/line_001.png,වර්ග තුනකි
+image95/line_002.png,මධ්‍ය අක්ෂර රූල මැද
+image95/line_003.png,"ග,ස,න,ත,ප,ක"
+image95/line_004.png,ආරෝහණ අක්ෂර රූලෙන් උඩ
+image95/line_008.png,"ඩ,ට,ජ,ර,ම,බ,එ"
+image95/line_009.png,ආරෝහණ අක්ෂර රූලෙන් පහළට
+image95/line_011.png,"ළ,ල,අ,ඉ,උ,ද,ආ"
+image96/line_003.png,ඈත
+image96/line_008.png,සරම
+image96/line_017.png,ඇදය
+image96/line_029.png,සත
+image97/line_005.png,පිරිසිදු වාතය අපට ලබාදෙන ගස්වැලි
+image97/line_010.png,අපි කපා නොදමමු
+image97/line_015.png,පරිසර සුන්දරත්වය වැඩි කරන සතා සිවුපාවුන්
+image97/line_018.png,අපි ආරක්ෂා කරමු.
+image97/line_019.png,"අපට සිසිලස ලබා දෙන ගංගා, දිය ඇළි අපි"
+image97/line_020.png,අපවිත්‍ර නොකරමු.
+image98/line_001.png,දබරැඟිල්ල ඉස්සර වී මග පෙන්වනවා
+image98/line_002.png,එකතු වෙලා අනෙක් ඇඟිලි උදවු කරනවා
+image98/line_003.png,මහපටැඟිල්ලත් හොඳට ම මහන්සි වෙනවා
+image98/line_004.png,පුංචි වුණත් සුළැඟිල්ලත් පස්සෙන් එනවා
+image98/line_005.png,මැද ඇඟිල්ල උසට උසේ මැදින් ඉන්නවා
+image98/line_006.png,ළඟ ම ඉන්න වෙද ඇඟිල්ල මුදු පළදිනවා
+image99/line_001.png,ආච්චි
+image99/line_004.png,පුද්ගල නාම
+image99/line_010.png,සීයා
+image99/line_015.png,තාත්තා
+image99/line_033.png,අම්මා
+image99/line_049.png,නංගි
+image99/line_060.png,පුතා
+image99/line_064.png,අත්තම්මා
+image99/line_070.png,වැඩිහිටියන්
+image99/line_080.png,ඔල්සන්
+image99/line_091.png,විද්‍යාඥයකු
