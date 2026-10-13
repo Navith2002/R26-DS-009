@@ -1,27 +1,27 @@
 export const ERROR_META = {
   correct:     { icon:'✓', label:'අක්ෂර වින්‍යාස වැරදි නම් නැහැ, අපි දැං ව්‍යාකරණත් පරීක්ෂා කරලා බලමු',                         cls:'err-correct',     color:'#1f7a3f' },
-  retroflex:   { icon:'ළ', label:'සමාන අකුරු පටලැවීම',                cls:'err-retroflex',   color:'#d97706' },
-  vowel:       { icon:'ී', label:'ස්වර ලකුණු වැරදීම',                  cls:'err-vowel',       color:'#7c3aed' },
-  zwj:         { icon:'‍', label:'එකට ලියැවෙන අකුරු වැරදීම',          cls:'err-zwj',         color:'#2563eb' },
-  boundary:    { icon:'↔', label:'වචන අතර හිස්තැන් වැරදීම',           cls:'err-boundary',    color:'#0891b2' },
-  punctuation: { icon:'.', label:'විරාම ලකුණු වැරදීම',                cls:'err-punctuation', color:'#e8711a' },
-  missing:     { icon:'+', label:'අකුරු හෝ වචන අඩුවීම',                cls:'err-missing',     color:'#d97706' },
-  other:       { icon:'?', label:'වෙනත් වැරදීමක්',                    cls:'err-other',       color:'#d63b3b' },
+  retroflex:   { icon:'ළ', label:'සමාන අකුරු පටලැවීම',                cls:'err-retroflex',   color:'#2a78d6' },
+  vowel:       { icon:'ී', label:'ස්වර ලකුණු වැරදීම',                  cls:'err-vowel',       color:'#eb6834' },
+  zwj:         { icon:'‍', label:'එකට ලියැවෙන අකුරු වැරදීම',          cls:'err-zwj',         color:'#1baf7a' },
+  boundary:    { icon:'↔', label:'වචන අතර හිස්තැන් වැරදීම',           cls:'err-boundary',    color:'#eda100' },
+  punctuation: { icon:'.', label:'විරාම ලකුණු වැරදීම',                cls:'err-punctuation', color:'#e87ba4' },
+  missing:     { icon:'+', label:'අකුරු හෝ වචන අඩුවීම',                cls:'err-missing',     color:'#4a3aa7' },
+  other:       { icon:'?', label:'වෙනත් වැරදීමක්',                    cls:'err-other',       color:'#e34948' },
 };
 
 export const ERROR_META_TA = {
   correct:     { icon:'✓', label:'சரி',                                cls:'err-correct',     color:'#1f7a3f' },
-  retroflex:   { icon:'ழ', label:'ஒத்த எழுத்து குழப்பம்',              cls:'err-retroflex',   color:'#d97706' },
-  vowel:       { icon:'ீ', label:'உயிர்க்குறி பிழை',                    cls:'err-vowel',       color:'#7c3aed' },
+  retroflex:   { icon:'ழ', label:'ஒத்த எழுத்து குழப்பம்',              cls:'err-retroflex',   color:'#2a78d6' },
+  vowel:       { icon:'ீ', label:'உயிர்க்குறி பிழை',                    cls:'err-vowel',       color:'#eb6834' },
   // Tamil script has no ZWJ/conjunct-joiner concept the way Sinhala does
   // (see trusted_lexicon_ta.py) -- this key is kept only for structural
   // parity with ERROR_META; the backend never emits error_type "zwj" for
   // Tamil, so it never actually renders.
-  zwj:         { icon:'‍', label:'இணைப்பு பிழை',                       cls:'err-zwj',         color:'#2563eb' },
-  boundary:    { icon:'↔', label:'சொல் இடைவெளி பிழை',                  cls:'err-boundary',    color:'#0891b2' },
-  punctuation: { icon:'.', label:'நிறுத்தற்குறி பிழை',                  cls:'err-punctuation', color:'#e8711a' },
-  missing:     { icon:'+', label:'எழுத்து/சொல் குறைபாடு',               cls:'err-missing',     color:'#d97706' },
-  other:       { icon:'?', label:'மற்ற பிழை',                           cls:'err-other',       color:'#d63b3b' },
+  zwj:         { icon:'‍', label:'இணைப்பு பிழை',                       cls:'err-zwj',         color:'#1baf7a' },
+  boundary:    { icon:'↔', label:'சொல் இடைவெளி பிழை',                  cls:'err-boundary',    color:'#eda100' },
+  punctuation: { icon:'.', label:'நிறுத்தற்குறி பிழை',                  cls:'err-punctuation', color:'#e87ba4' },
+  missing:     { icon:'+', label:'எழுத்து/சொல் குறைபாடு',               cls:'err-missing',     color:'#4a3aa7' },
+  other:       { icon:'?', label:'மற்ற பிழை',                           cls:'err-other',       color:'#e34948' },
 };
 
 // NOTE: these labels MUST match the backend's ERROR_PROFILE_LABELS exactly

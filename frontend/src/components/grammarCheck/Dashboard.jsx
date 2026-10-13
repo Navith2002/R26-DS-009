@@ -47,24 +47,6 @@ export function SkillBar({ score, color }) {
   );
 }
 
-// Small decorative header illustration (trees + a pencil) -- purely
-// ornamental, sized to sit inline in the header without pushing it taller.
-function KidHeaderIllus() {
-  return (
-    <svg width="110" height="56" viewBox="0 0 110 56" aria-hidden="true" className="kid-header-illus">
-      <circle cx="20" cy="34" r="16" fill="#e3f3e6" />
-      <circle cx="14" cy="26" r="12" fill="#1f7a3f" />
-      <circle cx="30" cy="30" r="10" fill="#8BCB8E" />
-      <rect x="16" y="34" width="4" height="14" rx="2" fill="#8a5a34" />
-      <g transform="translate(64,6) rotate(28)">
-        <rect x="0" y="0" width="10" height="34" rx="3" fill="#e8711a" />
-        <polygon points="0,34 10,34 5,44" fill="#f4c9a3" />
-        <rect x="0" y="0" width="10" height="7" rx="3" fill="#74ac3a" />
-      </g>
-    </svg>
-  );
-}
-
 export default function Dashboard({ data, language, onNewPage, onNewSession, grammarRuns = [] }) {
   const lang = language || 'si';
   const T = UI_TEXT[lang] || UI_TEXT.si;
@@ -107,10 +89,9 @@ export default function Dashboard({ data, language, onNewPage, onNewSession, gra
     <div id="dashboard">
       <header className="dash-header">
         <div>
-          <div className="dash-title" style={{ marginLeft: '70px', display: 'flex', gap: 10, alignItems: 'center' }}>{T.dashTitle}</div>
-          <div className="dash-sub" style={{ marginLeft: '70px',marginTop: '8px', display: 'flex', gap: 10, alignItems: 'center' }}>{T.dashSub}</div>
+          <div className="dash-title">{T.dashTitle}</div>
+          <div className="dash-sub">{T.dashSub}</div>
         </div>
-        <KidHeaderIllus />
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, alignItems: 'center' }}>
           <button className="kid-btn-outline" onClick={onNewPage} title={T.btnNewPageTitle}>{T.btnNewPage}</button>
           <button className="kid-btn-solid" onClick={onNewSession} title={T.btnNewSessionTitle}>{T.btnNewSession}</button>
