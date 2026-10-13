@@ -125,7 +125,7 @@ export default function HistoryPage() {
 
       {!!grammarHistory.length && (
         <>
-          <section className="page-intro">
+          <section className="section-intro">
             <h2>{GT.historyHeading}</h2>
           </section>
 
@@ -169,7 +169,7 @@ export default function HistoryPage() {
           /results/:id and /grammar-results/:id. */}
       {!!fluencyHistory.length && (
         <>
-          <section className="page-intro">
+          <section className="section-intro">
             <h2>{t('account.fluencyHistory')}</h2>
           </section>
 
@@ -210,7 +210,7 @@ export default function HistoryPage() {
         </>
       )}
       {!!readingRuns.length && <>
-        <section className="page-intro"><h2>{t('account.readingHistory')}</h2></section>
+        <section className="section-intro"><h2>{t('account.readingHistory')}</h2></section>
         <div className="history-cards">{readingRuns.map((item) => row(item,
           <button className="history-card kid-history-card" onClick={() => navigate(`/reading-results/${item.id}`)}>
             <div className={`history-script ${item.language}`}><span>{item.language === 'tamil' ? 'அ' : 'අ'}</span></div>

@@ -14,23 +14,16 @@ import Logo from './Logo';
 import LanguageToggle from './LanguageToggle';
 import { useApp } from '../context/useApp';
 
-// One decorative bouncing mascot per main nav page (styles.css:
-// .page-mascot), each a different animal -- centralized here rather than
-// duplicated into every page component so it keeps showing regardless of
-// which internal screen/state a page (e.g. FluencyPage, GrammarCheckPage)
-// is currently rendering. Sub-routes not in the sidebar (/results/:id,
-// /grammar-results/:id, /reading-error's own sub-screens, etc.) simply
-// have no entry here and show no mascot.
-const PAGE_MASCOTS = {
-  '/': '🐻',
-  '/analyze': '🦊',
-  '/grammar-check': '🐱',
-  '/fluency': '🦁',
-  '/reading-error': '🐨',
-  '/progress': '🐼',
-  '/history': '🦄',
-  '/profile': '🐶',
-};
+// Each learning area keeps one colour everywhere (sidebar chip, page
+// accents): writing check orange, grammar green, fluency saffron, reading
+// errors sky, everything else leaf.
+function pageToneFor(pathname) {
+  if (pathname.startsWith('/analyze') || pathname.startsWith('/results')) return 'orange';
+  if (pathname.startsWith('/grammar')) return 'green';
+  if (pathname.startsWith('/fluency')) return 'saffron';
+  if (pathname.startsWith('/reading')) return 'sky';
+  return 'leaf';
+}
 
 export default function AppShell() {
   const { profile, language, t, childrenList, activeChild, selectChild } = useApp();
@@ -42,15 +35,15 @@ export default function AppShell() {
   // their nav order (check / grammar / fluency / reading-error), then
   // progress, practice, history, profile.
   const navItems = [
-    { to: '/', label: t('nav.home'), icon: Home },
-    { to: '/analyze', label: t('nav.check'), shortLabel: t('nav.checkShort'), icon: Camera },
-    { to: '/grammar-check', label: t('nav.grammarCheck'), shortLabel: t('nav.grammarCheckShort'), icon: SpellCheck2 },
-    { to: '/fluency', label: t('nav.fluency'), shortLabel: t('nav.fluencyShort'), icon: Mic },
-    { to: '/reading-error', label: t('nav.readingError'), shortLabel: t('nav.readingErrorShort'), icon: Volume2 },
-    { to: '/progress', label: t('nav.progress'), shortLabel: t('nav.progressShort'), icon: BarChart3 },
-    { to: '/practice', label: t('nav.practice'), icon: BookOpenCheck },
-    { to: '/history', label: t('nav.history'), icon: Clock3 },
-    { to: '/profile', label: t('nav.profile'), icon: UserRound },
+    { to: '/', label: t('nav.home'), icon: Home, tone: 'orange' },
+    { to: '/analyze', label: t('nav.check'), shortLabel: t('nav.checkShort'), icon: Camera, tone: 'orange' },
+    { to: '/grammar-check', label: t('nav.grammarCheck'), shortLabel: t('nav.grammarCheckShort'), icon: SpellCheck2, tone: 'green' },
+    { to: '/fluency', label: t('nav.fluency'), shortLabel: t('nav.fluencyShort'), icon: Mic, tone: 'saffron' },
+    { to: '/reading-error', label: t('nav.readingError'), shortLabel: t('nav.readingErrorShort'), icon: Volume2, tone: 'sky' },
+    { to: '/progress', label: t('nav.progress'), shortLabel: t('nav.progressShort'), icon: BarChart3, tone: 'leaf' },
+    { to: '/practice', label: t('nav.practice'), icon: BookOpenCheck, tone: 'leaf' },
+    { to: '/history', label: t('nav.history'), icon: Clock3, tone: 'leaf' },
+    { to: '/profile', label: t('nav.profile'), icon: UserRound, tone: 'leaf' },
   ];
 
   // Mobile bottom nav intentionally keeps its own fixed 4 items (Home,
@@ -61,28 +54,28 @@ export default function AppShell() {
   const mobileNavItems = mobileRoutes.map((route) => navItems.find((item) => item.to === route));
 
   const displayName = profile.name || t('header.learner');
-  const pageMascot = PAGE_MASCOTS[location.pathname];
+  const pageTone = pageToneFor(location.pathname);
 
   return (
     <div className={`app-shell ui-language-${language}`} lang={language === 'tamil' ? 'ta' : 'si'}>
       <aside className="sidebar">
         <Logo />
         <nav className="sidebar-menu">
-          {navItems.map(({ to, label, icon: Icon }) => (
+          {navItems.map(({ to, label, icon: Icon, tone }) => (
             <NavLink
               key={to}
               to={to}
               end={to === '/'}
               className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
             >
-              <span className="sidebar-icon"><Icon size={19} /></span>
+              <span className={`sidebar-icon tone-${tone}`}><Icon size={19} /></span>
               <span className="sidebar-label">{label}</span>
             </NavLink>
           ))}
         </nav>
       </aside>
 
-      <main className="main-area">
+      <main className={`main-area page-tone-${pageTone}`}>
         {!hiddenHeader && (
           <header className="top-header">
             <div className="welcome">
@@ -115,7 +108,6 @@ export default function AppShell() {
         ))}
       </nav>
 
-      {pageMascot && <span className="page-mascot" aria-hidden="true">{pageMascot}</span>}
     </div>
   );
 }
