@@ -53,3 +53,28 @@ def test_model_override(monkeypatch):
     assert gemini_requests.configured_model() == "chosen-model"
     monkeypatch.setenv("GEMINI_MODEL", " ")
     assert gemini_requests.configured_model() == gemini_requests.DEFAULT_MODEL
+
+
+@pytest.mark.parametrize("module", [grammar_module, grammar_module_ta])
+def test_persistent_503_uses_available_text_model(module, monkeypatch):
+    monkeypatch.setattr(gemini_requests.time, "sleep", Mock())
+    response = SimpleNamespace(text='{"sentences": [{"idx": 0, "corrected": "corrected"}]}')
+    call = Mock(side_effect=[ProviderError(503)] * 3 + [response])
+    models = SimpleNamespace(generate_content=call, list=Mock(return_value=[
+        SimpleNamespace(name="models/gemini-preview-flash", supported_actions=["generateContent"]),
+        SimpleNamespace(name="models/gemini-2.5-flash", supported_actions=["generateContent"]),
+    ]))
+    result = module._call_gemini_json(SimpleNamespace(models=models), "original", "prompt")
+    assert result["sentences"][0]["corrected"] == "corrected"
+    assert call.call_args.kwargs["model"] == "gemini-2.5-flash"
+
+
+def test_fallback_failure_remains_failure(monkeypatch):
+    monkeypatch.setattr(gemini_requests.time, "sleep", Mock())
+    call = Mock(side_effect=ProviderError(503))
+    models = SimpleNamespace(generate_content=call, list=Mock(return_value=[
+        SimpleNamespace(name="models/gemini-2.5-flash", supported_actions=["generateContent"]),
+    ]))
+    with pytest.raises(ProviderError):
+        gemini_requests.generate_content(SimpleNamespace(models=models), model="original", contents=["prompt"])
+    assert call.call_count == 4
