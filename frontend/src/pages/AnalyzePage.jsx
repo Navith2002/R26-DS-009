@@ -1,3 +1,4 @@
+import { PeekingCat } from '../components/Lottie';
 import {
   useEffect,
   useRef,
@@ -14,6 +15,7 @@ import {
   FileImage,
   ImagePlus,
   LoaderCircle,
+  PenLine,
   RefreshCcw,
   Sparkles,
   UploadCloud,
@@ -26,6 +28,8 @@ import {
 } from '../services/api';
 
 import { useApp } from '../context/useApp';
+import { formatDate, isAcceptedQualityResult, qualityLabel, qualityTone } from '../utils/format';
+import { qualityLabelText } from '../i18n/translations';
 
 
 const allowedTypes = [
@@ -43,11 +47,14 @@ export default function AnalyzePage() {
   const location = useLocation();
 
   const {
+    history,
     language,
     registerAnalysis,
     setLatestPreview,
     t,
   } = useApp();
+
+  const recentChecks = history.filter(isAcceptedQualityResult).slice(0, 4);
 
   const uploadRef = useRef(null);
   const videoRef = useRef(null);
@@ -577,7 +584,7 @@ export default function AnalyzePage() {
   // =========================================================
 
   return (
-    <div className="analyze-page page-stack">
+    <div className="analyze-page page-stack gc hw">
 
       {/* =====================================================
           PAGE HEADER
@@ -613,7 +620,7 @@ export default function AnalyzePage() {
         </div>
       </section>
 
-      <div className="analyze-layout">
+      <div className={`analyze-layout gc-upload-grid ${recentChecks.length ? '' : 'solo'}`}>
 
         {/* ===================================================
             CAMERA / IMAGE UPLOAD
@@ -694,7 +701,7 @@ export default function AnalyzePage() {
 
           {!preview && !cameraOpen && (
             <div
-              className={`dropzone ${dragging ? 'dragging' : ''}`}
+              className={`dropzone has-peek ${dragging ? 'dragging' : ''}`}
               onDragOver={(event) => {
                 event.preventDefault();
                 setDragging(true);
@@ -704,6 +711,7 @@ export default function AnalyzePage() {
               }}
               onDrop={onDrop}
             >
+              <PeekingCat />
 
               <div className="upload-orbit">
                 {cameraStarting
@@ -850,6 +858,61 @@ export default function AnalyzePage() {
               NORMAL FILE PICKER
               ================================================= */}
 
+        {/* ===================================================
+              ERROR
+              =================================================== */}
+
+          {error && (
+            <div className="error-banner">
+
+              <XCircle size={19} />
+
+              <span>
+                {error}
+              </span>
+
+            </div>
+          )}
+
+
+          {/* ===================================================
+              ANALYSE BUTTON
+              =================================================== */}
+
+          <button
+            className="analyze-submit chunky-btn orange"
+            type="button"
+            disabled={
+              !file
+              || status === 'loading'
+              || !ready
+              || cameraOpen
+            }
+            onClick={submit}
+          >
+            {status === 'loading'
+              ? (
+                <>
+                  <LoaderCircle
+                    className="spin"
+                    size={20}
+                  />
+
+                  {t('analyze.checking')}
+                </>
+              )
+              : (
+                <>
+                  {t('analyze.submit')}
+
+                  <span>
+                    →
+                  </span>
+                </>
+              )}
+          </button>
+
+
           <input
             ref={uploadRef}
             type="file"
@@ -861,82 +924,24 @@ export default function AnalyzePage() {
         </section>
 
 
-        {/* ===================================================
-            PHOTO QUALITY TIP
-            =================================================== */}
 
-        <section className="analysis-note-card kid-photo-tips compact-photo-tip">
-
-          <div className="note-icon">
-            📷
-          </div>
-
-          <div>
-            <h4>
-              {t('analyze.bestPhoto')}
-            </h4>
-
-            <p>
-              {t('analyze.bestPhotoText')}
-            </p>
-          </div>
-
-        </section>
-
-
-        {/* ===================================================
-            ERROR
-            =================================================== */}
-
-        {error && (
-          <div className="error-banner">
-
-            <XCircle size={19} />
-
-            <span>
-              {error}
-            </span>
-
-          </div>
+        {!!recentChecks.length && (
+          <aside className="gc-side">
+            <section className="gc-card gc-recent">
+              <header className="gc-card-head"><h3>{t('progress.recentWriting')}</h3></header>
+              {recentChecks.map((item) => {
+                const label = qualityLabel(item);
+                return (
+                  <button key={item.id} type="button" className="gc-recent-row" onClick={() => navigate(`/results/${item.id}`)}>
+                    <span className="gc-recent-icon"><PenLine size={16} /></span>
+                    <span className="gc-recent-when">{formatDate(item.createdAt, language)}</span>
+                    <span className={`quality-pill tone-${qualityTone(label)}`}>{qualityLabelText(label, language)}</span>
+                  </button>
+                );
+              })}
+            </section>
+          </aside>
         )}
-
-
-        {/* ===================================================
-            ANALYSE BUTTON
-            =================================================== */}
-
-        <button
-          className="analyze-submit"
-          type="button"
-          disabled={
-            !file
-            || status === 'loading'
-            || !ready
-            || cameraOpen
-          }
-          onClick={submit}
-        >
-          {status === 'loading'
-            ? (
-              <>
-                <LoaderCircle
-                  className="spin"
-                  size={20}
-                />
-
-                {t('analyze.checking')}
-              </>
-            )
-            : (
-              <>
-                {t('analyze.submit')}
-
-                <span>
-                  →
-                </span>
-              </>
-            )}
-        </button>
 
       </div>
 

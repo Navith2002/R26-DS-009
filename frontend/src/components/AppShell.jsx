@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import Logo from './Logo';
 import LanguageToggle from './LanguageToggle';
+import AppFooter from './AppFooter';
 import { useApp } from '../context/useApp';
 
 // Each learning area keeps one colour everywhere (sidebar chip, page
@@ -97,6 +98,7 @@ export default function AppShell() {
           </header>
         )}
         <Outlet />
+        <AppFooter />
       </main>
 
       <nav className="mobile-nav">

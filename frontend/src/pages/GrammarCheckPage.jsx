@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/useApp';
 import { UI_TEXT } from '../components/grammarCheck/i18n';
 import { analyzeGrammar } from '../services/grammarApi';
+import { formatDate } from '../utils/format';
 import UploadScreen from '../components/grammarCheck/UploadScreen';
 import LoadingScreen from '../components/grammarCheck/LoadingScreen';
 import Dashboard from '../components/grammarCheck/Dashboard';
@@ -20,6 +22,7 @@ function toShortCode(language) {
 
 export default function GrammarCheckPage() {
   const { language, registerGrammarRun, grammarRuns, t: appT } = useApp();
+  const navigate = useNavigate();
 
   const [screen, setScreen] = useState('upload'); // 'upload' | 'loading' | 'dashboard'
   const [selectedFile, setSelectedFile] = useState(null);
@@ -31,10 +34,6 @@ export default function GrammarCheckPage() {
   const stepIntervalRef = useRef(null);
 
   const shortLang = toShortCode(language);
-
-  useEffect(() => {
-    document.documentElement.style.setProperty('--script', shortLang === 'ta' ? 'var(--tam)' : 'var(--sinh)');
-  }, [shortLang]);
 
   useEffect(() => () => clearInterval(stepIntervalRef.current), []);
 
@@ -76,6 +75,11 @@ export default function GrammarCheckPage() {
     }
   }
 
+  function clearFile() {
+    setSelectedFile(null);
+    setPreviewUrl(null);
+  }
+
   function reset() {
     setSelectedFile(null);
     setPreviewUrl(null);
@@ -83,41 +87,30 @@ export default function GrammarCheckPage() {
     setScreen('upload');
   }
 
-  // The upload screen now uses WriteBright's own page styling (see
-  // UploadScreen.jsx) so it isn't wrapped in .grammar-check-scope --
-  // that class's CSS variables would otherwise repaint it with this
-  // component's separate palette instead of the app's own colors.
-  // Dashboard keeps its existing look for now.
+  // All three screens use the app's own styling (.gc-* in bhasha.css), so
+  // none of them is wrapped in grammarCheck.css's .grammar-check-scope.
   if (screen === 'upload') {
     return (
       <>{error && <p className="account-error" role="alert">{appT(error)}</p>}<UploadScreen
         t={t}
         previewUrl={previewUrl}
+        file={selectedFile}
         onFileSelect={onFileSelect}
+        onClear={clearFile}
         canAnalyze={!!selectedFile}
         onAnalyze={analyze}
+        recentRuns={[...grammarRuns].filter((run) => run.createdAt).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 4)}
+        onOpenRun={(run) => navigate(`/grammar-results/${run.id}`)}
+        formatWhen={(when) => formatDate(when, language)}
       /></>
     );
   }
 
-  // Same fix as the upload screen -- pulled outside .grammar-check-scope
-  // so LoadingScreen.jsx's own WriteBright-styled markup isn't repainted
-  // by this component's separate palette.
   if (screen === 'loading') {
-    return <LoadingScreen t={t} step={step} />;
+    return <LoadingScreen t={t} step={step} previewUrl={previewUrl} />;
   }
 
-  return (
-    <div className="grammar-check-scope">
-      {screen === 'dashboard' && result && (
-        <Dashboard
-          data={result}
-          language={shortLang}
-          onNewPage={reset}
-          onNewSession={reset}
-          grammarRuns={grammarRuns}
-        />
-      )}
-    </div>
-  );
+  return result ? (
+    <Dashboard data={result} language={shortLang} onNewPage={reset} onNewSession={reset} celebrate />
+  ) : null;
 }
