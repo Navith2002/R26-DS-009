@@ -17,9 +17,9 @@ import json
 from typing import Optional
 
 try:
-    from .gemini_requests import configured_model, generate_content
+    from .grammar_module import configured_model, _generate_content
 except ImportError:  # Standalone CLI and integrated router imports.
-    from gemini_requests import configured_model, generate_content
+    from grammar_module import configured_model, _generate_content
 
 SENTENCE_END_CHARS = ".!?।"
 _SPLIT_RE = re.compile(r"([.!?।])")
@@ -186,7 +186,7 @@ def _has_english_leak(text: str) -> bool:
 
 
 def _call_gemini_json(client, model: str, prompt: str) -> dict:
-    response = generate_content(client, model=model, contents=[prompt])
+    response = _generate_content(client, model=model, contents=[prompt])
     raw = response.text.strip()
     raw = re.sub(r"^```json\s*", "", raw)
     raw = re.sub(r"\s*```$", "", raw)
