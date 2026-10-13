@@ -353,6 +353,8 @@
   color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800;
   border: 1.5px solid #fff;
 }
+.kid-line-thumb-wrap.no-thumb { margin-bottom: 6px; }
+.kid-line-thumb-wrap.no-thumb .kid-num-badge { position: static; }
 .kid-num-badge.kid-green  { background: var(--kid-green); }
 .kid-num-badge.kid-orange { background: var(--kid-orange); }
 .kid-num-badge.kid-teal   { background: var(--kid-teal); }
