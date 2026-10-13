@@ -41,7 +41,7 @@ export default function SentenceStage({ onSelect, onBack }) {
       )}
 
       {status === 'loading' && (
-        <p style={{ color: 'var(--muted)', fontSize: 14 }}>{t('sentence.loading')}</p>
+        <p style={{ color: 'var(--muted)', fontSize: 'var(--fs-h3)' }}>{t('sentence.loading')}</p>
       )}
 
       {status === 'error' && (
