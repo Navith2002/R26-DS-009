@@ -52,7 +52,7 @@ class AccountSettings:
     google_client_id: str
     firestore_project_id: str = ""
     session_db: str = str(Path(__file__).parent / ".sessions" / "accounts.sqlite3")
-    origins: tuple = ("http://localhost:5173", "http://127.0.0.1:5173")
+    origins: tuple = ("http://localhost:5173", "http://127.0.0.1:8000")
     secure_cookies: bool = False
     session_ttl: int = 43200
 
