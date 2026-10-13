@@ -12,50 +12,50 @@
    attribute-on-wrapper-div convention AppShell.jsx already uses) on the
    wrapper div in FluencyPage.jsx. */
 .fluency-scope {
-  --ink: #303747;
-  --ink-soft: #858b99;
+  --ink: #1f2a1d;
+  --ink-soft: #5d6b58;
   --ink-faint: #b7bcc5;
-  --paper: #f6eee7;
-  --paper-deep: #fff0df;
+  --paper: #fffaf2;
+  --paper-deep: #fff1de;
   --track-bg: #f2eee9;
-  --gold: #ff7b32;
-  --gold-soft: #fff0df;
-  --deep-blue: #e8631d;
+  --gold: #e8711a;
+  --gold-soft: #fff1de;
+  --deep-blue: #c4510e;
   --sky-border: #ffd9c2;
   --amber: #d88327;
   --amber-soft: #fff4e5;
   --clay: #d95050;
   --clay-soft: #fff0ef;
-  --green: #3d8f43;
-  --green-strong: #4caf50;
-  --green-soft: #eaf7e9;
-  --turquoise: #2ab3a6;
-  --turquoise-soft: #e8faf7;
+  --green: #1f7a3f;
+  --green-strong: #1f7a3f;
+  --green-soft: #e3f3e6;
+  --turquoise: #4f8a22;
+  --turquoise-soft: #eef6e2;
   --purple: #8b5cf6;
   --lavender-soft: #efeaff;
   --yellow: #ffd871;
   --yellow-soft: #fff7d9;
   --warm-amber-text: #78350f;
-  --line: #eee7df;
-  --shadow: 0 12px 32px rgba(50, 55, 70, 0.08);
-  --shadow-lg: 0 25px 65px rgba(50, 55, 70, 0.12);
+  --line: #eadfcb;
+  --shadow: 0 12px 32px rgba(31,42,29, 0.08);
+  --shadow-lg: 0 25px 65px rgba(31,42,29, 0.12);
 
   --radius-xl: 32px;
   --radius-lg: 25px;
   --radius-md: 18px;
   --radius-sm: 14px;
 
-  --font-sinhala: 'Noto Serif Sinhala', 'Iskoola Pota', serif;
-  --font-display: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sinhala: 'Noto Sans Sinhala', 'Iskoola Pota', sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Noto Sans Sinhala', 'Noto Sans Tamil', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Noto Sans Sinhala', 'Noto Sans Tamil', system-ui, sans-serif;
+  --font-mono: 'Plus Jakarta Sans', 'Noto Sans Sinhala', 'Noto Sans Tamil', system-ui, sans-serif;
   --font-ui-si: 'Noto Sans Sinhala', 'Iskoola Pota', sans-serif;
   --font-ui-ta: 'Noto Sans Tamil', 'Latha', sans-serif;
 
   color: var(--ink);
   background: var(--paper);
   font-family: var(--font-body);
-  font-size: 17px;
+  font-size:var(--fs-h3);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -69,7 +69,7 @@
 .fluency-scope h3,
 .fluency-scope h4 {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--ink);
   margin: 0 0 8px;
@@ -154,17 +154,17 @@
   padding: 0 12px;
   border-radius: var(--radius-md);
   background: var(--gold);
-  box-shadow: 0 8px 20px rgba(255, 123, 50, 0.25);
+  box-shadow: 0 8px 20px rgba(232,113,26, 0.25);
   font-family: var(--font-sinhala);
-  font-size: 22px;
+  font-size:var(--fs-h2);
   font-weight: 600;
   color: #fff;
 }
 
 .app__tagline {
   font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 800;
+  font-size:var(--fs-h3);
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
@@ -189,7 +189,7 @@
   border-radius: 999px;
   padding: 6px 14px;
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size:var(--fs-h3);
   font-weight: 600;
   color: var(--ink-soft);
   white-space: nowrap;
@@ -231,13 +231,13 @@
 
 .stage__subhead {
   color: var(--ink-soft);
-  font-size: 14px;
+  font-size:var(--fs-h3);
   margin-bottom: 20px;
 }
 
 .hint {
   color: var(--ink-soft);
-  font-size: 15px;
+  font-size:var(--fs-h3);
 }
 
 .hint--error {
@@ -249,7 +249,7 @@
   border: none;
   padding: 0;
   color: var(--ink-soft);
-  font-size: 14px;
+  font-size:var(--fs-h3);
   margin-bottom: 20px;
 }
 
@@ -265,8 +265,8 @@
 
 .gate__eyebrow {
   font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 800;
+  font-size:var(--fs-h3);
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--gold);
@@ -274,7 +274,7 @@
 }
 
 .gate h1 {
-  font-size: 34px;
+  font-size:var(--fs-h1);
   max-width: 14ch;
   margin-bottom: 16px;
 }
@@ -293,7 +293,7 @@
 }
 
 .gate__form label {
-  font-size: 13px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
 }
 
@@ -302,7 +302,7 @@
   border: 1.5px solid var(--line);
   border-radius: var(--radius-sm);
   background: #fff;
-  font-size: 16px;
+  font-size:var(--fs-h3);
   margin-bottom: 16px;
 }
 
@@ -316,8 +316,8 @@
   border: none;
   border-radius: 999px;
   padding: 13px 24px;
-  font-size: 15px;
-  font-weight: 800;
+  font-size:var(--fs-h3);
+  font-weight: 600;
   font-family: var(--font-body);
   transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
@@ -334,7 +334,7 @@
 .btn--primary {
   background: var(--gold);
   color: #fff;
-  box-shadow: 0 10px 25px rgba(255, 123, 50, 0.22);
+  box-shadow: 0 10px 25px rgba(232,113,26, 0.22);
 }
 
 .btn--primary:not(:disabled):hover {
@@ -375,22 +375,22 @@
 
 .sentence-card__id {
   font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 11px;
+  font-weight: 600;
+  font-size:var(--fs-h3);
   letter-spacing: 0.05em;
   color: var(--ink-soft);
 }
 
 .sentence-card__text {
   font-family: var(--font-sinhala);
-  font-size: 18px;
+  font-size:var(--fs-h3);
   line-height: 1.5;
   color: var(--ink);
 }
 
 .sentence-card__badge {
   align-self: flex-start;
-  font-size: 11px;
+  font-size:var(--fs-h3);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   background: var(--paper-deep);
@@ -412,17 +412,17 @@
 .reading-card__eyebrow {
   display: block;
   font-family: var(--font-body);
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size:var(--fs-h3);
   color: var(--gold);
   margin-bottom: 14px;
 }
 
 .reading-card__text {
   font-family: var(--font-sinhala);
-  font-size: 30px;
+  font-size:var(--fs-h1);
   line-height: 1.65;
   color: var(--ink);
 }
@@ -475,7 +475,7 @@
   place-items: center;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 15px;
+  font-size:var(--fs-h3);
   transition: background 0.2s ease, border-radius 0.2s ease;
 }
 
@@ -515,8 +515,8 @@
 
 .recorder__timer {
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 600;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
 }
 
@@ -548,12 +548,12 @@
 
 .result-banner__label {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 22px;
+  font-weight: 600;
+  font-size:var(--fs-h2);
 }
 
 .result-banner__profile {
-  font-size: 14px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
 }
 
@@ -603,14 +603,14 @@
 .metric__value {
   display: block;
   font-family: var(--font-body);
-  font-size: 22px;
-  font-weight: 800;
+  font-size:var(--fs-h2);
+  font-weight: 600;
   color: var(--ink);
 }
 
 .metric__label {
   display: block;
-  font-size: 12px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
   margin-top: 4px;
 }
@@ -625,8 +625,8 @@
 .transcript-compare__label {
   display: block;
   font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 11px;
+  font-weight: 600;
+  font-size:var(--fs-h3);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--ink-soft);
@@ -635,7 +635,7 @@
 
 .transcript-compare p {
   font-family: var(--font-sinhala);
-  font-size: 18px;
+  font-size:var(--fs-h3);
   background: #fff;
   border-radius: var(--radius-sm);
   padding: 14px;
@@ -654,7 +654,7 @@
 }
 
 .skill-row__label {
-  font-size: 14px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
 }
 
@@ -682,8 +682,8 @@
 
 .skill-row__value {
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 13px;
+  font-weight: 600;
+  font-size:var(--fs-h3);
   text-align: right;
   color: var(--ink-soft);
 }
@@ -722,47 +722,47 @@
 
 .rec-card__cta {
   margin-top: 10px;
-  font-size: 12px;
+  font-size:var(--fs-h3);
   font-weight: 600;
   color: var(--gold);
 }
 
 .rec-card__difficulty {
   font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 11px;
+  font-weight: 600;
+  font-size:var(--fs-h3);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--gold);
 }
 
 .rec-card h4 {
-  font-size: 17px;
+  font-size:var(--fs-h3);
   margin: 8px 0 4px;
 }
 
 .rec-card__skill {
-  font-size: 12px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
   margin-bottom: 10px;
 }
 
 .rec-card__desc {
-  font-size: 14px;
+  font-size:var(--fs-h3);
   color: var(--ink);
   margin-bottom: 8px;
 }
 
 .rec-card__instruction {
   font-family: var(--font-sinhala);
-  font-size: 15px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
   border-top: 1px solid var(--line);
   padding-top: 8px;
 }
 
 .result-note {
-  font-size: 13px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
   margin-bottom: 24px;
 }
@@ -781,7 +781,7 @@
 
 .profile-desc {
   color: var(--ink-soft);
-  font-size: 14px;
+  font-size:var(--fs-h3);
   margin-bottom: 14px;
   max-width: 56ch;
 }
@@ -799,7 +799,7 @@
   gap: 4px;
   background: var(--clay-soft);
   color: var(--clay);
-  font-size: 11px;
+  font-size:var(--fs-h3);
   font-weight: 600;
   padding: 4px 11px;
   border-radius: 999px;
@@ -831,7 +831,7 @@
 .transcript-compare__missing {
   color: var(--ink-soft);
   font-style: italic;
-  font-size: 14px;
+  font-size:var(--fs-h3);
 }
 
 .diff-tok--wrong {
@@ -862,8 +862,8 @@
 }
 
 .wer-badge {
-  font-size: 12px;
-  font-weight: 700;
+  font-size:var(--fs-h3);
+  font-weight: 600;
   font-family: var(--font-mono);
   padding: 4px 12px;
   border-radius: 999px;
@@ -885,7 +885,7 @@
 }
 
 .wer-hint {
-  font-size: 12px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
 }
 
@@ -900,8 +900,8 @@
 
 .dashboard__student {
   font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 11px;
+  font-weight: 600;
+  font-size:var(--fs-h3);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-soft);
@@ -910,7 +910,7 @@
 
 .dashboard__switch {
   margin-bottom: 0;
-  font-size: 13px;
+  font-size:var(--fs-h3);
 }
 
 .dashboard__empty {
@@ -919,7 +919,7 @@
 }
 
 .dashboard__empty h1 {
-  font-size: 30px;
+  font-size:var(--fs-h1);
   margin-bottom: 12px;
 }
 
@@ -946,7 +946,7 @@
 }
 
 .reassess-strip__icon {
-  font-size: 20px;
+  font-size:var(--fs-h2);
   color: var(--ink-soft);
 }
 
@@ -958,13 +958,13 @@
 }
 
 .reassess-strip__title {
-  font-size: 14px;
+  font-size:var(--fs-h3);
   font-weight: 600;
   color: var(--ink);
 }
 
 .reassess-strip__desc {
-  font-size: 12px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
 }
 
@@ -999,17 +999,17 @@
 }
 
 .opt-card__icon {
-  font-size: 30px;
+  font-size:var(--fs-h1);
 }
 
 .opt-card__title {
-  font-size: 14px;
+  font-size:var(--fs-h3);
   font-weight: 600;
   color: var(--ink);
 }
 
 .opt-card__desc {
-  font-size: 12px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
   line-height: 1.5;
 }
@@ -1022,7 +1022,7 @@
   border: 1.5px solid var(--line);
   border-radius: var(--radius-sm);
   background: #fff;
-  font-size: 18px;
+  font-size:var(--fs-h3);
   font-family: var(--font-sinhala);
   resize: vertical;
   line-height: 1.6;
@@ -1043,13 +1043,13 @@
 }
 
 .gt-confirm__label {
-  font-size: 13px;
+  font-size:var(--fs-h3);
   font-weight: 600;
   color: var(--green);
 }
 
 .gt-edit {
-  font-size: 12px;
+  font-size:var(--fs-h3);
   font-weight: 600;
   color: var(--green);
   background: none;
@@ -1070,7 +1070,7 @@
   flex: 1;
   padding: 10px;
   text-align: center;
-  font-size: 13px;
+  font-size:var(--fs-h3);
   font-weight: 500;
   background: #fff;
   color: var(--ink-soft);
@@ -1111,24 +1111,24 @@
 }
 
 .upload-zone__icon {
-  font-size: 26px;
+  font-size:var(--fs-h1);
 }
 
 .upload-zone__title {
-  font-size: 14px;
+  font-size:var(--fs-h3);
   font-weight: 600;
   color: var(--ink);
 }
 
 .upload-zone__sub {
-  font-size: 12px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
 }
 
 /* --- Skill badges (activity target skill) --- */
 
 .badge {
-  font-size: 11px;
+  font-size:var(--fs-h3);
   font-weight: 600;
   padding: 4px 11px;
   border-radius: 999px;
@@ -1179,7 +1179,7 @@
 }
 
 .activity-step-info {
-  font-size: 12px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
   margin: 8px 0 20px;
 }
@@ -1200,19 +1200,19 @@
   border-radius: 50%;
   background: var(--green-soft);
   color: var(--green);
-  font-size: 28px;
+  font-size:var(--fs-h1);
   display: grid;
   place-items: center;
   margin: 0 auto 16px;
 }
 
 .done-card__title {
-  font-size: 22px;
+  font-size:var(--fs-h2);
   margin-bottom: 8px;
 }
 
 .done-card__desc {
-  font-size: 14px;
+  font-size:var(--fs-h3);
   color: var(--ink-soft);
   margin-bottom: 24px;
   line-height: 1.6;

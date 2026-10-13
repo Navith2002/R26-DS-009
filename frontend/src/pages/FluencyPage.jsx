@@ -123,7 +123,7 @@ function FluencyPageInner() {
     return (
       <div className="page-stack">
         <div className="section-heading" style={{ justifyContent: 'center', gap: 20 }}>
-          <span style={{ color: 'var(--muted)', fontSize: 15 }}>
+          <span style={{ color: 'var(--muted)', fontSize: 'var(--fs-h3)' }}>
             {studentId ? `${t('dashboard.studentPrefix')} ${studentId}` : t('dashboard.anonymous')}
           </span>
           {/* Matches "ඇගයීම ආරම්භ කරන්න" (.primary-action)'s actual
@@ -133,7 +133,7 @@ function FluencyPageInner() {
               "compact" block elsewhere in styles.css. */}
           <button
             type="button"
-            style={{ fontSize: 12, padding: '11px 17px', borderRadius: 30, fontWeight: 800 }}
+            style={{ fontSize: 'var(--fs-h3)', padding: '11px 17px', borderRadius: 30, fontWeight: 600 }}
             onClick={() => {
               setStudentId('');
               setResult(null);

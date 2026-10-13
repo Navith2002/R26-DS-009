@@ -77,7 +77,7 @@ export default function CustomStage({ onSubmit, onBack, submitting, submitError 
                 borderRadius: 14,
                 padding: '14px 16px',
                 outline: 0,
-                fontSize: 16,
+                fontSize: 'var(--fs-h3)',
                 lineHeight: 1.6,
                 color: 'var(--text)',
                 background: '#fff',

@@ -6,12 +6,12 @@ import {
 } from './i18n';
 
 const FB_COLORS = {
-  correct:     { bg: '#edfaf3', border: '#86efac' },
+  correct:     { bg: '#e3f3e6', border: '#86efac' },
   retroflex:   { bg: '#fffbeb', border: '#fcd34d' },
   vowel:       { bg: '#f5f3ff', border: '#c4b5fd' },
   zwj:         { bg: '#eff6ff', border: '#93c5fd' },
   boundary:    { bg: '#ecfeff', border: '#67e8f9' },
-  punctuation: { bg: '#fff7ed', border: '#fdba74' },
+  punctuation: { bg: '#fff1de', border: '#fdba74' },
   missing:     { bg: '#fffbeb', border: '#fcd34d' },
   other:       { bg: '#fef2f2', border: '#fca5a5' },
 };
@@ -52,14 +52,14 @@ export function SkillBar({ score, color }) {
 function KidHeaderIllus() {
   return (
     <svg width="110" height="56" viewBox="0 0 110 56" aria-hidden="true" className="kid-header-illus">
-      <circle cx="20" cy="34" r="16" fill="#E9F7EA" />
-      <circle cx="14" cy="26" r="12" fill="#4CAF50" />
+      <circle cx="20" cy="34" r="16" fill="#e3f3e6" />
+      <circle cx="14" cy="26" r="12" fill="#1f7a3f" />
       <circle cx="30" cy="30" r="10" fill="#8BCB8E" />
       <rect x="16" y="34" width="4" height="14" rx="2" fill="#8a5a34" />
       <g transform="translate(64,6) rotate(28)">
-        <rect x="0" y="0" width="10" height="34" rx="3" fill="#F2854C" />
+        <rect x="0" y="0" width="10" height="34" rx="3" fill="#e8711a" />
         <polygon points="0,34 10,34 5,44" fill="#f4c9a3" />
-        <rect x="0" y="0" width="10" height="7" rx="3" fill="#3FD9C7" />
+        <rect x="0" y="0" width="10" height="7" rx="3" fill="#74ac3a" />
       </g>
     </svg>
   );
@@ -187,16 +187,16 @@ export default function Dashboard({ data, language, onNewPage, onNewSession, gra
               {sentences.map((s, i) => (
                 <div key={i} style={{ padding: '12px 18px', borderBottom: '1px solid var(--border)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>{i + 1}</span>
+                    <span style={{ fontSize: 'var(--fs-h3)', fontWeight: 600, color: 'var(--muted)' }}>{i + 1}</span>
                     {s.is_combined && (
-                      <span style={{ fontSize: 10, background: '#eff6ff', color: '#2563eb', padding: '1px 7px', borderRadius: 10, fontWeight: 700 }}>
+                      <span style={{ fontSize: 'var(--fs-h3)', background: '#eff6ff', color: '#2563eb', padding: '1px 7px', borderRadius: 10, fontWeight: 600 }}>
                         {T.linesMerged}
                       </span>
                     )}
                   </div>
-                  <div style={{ fontFamily: 'var(--script)', fontSize: 16, lineHeight: 1.7, color: 'var(--text)' }}>{s.text}</div>
+                  <div style={{ fontFamily: 'var(--script)', fontSize: 'var(--fs-h3)', lineHeight: 1.7, color: 'var(--text)' }}>{s.text}</div>
                   {s.grammar_note && <div className="grammar-note">⚠ {/^grammar check (skipped|failed)/i.test(s.grammar_note) ? translate(lang === 'ta' ? 'tamil' : 'sinhala', 'account.grammarUnavailable') : s.grammar_note}</div>}
-                  {s.word_count <= 1 && <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{T.singleWordNote}</div>}
+                  {s.word_count <= 1 && <div style={{ fontSize: 'var(--fs-h3)', color: '#9ca3af', marginTop: 2 }}>{T.singleWordNote}</div>}
                 </div>
               ))}
             </div>

@@ -557,7 +557,7 @@ export default function PracticePage() {
                     background: '#ffffff',
                     cursor: 'pointer',
                     fontWeight: 600,
-                    fontSize: '14px',
+                    fontSize: 'var(--fs-h3)',
                   }}
                 >
                   <Printer size={17} />

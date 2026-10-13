@@ -143,16 +143,16 @@ export default function HomePage() {
                 <span className="card-mascot mascot-2" aria-hidden="true">🐹</span>
                 <div className="card-icon"><Star size={20} fill="currentColor" /></div>
                 <div>
-                  <small style={{ fontSize: 12, fontWeight: 800, color: 'var(--muted)', display: 'block' }}>{t('home.latestLevel')}</small>
+                  <small style={{ fontSize: 'var(--fs-h3)', fontWeight: 600, color: 'var(--muted)', display: 'block' }}>{t('home.latestLevel')}</small>
                   {latestCompleted ? (
                     <>
-                      <h4 style={{ fontSize: 25 }}>{qualityLabelText(qualityLabel(latestCompleted), language)}</h4>
-                      <p style={{ fontSize: 10 }}>{languageName(latestCompleted.language, language)} · {formatDate(latestCompleted.createdAt, language)}</p>
+                      <h4 style={{ fontSize: 'var(--fs-h2)' }}>{qualityLabelText(qualityLabel(latestCompleted), language)}</h4>
+                      <p style={{ fontSize: 'var(--fs-h3)' }}>{languageName(latestCompleted.language, language)} · {formatDate(latestCompleted.createdAt, language)}</p>
                     </>
                   ) : (
                     <>
-                      <h4 style={{ fontSize: 25 }}>{t('home.readyBegin')}</h4>
-                      <p style={{ fontSize: 10 }}>{t('home.firstResult')}</p>
+                      <h4 style={{ fontSize: 'var(--fs-h2)' }}>{t('home.readyBegin')}</h4>
+                      <p style={{ fontSize: 'var(--fs-h3)' }}>{t('home.firstResult')}</p>
                     </>
                   )}
                 </div>
@@ -170,11 +170,11 @@ export default function HomePage() {
                 <span className="card-mascot mascot-3" aria-hidden="true">🐳</span>
                 <div className="card-icon"><Mic size={22} /></div>
                 <div>
-                  <small style={{ fontSize: 12, fontWeight: 800, color: 'var(--muted)', display: 'block' }}>
+                  <small style={{ fontSize: 'var(--fs-h3)', fontWeight: 600, color: 'var(--muted)', display: 'block' }}>
                     {isTamil ? 'சமீபத்திய வாசிப்பு நிலை' : 'අවසන් පිළිගත් කියවුම් මට්ටම'}
                   </small>
-                  <h4 style={{ fontSize: 25 }}>{latestFluency ? fluencyStatusText : t('nav.fluency')}</h4>
-                  <p style={{ fontSize: 10 }}>
+                  <h4 style={{ fontSize: 'var(--fs-h2)' }}>{latestFluency ? fluencyStatusText : t('nav.fluency')}</h4>
+                  <p style={{ fontSize: 'var(--fs-h3)' }}>
                     {latestFluency
                       ? formatDate(latestFluency.createdAt, language)
                       : (isTamil ? 'இன்னும் வாசிப்புத் திறன் பரிசோதனை இல்லை' : 'තවම කියවුම් හැකියා පරීක්ෂණයක් නැත')}
@@ -196,13 +196,13 @@ export default function HomePage() {
                 <span className="card-mascot mascot-4" aria-hidden="true">🐯</span>
                 <div className="card-icon"><SpellCheck2 size={22} /></div>
                 <div>
-                  <small style={{ fontSize: 12, fontWeight: 800, color: 'var(--muted)', display: 'block' }}>
+                  <small style={{ fontSize: 'var(--fs-h3)', fontWeight: 600, color: 'var(--muted)', display: 'block' }}>
                     {isTamil ? 'சமீபத்திய மொழி நிலை' : 'අවසන් ලිවීම් නිවැරදි මට්ටම'}
                   </small>
-                  <h4 style={{ fontSize: 25 }}>
+                  <h4 style={{ fontSize: 'var(--fs-h2)' }}>
                     {latestGrammarAccuracy !== null ? `${latestGrammarAccuracy}%` : t('nav.grammarCheck')}
                   </h4>
-                  <p style={{ fontSize: 10 }}>
+                  <p style={{ fontSize: 'var(--fs-h3)' }}>
                     {latestGrammarRun
                       ? formatDate(latestGrammarRun.createdAt, language)
                       : (isTamil ? 'இன்னும் சரிபார்ப்பு இல்லை' : 'තවම පරීක්ෂණයක් නැත')}

@@ -33,7 +33,7 @@ export default function StudentGate({ onStart }) {
           {/* 18px matches .analyze-section-title h3's actual computed size
               on AnalyzePage ("ඡායාරූපය එක් කරන්න") -- requested explicitly,
               same size for this body text and the label below. */}
-          <p style={{ color: 'var(--muted)', fontSize: 18, lineHeight: 1.6, marginBottom: 18 }}>
+          <p style={{ color: 'var(--muted)', fontSize: 'var(--fs-h3)', lineHeight: 1.6, marginBottom: 18 }}>
             {t('gate.body')}
           </p>
 

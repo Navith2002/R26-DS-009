@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, UserRound } from 'lucide-react';
+import { Camera, LogOut, Mic, SpellCheck2, UserRound, Volume2 } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { useApp } from '../context/useApp';
 import LanguageToggle from '../components/LanguageToggle';
@@ -21,11 +21,28 @@ export function SignOutButton() {
     {error && <p role="alert">{t('account.signOutError')}</p>}
   </div>;
 }
+// Two-panel layout: brand panel (logo + the four learning areas) beside
+// the form panel. The brand panel collapses to a slim header on phones.
 export function AccountFrame({ children }) {
-  const { language } = useApp();
+  const { language, t } = useApp();
+  const areas = [
+    { icon: Camera, label: t('nav.check') },
+    { icon: SpellCheck2, label: t('nav.grammarCheck') },
+    { icon: Mic, label: t('nav.fluency') },
+    { icon: Volume2, label: t('nav.readingError') },
+  ];
   return <main className={`account-page ui-language-${language}`} lang={language === 'tamil' ? 'ta' : 'si'}>
-    <header className="account-header"><Logo /><LanguageToggle /></header>
-    <section className="account-card result-card">{children}</section>
+    <aside className="account-brand">
+      <Logo />
+      <p className="account-brand-tagline">{t('logo.tagline')}</p>
+      <ul className="account-brand-areas">
+        {areas.map(({ icon: Icon, label }) => <li key={label}><span><Icon size={18} /></span>{label}</li>)}
+      </ul>
+    </aside>
+    <div className="account-panel">
+      <header className="account-header"><LanguageToggle /></header>
+      <section className="account-card">{children}</section>
+    </div>
   </main>;
 }
 const loginErrorKeys = {
