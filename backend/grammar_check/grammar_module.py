@@ -19,8 +19,13 @@ def configured_model():
     return os.environ.get("GEMINI_MODEL", "").strip() or DEFAULT_MODEL
 
 
-def _available_fallback(client, current):
-    """Use only text models advertised by Google for this client's key."""
+def _available_fallbacks(client, current):
+    """Text Flash models advertised by Google for this client's key, best first.
+
+    Listed models are not guaranteed usable (retired ones such as
+    gemini-2.5-flash still appear but return 404 for new keys), so callers
+    should try each in turn.
+    """
     try:
         candidates = []
         for entry in client.models.list():
@@ -29,13 +34,14 @@ def _available_fallback(client, current):
             if (name != current.removeprefix("models/")
                     and "flash" in name and "generateContent" in actions
                     and not any(tag in name for tag in (
-                        "preview", "exp", "image", "audio", "live", "tts"))):
+                        "preview", "exp", "image", "audio", "live", "tts", "omni"))):
                 candidates.append(name)
-        # Prefer the established text Flash model when the account offers it.
-        candidates.sort(key=lambda name: (name != "gemini-2.5-flash", name))
-        return candidates[0] if candidates else None
+        # Prefer Google's maintained alias, then full Flash before Lite, newest first.
+        candidates.sort(key=lambda name: (
+            name != "gemini-flash-latest", "lite" in name, [-ord(c) for c in name]))
+        return candidates
     except Exception:
-        return None
+        return []
 
 
 def _generate_content(client, *, model, contents):
@@ -54,14 +60,16 @@ def _generate_content(client, *, model, contents):
                 code = int(code)
             except (TypeError, ValueError):
                 code = None
-            if attempt == 2 and code in {500, 502, 503, 504}:
-                fallback = _available_fallback(client, model)
-                if fallback:
-                    logger.warning("Gemini model unavailable; trying an available text Flash model")
-                    return client.models.generate_content(
-                        model=fallback, contents=contents,
-                        config={"automatic_function_calling": {"disable": True}},
-                    )
+            if attempt == 2 and code in TRANSIENT_CODES:
+                for fallback in _available_fallbacks(client, model)[:4]:
+                    logger.warning("Gemini model unavailable; trying %s", fallback)
+                    try:
+                        return client.models.generate_content(
+                            model=fallback, contents=contents,
+                            config={"automatic_function_calling": {"disable": True}},
+                        )
+                    except Exception:
+                        continue
             if code not in TRANSIENT_CODES or attempt == 2:
                 raise
             # Log only the status code, never request text or API credentials.
