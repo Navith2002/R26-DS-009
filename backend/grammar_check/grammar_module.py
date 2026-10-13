@@ -11,8 +11,14 @@ import time
 from typing import Optional
 
 logger = logging.getLogger(__name__)
-DEFAULT_MODEL = "gemini-3.8-flash"
+DEFAULT_MODEL = "gemini-3.6-flash"
 TRANSIENT_CODES = {429, 500, 502, 503, 504}
+# Without a deadline a stalled Gemini request hangs the check forever.
+REQUEST_TIMEOUT_MS = int(os.environ.get("GEMINI_TIMEOUT_MS", "60000"))
+GEN_CONFIG = {
+    "automatic_function_calling": {"disable": True},
+    "http_options": {"timeout": REQUEST_TIMEOUT_MS},
+}
 
 
 def configured_model():
@@ -52,7 +58,7 @@ def _generate_content(client, *, model, contents):
             return client.models.generate_content(
                 model=model,
                 contents=contents,
-                config={"automatic_function_calling": {"disable": True}},
+                config=GEN_CONFIG,
             )
         except Exception as exc:
             code = getattr(exc, "code", None)
@@ -60,13 +66,16 @@ def _generate_content(client, *, model, contents):
                 code = int(code)
             except (TypeError, ValueError):
                 code = None
+            # A timed-out request is treated like a 504 so it is retried.
+            if code is None and "timeout" in type(exc).__name__.lower():
+                code = 504
             if attempt == 2 and code in TRANSIENT_CODES:
                 for fallback in _available_fallbacks(client, model)[:4]:
                     logger.warning("Gemini model unavailable; trying %s", fallback)
                     try:
                         return client.models.generate_content(
                             model=fallback, contents=contents,
-                            config={"automatic_function_calling": {"disable": True}},
+                            config=GEN_CONFIG,
                         )
                     except Exception:
                         continue
