@@ -16,6 +16,7 @@ import sys
 import uuid
 from pathlib import Path
 
+from google_accounts import AccountSettings, create_account_router
 from dotenv import load_dotenv
 
 # Must run before any of this project's own modules are imported below --
@@ -99,21 +100,12 @@ app = FastAPI(
 )
 
 
+account_settings = AccountSettings.from_environment()
+app.include_router(create_account_router(account_settings))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
-    # Vite auto-increments to 5174/5175/... whenever 5173 is already taken
-    # (e.g. a leftover dev-server process from an earlier run) -- without
-    # this, the frontend silently fails every fetch() to this API from
-    # whichever port it landed on, with no visible error beyond the
-    # browser's own CORS console warning. Any localhost/127.0.0.1 port is
-    # fine to allow here since this only ever matters in local dev.
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):\d+",
+    allow_origins=list(account_settings.origins),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

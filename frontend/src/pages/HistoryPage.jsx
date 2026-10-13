@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock3, Trash2 } from 'lucide-react';
 import { useApp } from '../context/useApp';
@@ -8,6 +9,7 @@ import {
   qualityTone,
 } from '../utils/format';
 import { languageName, localizedRecommendation, qualityLabelText } from '../i18n/translations';
+import ConfirmDialog from '../components/ConfirmDialog';
 import EmptyState from '../components/EmptyState';
 import { UI_TEXT as GRAMMAR_UI_TEXT } from '../components/grammarCheck/i18n';
 
@@ -23,8 +25,22 @@ function historyStatus(item, language, t) {
 }
 
 export default function HistoryPage() {
-  const { history, grammarRuns, fluencyRuns, clearHistory, language, t } = useApp();
+  const { history, grammarRuns, fluencyRuns, readingRuns, clearHistory, deleteHistoryEntry, activeChild, language, t } = useApp();
   const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(false);
+  const [deletion, setDeletion] = useState(null);
+  async function remove() {
+    setBusy(true); setError(false);
+    try {
+      if (deletion === 'all') await clearHistory();
+      else await deleteHistoryEntry(deletion);
+    } catch { setError(true); }
+    finally { setBusy(false); setDeletion(null); }
+  }
+  function row(item, content) {
+    return <div className="history-row" key={item.id}>{content}<button className="danger-outline history-delete" disabled={busy} onClick={() => setDeletion(item.id)} aria-label={t('account.delete')} title={t('account.delete')}><Trash2 size={18} /></button></div>;
+  }
 
   const grammarLang = language === 'tamil' ? 'ta' : 'si';
   const GT = GRAMMAR_UI_TEXT[grammarLang] || GRAMMAR_UI_TEXT.si;
@@ -36,7 +52,7 @@ export default function HistoryPage() {
   // Same reversal, same reason -- registerFluencyRun (AppContext.jsx)
   // also appends.
   const fluencyHistory = [...fluencyRuns].reverse();
-  if (!history.length && !grammarHistory.length && !fluencyHistory.length) {
+  if (!history.length && !grammarHistory.length && !fluencyHistory.length && !readingRuns.length) {
     return (
       <EmptyState
         title={t('history.emptyTitle')}
@@ -48,22 +64,28 @@ export default function HistoryPage() {
 
   return (
     <div className="page-stack">
+      {deletion && <ConfirmDialog
+        message={deletion === 'all' ? t('account.deleteAllConfirm', { name: activeChild.name }) : t('account.deleteOneConfirm')}
+        busy={busy} onConfirm={remove} onCancel={() => setDeletion(null)}
+      />}
       <section className="page-intro header-with-action">
         <div>
           <span className="eyebrow">{t('history.eyebrow')}</span>
           <h2>{t('history.title')}</h2>
         </div>
-        {!!history.length && (
+        {(!!history.length || !!grammarRuns.length || !!fluencyRuns.length || !!readingRuns.length) && (
           <button
             className="danger-outline"
-            onClick={() => {
-              if (confirm(t('history.clearConfirm'))) clearHistory();
-            }}
+            disabled={busy}
+            onClick={() => setDeletion('all')}
           >
-            <Trash2 size={17} /> {t('history.clear')}
+            <Trash2 size={17} /> {t('account.deleteAll')}
           </button>
         )}
       </section>
+      <p>{t('account.currentChild', { name: activeChild.name })}</p>
+      <p className="history-notice">{t('account.reportNote')}</p>
+      {error && <p className="account-error" role="alert">{t('account.deleteError')}</p>}
 
       {!!history.length && (
         <div className="history-cards">
@@ -82,7 +104,7 @@ export default function HistoryPage() {
               : '';
             const topTip = localizedTip || '';
 
-            return (
+            return row(item,
               <button key={item.id} className="history-card kid-history-card" onClick={() => navigate(`/results/${item.id}`)}>
                 <div className={`history-script ${item.language}`}><span>{item.language === 'tamil' ? 'அ' : 'අ'}</span></div>
                 <div className="history-copy">
@@ -103,7 +125,7 @@ export default function HistoryPage() {
 
       {!!grammarHistory.length && (
         <>
-          <section className="page-intro">
+          <section className="section-intro">
             <h2>{GT.historyHeading}</h2>
           </section>
 
@@ -115,7 +137,7 @@ export default function HistoryPage() {
                 ? (grammarLang === 'ta' ? 'பிழைகள் இல்லை' : 'වැරදි නැත')
                 : (grammarLang === 'ta' ? `பிழைகள் ${errors}` : `වැරදි ${errors}`);
 
-              return (
+              return row(item,
                 <button
                   key={item.id}
                   className="history-card kid-history-card"
@@ -147,15 +169,15 @@ export default function HistoryPage() {
           /results/:id and /grammar-results/:id. */}
       {!!fluencyHistory.length && (
         <>
-          <section className="page-intro">
-            <h2>කියවුම් හැකියා පරීක්ෂණ</h2>
+          <section className="section-intro">
+            <h2>{t('account.fluencyHistory')}</h2>
           </section>
 
           <div className="history-cards">
             {fluencyHistory.map((item) => {
               const label = item.result?.fluency_label;
               const tone = label === 'Fluent' ? 'good' : label === 'Struggling' ? 'below' : 'average';
-              const isTamil = item.language === 'tamil';
+              const isTamil = language === 'tamil';
               const statusText = label === 'Fluent'
                 ? (isTamil ? 'சரளம்' : 'ප්‍රවීණයි')
                 : label === 'Struggling'
@@ -163,7 +185,7 @@ export default function HistoryPage() {
                   : (isTamil ? 'மிதமானது' : 'මධ්‍යස්ථයි');
               const fluencyLabelText = isTamil ? 'வாசிப்புத் திறன் மதிப்பீடு' : 'කියවීමේ ප්‍රවීණතා ඇගයීම';
 
-              return (
+              return row(item,
                 <button
                   key={item.id}
                   className="history-card kid-history-card"
@@ -187,6 +209,16 @@ export default function HistoryPage() {
           </div>
         </>
       )}
+      {!!readingRuns.length && <>
+        <section className="section-intro"><h2>{t('account.readingHistory')}</h2></section>
+        <div className="history-cards">{readingRuns.map((item) => row(item,
+          <button className="history-card kid-history-card" onClick={() => navigate(`/reading-results/${item.id}`)}>
+            <div className={`history-script ${item.language}`}><span>{item.language === 'tamil' ? 'அ' : 'අ'}</span></div>
+            <div className="history-copy"><h3>{t('account.readingAccuracy', { value: Number(item.result?.accuracy || 0).toFixed(0) })}</h3><p><Clock3 size={13} />{formatDate(item.createdAt, language)}</p></div>
+            <span className="history-arrow">→</span>
+          </button>
+        ))}</div>
+      </>}
     </div>
   );
 }
