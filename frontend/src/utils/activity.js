@@ -18,6 +18,11 @@ export function activitySummary(groups, now = new Date()) {
   }
 
   const today = days.get(dayKey(now)) || 0;
+  let month = 0;
+  for (const item of groups.flat()) {
+    const date = new Date(item?.createdAt);
+    if (date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth()) month += 1;
+  }
 
   // Streak counts back from today; if nothing yet today, from yesterday,
   // so the streak does not reset to 0 first thing in the morning.
@@ -35,10 +40,10 @@ export function activitySummary(groups, now = new Date()) {
   const week = Array.from({ length: 7 }, (_, index) => {
     const date = new Date(monday);
     date.setDate(monday.getDate() + index);
-    return { done: Boolean(days.get(dayKey(date))), isToday: dayKey(date) === dayKey(now) };
+    return { done: Boolean(days.get(dayKey(date))), isToday: dayKey(date) === dayKey(now), day: date.getDate() };
   });
 
-  return { today, goal: DAILY_GOAL, streak, week };
+  return { today, month, goal: DAILY_GOAL, streak, week };
 }
 
 export function latestByDate(items) {

@@ -186,16 +186,16 @@ describe('history deletion controls', () => {
   });
 });
 
-it('opens a returning child fluency dashboard using private history and the current interface language', async () => {
+it('starts a fresh fluency session for a returning child in the current interface language', async () => {
   mocks.auth.user = { uid: 'parent-a' };
   localStorage.setItem('writebright_language_v1', 'tamil');
   fixture(<><Probe /><App /></>, '/fluency'); emitFamily('parent-a', false);
   act(() => context.selectChild('child-b'));
   act(() => mocks.listeners.history.at(-1).next([{ id: 'private-fluency', kind: 'fluency', createdAt: '2026-10-12', result: { fluency_label: 'Fluent', profile_name: 'Accurate', skill_4d: {}, weakest: [], cer: 0, wer: 0 } }]));
-  fireEvent.submit(document.querySelector('form.profile-form'));
-  expect(document.querySelector('.fluency-scope').getAttribute('lang')).toBe('ta');
-  expect(screen.queryByText('Accurate')).toBeNull();
-  expect(screen.getByText('சரியாக வாசிப்பவர்')).toBeTruthy();
+  fireEvent.submit(document.querySelector('form.fl-gate'));
+  // Goes straight to choosing the assessment method, not the previous profile.
+  expect(screen.getByRole('heading', { name: 'மதிப்பீடு செய்யும் முறையைத் தேர்ந்தெடுக்கவும்' })).toBeTruthy();
+  expect(screen.queryByText('சரியாக வாசிப்பவர்')).toBeNull();
 });
 
 it('shows a welcome page without requiring policy acknowledgement before Google identifies the parent', () => {

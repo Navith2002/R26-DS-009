@@ -26,14 +26,12 @@ export default function GrammarResultPage() {
   }
 
   return (
-    <div className="grammar-check-scope">
-      <Dashboard
-        data={run.result}
-        language={language === 'tamil' ? 'ta' : 'si'}
-        onNewPage={() => navigate('/grammar-check')}
-        onNewSession={() => navigate('/grammar-check')}
-        grammarRuns={grammarRuns}
-      />
-    </div>
+    <Dashboard
+      data={run.result}
+      when={run.createdAt}
+      language={language === 'tamil' ? 'ta' : 'si'}
+      onNewPage={() => navigate('/grammar-check')}
+      onNewSession={() => navigate('/grammar-check')}
+    />
   );
 }

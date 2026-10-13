@@ -2,7 +2,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../context/useApp';
 import { LanguageProvider } from '../context/FluencyLanguageContext';
 import ResultsStage from '../components/fluencyProfiling/Resultsstage';
-import '../fluencyProfiling.css';
 
 // Same idea as GrammarResultPage.jsx: detail view for one past fluency
 // run, reached by clicking an entry in the "කියවුම් හැකියා පරීක්ෂණ"
@@ -13,18 +12,15 @@ import '../fluencyProfiling.css';
 // transient blob: URL, which isn't (and can't be) persisted -- see
 // AppContext.jsx stores report data in Firestore without audio.
 function FluencyResultInner({ run, onBack }) {
-  const { language: appLanguage } = useApp();
   const navigate = useNavigate();
-
   return (
-    <main className="app fluency-scope" lang={appLanguage === 'tamil' ? 'ta' : 'si'}>
-      <ResultsStage
-        result={run.result}
-        audioUrl={null}
-        onRecordAnother={() => navigate('/fluency')}
-        onBackToDashboard={onBack}
-      />
-    </main>
+    <ResultsStage
+      result={run.result}
+      audioUrl={null}
+      when={run.createdAt}
+      onRecordAnother={() => navigate('/fluency')}
+      onBackToDashboard={onBack}
+    />
   );
 }
 

@@ -1,3 +1,4 @@
+import { TryAgainCat } from '../components/Lottie';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   AlertTriangle,
@@ -684,7 +685,7 @@ export default function ResultsPage() {
     ].slice(0, 2);
 
     return (
-      <div className="results-page page-stack">
+      <div className="results-page page-stack gc hw">
 
         <ResultTopbar
           navigate={navigate}
@@ -924,7 +925,7 @@ export default function ResultsPage() {
 
 
   return (
-    <div className="results-page page-stack">
+    <div className="results-page page-stack gc hw">
 
       <ResultTopbar
         navigate={navigate}
@@ -1050,7 +1051,8 @@ export default function ResultsPage() {
         </div>
 
 
-        <div
+        {(tone === 'below-average' || tone === 'poor') ? <TryAgainCat /> : (
+<div
           className={
             "kid-result-mascot " +
             "quality-mascot"
@@ -1080,6 +1082,7 @@ export default function ResultsPage() {
           }
 
         </div>
+        )}
 
       </section>
 
