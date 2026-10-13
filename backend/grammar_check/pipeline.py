@@ -14,7 +14,7 @@ from pathlib import Path
 from PIL import Image, ImageEnhance
 import torch
 
-from grammar_module import build_sentences
+from grammar_module import build_sentences, configured_model, _generate_content
 
 # Integrated into the WriteBright backend: this file now lives in
 # backend/grammar_check/, and the TrOCR model weights were moved out to
@@ -793,8 +793,8 @@ Lines to correct:
 {combined}"""
 
     try:
-        response = client.models.generate_content(
-            model="gemini-3.6-flash",
+        response = _generate_content(
+            client, model=configured_model(),
             contents=[prompt],
         )
         raw  = response.text.strip()

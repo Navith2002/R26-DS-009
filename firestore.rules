@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Family data is accessed only by the authenticated Python backend,
+    // using scoped Google Cloud IAM credentials. No public browser access.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
