@@ -1,7 +1,7 @@
 export const accountTranslations = {
   sinhala: {
-    'account.brand': 'අකුරු මිතුරා',
-    'flow.welcome': 'අකුරු මිතුරා වෙත සාදරයෙන් පිළිගනිමු',
+    'account.brand': 'Bhasha · භාෂා',
+    'flow.welcome': 'Bhasha වෙත සාදරයෙන් පිළිගනිමු',
     'flow.loginHint': 'පළමු පිවිසීමේදී ඔබේ ගිණුම සකසයි. නැවත පැමිණෙන දෙමාපියන්ට එම Google ගිණුමෙන්ම පිවිසිය හැක.',
     'flow.agreeContinue': 'එකඟ වී ඉදිරියට යන්න',
     'flow.whoPractices': 'අද පුහුණු වන්නේ කවුද?',
@@ -76,8 +76,8 @@ export const accountTranslations = {
     'account.reportNote': 'වාර්තාවේ පෙළ සහ මිනුම් සුරැකේ. මුල් ඡායාරූප සහ හඬ පටිගත කිරීම් සුරැකෙන්නේ නැත.',
   },
   tamil: {
-    'account.brand': 'எழுத்து நண்பன்',
-    'flow.welcome': 'எழுத்து நண்பனுக்கு வரவேற்கிறோம்',
+    'account.brand': 'Bhasha · பாஷா',
+    'flow.welcome': 'Bhasha-க்கு வரவேற்கிறோம்',
     'flow.loginHint': 'முதல் உள்நுழைவில் உங்கள் கணக்கு அமைக்கப்படும். மீண்டும் வரும் பெற்றோர் அதே Google கணக்குடன் உள்நுழையலாம்.',
     'flow.agreeContinue': 'ஏற்றுக்கொண்டு தொடரவும்',
     'flow.whoPractices': 'இன்று பயிற்சி செய்வது யார்?',

@@ -1,16 +1,16 @@
 export const ERROR_META = {
-  correct:     { icon:'✓', label:'අක්ෂර වින්‍යාස වැරදි නම් නැහැ, අපි දැං ව්‍යාකරණත් පරීක්ෂා කරලා බලමු',                         cls:'err-correct',     color:'#1a9e5c' },
+  correct:     { icon:'✓', label:'අක්ෂර වින්‍යාස වැරදි නම් නැහැ, අපි දැං ව්‍යාකරණත් පරීක්ෂා කරලා බලමු',                         cls:'err-correct',     color:'#1f7a3f' },
   retroflex:   { icon:'ළ', label:'සමාන අකුරු පටලැවීම',                cls:'err-retroflex',   color:'#d97706' },
   vowel:       { icon:'ී', label:'ස්වර ලකුණු වැරදීම',                  cls:'err-vowel',       color:'#7c3aed' },
   zwj:         { icon:'‍', label:'එකට ලියැවෙන අකුරු වැරදීම',          cls:'err-zwj',         color:'#2563eb' },
   boundary:    { icon:'↔', label:'වචන අතර හිස්තැන් වැරදීම',           cls:'err-boundary',    color:'#0891b2' },
-  punctuation: { icon:'.', label:'විරාම ලකුණු වැරදීම',                cls:'err-punctuation', color:'#ea580c' },
+  punctuation: { icon:'.', label:'විරාම ලකුණු වැරදීම',                cls:'err-punctuation', color:'#e8711a' },
   missing:     { icon:'+', label:'අකුරු හෝ වචන අඩුවීම',                cls:'err-missing',     color:'#d97706' },
   other:       { icon:'?', label:'වෙනත් වැරදීමක්',                    cls:'err-other',       color:'#d63b3b' },
 };
 
 export const ERROR_META_TA = {
-  correct:     { icon:'✓', label:'சரி',                                cls:'err-correct',     color:'#1a9e5c' },
+  correct:     { icon:'✓', label:'சரி',                                cls:'err-correct',     color:'#1f7a3f' },
   retroflex:   { icon:'ழ', label:'ஒத்த எழுத்து குழப்பம்',              cls:'err-retroflex',   color:'#d97706' },
   vowel:       { icon:'ீ', label:'உயிர்க்குறி பிழை',                    cls:'err-vowel',       color:'#7c3aed' },
   // Tamil script has no ZWJ/conjunct-joiner concept the way Sinhala does
@@ -19,7 +19,7 @@ export const ERROR_META_TA = {
   // Tamil, so it never actually renders.
   zwj:         { icon:'‍', label:'இணைப்பு பிழை',                       cls:'err-zwj',         color:'#2563eb' },
   boundary:    { icon:'↔', label:'சொல் இடைவெளி பிழை',                  cls:'err-boundary',    color:'#0891b2' },
-  punctuation: { icon:'.', label:'நிறுத்தற்குறி பிழை',                  cls:'err-punctuation', color:'#ea580c' },
+  punctuation: { icon:'.', label:'நிறுத்தற்குறி பிழை',                  cls:'err-punctuation', color:'#e8711a' },
   missing:     { icon:'+', label:'எழுத்து/சொல் குறைபாடு',               cls:'err-missing',     color:'#d97706' },
   other:       { icon:'?', label:'மற்ற பிழை',                           cls:'err-other',       color:'#d63b3b' },
 };
@@ -55,7 +55,7 @@ export const SKILL_COLORS = {
   [ERROR_PROFILE_LABELS.vowel]:       '#7c3aed',
   [ERROR_PROFILE_LABELS.zwj]:         '#2563eb',
   [ERROR_PROFILE_LABELS.boundary]:    '#0891b2',
-  [ERROR_PROFILE_LABELS.punctuation]: '#ea580c',
+  [ERROR_PROFILE_LABELS.punctuation]: '#e8711a',
   [ERROR_PROFILE_LABELS.missing]:     '#d97706',
   [ERROR_PROFILE_LABELS.other]:       '#d63b3b',
 };
@@ -64,7 +64,7 @@ export const SKILL_COLORS_TA = {
   [ERROR_PROFILE_LABELS_TA.retroflex]:   '#d97706',
   [ERROR_PROFILE_LABELS_TA.vowel]:       '#7c3aed',
   [ERROR_PROFILE_LABELS_TA.boundary]:    '#0891b2',
-  [ERROR_PROFILE_LABELS_TA.punctuation]: '#ea580c',
+  [ERROR_PROFILE_LABELS_TA.punctuation]: '#e8711a',
   [ERROR_PROFILE_LABELS_TA.missing]:     '#d97706',
   [ERROR_PROFILE_LABELS_TA.other]:       '#d63b3b',
 };

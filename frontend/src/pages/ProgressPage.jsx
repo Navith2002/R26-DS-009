@@ -172,7 +172,7 @@ export default function ProgressPage() {
                   <div className="grammar-skill-row" key={skill}>
                     <div className="skill-meta">
                       <span className="skill-name">{skill}</span>
-                      <span className="skill-score" style={{ color: score === 0 ? '#1a9e5c' : score <= 10 ? '#d97706' : '#d63b3b' }}>
+                      <span className="skill-score" style={{ color: score === 0 ? '#1f7a3f' : score <= 10 ? '#d97706' : '#d63b3b' }}>
                         {score}%
                       </span>
                     </div>
@@ -195,7 +195,7 @@ export default function ProgressPage() {
                     ))}
                   </div>
                 ) : (
-                  <div style={{ textAlign: 'center', padding: 20, color: '#6b7280', fontSize: 13 }}>{GT.noErrorsFound}</div>
+                  <div style={{ textAlign: 'center', padding: 20, color: '#6b7280', fontSize: 'var(--fs-h3)' }}>{GT.noErrorsFound}</div>
                 )}
               </div>
             </div>

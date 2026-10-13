@@ -1,0 +1,279 @@
+/* ============================================================
+   Bhasha theme layer — loaded last (main.jsx) so it sits on top of
+   styles.css, account.css and the per-component stylesheets.
+   Palette from the Bhasha logo, used as accents on neutral surfaces.
+
+   Type scale: the whole app uses exactly three font sizes,
+   --fs-h1 / --fs-h2 / --fs-h3. Body text is --fs-h3. Do not add
+   new px font sizes; pick one of the three tokens.
+   ============================================================ */
+
+:root {
+  --fs-h1: 1.75rem;    /* 28px  page titles, key numbers */
+  --fs-h2: 1.25rem;    /* 20px  section and card headings */
+  --fs-h3: 1rem;       /* 16px  body, labels, buttons */
+
+  --b-orange: #e8711a;
+  --b-orange-deep: #c4510e;
+  --b-saffron: #f4a62a;
+  --b-green: #1f7a3f;
+  --b-green-deep: #12532a;
+  --b-leaf: #74ac3a;
+  --b-green-tint: #edf6ef;
+  --b-orange-tint: #fdf1e6;
+
+  --b-bg: #faf8f4;
+  --b-surface: #ffffff;
+  --b-border: #e9e4da;
+  --b-border-strong: #d9d1c3;
+  --b-ink: #1c2420;
+  --b-ink-muted: #5f6a64;
+
+  --b-shadow-sm: 0 1px 2px rgba(28, 36, 32, .05), 0 1px 3px rgba(28, 36, 32, .06);
+  --b-shadow: 0 1px 2px rgba(28, 36, 32, .04), 0 6px 16px rgba(28, 36, 32, .06);
+  --b-shadow-lg: 0 2px 4px rgba(28, 36, 32, .04), 0 16px 36px rgba(28, 36, 32, .09);
+  --b-strip: linear-gradient(90deg, var(--b-orange), var(--b-saffron), var(--b-leaf), var(--b-green));
+
+  --font-body: 'Plus Jakarta Sans', 'Noto Sans Sinhala', 'Noto Sans Tamil', system-ui, sans-serif;
+  --t: .18s ease;
+  --sidebar-w: 260px;
+}
+@media (max-width: 650px) {
+  :root { --fs-h1: 1.5rem; --fs-h2: 1.125rem; --fs-h3: 1rem; }
+}
+
+/* ---------- Base typography ---------- */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-h3);
+  line-height: 1.6;
+  color: var(--b-ink);
+  background: var(--b-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3, h4, h5, h6, small { font-size: var(--fs-h3); }
+h1, h2, h3, h4 { font-weight: 600; letter-spacing: -.015em; line-height: 1.3; }
+textarea, code, kbd, pre { font: inherit; }
+::selection { background: #fde2bf; color: var(--b-ink); }
+
+/* ---------- Logo ---------- */
+.logo { display: flex; align-items: center; padding: 2px 6px 26px; }
+.logo-wordmark { width: 100%; max-width: 168px; height: auto; }
+.logo-mark { display: none; width: 44px; height: 44px; }
+.account-header .logo { padding: 0; }
+.account-header .logo-wordmark { max-width: 176px; }
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  background: var(--b-surface);
+  border-right: 1px solid var(--b-border);
+  padding: 22px 16px;
+}
+.sidebar-menu { gap: 2px; }
+.sidebar-item {
+  position: relative;
+  color: var(--b-ink-muted);
+  font-weight: 500;
+  line-height: 1.35;
+  padding: 10px 12px;
+  border-radius: 10px;
+  transition: background var(--t), color var(--t);
+}
+.sidebar-item:hover { background: #f4f1eb; color: var(--b-ink); }
+.sidebar-item.active { background: var(--b-green-tint); color: var(--b-green-deep); font-weight: 600; box-shadow: none; }
+.sidebar-item.active::before {
+  content: ''; position: absolute; left: -16px; top: 8px; bottom: 8px; width: 3px;
+  border-radius: 0 3px 3px 0; background: var(--b-green);
+}
+.sidebar-icon { width: 30px; height: 30px; border-radius: 8px; }
+.sidebar-item.active .sidebar-icon { color: var(--b-green); }
+@media (min-width: 901px) {
+  .sidebar { width: var(--sidebar-w); }
+  .main-area { margin-left: var(--sidebar-w); width: calc(100% - var(--sidebar-w)); }
+}
+@media (max-width: 900px) {
+  .sidebar .logo { justify-content: center; padding: 0 0 22px; }
+  .sidebar .logo-wordmark { display: none; }
+  .sidebar .logo-mark { display: block; }
+  .sidebar-item.active::before { left: -14px; }
+}
+
+/* ---------- Header ---------- */
+.welcome h1 { color: var(--b-ink); }
+.header-btn, .profile-chip { box-shadow: var(--b-shadow-sm); border: 1px solid var(--b-border); }
+.profile-chip { transition: border-color var(--t), box-shadow var(--t); }
+.profile-chip:hover { border-color: var(--b-border-strong); box-shadow: var(--b-shadow); }
+.profile-avatar { background: var(--b-orange); border-radius: 50%; }
+.child-selector select {
+  border: 1px solid var(--b-border); border-radius: 10px; padding: 8px 10px; background: var(--b-surface);
+  transition: border-color var(--t), box-shadow var(--t);
+}
+
+/* ---------- Page intros ---------- */
+.page-intro h2 { color: var(--b-ink); letter-spacing: -.02em; }
+.page-intro p { color: var(--b-ink-muted); }
+.eyebrow { color: var(--b-orange-deep); letter-spacing: .08em; font-weight: 600; }
+
+/* ---------- Links ---------- */
+.account-card a, .page-intro a {
+  color: var(--b-green); font-weight: 600; text-decoration: none;
+  border-bottom: 1px solid rgba(31, 122, 63, .3); transition: color var(--t), border-color var(--t);
+}
+.account-card > a { align-self: flex-start; }
+.account-card a:hover, .page-intro a:hover { color: var(--b-green-deep); border-color: currentColor; }
+
+/* ---------- Buttons ---------- */
+.primary-action, .primary-btn, .secondary-btn, .soft-btn, .btn, .kid-btn-solid, .kid-btn-outline,
+.start-btn, .next-btn, .retry-btn, .stop-btn, .analyze-submit, .danger-outline, .soft-result-btn,
+.issue-practice-button, .small-theme-btn {
+  font-weight: 600;
+  border-radius: 10px;
+  transition: background var(--t), color var(--t), border-color var(--t), box-shadow var(--t);
+}
+.primary-action, .btn--primary, .kid-btn-solid, .next-btn {
+  background: var(--b-green); color: #fff; border-color: transparent; box-shadow: var(--b-shadow-sm);
+}
+.primary-action:not(:disabled):hover, .btn--primary:not(:disabled):hover, .kid-btn-solid:hover, .next-btn:not(:disabled):hover {
+  background: var(--b-green-deep); color: #fff;
+}
+.analyze-submit, .soft-btn.orange, .start-btn {
+  background: var(--b-orange); color: #fff; box-shadow: var(--b-shadow-sm);
+}
+.analyze-submit:not(:disabled):hover, .soft-btn.orange:not(:disabled):hover, .start-btn:not(:disabled):hover {
+  background: var(--b-orange-deep);
+}
+.soft-btn.teal { background: var(--b-green); color: #fff; }
+.soft-btn.teal:hover { background: var(--b-green-deep); }
+.primary-btn { color: var(--b-orange-deep); }
+.danger-outline { border-radius: 10px; }
+button:disabled { cursor: not-allowed; }
+
+/* One consistent keyboard focus ring */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--b-green);
+  outline-offset: 2px;
+}
+.profile-form input:focus, .profile-form select:focus, .child-selector select:focus,
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+  border-color: var(--b-green);
+  box-shadow: 0 0 0 3px rgba(31, 122, 63, .12);
+  outline: none;
+}
+
+/* ---------- Cards ---------- */
+.right-card, .result-card, .analyze-card, .summary-card, .stat-card, .practice-card, .history-card,
+.empty-state, .performance-panel, .wb-sentence-card, .technical-details, .practice-picker-panel,
+.practice-paper-card, .not-found-card, .child-summary-card {
+  border: 1px solid var(--b-border);
+  box-shadow: var(--b-shadow-sm);
+  border-radius: 16px;
+}
+.history-card, .practice-card, .wb-sentence-card, .feature-card, .recent-item {
+  transition: border-color var(--t), box-shadow var(--t), transform var(--t), background var(--t);
+}
+.history-card:hover, .practice-card:hover, .wb-sentence-card:hover, .feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--b-shadow-lg);
+  border-color: var(--b-border-strong);
+}
+.feature-card { border-radius: 16px; }
+.recent-item:hover { background: var(--b-bg); }
+
+/* Home hero and dark panels: solid brand colours, no rainbow fills */
+.hero-card { background: var(--b-green-deep); box-shadow: var(--b-shadow-lg); border-radius: 20px; }
+.hero-card::before { background: rgba(244, 166, 42, .14); }
+.hero-card::after { background: rgba(116, 172, 58, .12); }
+.streak-card, .score-box { background: var(--b-green-deep); }
+.score-bar-value, .trend-bar, .probability-fill { background: var(--b-green); }
+.progress-ring { background: conic-gradient(var(--b-green) var(--progress), #eef0ec var(--progress)); }
+
+/* Small round badges must fit body-size numbers */
+.kid-num-badge { width: 26px; height: 26px; top: -9px; left: -9px; }
+.kid-line-thumb-wrap.no-thumb .kid-num-badge { width: 26px; height: 26px; }
+.loading-step-dot { width: 22px; height: 22px; }
+
+/* ---------- Sign-in / family setup: brand panel + form panel ---------- */
+.account-page {
+  min-height: 100vh; padding: 0;
+  display: grid; grid-template-columns: minmax(340px, 5fr) 7fr;
+  background: var(--b-surface);
+}
+.account-brand {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; flex-direction: column; justify-content: center; gap: 28px;
+  padding: 48px clamp(32px, 5vw, 72px);
+  background:
+    radial-gradient(circle at 85% 12%, rgba(244, 166, 42, .16), transparent 45%),
+    radial-gradient(circle at 10% 95%, rgba(116, 172, 58, .18), transparent 50%),
+    #f7f3ea;
+  border-right: 1px solid var(--b-border);
+  overflow: hidden;
+}
+.account-brand::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--b-strip);
+}
+.account-brand .logo { padding: 0; justify-content: flex-start; }
+.account-brand .logo-wordmark { max-width: 300px; }
+.account-brand-tagline { color: var(--b-ink-muted); max-width: 360px; }
+.account-brand-areas { list-style: none; display: grid; gap: 10px; max-width: 380px; }
+.account-brand-areas li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 12px;
+  background: rgba(255, 255, 255, .7); border: 1px solid var(--b-border);
+  color: var(--b-ink); font-weight: 500;
+}
+.account-brand-areas li span {
+  width: 34px; height: 34px; flex: none; border-radius: 9px;
+  display: grid; place-items: center; background: var(--b-green-tint); color: var(--b-green);
+}
+.account-brand-areas li:nth-child(even) span { background: var(--b-orange-tint); color: var(--b-orange-deep); }
+
+.account-panel { display: flex; flex-direction: column; padding: 24px clamp(24px, 5vw, 64px) 48px; min-width: 0; }
+.account-header { width: 100%; max-width: none; margin: 0; justify-content: flex-end; }
+.account-card {
+  width: 100%; max-width: 520px;
+  margin: auto; padding: 32px 0;
+  display: flex; flex-direction: column; gap: 16px;
+  background: transparent; border: 0; box-shadow: none;
+}
+.account-card h1 { color: var(--b-ink); line-height: 1.35; letter-spacing: -.02em; font-weight: 600; }
+.account-card h2 { font-weight: 600; margin-top: 8px; }
+.account-card h3 { font-weight: 600; }
+.account-card p { color: var(--b-ink-muted); line-height: 1.7; }
+.account-card .profile-form { max-width: none; gap: 14px; padding-top: 18px; border-top: 1px solid var(--b-border); }
+.profile-form label { font-weight: 500; color: var(--b-ink); }
+.profile-form input, .profile-form select { border-color: var(--b-border-strong); border-radius: 10px; padding: 11px 12px; font-weight: 400; }
+.account-card .primary-action { width: 100%; padding: 13px 20px; }
+.account-signout .danger-outline { width: 100%; justify-content: center; font-weight: 500; }
+@media (max-width: 860px) {
+  .account-page { grid-template-columns: 1fr; }
+  .account-brand { position: relative; height: auto; padding: 24px; gap: 14px; border-right: 0; border-bottom: 1px solid var(--b-border); }
+  .account-brand .logo-wordmark { max-width: 180px; }
+  .account-brand-areas { display: none; }
+  .account-panel { padding: 16px 20px 40px; }
+  .account-card { padding: 8px 0; }
+}
+.account-card .profile-large {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--b-green-tint); color: var(--b-green); box-shadow: none;
+}
+.account-card .profile-large svg { width: 24px; height: 24px; }
+.google-direct-signin { padding-top: 16px; margin-top: 4px; border-top: 1px solid var(--b-border); gap: 10px; }
+.child-picker-card { background: var(--b-surface); border-color: var(--b-border); transition: border-color var(--t), box-shadow var(--t); }
+.child-picker-card:hover, .child-picker-card:focus-visible { border-color: var(--b-green); background: var(--b-green-tint); box-shadow: var(--b-shadow); }
+.privacy-notice { background: #f6f9f5; border-color: #dbe7d9; }
+
+/* ---------- Mobile bottom nav ---------- */
+.mobile-nav a.active { color: var(--b-green); }
+.mobile-nav a.active .mobile-nav-icon { background: var(--b-green-tint); }
+
+/* ---------- Motion: one quiet entrance, nothing bouncy ---------- */
+@keyframes bhasha-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.page-stack, .dashboard-grid, .account-card { animation: bhasha-enter .35s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .page-stack, .dashboard-grid, .account-card { animation: none; }
+  .history-card:hover, .practice-card:hover, .wb-sentence-card:hover, .feature-card:hover { transform: none; }
+}
