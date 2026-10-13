@@ -153,11 +153,13 @@ export default function Dashboard({ data, language, onNewPage, onNewSession, gra
             return (
               <div className="kid-line-row" key={i}>
                 <div>
-                  <div className="kid-line-thumb-wrap">
+                  {/* History entries carry no line image (handwriting is biometric data
+                      and is not stored), so show only the number badge for them. */}
+                  <div className={`kid-line-thumb-wrap${line.line_img ? '' : ' no-thumb'}`}>
                     <div className={`kid-num-badge ${numCls}`}>{i + 1}</div>
-                    {line.line_img
-                      ? <img className="kid-line-thumb" src={`data:image/png;base64,${line.line_img}`} alt={`line ${i + 1}`} />
-                      : <div className="kid-line-thumb" style={{ width: 140, height: 40 }} />}
+                    {line.line_img && (
+                      <img className="kid-line-thumb" src={`data:image/png;base64,${line.line_img}`} alt={`line ${i + 1}`} />
+                    )}
                   </div>
                   <div className="line-text">{line.corrected_text || line.raw_text || '—'}</div>
                   {hasDiff && (
