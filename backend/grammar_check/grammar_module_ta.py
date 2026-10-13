@@ -16,6 +16,11 @@ import re
 import json
 from typing import Optional
 
+try:
+    from .gemini_requests import configured_model, generate_content
+except ImportError:  # Standalone CLI and integrated router imports.
+    from gemini_requests import configured_model, generate_content
+
 SENTENCE_END_CHARS = ".!?।"
 _SPLIT_RE = re.compile(r"([.!?।])")
 
@@ -181,7 +186,7 @@ def _has_english_leak(text: str) -> bool:
 
 
 def _call_gemini_json(client, model: str, prompt: str) -> dict:
-    response = client.models.generate_content(model=model, contents=[prompt])
+    response = generate_content(client, model=model, contents=[prompt])
     raw = response.text.strip()
     raw = re.sub(r"^```json\s*", "", raw)
     raw = re.sub(r"\s*```$", "", raw)
@@ -216,7 +221,7 @@ def correct_grammar(sentences: list[dict], api_key: Optional[str] = None) -> lis
                 s["grammar_note"] = f"grammar check unavailable: {e}"
             return sentences
 
-    model = "gemini-3.6-flash"
+    model = configured_model()
     items_text = "\n".join(f"{i}: {s['text']}" for i, s in targets)
 
     try:
