@@ -11,7 +11,7 @@ import time
 from typing import Optional
 
 logger = logging.getLogger(__name__)
-DEFAULT_MODEL = "gemini-3.6-flash"
+DEFAULT_MODEL = "gemini-3.8-flash"
 TRANSIENT_CODES = {429, 500, 502, 503, 504}
 
 
