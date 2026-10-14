@@ -6,7 +6,87 @@ from __future__ import annotations
 import os
 import re
 import json
+import logging
+import time
 from typing import Optional
+
+logger = logging.getLogger(__name__)
+DEFAULT_MODEL = "gemini-flash-lite-latesth"
+TRANSIENT_CODES = {429, 500, 502, 503, 504}
+# Without a deadline a stalled Gemini request hangs the check forever.
+REQUEST_TIMEOUT_MS = int(os.environ.get("GEMINI_TIMEOUT_MS", "60000"))
+GEN_CONFIG = {
+    "automatic_function_calling": {"disable": True},
+    "http_options": {"timeout": REQUEST_TIMEOUT_MS},
+}
+
+
+def configured_model():
+    return os.environ.get("GEMINI_MODEL", "").strip() or DEFAULT_MODEL
+
+
+def _available_fallbacks(client, current):
+    """Text Flash models advertised by Google for this client's key, best first.
+
+    Listed models are not guaranteed usable (retired ones such as
+    gemini-2.5-flash still appear but return 404 for new keys), so callers
+    should try each in turn.
+    """
+    try:
+        candidates = []
+        for entry in client.models.list():
+            name = (entry.name or "").removeprefix("models/")
+            actions = entry.supported_actions or []
+            if (name != current.removeprefix("models/")
+                    and "flash" in name and "generateContent" in actions
+                    and not any(tag in name for tag in (
+                        "preview", "exp", "image", "audio", "live", "tts", "omni"))):
+                candidates.append(name)
+        # Prefer Google's maintained alias, then full Flash before Lite, newest first.
+        candidates.sort(key=lambda name: (
+            name != "gemini-flash-latest", "lite" in name, [-ord(c) for c in name]))
+        return candidates
+    except Exception:
+        return []
+
+
+def _generate_content(client, *, model, contents):
+    # No tools are used for correction. Disable automatic function calling
+    # explicitly, avoiding the SDK's AFC warning for generate_content.
+    for attempt in range(3):
+        try:
+            return client.models.generate_content(
+                model=model,
+                contents=contents,
+                config=GEN_CONFIG,
+            )
+        except Exception as exc:
+            code = getattr(exc, "code", None)
+            try:
+                code = int(code)
+            except (TypeError, ValueError):
+                code = None
+            # A timed-out request is treated like a 504 so it is retried.
+            if code is None and "timeout" in type(exc).__name__.lower():
+                code = 504
+            if attempt == 2 and code in TRANSIENT_CODES:
+                for fallback in _available_fallbacks(client, model)[:4]:
+                    logger.warning("Gemini model unavailable; trying %s", fallback)
+                    try:
+                        return client.models.generate_content(
+                            model=fallback, contents=contents,
+                            config=GEN_CONFIG,
+                        )
+                    except Exception as fb_exc:
+                        logger.warning("  %s failed (HTTP %s)", fallback, getattr(fb_exc, "code", "?"))
+                        continue
+            if code not in TRANSIENT_CODES or attempt == 2:
+                raise
+            # Log only the status code, never request text or API credentials.
+            logger.warning("Gemini HTTP %s on %s; retrying (%s/2)", code, model, attempt + 1)
+            time.sleep(2 ** attempt)
+
+
 SENTENCE_END_CHARS = ".!?।"
 _SPLIT_RE = re.compile(r"([.!?।])")
 
@@ -247,7 +327,7 @@ def _has_english_leak(text: str) -> bool:
 
 
 def _call_gemini_json(client, model: str, prompt: str) -> dict:
-    response = client.models.generate_content(model=model, contents=[prompt])
+    response = _generate_content(client, model=model, contents=[prompt])
     raw = response.text.strip()
     raw = re.sub(r"^```json\s*", "", raw)
     raw = re.sub(r"\s*```$", "", raw)
@@ -294,7 +374,7 @@ def correct_grammar(sentences: list[dict], api_key: Optional[str] = None) -> lis
                 s["grammar_note"] = f"grammar check unavailable: {e}"
             return sentences
 
-    model = "gemini-3.6-flash"
+    model = configured_model()
     items_text = "\n".join(f"{i}: {s['text']}" for i, s in targets)
 
     try:

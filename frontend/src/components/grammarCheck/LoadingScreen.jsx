@@ -1,28 +1,39 @@
-// Restyled to match WriteBright's own empty-state card (colors/fonts/
-// sizes) exactly, same treatment as UploadScreen.jsx -- pulled outside
-// .grammar-check-scope in GrammarCheckPage.jsx and rebuilt with the
-// shared .empty-state/.empty-icon classes (styles.css) instead of this
-// component's own #loadingScreen/.spinner palette. The step list keeps
-// its original data (t.steps/step), just restyled to WriteBright's
-// orange/green/muted tones instead of the old dot-prefix list.
-export default function LoadingScreen({ t, step }) {
+import { Check, ScanText } from 'lucide-react';
+
+// While the page is analysed: the uploaded photo with a moving scan line,
+// a progress bar and the analysis steps (t.steps, advanced by `step`).
+export default function LoadingScreen({ t, step, previewUrl }) {
+  const total = t.steps.length;
+  const percent = Math.round((Math.min(step, total) / total) * 100);
+
   return (
-    <div className="empty-state loading-empty-state">
-      <div className="empty-icon"><span className="wb-spinner" aria-hidden="true" /></div>
-      <h3>{t.loadingText}</h3>
-      <p>{t.loadingSub}</p>
-      <div className="loading-step-list">
-        {t.steps.map((label, i) => {
-          const n = i + 1;
-          const state = n < step ? 'done' : n === step ? 'active' : 'upcoming';
-          return (
-            <div key={n} className={`loading-step-row loading-step-row--${state}`}>
-              <span className="loading-step-dot" aria-hidden="true">{state === 'done' ? '✓' : ''}</span>
-              <span>{label}</span>
-            </div>
-          );
-        })}
-      </div>
+    <div className="page-stack gc">
+      <section className="gc-card gc-loading">
+        <div className="gc-scan">
+          {previewUrl ? <img src={previewUrl} alt="" /> : <span className="gc-scan-blank"><ScanText size={40} /></span>}
+          <span className="gc-scan-line" aria-hidden="true" />
+        </div>
+        <div className="gc-loading-body">
+          <h3>{t.loadingText}</h3>
+          <p>{t.loadingSub}</p>
+          <div className="gc-progress" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent}>
+            <i style={{ width: `${percent}%` }} />
+          </div>
+          <span className="gc-progress-pct">{percent}%</span>
+          <ol className="gc-steps">
+            {t.steps.map((label, i) => {
+              const n = i + 1;
+              const state = n < step ? 'done' : n === step ? 'active' : 'upcoming';
+              return (
+                <li key={label} className={state}>
+                  <span className="gc-step-dot">{state === 'done' ? <Check size={14} /> : n}</span>
+                  {label}
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </section>
     </div>
   );
 }

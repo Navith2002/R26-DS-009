@@ -1,27 +1,27 @@
 export const ERROR_META = {
-  correct:     { icon:'✓', label:'අක්ෂර වින්‍යාස වැරදි නම් නැහැ, අපි දැං ව්‍යාකරණත් පරීක්ෂා කරලා බලමු',                         cls:'err-correct',     color:'#1a9e5c' },
-  retroflex:   { icon:'ළ', label:'සමාන අකුරු පටලැවීම',                cls:'err-retroflex',   color:'#d97706' },
-  vowel:       { icon:'ී', label:'ස්වර ලකුණු වැරදීම',                  cls:'err-vowel',       color:'#7c3aed' },
-  zwj:         { icon:'‍', label:'එකට ලියැවෙන අකුරු වැරදීම',          cls:'err-zwj',         color:'#2563eb' },
-  boundary:    { icon:'↔', label:'වචන අතර හිස්තැන් වැරදීම',           cls:'err-boundary',    color:'#0891b2' },
-  punctuation: { icon:'.', label:'විරාම ලකුණු වැරදීම',                cls:'err-punctuation', color:'#ea580c' },
-  missing:     { icon:'+', label:'අකුරු හෝ වචන අඩුවීම',                cls:'err-missing',     color:'#d97706' },
-  other:       { icon:'?', label:'වෙනත් වැරදීමක්',                    cls:'err-other',       color:'#d63b3b' },
+  correct:     { icon:'✓', label:'අක්ෂර වින්‍යාස වැරදි නම් නැහැ, අපි දැං ව්‍යාකරණත් පරීක්ෂා කරලා බලමු',                         cls:'err-correct',     color:'#1f7a3f' },
+  retroflex:   { icon:'ළ', label:'සමාන අකුරු පටලැවීම',                cls:'err-retroflex',   color:'#2a78d6' },
+  vowel:       { icon:'ී', label:'ස්වර ලකුණු වැරදීම',                  cls:'err-vowel',       color:'#eb6834' },
+  zwj:         { icon:'‍', label:'එකට ලියැවෙන අකුරු වැරදීම',          cls:'err-zwj',         color:'#1baf7a' },
+  boundary:    { icon:'↔', label:'වචන අතර හිස්තැන් වැරදීම',           cls:'err-boundary',    color:'#eda100' },
+  punctuation: { icon:'.', label:'විරාම ලකුණු වැරදීම',                cls:'err-punctuation', color:'#e87ba4' },
+  missing:     { icon:'+', label:'අකුරු හෝ වචන අඩුවීම',                cls:'err-missing',     color:'#4a3aa7' },
+  other:       { icon:'?', label:'වෙනත් වැරදීමක්',                    cls:'err-other',       color:'#e34948' },
 };
 
 export const ERROR_META_TA = {
-  correct:     { icon:'✓', label:'சரி',                                cls:'err-correct',     color:'#1a9e5c' },
-  retroflex:   { icon:'ழ', label:'ஒத்த எழுத்து குழப்பம்',              cls:'err-retroflex',   color:'#d97706' },
-  vowel:       { icon:'ீ', label:'உயிர்க்குறி பிழை',                    cls:'err-vowel',       color:'#7c3aed' },
+  correct:     { icon:'✓', label:'சரி',                                cls:'err-correct',     color:'#1f7a3f' },
+  retroflex:   { icon:'ழ', label:'ஒத்த எழுத்து குழப்பம்',              cls:'err-retroflex',   color:'#2a78d6' },
+  vowel:       { icon:'ீ', label:'உயிர்க்குறி பிழை',                    cls:'err-vowel',       color:'#eb6834' },
   // Tamil script has no ZWJ/conjunct-joiner concept the way Sinhala does
   // (see trusted_lexicon_ta.py) -- this key is kept only for structural
   // parity with ERROR_META; the backend never emits error_type "zwj" for
   // Tamil, so it never actually renders.
-  zwj:         { icon:'‍', label:'இணைப்பு பிழை',                       cls:'err-zwj',         color:'#2563eb' },
-  boundary:    { icon:'↔', label:'சொல் இடைவெளி பிழை',                  cls:'err-boundary',    color:'#0891b2' },
-  punctuation: { icon:'.', label:'நிறுத்தற்குறி பிழை',                  cls:'err-punctuation', color:'#ea580c' },
-  missing:     { icon:'+', label:'எழுத்து/சொல் குறைபாடு',               cls:'err-missing',     color:'#d97706' },
-  other:       { icon:'?', label:'மற்ற பிழை',                           cls:'err-other',       color:'#d63b3b' },
+  zwj:         { icon:'‍', label:'இணைப்பு பிழை',                       cls:'err-zwj',         color:'#1baf7a' },
+  boundary:    { icon:'↔', label:'சொல் இடைவெளி பிழை',                  cls:'err-boundary',    color:'#eda100' },
+  punctuation: { icon:'.', label:'நிறுத்தற்குறி பிழை',                  cls:'err-punctuation', color:'#e87ba4' },
+  missing:     { icon:'+', label:'எழுத்து/சொல் குறைபாடு',               cls:'err-missing',     color:'#4a3aa7' },
+  other:       { icon:'?', label:'மற்ற பிழை',                           cls:'err-other',       color:'#e34948' },
 };
 
 // NOTE: these labels MUST match the backend's ERROR_PROFILE_LABELS exactly
@@ -55,7 +55,7 @@ export const SKILL_COLORS = {
   [ERROR_PROFILE_LABELS.vowel]:       '#7c3aed',
   [ERROR_PROFILE_LABELS.zwj]:         '#2563eb',
   [ERROR_PROFILE_LABELS.boundary]:    '#0891b2',
-  [ERROR_PROFILE_LABELS.punctuation]: '#ea580c',
+  [ERROR_PROFILE_LABELS.punctuation]: '#e8711a',
   [ERROR_PROFILE_LABELS.missing]:     '#d97706',
   [ERROR_PROFILE_LABELS.other]:       '#d63b3b',
 };
@@ -64,7 +64,7 @@ export const SKILL_COLORS_TA = {
   [ERROR_PROFILE_LABELS_TA.retroflex]:   '#d97706',
   [ERROR_PROFILE_LABELS_TA.vowel]:       '#7c3aed',
   [ERROR_PROFILE_LABELS_TA.boundary]:    '#0891b2',
-  [ERROR_PROFILE_LABELS_TA.punctuation]: '#ea580c',
+  [ERROR_PROFILE_LABELS_TA.punctuation]: '#e8711a',
   [ERROR_PROFILE_LABELS_TA.missing]:     '#d97706',
   [ERROR_PROFILE_LABELS_TA.other]:       '#d63b3b',
 };
@@ -76,6 +76,29 @@ export const SKILL_COLORS_TA = {
 // HTML/JS-generated text needs a manual translation table.
 export const UI_TEXT = {
   si: {
+    // redesigned upload / loading / results screens
+    pasteHint: 'හෝ Ctrl + V එබීමෙන් ඡායාරූපයක් අලවන්න',
+    change: 'වෙනස් කරන්න',
+    remove: 'ඉවත් කරන්න',
+    qualityTitle: 'ඡායාරූපයේ තත්ත්වය',
+    qGoodLight: 'ආලෝකය හොඳයි',
+    qDark: 'ඡායාරූපය අඳුරුයි — ආලෝකය වැඩි තැනක ගන්න',
+    qBright: 'ඕනෑවට වඩා දීප්තියි — සෙවණක ගන්න',
+    qGoodSize: 'පැහැදිලි ප්‍රමාණයක්',
+    qSmall: 'ඡායාරූපය කුඩායි — ළඟින් ගන්න',
+    recentTitle: 'මෑත පරීක්ෂණ',
+    filterAll: 'සියල්ල',
+    filterErrors: 'වැරදි',
+    filterCorrect: 'නිවැරදි',
+    noLinesInFilter: 'මෙහි පේළි නැත',
+    showWritten: 'දරුවා ලියූ ආකාරය පෙන්වන්න',
+    coachTitle: 'වැඩිපුරම සිදු වූ වැරැද්ද',
+    print: 'වාර්තාව මුද්‍රණය',
+    starsGreat: 'අති විශිෂ්ටයි!',
+    starsGood: 'හොඳයි, තව ටිකයි!',
+    starsTry: 'දිගටම පුහුණු වෙමු!',
+    grammarOk: 'ව්‍යාකරණ හරි',
+    grammarChanged: 'නිවැරදි කළා',
     eyebrow: 'ශිෂ්‍යයාගේ ලිවීම විශ්ලේෂණය කිරීම',
     title: 'අක්ෂර වින්‍යාස, ව්‍යාකරණ පරීක්ෂාව',
     // history page (HistoryPage.jsx's grammar-check section)
@@ -94,6 +117,7 @@ export const UI_TEXT = {
             'කුසලතා පුවරුව සකසමින්'],
     // dashboard/results screen chrome
     dashTitle: 'ලිවීමේ විශ්ලේෂණ වාර්තාව',
+    grammarUnavailable: 'ව්‍යාකරණ පරීක්ෂාව මේ මොහොතේ ක්‍රියාත්මක නොවීය (සේවාව කාර්යබහුලයි). අක්ෂර වින්‍යාස ප්‍රතිඵල පමණක් පෙන්වයි. ටික වේලාවකින් නැවත උත්සාහ කරන්න.',
     dashSub: 'සිසුවාගේ අත්අකුරු වැරදි සොයාගෙන කුසලතා පෙන්වයි',
     btnNewPage: '+ නව පිටුවක්',
     btnNewPageTitle: 'තවත් පිටුවක් උඩුගත කරන්න — කුසලතා පැතිකඩ එකතු වේ',
@@ -140,6 +164,29 @@ export const UI_TEXT = {
     // submit in i18n/translations.js), reused verbatim since this screen
     // now shares that exact layout/styling; eyebrow/title stay specific
     // to this component's own topic.
+    // redesigned upload / loading / results screens
+    pasteHint: 'அல்லது Ctrl + V அழுத்தி புகைப்படத்தை ஒட்டு',
+    change: 'மாற்று',
+    remove: 'நீக்கு',
+    qualityTitle: 'புகைப்படத்தின் தரம்',
+    qGoodLight: 'வெளிச்சம் நன்று',
+    qDark: 'புகைப்படம் இருட்டாக உள்ளது — வெளிச்சமான இடத்தில் எடு',
+    qBright: 'அதிக வெளிச்சம் — நிழலில் எடு',
+    qGoodSize: 'போதுமான தெளிவு',
+    qSmall: 'புகைப்படம் சிறியது — அருகில் எடு',
+    recentTitle: 'சமீபத்திய சோதனைகள்',
+    filterAll: 'அனைத்தும்',
+    filterErrors: 'பிழைகள்',
+    filterCorrect: 'சரியானவை',
+    noLinesInFilter: 'இங்கே வரிகள் இல்லை',
+    showWritten: 'குழந்தை எழுதியதைக் காட்டு',
+    coachTitle: 'அதிகம் நிகழ்ந்த பிழை',
+    print: 'அறிக்கையை அச்சிடு',
+    starsGreat: 'அருமை!',
+    starsGood: 'நன்று, இன்னும் கொஞ்சம்!',
+    starsTry: 'தொடர்ந்து பயிற்சி செய்வோம்!',
+    grammarOk: 'இலக்கணம் சரி',
+    grammarChanged: 'திருத்தப்பட்டது',
     eyebrow: 'மாணவரின் எழுத்தை பகுப்பாய்வு செய்தல்',
     title: 'எழுத்துப் பிழை, இலக்கணப் பிழை சரிபார்ப்பு',
     // history page (HistoryPage.jsx's grammar-check section)
@@ -158,6 +205,7 @@ export const UI_TEXT = {
             'திறன் பலகையை தயார் செய்கிறது'],
     // dashboard/results screen chrome
     dashTitle: 'எழுத்து பகுப்பாய்வு அறிக்கை',
+    grammarUnavailable: 'இலக்கண சரிபார்ப்பு இப்போது இயங்கவில்லை (சேவை பரபரப்பாக உள்ளது). எழுத்துப்பிழை முடிவுகள் மட்டுமே காட்டப்படுகின்றன. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.',
     dashSub: 'மாணவரின் கையெழுத்துப் பிழைகளை கண்டறிந்து திறன்களைக் காட்டுகிறது',
     btnNewPage: '+ புதிய பக்கம்',
     btnNewPageTitle: 'மேலும் ஒரு பக்கத்தை பதிவேற்றவும் — திறன் விவரக்குறிப்பு சேர்க்கப்படும்',

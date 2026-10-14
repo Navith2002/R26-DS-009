@@ -1,3 +1,4 @@
+import { TryAgainCat } from '../components/Lottie';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   AlertTriangle,
@@ -520,26 +521,14 @@ export default function ResultsPage() {
 
   const {
     history,
-    latestResult,
     language,
     t,
   } = useApp();
 
-  const result =
-    location.state?.result
-    ||
-    (
-      latestResult?.analysis_id === id
-        ? latestResult
-        : null
-    )
-    ||
-    history.find(
-      (item) => item.id === id
-    );
-
-  const preview =
-    location.state?.preview;
+  // Resolve from this child's records only. Navigation state can survive a
+  // sign-out or child switch and must never bypass account isolation.
+  const result = history.find((item) => item.id === id);
+  const preview = result ? location.state?.preview : null;
 
 
   /* =======================================================
@@ -696,7 +685,7 @@ export default function ResultsPage() {
     ].slice(0, 2);
 
     return (
-      <div className="results-page page-stack">
+      <div className="results-page page-stack gc hw">
 
         <ResultTopbar
           navigate={navigate}
@@ -936,7 +925,7 @@ export default function ResultsPage() {
 
 
   return (
-    <div className="results-page page-stack">
+    <div className="results-page page-stack gc hw">
 
       <ResultTopbar
         navigate={navigate}
@@ -1062,7 +1051,8 @@ export default function ResultsPage() {
         </div>
 
 
-        <div
+        {(tone === 'below-average' || tone === 'poor') ? <TryAgainCat /> : (
+<div
           className={
             "kid-result-mascot " +
             "quality-mascot"
@@ -1092,6 +1082,7 @@ export default function ResultsPage() {
           }
 
         </div>
+        )}
 
       </section>
 
