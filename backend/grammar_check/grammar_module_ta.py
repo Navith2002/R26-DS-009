@@ -138,6 +138,17 @@ style, do NOT change meaning, do NOT touch words that are already
 grammatically fine. If a sentence is already correct, leave it unchanged
 and set both changes_en and changes_si to exactly "no changes".
 
+
+TENSE RULE (very important):
+- Keep the child's tense. Work out which tense the child meant from the verb
+  they wrote, even if it is misspelled, and correct the verb ONLY so that it
+  agrees with the subject in that SAME tense.
+- Never change a present-tense verb into past tense, or past into present.
+- A misspelled verb that is closest to a present-tense form means the child
+  meant present tense; one closest to a past-tense form means past tense.
+- Make the smallest possible change, usually only the verb ending.
+- If the verb already agrees with the subject, it is correct: do not change it.
+
 For each sentence that DID change, give the explanation TWICE, in two steps:
 
   changes_en: your normal precise technical explanation, in English, using
