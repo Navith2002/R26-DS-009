@@ -11,7 +11,7 @@ import time
 from typing import Optional
 
 logger = logging.getLogger(__name__)
-DEFAULT_MODEL = "gemini-3.6-flash"
+DEFAULT_MODEL = "gemini-flash-lite-latesth"
 TRANSIENT_CODES = {429, 500, 502, 503, 504}
 # Without a deadline a stalled Gemini request hangs the check forever.
 REQUEST_TIMEOUT_MS = int(os.environ.get("GEMINI_TIMEOUT_MS", "60000"))
@@ -77,12 +77,13 @@ def _generate_content(client, *, model, contents):
                             model=fallback, contents=contents,
                             config=GEN_CONFIG,
                         )
-                    except Exception:
+                    except Exception as fb_exc:
+                        logger.warning("  %s failed (HTTP %s)", fallback, getattr(fb_exc, "code", "?"))
                         continue
             if code not in TRANSIENT_CODES or attempt == 2:
                 raise
             # Log only the status code, never request text or API credentials.
-            logger.warning("Gemini HTTP %s; retrying (%s/2)", code, attempt + 1)
+            logger.warning("Gemini HTTP %s on %s; retrying (%s/2)", code, model, attempt + 1)
             time.sleep(2 ** attempt)
 
 
