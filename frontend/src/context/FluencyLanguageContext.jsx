@@ -1,26 +1,13 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext } from 'react'
+import { useApp } from './useApp'
 import { translations } from '../i18n/fluencyTranslations'
 
 export const LANGUAGES = [
-  { code: 'en', label: 'English', native: 'English' },
-  { code: 'si', label: 'Sinhala', native: 'සිංහල' },
-  { code: 'ta', label: 'Tamil', native: 'தமிழ்' },
+  { code: 'si', label: 'සිංහල', native: 'සිංහල' },
+  { code: 'ta', label: 'தமிழ்', native: 'தமிழ்' },
 ]
-
-const STORAGE_KEY = 'wachana_lang'
-const DEFAULT_LANG = 'en'
-
+const DEFAULT_LANG = 'si'
 const LanguageContext = createContext(null)
-
-function readStoredLang() {
-  if (typeof window === 'undefined') return DEFAULT_LANG
-  try {
-    const saved = window.localStorage.getItem(STORAGE_KEY)
-    return saved && translations[saved] ? saved : DEFAULT_LANG
-  } catch {
-    return DEFAULT_LANG
-  }
-}
 
 // Looks up a dot-path (e.g. "gate.heading") inside a translation object.
 function lookup(dict, path) {
@@ -30,25 +17,13 @@ function lookup(dict, path) {
 }
 
 export function LanguageProvider({ children }) {
-  const [lang, setLangState] = useState(readStoredLang)
-
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, lang)
-    } catch {
-      // localStorage unavailable (private mode etc.) — language just won't persist
-    }
-    // Only the interface language, not the Sinhala reading content, follows
-    // this attribute — components that render the actual sentences keep
-    // their own explicit lang="si".
-    document.documentElement.lang = lang
-  }, [lang])
-
+  const { language, setLanguage } = useApp()
+  const lang = language === 'tamil' ? 'ta' : 'si'
   const setLang = useCallback((next) => {
-    if (translations[next]) setLangState(next)
-  }, [])
+    if (next === 'si' || next === 'ta') setLanguage(next === 'ta' ? 'tamil' : 'sinhala')
+  }, [setLanguage])
 
-  // Always resolves to a string: falls back to English, then to the raw
+  // Always resolves to a string: falls back to Sinhala, then to the raw
   // key itself, so a missing translation never breaks the UI.
   const t = useCallback(
     (key, vars) => {

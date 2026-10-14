@@ -14,7 +14,7 @@ from pathlib import Path
 from PIL import Image, ImageEnhance
 import torch
 
-from grammar_module import build_sentences
+from grammar_module import build_sentences, configured_model, _generate_content
 
 # Integrated into the WriteBright backend: this file now lives in
 # backend/grammar_check/, and the TrOCR model weights were moved out to
@@ -793,8 +793,8 @@ Lines to correct:
 {combined}"""
 
     try:
-        response = client.models.generate_content(
-            model="gemini-3.6-flash",
+        response = _generate_content(
+            client, model=configured_model(),
             contents=[prompt],
         )
         raw  = response.text.strip()
@@ -985,6 +985,15 @@ def analyze_page(image_path: str, language: str = "si") -> dict:
     # (feedback_si/feedback_en/grammar_note) for both languages so the
     # dashboard's rendering code needs no per-language branching.
     dashboard = process_htr_lines(lines)
+
+    failed = [s for s in dashboard.get('sentences', [])
+              if str(s.get('grammar_note', '')).startswith('grammar check ')]
+    dashboard['grammar_unavailable'] = bool(failed)
+    if failed:
+        print("  ⚠️  Grammar (Gemini) step unavailable -- returning spelling results only")
+        for s in failed:
+            s['grammar_note_technical'] = s['grammar_note']
+            s['grammar_note'] = ''
 
     print(f"  Done. Accuracy: {dashboard['accuracy_score']}%  "
           f"Sentences: {len(dashboard.get('sentences', []))}")

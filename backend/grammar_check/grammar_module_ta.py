@@ -16,6 +16,11 @@ import re
 import json
 from typing import Optional
 
+try:
+    from .grammar_module import configured_model, _generate_content
+except ImportError:  # Standalone CLI and integrated router imports.
+    from grammar_module import configured_model, _generate_content
+
 SENTENCE_END_CHARS = ".!?।"
 _SPLIT_RE = re.compile(r"([.!?।])")
 
@@ -133,6 +138,17 @@ style, do NOT change meaning, do NOT touch words that are already
 grammatically fine. If a sentence is already correct, leave it unchanged
 and set both changes_en and changes_si to exactly "no changes".
 
+
+TENSE RULE (very important):
+- Keep the child's tense. Work out which tense the child meant from the verb
+  they wrote, even if it is misspelled, and correct the verb ONLY so that it
+  agrees with the subject in that SAME tense.
+- Never change a present-tense verb into past tense, or past into present.
+- A misspelled verb that is closest to a present-tense form means the child
+  meant present tense; one closest to a past-tense form means past tense.
+- Make the smallest possible change, usually only the verb ending.
+- If the verb already agrees with the subject, it is correct: do not change it.
+
 For each sentence that DID change, give the explanation TWICE, in two steps:
 
   changes_en: your normal precise technical explanation, in English, using
@@ -181,7 +197,7 @@ def _has_english_leak(text: str) -> bool:
 
 
 def _call_gemini_json(client, model: str, prompt: str) -> dict:
-    response = client.models.generate_content(model=model, contents=[prompt])
+    response = _generate_content(client, model=model, contents=[prompt])
     raw = response.text.strip()
     raw = re.sub(r"^```json\s*", "", raw)
     raw = re.sub(r"\s*```$", "", raw)
@@ -216,7 +232,7 @@ def correct_grammar(sentences: list[dict], api_key: Optional[str] = None) -> lis
                 s["grammar_note"] = f"grammar check unavailable: {e}"
             return sentences
 
-    model = "gemini-3.6-flash"
+    model = configured_model()
     items_text = "\n".join(f"{i}: {s['text']}" for i, s in targets)
 
     try:
