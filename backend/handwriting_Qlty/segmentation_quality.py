@@ -501,6 +501,13 @@ def evaluate_segmentation_reliability(segmentation):
             "Character-region segmentation produced an implausibly large number of regions."
         )
 
+    # Audited catastrophic over-segmentation pattern.
+    if word_count >= 350 and character_count >= 1500:
+        reasons.append(
+            "The handwriting was severely over-segmented into too many "
+            "word and character regions."
+        )
+
     # Words-per-line and regions-per-word: downgraded to warnings
     if average_words_per_line > limits["max_average_words_per_line"]:
         warnings.append(
@@ -533,14 +540,28 @@ def evaluate_segmentation_reliability(segmentation):
         )
 
     # ========================================================
-    # 3. UNDER-SEGMENTATION  — downgraded to warnings
+    # 3. UNDER-SEGMENTATION — combined extremes block; individual warnings
     # ========================================================
     substantial_page_evidence = bool(
         line_count >= 3 or many_text_components
     )
 
-    if (
+    merged_line_failure = bool(
         substantial_page_evidence
+        and metrics["largest_line_height_ratio"]
+        > limits["max_largest_line_height_ratio"]
+        and metrics["line_height_to_median_ratio"]
+        > limits["max_line_height_to_median_ratio"]
+    )
+    if merged_line_failure:
+        reasons.append(
+            "Possible merged handwriting lines were detected; "
+            "too few word regions may represent multiple writing rows."
+        )
+
+    if (
+        not merged_line_failure
+        and substantial_page_evidence
         and metrics["largest_line_height_ratio"] > limits["max_largest_line_height_ratio"]
     ):
         warnings.append(
@@ -548,7 +569,8 @@ def evaluate_segmentation_reliability(segmentation):
         )
 
     if (
-        substantial_page_evidence
+        not merged_line_failure
+        and substantial_page_evidence
         and metrics["line_height_to_median_ratio"] > limits["max_line_height_to_median_ratio"]
     ):
         warnings.append(

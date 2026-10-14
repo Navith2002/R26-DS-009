@@ -156,14 +156,19 @@ CHARACTERS_DIR = os.path.join(
     "characters",
 )
 
-MODEL_DIR = os.path.join(
-    BASE_DIR,
-    "models",
+MODEL_DIR = os.path.abspath(
+    os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        os.pardir,
+        "models",
+    )
 )
+
 
 # MODEL_DIR may already exist with trained artifacts. Creating it is safe,
 # but nothing in this service writes or overwrites the trained model files.
 for directory in [
+
     UPLOAD_DIR,
     OUTPUT_DIR,
     PREPROCESS_DIR,
