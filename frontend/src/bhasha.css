@@ -1602,3 +1602,8 @@ input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
 .kid-modules { row-gap: 26px; padding-top: 12px; }
 .module-pet.pet-cat-box { top: -2px; }
 .module-pet.pet-dog svg { transform: rotate(180deg) scaleX(-1) !important; }
+
+/* Grammar step unavailable notice */
+.gc-notice { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 16px; background: #fff3d6; border: 1px solid #f3d48a; color: #7a5200; font-weight: 600; }
+.gc-notice svg { flex: none; color: #c98a00; }
+.gc-notice span { flex: 1; }
