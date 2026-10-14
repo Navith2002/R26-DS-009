@@ -277,6 +277,17 @@ do NOT change meaning, do NOT touch words that are already grammatically fine.
 If a sentence is already correct, leave it unchanged and set both
 changes_en and changes_si to exactly "no changes".
 
+
+TENSE RULE (very important):
+- Keep the child's tense. Work out which tense the child meant from the verb
+  they wrote, even if it is misspelled, and correct the verb ONLY so that it
+  agrees with the subject in that SAME tense.
+- Never change a present-tense verb into past tense, or past into present.
+- A misspelled verb that is closest to a present-tense form means the child
+  meant present tense; one closest to a past-tense form means past tense.
+- Make the smallest possible change, usually only the verb ending.
+- If the verb already agrees with the subject, it is correct: do not change it.
+
 For each sentence that DID change, give the explanation TWICE, in two steps:
 
   changes_en: your normal precise technical explanation, in English, using
@@ -325,6 +336,38 @@ English sentences:
 def _has_english_leak(text: str) -> bool:
     return bool(re.search(r"[A-Za-z]", text or ""))
 
+
+
+# ── Tense guard ──────────────────────────────────────────────────────────
+# The LLM sometimes "corrects" a sentence by switching its tense (e.g. a
+# present-tense verb rewritten as a formal past form). These general Sinhala
+# verb-ending patterns let us notice that and ask it again to keep the tense.
+# Past endings are checked first because several share a final letter with
+# present endings (e.g. -ෙමි vs -මි).
+_PAST_ENDINGS = ("ෙමි", "ෙමු", "ේය", "ෝය", "ාය", "ෙහි", "ෙහු", "ේ", "ෝ")
+_PRESENT_ENDINGS = ("මි", "මු", "යි", "ති", "හි", "හු", "නවා")
+_TENSE_NAME = {"present": "PRESENT", "past": "PAST"}
+
+
+def _verb_tense(sentence: str) -> Optional[str]:
+    """'present' / 'past' from the sentence's final word, or None if unclear."""
+    words = re.sub(r"[.!?।,]+", " ", sentence or "").split()
+    if not words:
+        return None
+    last = words[-1]
+    if last.endswith(_PAST_ENDINGS):
+        return "past"
+    if last.endswith(_PRESENT_ENDINGS):
+        return "present"
+    return None
+
+
+def _tense_changed(original: str, corrected: str) -> Optional[str]:
+    """The child's tense if the correction switched away from it, else None."""
+    before, after = _verb_tense(original), _verb_tense(corrected)
+    if before and after and before != after:
+        return before
+    return None
 
 def _call_gemini_json(client, model: str, prompt: str) -> dict:
     response = _generate_content(client, model=model, contents=[prompt])
@@ -381,6 +424,38 @@ def correct_grammar(sentences: list[dict], api_key: Optional[str] = None) -> lis
         client = genai.Client(api_key=key)
         data = _call_gemini_json(client, model, _GRAMMAR_PROMPT.format(items=items_text))
         by_idx = {item["idx"]: item for item in data.get("sentences", [])}
+
+        # Tense guard: re-ask once for sentences whose correction changed the
+        # tense the child used; drop the correction if it still does.
+        sentence_by_idx = dict(targets)
+        drifted = {}
+        for i, s in targets:
+            item = by_idx.get(i)
+            if item:
+                kept = _tense_changed(s["text"], item.get("corrected") or s["text"])
+                if kept:
+                    drifted[i] = kept
+        if drifted:
+            logger.warning("Grammar correction changed tense in %d sentence(s); re-asking", len(drifted))
+            retry_text = "\n".join(
+                f"{i}: {sentence_by_idx[i]['text']}   [the child wrote this in {_TENSE_NAME[t]} tense - "
+                f"keep {_TENSE_NAME[t]} tense, fix only agreement with the subject]"
+                for i, t in drifted.items()
+            )
+            try:
+                retry = _call_gemini_json(client, model, _GRAMMAR_PROMPT.format(items=retry_text))
+                retry_by_idx = {item["idx"]: item for item in retry.get("sentences", [])}
+            except Exception:
+                retry_by_idx = {}
+            for i in drifted:
+                original = sentence_by_idx[i]["text"]
+                item = retry_by_idx.get(i)
+                if item and not _tense_changed(original, item.get("corrected") or original):
+                    by_idx[i] = item
+                else:
+                    by_idx[i] = {"idx": i, "corrected": original,
+                                 "changes_en": "no changes (correction changed tense; discarded)",
+                                 "changes_si": ""}
 
         # Track sentences whose Sinhala explanation still needs fixing.
         needs_retranslate: list[tuple[int, dict, str]] = []  # (i, s, changes_en)
