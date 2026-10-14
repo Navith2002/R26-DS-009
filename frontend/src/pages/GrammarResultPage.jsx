@@ -11,7 +11,7 @@ import '../components/grammarCheck/grammarCheck.css';
 export default function GrammarResultPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { grammarRuns, t } = useApp();
+  const { grammarRuns, t, language } = useApp();
 
   const run = grammarRuns.find((item) => item.id === id);
 
@@ -26,14 +26,12 @@ export default function GrammarResultPage() {
   }
 
   return (
-    <div className="grammar-check-scope">
-      <Dashboard
-        data={run.result}
-        language={run.language}
-        onNewPage={() => navigate('/grammar-check')}
-        onNewSession={() => navigate('/grammar-check')}
-        grammarRuns={grammarRuns}
-      />
-    </div>
+    <Dashboard
+      data={run.result}
+      when={run.createdAt}
+      language={language === 'tamil' ? 'ta' : 'si'}
+      onNewPage={() => navigate('/grammar-check')}
+      onNewSession={() => navigate('/grammar-check')}
+    />
   );
 }
