@@ -662,7 +662,7 @@ FEEDBACK = {
                     "en": "Check punctuation position, especially period/comma placement."},
     "missing":     {"si": "අකුරක් හෝ වචනයක් අඩු/වැඩි වී ඇත. වචනය සම්පූර්ණද බලන්න.",
                     "en": "A letter or word is missing or extra. Check whether the word is complete."},
-    "other":       {"si": "මෙය ඉහත වර්ගවලට පැහැදිලිව නොගැලපේ. සටහන් කොටස බලන්න.",
+    "other":       {"si": "මෙය ඉහත වර්ගවලට පැහැදිලිව නොගැලපේ. ගුරුතුමිය වෙත යොමු වන්න.",
                     "en": "This does not clearly fit the main categories. See the note box."},
 }
 

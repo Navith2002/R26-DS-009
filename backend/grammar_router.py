@@ -26,6 +26,7 @@ if _GRAMMAR_CHECK_DIR not in sys.path:
 
 from fastapi import APIRouter, File, Form, UploadFile
 from fastapi.responses import JSONResponse
+from starlette.concurrency import run_in_threadpool
 
 from pipeline import analyze_page, LOCAL_MODEL_DIR, MODEL_DIRS, DEVICE, GEMINI_KEY
 
@@ -39,7 +40,9 @@ async def analyze(image: UploadFile = File(...), language: str = Form("si")):
         tmp.write(await image.read())
         tmp_path = tmp.name
     try:
-        result = analyze_page(tmp_path, language=language)
+        # OCR + Gemini can take minutes; run it off the event loop so the
+        # rest of the API (profile, history, auth) keeps answering meanwhile.
+        result = await run_in_threadpool(analyze_page, tmp_path, language=language)
         return result
     except Exception as e:
         traceback.print_exc()

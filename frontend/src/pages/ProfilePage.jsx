@@ -1,43 +1,29 @@
-import { useState } from 'react';
-import { Save, UserRound } from 'lucide-react';
 import { useApp } from '../context/useApp';
-import { roleLabel } from '../i18n/translations';
-
-const roles = ['Student', 'Teacher', 'Parent', 'Researcher'];
+import { useAuth } from '../auth/AuthContext';
+import { SignOutButton } from './AccountPage';
+import { formatDate } from '../utils/format';
 
 export default function ProfilePage() {
-  const { profile, setProfile, language, t } = useApp();
-  const [name, setName] = useState(profile.name || '');
-  const [role, setRole] = useState(profile.role || 'Student');
-  const [saved, setSaved] = useState(false);
-
-  function submit(e) {
-    e.preventDefault();
-    setProfile({ name: name.trim() || t('header.learner'), role });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 1800);
-  }
-
-  return (
-    <div className="page-stack">
-      <section className="page-intro">
-        <span className="eyebrow">{t('profile.eyebrow')}</span>
-        <h2>{t('profile.title')}</h2>
-      </section>
-      <form className="profile-form result-card" onSubmit={submit}>
-        <div className="profile-large"><UserRound size={32} /></div>
-        <label>
-          {t('profile.displayName')}
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t('profile.namePlaceholder')} />
-        </label>
-        <label>
-          {t('profile.role')}
-          <select value={role} onChange={(e) => setRole(e.target.value)}>
-            {roles.map((value) => <option key={value} value={value}>{roleLabel(value, language)}</option>)}
-          </select>
-        </label>
-        <button className="primary-action" type="submit"><Save size={17} /> {saved ? t('profile.saved') : t('profile.save')}</button>
-      </form>
-    </div>
-  );
+  const { parent, childrenList, activeChild, language, t } = useApp();
+  const { user } = useAuth();
+  return <div className="page-stack family-profile">
+    <section className="page-intro"><h2>{t('flow.accountSummary')}</h2></section>
+    <section className="result-card">
+      <h3>{t('account.parent')}</h3><p>{parent?.name || user?.displayName}</p>
+      {user?.email && <p>{user.email}</p>}
+    </section>
+    <section className="result-card"><h3>{t('account.children')}</h3>
+      <div className="child-summary-list">{childrenList.map((child) => <article className="child-summary-card" key={child.id}>
+        <div className="child-summary-heading"><span className="profile-avatar">{child.name.slice(0, 1)}</span><h4>{child.name}</h4>
+          {child.id === activeChild?.id && <span className="quality-pill tone-good">{t('flow.activeChild')}</span>}
+        </div>
+        <dl>
+          <div><dt>{t('flow.ageRange')}</dt><dd>{child.ageRange ? t('flow.years', { range: child.ageRange }) : t('account.notAvailable')}</dd></div>
+          <div><dt>{t('flow.childLanguage')}</dt><dd>{child.language === 'tamil' ? 'தமிழ்' : child.language === 'sinhala' ? 'සිංහල' : t('account.notAvailable')}</dd></div>
+          {child.createdAt && <div><dt>{t('flow.createdOn')}</dt><dd>{formatDate(child.createdAt, language)}</dd></div>}
+        </dl>
+      </article>)}</div>
+    </section>
+    <SignOutButton />
+  </div>;
 }

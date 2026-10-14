@@ -1,3 +1,5 @@
+import { privacyTranslations } from './privacyTranslations';
+import { accountTranslations } from './accountTranslations';
 export const UI_LANGUAGES = {
   sinhala: { code: 'sinhala', native: 'සිංහල', short: 'සිං' },
   tamil: { code: 'tamil', native: 'தமிழ்', short: 'தமி' },
@@ -38,7 +40,7 @@ const translations = {
 
     // Home
     'home.badge': 'ඉගෙන ගන්න · දියුණු වන්න',
-    'home.title': 'අත්අකුරු පරීක්ෂා කරමු',
+    'home.title': 'අපේ පුංචි භාෂා පන්තිය',
     'home.subtitle': 'ලියන්න, පැහැදිලි ඡායාරූපයක් ගන්න, ඊළඟ පුහුණුවට හිතකාමී උපදෙස් ලබා ගන්න.',
     'home.check': 'පරීක්ෂා කරන්න',
     'home.practice': 'පුහුණුව',
@@ -67,6 +69,21 @@ const translations = {
     'home.teacherReview': 'ගුරු සමාලෝචනය',
     'home.completed': 'සම්පූර්ණයි',
     'home.tryAgainShort': 'නැවත උත්සාහ කරන්න',
+    'home.heroText': 'අද එක පිටුවක් ලියමු, එක වාක්‍යයක් කියවමු.',
+    'home.start': 'අරඹමු',
+    'home.goalToday': 'අද ඉලක්කය',
+    'home.goalDone': 'අද ඉලක්කය සම්පූර්ණයි!',
+    'home.streak': 'දින {count}',
+    'home.thisWeek': 'මේ සතිය',
+    'home.weekDays': 'සඳු,අඟ,බදා,බ්‍රහ,සිකු,සෙන,ඉරි',
+    'home.learn': 'ඉගෙන ගන්න',
+    'home.new': 'අලුත්',
+    'home.accuracyTitle': 'ලිවීමේ නිවැරදි බව',
+    'home.accuracyCorrect': 'නිවැරදියි',
+    'home.descCheck': 'ලියපු පිටුවේ ඡායාරූපයක් ගන්න.',
+    'home.descGrammar': 'වචන සහ වාක්‍ය නිවැරදිද බලමු.',
+    'home.descFluency': 'වාක්‍යයක් හයියෙන් කියවමු.',
+    'home.descReading': 'කියවන විට වරදින තැන් හොයමු.',
     'home.noChecks': 'තවම ලිවීමේ පරීක්ෂණ නැහැ',
     'home.noChecksText': 'ඔබේ මෑත අත්අකුරු ප්‍රතිඵල මෙහි පෙන්වයි.',
     'home.tipTitle': 'අද පුංචි උපදෙස',
@@ -176,6 +193,144 @@ const translations = {
     'results.reasonWord': 'ප්‍රමාණවත් පැහැදිලි ලිවීමේ කලාප හඳුනාගත නොහැකි විය.',
     'results.reasonDefault': 'ඡායාරූපය තවත් පැහැදිලි විය යුතුයි.',
 
+        // =========================================================
+    // NEW RESULTS PAGE — CHILD FEEDBACK / EXPLAINABILITY
+    // =========================================================
+
+    // Child result headings
+    'results.handwritingLevel': 'අත්අකුරු මට්ටම',
+    'results.whatINoticed': 'මම දැක්ක දේ',
+    'results.workOnFirst': 'මුලින් මේ දේවල් ටික පුහුණු වෙමු',
+    'results.tryThis': '💡 මේක කරලා බලමු',
+
+    // Child-friendly quality presentation
+    'results.childVeryGoodTitle': 'සුපිරි! 🌟',
+    'results.childVeryGoodText': 'ඔයාගේ අත්අකුරු ගොඩක් හොඳයි. මෙහෙමම ඉදිරියට යමු!',
+
+    'results.childGoodTitle': 'හොඳ ලිවීමක්! ⭐',
+    'results.childGoodText': 'මේ පිටුව හොඳට ලියලා තියෙනවා. තවත් ලස්සන කරමු.',
+
+    'results.childAverageTitle': 'හොඳින් දියුණු වෙමින්! 🌱',
+    'results.childAverageText': 'ඔයා දියුණු වෙමින් ඉන්නවා. පොඩි අවධානයක් සහිත පුහුණුවක් තවත් උදව් කරයි.',
+
+    'results.childBelowAverageTitle': 'තව ටිකක් පුහුණු වෙමු! ✏️',
+    'results.childBelowAverageText': 'ඔයා ඉගෙන ගනිමින් ඉන්නවා. පොඩි දේවල් කිහිපයක් එකට පුහුණු වෙමු.',
+
+    'results.childPoorTitle': 'එකට පුහුණු වෙමු! 💪',
+    'results.childPoorText': 'පුහුණු කරන්න දේවල් කිහිපයක් තියෙනවා. එකින් එක දියුණු කරමු.',
+
+
+    // Feedback availability
+    'results.feedbackUnavailableTitle': 'විස්තරාත්මක උපදෙස් මේ වෙලාවේ ලබාගන්න බැහැ',
+    'results.feedbackUnavailableText':
+      'අත්අකුරු මට්ටම පරීක්ෂා කළා. නමුත් මේ නියැදිය සඳහා විශ්වාසදායක විස්තරාත්මක පුහුණු උපදෙස් සකස් කිරීමට නොහැකි වුණා.',
+
+    'results.partialFeedbackTitle': 'අපට පැහැදිලිව හඳුනාගත හැකි උපදෙස් මෙන්න',
+    'results.partialFeedbackText':
+      'බොහෝ අත්අකුරු අංග පරීක්ෂා කළා. මුලින් පුහුණු කරන්න වඩාත් ප්‍රයෝජනවත් දේවල් මෙන්න.',
+
+    'results.noIssueTitle': 'හොඳ වැඩක්! 🌟',
+    'results.noIssueText':
+      'පරීක්ෂා කළ හැකි අත්අකුරු අංග වලින් ප්‍රධාන වශයෙන් පුහුණු කළ යුතු දුර්වලතාවක් හමු වුණේ නැහැ.',
+
+
+    // ---------------------------------------------------------
+    // Child-friendly issue descriptions
+    // ---------------------------------------------------------
+
+    'issue.spacing.title': 'සමහර වචන අතර ඉඩ වෙනස්',
+    'issue.spacing.text':
+      'සමහර වචන ළඟින් තියෙනවා, තවත් සමහර වචන ටිකක් ඈතින් තියෙනවා.',
+
+    'issue.word_spacing.title': 'සමහර වචන අතර ඉඩ වෙනස්',
+    'issue.word_spacing.text':
+      'හැම වචනයක් අතරම සමාන පොඩි ඉඩක් තබන්න පුහුණු වෙමු.',
+
+    'issue.character_spacing.title': 'සමහර අකුරු අතර ඉඩ වෙනස්',
+    'issue.character_spacing.text':
+      'සමහර අකුරු එකිනෙකට වැඩිය ළඟ හෝ වැඩිය ඈතින් තියෙනවා.',
+
+    'issue.baseline_alignment.title': 'සමහර වචන පේළියට උඩට හෝ පහළට යනවා',
+    'issue.baseline_alignment.text':
+      'වචන එකම ලියන පේළියේ තබාගෙන ලියන්න පුහුණු වෙමු.',
+
+    'issue.local_baseline_drift.title': 'ලියන පේළිය ටිකක් උඩට හෝ පහළට යනවා',
+    'issue.local_baseline_drift.text':
+      'හැම ලියන පේළියක්ම කෙළින් ගෙන යන්න උත්සාහ කරමු.',
+
+    'issue.size_variation.title': 'සමහර අකුරු ලොකුයි, සමහර අකුරු පොඩියි',
+    'issue.size_variation.text':
+      'සමාන අකුරු සමාන ප්‍රමාණයකින් ලියන්න පුහුණු වෙමු.',
+
+    'issue.character_proportion.title': 'සමහර අකුරු දිගට හෝ පළලට වෙනස්',
+    'issue.character_proportion.text':
+      'සමාන අකුරුවල උස සහ පළල වඩාත් සමබරව තබමු.',
+
+    'issue.curve_smoothness.title': 'සමහර වක්‍ර කොටස් ටිකක් රළුයි',
+    'issue.curve_smoothness.text':
+      'වක්‍ර කොටස් හෙමින් සහ මෘදු ලෙස ලියන්න පුහුණු වෙමු.',
+
+    'issue.loop_roundness.title': 'සමහර වටකුරු කොටස් තවත් මෘදු කළ හැක',
+    'issue.loop_roundness.text':
+      'වට සහ ලූප් කොටස් පැහැදිලිව සහ සමානව ලියන්න පුහුණු වෙමු.',
+
+    'issue.stroke_continuity.title': 'සමහර රේඛා අවසන් වීමට කලින් නවතිනවා',
+    'issue.stroke_continuity.text':
+      'එක් එක් රේඛාව එක මෘදු චලනයකින් සම්පූර්ණ කරන්න පුහුණු වෙමු.',
+
+    'issue.stroke_thickness.title': 'සමහර රේඛා අනෙක් ඒවාට වඩා තදයි',
+    'issue.stroke_thickness.text':
+      'පැන්සලට මෘදු සහ සමාන පීඩනයක් දීලා ලියමු.',
+
+    'issue.density_distribution.title': 'සමහර අකුරු ඇතුළේ කොටස් ටිකක් තදබදයි',
+    'issue.density_distribution.text':
+      'අකුරේ හැම කොටසකටම ප්‍රමාණවත් ඉඩක් දෙමු.',
+
+    'issue.character_shape.title': 'එකම අකුරේ හැඩය ටිකක් වෙනස් වෙනවා',
+    'issue.character_shape.text':
+      'එකම අකුර නැවත ලියන විට සමාන හැඩයක් තබන්න පුහුණු වෙමු.',
+
+    'issue.upper_lower_balance.title': 'අකුරේ උඩ සහ යට කොටස් තවත් සමබර කළ හැක',
+    'issue.upper_lower_balance.text':
+      'ඉහළ සහ පහළ කොටස් වඩාත් සමානව තබන්න පුහුණු වෙමු.',
+
+    'issue.slant.title': 'සමහර අකුරු වෙනස් දිශාවලට නැමෙනවා',
+    'issue.slant.text':
+      'අකුරු සමාන දිශාවකට නැමෙන ලෙස ලියන්න පුහුණු වෙමු.',
+
+    'issue.general.title': 'පුහුණු කරන්න පොඩි දෙයක් තියෙනවා',
+    'issue.general.text':
+      'හෙමින් ලියලා එක පොඩි දියුණුවකට අවධානය දෙමු.',
+
+
+    // ---------------------------------------------------------
+    // Teacher / Research details
+    // ---------------------------------------------------------
+
+    'results.feedbackStatus': 'ප්‍රතිපෝෂණ තත්ත්වය',
+    'results.reliability': 'විශ්වාසනීයතාව',
+    'results.teacherCorrelation': 'ගුරු ඇගයීම සමඟ සම්බන්ධතාව',
+    'results.thresholdSource': 'සීමා අගයේ මූලාශ්‍රය',
+
+    'results.explainabilityDiagnostics': 'පැහැදිලි කිරීමේ පද්ධති පරීක්ෂණ',
+    'results.suppressedFeatures': 'භාවිතයෙන් ඉවත් කළ විශේෂාංග',
+    'results.softWarningFeatures': 'මෘදු අනතුරු ඇඟවීම් සහිත විශේෂාංග',
+    'results.missingFeatures': 'නොමැති විශේෂාංග',
+
+    // Reliability values
+    'reliability.strong': 'ඉතා විශ්වාසනීය',
+    'reliability.moderate': 'මධ්‍යම',
+    'reliability.weak': 'අඩු',
+    'reliability.unknown': 'නොදනී',
+
+    // Feedback status values
+    'feedback.AVAILABLE': 'ලබා ගත හැක',
+    'feedback.PARTIAL': 'අර්ධ වශයෙන් ලබා ගත හැක',
+    'feedback.UNAVAILABLE': 'ලබා ගත නොහැක',
+    'feedback.NOT_RUN': 'ක්‍රියාත්මක කර නැහැ',
+
+    // Threshold source
+    'threshold.teacher_calibrated': 'ගුරු ඇගයීම් මත සකස් කළ',
     // Progress
     'progress.emptyTitle': 'තවම ප්‍රගතියක් නැහැ',
     'progress.emptyText': 'ප්‍රගති ගමන ආරම්භ කිරීමට පළමු අත්අකුරු පරීක්ෂණය සම්පූර්ණ කරන්න.',
@@ -187,8 +342,68 @@ const translations = {
     'progress.best': 'මෙතෙක් හොඳම මට්ටම',
     'progress.completed': 'සම්පූර්ණ පරීක්ෂණ',
     'progress.languages': 'පුහුණු කළ භාෂා',
-    'progress.recentJourney': 'මෑත ගමන',
+    'progress.recentJourney': 'මෑත අත්අකුරු ගමන',
     'progress.lastResults': 'අවසන් අත්අකුරු පරීක්ෂණ සම්පූර්ණ ප්‍රතිඵල {count}',
+    'progress.areasTitle': 'මගේ ඉගෙනුම් ක්ෂේත්‍ර',
+    'progress.periodWeek': 'සතිය',
+    'progress.periodMonth': 'මාසය',
+    'progress.periodAll': 'සියල්ල',
+    'progress.noneInPeriod': 'මේ කාලයේ පරීක්ෂණ නැත',
+    'progress.dayStreak': 'අඛණ්ඩ දින',
+    'progress.thisMonth': 'මේ මාසයේ',
+    'progress.checks': 'පරීක්ෂණ {count}',
+    'progress.lastDone': 'අවසන්: {date}',
+    'progress.notYet': 'තවම නැත',
+    'fl.reportTitle': 'කියවීමේ විශ්ලේෂණ වාර්තාව',
+    'fl.cheer3': 'අති විශිෂ්ටයි!',
+    'fl.cheer2': 'හොඳයි, තව ටිකයි!',
+    'fl.cheer1': 'දිගටම පුහුණු වෙමු!',
+    'fl.coachTitle': 'ඔබේ කියවීම',
+    'fl.focusOn': 'අවධානය යොමු කරමු',
+    'fl.compareTitle': 'කියවූ ආකාරය',
+    'fl.print': 'වාර්තාව මුද්‍රණය',
+    'fl.sentenceCount': 'වාක්‍ය {count}',
+    'pv.qualityTitle': 'අත්අකුරු ගුණාත්මකභාවය',
+    'pv.less': 'අඩු',
+    'pv.more': 'වැඩි',
+    'pv.activities': 'ක්‍රියාකාරකම්',
+    'pv.activitiesTip': 'ඔබ කළ සියලු පරීක්ෂණ ගණන',
+    'pv.writing': 'ලිවීම',
+    'pv.writingTip': 'අවසන් ලිවීමේ පරීක්ෂණයේ නිවැරදි වාක්‍ය ප්‍රතිශතය',
+    'pv.reading': 'කියවීම',
+    'pv.readingTip': 'අවසන් කියවීමේ පරීක්ෂණයේ නිවැරදි බව',
+    'pv.streakTip': 'දිගටම ඉගෙන ගත් දින ගණන',
+    'pv.monthCount': 'මේ මාසයේ {count}',
+    'pv.prev': 'පෙර {value}',
+    'pv.countLabel': 'ක්‍රියාකාරකම් {count}',
+    'pv.skillHistory': 'මෑත පරීක්ෂණවල වැරදි',
+    'pv.practiceNow': 'පුහුණු වෙමු',
+    'pv.tests': 'පරීක්ෂණ',
+    'pv.prevScore': 'පෙර ලකුණ',
+    'pv.change': 'වෙනස',
+    'pv.calendarTitle': 'ඉගෙනුම් දින දර්ශනය',
+    'pv.days7': 'දින 7',
+    'pv.days30': 'දින 30',
+    'pv.achievements': 'ලාංඡන',
+    'pv.unlocked': 'ලැබුණා!',
+    'pv.badgeFirst': 'පළමු පියවර',
+    'pv.badgeFirstTip': 'පළමු පරීක්ෂණය කරන්න',
+    'pv.badgeStreak': 'දින 3 දිගටම',
+    'pv.badgeStreakTip': 'දින 3ක් දිගටම ඉගෙන ගන්න',
+    'pv.badgeTen': 'ක්‍රියාකාරකම් 10',
+    'pv.badgeTenTip': 'පරීක්ෂණ 10ක් කරන්න',
+    'pv.badgeReader': 'කියවීමේ තරුව',
+    'pv.badgeReaderTip': '100% කියවීමක් කරන්න',
+    'pv.badgeWriter': 'වැරදි නැති ලිවීම',
+    'pv.badgeWriterTip': 'වැරදි නැතිව පිටුවක් ලියන්න',
+    'pv.badgeExplorer': 'සියල්ල අත්හදා බැලුවා',
+    'pv.badgeExplorerTip': 'ක්ෂේත්‍ර 4ම උත්සාහ කරන්න',
+    'pv.recommend': 'අද පුහුණුව',
+    'pv.recommendSkill': '"{skill}" ගැන පුහුණු වෙමු',
+    'pv.recommendModule': '"{module}" උත්සාහ කරමු',
+    'progress.wordAccuracy': 'වචන නිවැරදි බව',
+    'progress.readingAccuracy': 'කියවීමේ නිවැරදි බව',
+    'progress.vsPrevious': 'පෙර: {label}',
     'progress.chartNote': 'තීරුවේ උස දුර්වල සිට ඉතා හොඳ දක්වා අත්අකුරු මට්ටම් 5 පෙන්වයි. මෙය 0–100 ලකුණු නොවේ.',
     'progress.recentWriting': 'මෑත සම්පූර්ණ ලිවීම්',
     'progress.noCompletedTitle': 'තවම සම්පූර්ණ ලිවීමේ ප්‍රතිඵල නැහැ',
@@ -231,10 +446,10 @@ const translations = {
     // Profile / not found / logo
     'profile.eyebrow': 'පැතිකඩ',
     'profile.title': 'මගේ පැතිකඩ 🙂',
-    'profile.text': 'WriteBright ඔබව පිළිගන්නා විට භාවිතා කළ යුතු නම තෝරන්න.',
+    'profile.text': 'Bhasha ඔබව පිළිගන්නා විට භාවිතා කළ යුතු නම තෝරන්න.',
     'profile.displayName': 'පෙන්වන නම',
     'profile.namePlaceholder': 'ඉගෙනුම්කරුගේ නම',
-    'profile.role': 'මම WriteBright භාවිතා කරන්නේ',
+    'profile.role': 'මම Bhasha භාවිතා කරන්නේ',
     'profile.saved': 'සුරකින ලදී!',
     'profile.save': 'පැතිකඩ සුරකින්න',
     'notFound.title': 'පිටුව හමු නොවීය',
@@ -371,7 +586,7 @@ const translations = {
 
     // Home
     'home.badge': 'கையெழுத்துப் பயிற்சி',
-    'home.title': 'கையெழுத்தைச் சரிபார்ப்போம்',
+    'home.title': 'எங்கள் சிறிய மொழி வகுப்பு',
     'home.subtitle': 'எழுதி, தெளிவான புகைப்படம் எடுத்து, அடுத்த பயிற்சிக்கான எளிய ஆலோசனைகளைப் பெறுங்கள்.',
     'home.check': 'சரிபார்',
     'home.practice': 'பயிற்சி',
@@ -400,6 +615,21 @@ const translations = {
     'home.teacherReview': 'ஆசிரியர் மதிப்பாய்வு',
     'home.completed': 'முடிந்தது',
     'home.tryAgainShort': 'மீண்டும் முயற்சி',
+    'home.heroText': 'இன்று ஒரு பக்கம் எழுதுவோம், ஒரு வாக்கியம் படிப்போம்.',
+    'home.start': 'தொடங்குவோம்',
+    'home.goalToday': 'இன்றைய இலக்கு',
+    'home.goalDone': 'இன்றைய இலக்கு முடிந்தது!',
+    'home.streak': '{count} நாள்',
+    'home.thisWeek': 'இந்த வாரம்',
+    'home.weekDays': 'திங்,செவ்,புத,வியா,வெள்,சனி,ஞாயி',
+    'home.learn': 'கற்போம்',
+    'home.new': 'புதியது',
+    'home.accuracyTitle': 'எழுத்தின் சரித்தன்மை',
+    'home.accuracyCorrect': 'சரி',
+    'home.descCheck': 'எழுதிய பக்கத்தை புகைப்படம் எடுங்கள்.',
+    'home.descGrammar': 'சொற்களும் வாக்கியங்களும் சரியா என்று பார்ப்போம்.',
+    'home.descFluency': 'ஒரு வாக்கியத்தை சத்தமாக படிப்போம்.',
+    'home.descReading': 'படிக்கும்போது தவறும் இடங்களைக் கண்டுபிடிப்போம்.',
     'home.noChecks': 'இன்னும் எழுத்துச் சரிபார்ப்புகள் இல்லை',
     'home.noChecksText': 'உங்கள் சமீப கையெழுத்துப் பெறுபேறுகள் இங்கே காணப்படும்.',
     'home.tipTitle': 'இன்றைய சிறிய ஆலோசனை',
@@ -509,6 +739,199 @@ const translations = {
     'results.reasonWord': 'போதுமான தெளிவான எழுத்துப் பகுதிகளை கண்டறிய முடியவில்லை.',
     'results.reasonDefault': 'புகைப்படம் இன்னும் தெளிவாக இருக்க வேண்டும்.',
 
+    // =========================================================
+    // NEW RESULTS PAGE — CHILD FEEDBACK / EXPLAINABILITY
+    // =========================================================
+
+    // Child result headings
+    'results.handwritingLevel': 'கையெழுத்து நிலை',
+    'results.whatINoticed': 'நான் கவனித்தது',
+    'results.workOnFirst': 'முதலில் இவற்றைப் பயிற்சி செய்வோம்',
+    'results.tryThis': '💡 இதை முயற்சி செய்வோம்',
+
+    // Child-friendly quality presentation
+    'results.childVeryGoodTitle': 'சூப்பர் ஸ்டார்! 🌟',
+    'results.childVeryGoodText':
+      'உங்கள் கையெழுத்து மிகவும் நன்றாக இருக்கிறது. இதேபோல் தொடருங்கள்!',
+
+    'results.childGoodTitle': 'அருமையான எழுத்து! ⭐',
+    'results.childGoodText':
+      'இந்தப் பக்கத்தை நன்றாக எழுதியுள்ளீர்கள். இன்னும் சிறப்பாக்கலாம்.',
+
+    'results.childAverageTitle': 'நன்றாக முன்னேறுகிறீர்கள்! 🌱',
+    'results.childAverageText':
+      'நீங்கள் முன்னேறுகிறீர்கள். சிறிது கவனமான பயிற்சி இன்னும் உதவும்.',
+
+    'results.childBelowAverageTitle': 'இன்னும் கொஞ்சம் பயிற்சி செய்வோம்! ✏️',
+    'results.childBelowAverageText':
+      'நீங்கள் கற்றுக்கொண்டு இருக்கிறீர்கள். சில சிறிய விஷயங்களை ஒன்றாகப் பயிற்சி செய்வோம்.',
+
+    'results.childPoorTitle': 'ஒன்றாகப் பயிற்சி செய்வோம்! 💪',
+    'results.childPoorText':
+      'பயிற்சி செய்ய சில திறன்கள் உள்ளன. ஒவ்வொன்றாக மேம்படுத்தலாம்.',
+
+
+    // Feedback availability
+    'results.feedbackUnavailableTitle':
+      'விரிவான பயிற்சி குறிப்புகள் இப்போது கிடைக்கவில்லை',
+
+    'results.feedbackUnavailableText':
+      'கையெழுத்து நிலை மதிப்பிடப்பட்டது. ஆனால் இந்த மாதிரிக்கான நம்பகமான விரிவான பயிற்சி குறிப்புகளை உருவாக்க முடியவில்லை.',
+
+    'results.partialFeedbackTitle':
+      'நாங்கள் தெளிவாக கண்ட பயிற்சி குறிப்புகள் இவை',
+
+    'results.partialFeedbackText':
+      'பெரும்பாலான கையெழுத்து பகுதிகளைச் சரிபார்த்தோம். முதலில் பயிற்சி செய்ய மிகவும் பயனுள்ள விஷயங்கள் இவை.',
+
+    'results.noIssueTitle': 'நல்ல வேலை! 🌟',
+
+    'results.noIssueText':
+      'சரிபார்க்க முடிந்த கையெழுத்து அம்சங்களில் முக்கியமாகப் பயிற்சி செய்ய வேண்டிய குறைபாடு எதுவும் கண்டுபிடிக்கப்படவில்லை.',
+
+
+    // ---------------------------------------------------------
+    // Child-friendly issue descriptions
+    // ---------------------------------------------------------
+
+    'issue.spacing.title':
+      'சில சொற்களுக்கு இடையிலான இடைவெளி மாறுகிறது',
+
+    'issue.spacing.text':
+      'சில சொற்கள் அருகிலும் சில சொற்கள் அதிக இடைவெளியிலும் உள்ளன.',
+
+    'issue.word_spacing.title':
+      'சில சொற்களுக்கு இடையிலான இடைவெளி மாறுகிறது',
+
+    'issue.word_spacing.text':
+      'ஒவ்வொரு சொல்லுக்கும் இடையில் ஒரே மாதிரியான சிறிய இடைவெளியை விட்டு எழுதிப் பழகுவோம்.',
+
+    'issue.character_spacing.title':
+      'சில எழுத்துகளுக்கிடையிலான இடைவெளி மாறுகிறது',
+
+    'issue.character_spacing.text':
+      'சில எழுத்துகள் மிகவும் அருகிலும் சில எழுத்துகள் அதிக தூரத்திலும் உள்ளன.',
+
+    'issue.baseline_alignment.title':
+      'சில சொற்கள் வரிக்கு மேலே அல்லது கீழே செல்கின்றன',
+
+    'issue.baseline_alignment.text':
+      'எல்லா சொற்களையும் ஒரே எழுதும் வரியில் வைத்துப் பயிற்சி செய்வோம்.',
+
+    'issue.local_baseline_drift.title':
+      'எழுதும் வரி கொஞ்சம் மேலே அல்லது கீழே செல்கிறது',
+
+    'issue.local_baseline_drift.text':
+      'ஒவ்வொரு எழுதும் வரியையும் நேராகக் கொண்டு செல்ல முயற்சி செய்வோம்.',
+
+    'issue.size_variation.title':
+      'சில எழுத்துகள் பெரியதாகவும் சில சிறியதாகவும் உள்ளன',
+
+    'issue.size_variation.text':
+      'ஒத்த எழுத்துகளை ஒரே அளவில் எழுதப் பயிற்சி செய்வோம்.',
+
+    'issue.character_proportion.title':
+      'சில எழுத்துகள் நீளமாக அல்லது அகலமாக மாறுகின்றன',
+
+    'issue.character_proportion.text':
+      'ஒத்த எழுத்துகளின் உயரத்தையும் அகலத்தையும் சமமாக வைத்துப் பயிற்சி செய்வோம்.',
+
+    'issue.curve_smoothness.title':
+      'சில வளைந்த பகுதிகள் கொஞ்சம் கரடுமுரடாக உள்ளன',
+
+    'issue.curve_smoothness.text':
+      'வளைந்த பகுதிகளை மெதுவாகவும் மென்மையாகவும் எழுதிப் பழகுவோம்.',
+
+    'issue.loop_roundness.title':
+      'சில வட்ட வடிவங்களை இன்னும் மென்மையாக்கலாம்',
+
+    'issue.loop_roundness.text':
+      'வட்ட மற்றும் வளைய பகுதிகளை தெளிவாகவும் சீராகவும் எழுதிப் பழகுவோம்.',
+
+    'issue.stroke_continuity.title':
+      'சில கோடுகள் முடிவதற்கு முன் நிற்கின்றன',
+
+    'issue.stroke_continuity.text':
+      'ஒவ்வொரு கோட்டையும் ஒரே மென்மையான இயக்கத்தில் முடிக்கப் பயிற்சி செய்வோம்.',
+
+    'issue.stroke_thickness.title':
+      'சில கோடுகள் மற்றவற்றை விட தடிமனாக உள்ளன',
+
+    'issue.stroke_thickness.text':
+      'பென்சிலில் மென்மையான மற்றும் சீரான அழுத்தத்தைப் பயன்படுத்துவோம்.',
+
+    'issue.density_distribution.title':
+      'சில எழுத்துகளின் உள்ளே பகுதிகள் நெருக்கமாக உள்ளன',
+
+    'issue.density_distribution.text':
+      'எழுத்தின் ஒவ்வொரு பகுதிக்கும் போதுமான இடம் கொடுப்போம்.',
+
+    'issue.character_shape.title':
+      'அதே எழுத்தின் வடிவம் கொஞ்சம் மாறுகிறது',
+
+    'issue.character_shape.text':
+      'அதே எழுத்தை ஒவ்வொரு முறையும் ஒரே மாதிரி எழுதிப் பழகுவோம்.',
+
+    'issue.upper_lower_balance.title':
+      'சில எழுத்துகளின் மேல் மற்றும் கீழ் பகுதிகளை இன்னும் சமப்படுத்தலாம்',
+
+    'issue.upper_lower_balance.text':
+      'மேல் மற்றும் கீழ் பகுதிகளை சமமாக வைத்துப் பயிற்சி செய்வோம்.',
+
+    'issue.slant.title':
+      'சில எழுத்துகள் வேறு திசைகளில் சாய்கின்றன',
+
+    'issue.slant.text':
+      'எழுத்துகளை ஒரே திசையில் சாய்த்துப் பழகுவோம்.',
+
+    'issue.general.title':
+      'பயிற்சி செய்ய ஒரு சிறிய விஷயம் உள்ளது',
+
+    'issue.general.text':
+      'மெதுவாக எழுதுங்கள்; ஒரு சிறிய முன்னேற்றத்தில் கவனம் செலுத்துங்கள்.',
+
+
+    // ---------------------------------------------------------
+    // Teacher / Research details
+    // ---------------------------------------------------------
+
+    'results.feedbackStatus': 'பின்னூட்ட நிலை',
+
+    'results.reliability': 'நம்பகத்தன்மை',
+
+    'results.teacherCorrelation':
+      'ஆசிரியர் மதிப்பீட்டுடனான தொடர்பு',
+
+    'results.thresholdSource':
+      'வரம்பு மதிப்பின் மூலம்',
+
+    'results.explainabilityDiagnostics':
+      'விளக்கத்திறன் கண்டறிதல் விவரங்கள்',
+
+    'results.suppressedFeatures':
+      'பயன்பாட்டிலிருந்து நீக்கப்பட்ட அம்சங்கள்',
+
+    'results.softWarningFeatures':
+      'மென்மையான எச்சரிக்கை கொண்ட அம்சங்கள்',
+
+    'results.missingFeatures':
+      'கிடைக்காத அம்சங்கள்',
+
+    // Reliability values
+    'reliability.strong': 'உயர் நம்பகத்தன்மை',
+    'reliability.moderate': 'மிதமான நம்பகத்தன்மை',
+    'reliability.weak': 'குறைந்த நம்பகத்தன்மை',
+    'reliability.unknown': 'தெரியவில்லை',
+
+    // Feedback status values
+    'feedback.AVAILABLE': 'கிடைக்கிறது',
+    'feedback.PARTIAL': 'பகுதியளவில் கிடைக்கிறது',
+    'feedback.UNAVAILABLE': 'கிடைக்கவில்லை',
+    'feedback.NOT_RUN': 'இயக்கப்படவில்லை',
+
+    // Threshold source
+    'threshold.teacher_calibrated':
+      'ஆசிரியர் மதிப்பீட்டின் அடிப்படையில் அளவமைக்கப்பட்டது',
     // Progress
     'progress.emptyTitle': 'இன்னும் முன்னேற்றம் இல்லை',
     'progress.emptyText': 'உங்கள் முன்னேற்றப் பயணத்தைத் தொடங்க முதல் கையெழுத்துச் சரிபார்ப்பை முடிக்கவும்.',
@@ -522,6 +945,66 @@ const translations = {
     'progress.languages': 'பயிற்சி செய்த மொழிகள்',
     'progress.recentJourney': 'சமீபப் பயணம்',
     'progress.lastResults': 'கடைசி {count} முடிக்கப்பட்ட பெறுபேறுகள்',
+    'progress.areasTitle': 'என் கற்றல் பகுதிகள்',
+    'progress.periodWeek': 'வாரம்',
+    'progress.periodMonth': 'மாதம்',
+    'progress.periodAll': 'அனைத்தும்',
+    'progress.noneInPeriod': 'இந்தக் காலத்தில் சரிபார்ப்புகள் இல்லை',
+    'progress.dayStreak': 'தொடர் நாட்கள்',
+    'progress.thisMonth': 'இந்த மாதம்',
+    'progress.checks': '{count} சரிபார்ப்புகள்',
+    'progress.lastDone': 'கடைசி: {date}',
+    'progress.notYet': 'இன்னும் இல்லை',
+    'fl.reportTitle': 'வாசிப்பு பகுப்பாய்வு அறிக்கை',
+    'fl.cheer3': 'அருமை!',
+    'fl.cheer2': 'நன்று, இன்னும் கொஞ்சம்!',
+    'fl.cheer1': 'தொடர்ந்து பயிற்சி செய்வோம்!',
+    'fl.coachTitle': 'உன் வாசிப்பு',
+    'fl.focusOn': 'கவனம் செலுத்துவோம்',
+    'fl.compareTitle': 'வாசித்த விதம்',
+    'fl.print': 'அறிக்கையை அச்சிடு',
+    'fl.sentenceCount': '{count} வாக்கியங்கள்',
+    'pv.qualityTitle': 'கையெழுத்துத் தரம்',
+    'pv.less': 'குறைவு',
+    'pv.more': 'அதிகம்',
+    'pv.activities': 'செயல்பாடுகள்',
+    'pv.activitiesTip': 'நீ செய்த எல்லாச் சோதனைகளின் எண்ணிக்கை',
+    'pv.writing': 'எழுத்து',
+    'pv.writingTip': 'கடைசி எழுத்துச் சோதனையில் சரியான வாக்கியங்களின் சதவீதம்',
+    'pv.reading': 'வாசிப்பு',
+    'pv.readingTip': 'கடைசி வாசிப்புச் சோதனையின் சரித்தன்மை',
+    'pv.streakTip': 'தொடர்ந்து கற்ற நாட்களின் எண்ணிக்கை',
+    'pv.monthCount': 'இந்த மாதம் {count}',
+    'pv.prev': 'முந்தையது {value}',
+    'pv.countLabel': '{count} செயல்பாடுகள்',
+    'pv.skillHistory': 'சமீபத்திய சோதனைகளில் பிழைகள்',
+    'pv.practiceNow': 'பயிற்சி செய்வோம்',
+    'pv.tests': 'சோதனைகள்',
+    'pv.prevScore': 'முந்தைய மதிப்பெண்',
+    'pv.change': 'மாற்றம்',
+    'pv.calendarTitle': 'கற்றல் நாட்காட்டி',
+    'pv.days7': '7 நாட்கள்',
+    'pv.days30': '30 நாட்கள்',
+    'pv.achievements': 'பதக்கங்கள்',
+    'pv.unlocked': 'கிடைத்தது!',
+    'pv.badgeFirst': 'முதல் அடி',
+    'pv.badgeFirstTip': 'முதல் சோதனையைச் செய்',
+    'pv.badgeStreak': '3 நாள் தொடர்',
+    'pv.badgeStreakTip': '3 நாட்கள் தொடர்ந்து கற்றுக்கொள்',
+    'pv.badgeTen': '10 செயல்பாடுகள்',
+    'pv.badgeTenTip': '10 சோதனைகளைச் செய்',
+    'pv.badgeReader': 'வாசிப்பு நட்சத்திரம்',
+    'pv.badgeReaderTip': '100% வாசிப்பைச் செய்',
+    'pv.badgeWriter': 'பிழையில்லா எழுத்து',
+    'pv.badgeWriterTip': 'பிழையில்லாமல் ஒரு பக்கம் எழுது',
+    'pv.badgeExplorer': 'எல்லாம் முயன்றாய்',
+    'pv.badgeExplorerTip': '4 பகுதிகளையும் முயற்சி செய்',
+    'pv.recommend': 'இன்றைய பயிற்சி',
+    'pv.recommendSkill': '"{skill}" பற்றிப் பயிற்சி செய்வோம்',
+    'pv.recommendModule': '"{module}" முயற்சி செய்வோம்',
+    'progress.wordAccuracy': 'சொல் சரித்தன்மை',
+    'progress.readingAccuracy': 'வாசிப்பு சரித்தன்மை',
+    'progress.vsPrevious': 'முந்தையது: {label}',
     'progress.chartNote': 'பட்டையின் உயரம் குறைவு முதல் மிக நன்று வரை 5 கையெழுத்து நிலைகளை காட்டுகிறது. இது 0–100 மதிப்பெண் அல்ல.',
     'progress.recentWriting': 'சமீப முடிக்கப்பட்ட எழுத்துகள்',
     'progress.noCompletedTitle': 'இன்னும் முடிக்கப்பட்ட எழுத்துப் பெறுபேறுகள் இல்லை',
@@ -564,10 +1047,10 @@ const translations = {
     // Profile / not found / logo
     'profile.eyebrow': 'சுயவிவரம்',
     'profile.title': 'என் சுயவிவரம் 🙂',
-    'profile.text': 'WriteBright உங்களை வரவேற்கும்போது பயன்படுத்த வேண்டிய பெயரைத் தேர்வு செய்யுங்கள்.',
+    'profile.text': 'Bhasha உங்களை வரவேற்கும்போது பயன்படுத்த வேண்டிய பெயரைத் தேர்வு செய்யுங்கள்.',
     'profile.displayName': 'காட்சிப் பெயர்',
     'profile.namePlaceholder': 'கற்றுக்கொள்பவரின் பெயர்',
-    'profile.role': 'நான் WriteBright ஐ பயன்படுத்துவது',
+    'profile.role': 'நான் Bhasha-ஐ பயன்படுத்துவது',
     'profile.saved': 'சேமிக்கப்பட்டது!',
     'profile.save': 'சுயவிவரத்தைச் சேமி',
     'notFound.title': 'பக்கம் கிடைக்கவில்லை',
@@ -673,7 +1156,7 @@ const translations = {
 
 export function translate(language, key, vars = {}) {
   const lang = language === 'tamil' ? 'tamil' : 'sinhala';
-  const template = translations[lang]?.[key] ?? translations.sinhala?.[key] ?? key;
+  const template = privacyTranslations[lang]?.[key] ?? accountTranslations[lang]?.[key] ?? translations[lang]?.[key] ?? translations.sinhala?.[key] ?? key;
   return Object.entries(vars).reduce(
     (text, [name, value]) => text.replaceAll(`{${name}}`, String(value)),
     String(template),
