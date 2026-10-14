@@ -986,6 +986,15 @@ def analyze_page(image_path: str, language: str = "si") -> dict:
     # dashboard's rendering code needs no per-language branching.
     dashboard = process_htr_lines(lines)
 
+    failed = [s for s in dashboard.get('sentences', [])
+              if str(s.get('grammar_note', '')).startswith('grammar check ')]
+    dashboard['grammar_unavailable'] = bool(failed)
+    if failed:
+        print("  ⚠️  Grammar (Gemini) step unavailable -- returning spelling results only")
+        for s in failed:
+            s['grammar_note_technical'] = s['grammar_note']
+            s['grammar_note'] = ''
+
     print(f"  Done. Accuracy: {dashboard['accuracy_score']}%  "
           f"Sentences: {len(dashboard.get('sentences', []))}")
     return dashboard
