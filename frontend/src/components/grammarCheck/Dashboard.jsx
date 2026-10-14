@@ -105,6 +105,14 @@ export default function Dashboard({ data, language, onNewPage, onNewSession, cel
         </div>
       </section>
 
+      {data.grammar_unavailable && (
+        <section className="gc-notice" role="status">
+          <AlertTriangle size={20} />
+          <span>{T.grammarUnavailable}</span>
+          {onNewPage && <button type="button" className="gc-ghost" onClick={onNewPage}><RotateCcw size={15} />{T.btnNewPage.replace(/^\+\s*/, '')}</button>}
+        </section>
+      )}
+
       {/* Coach card for the most common mistake */}
       {dominant !== 'correct' && (feedback.si || dominantMeta) && (
         <section className="gc-coach" style={{ '--c': dominantMeta.color }}>
