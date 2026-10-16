@@ -308,7 +308,7 @@ For each sentence that DID change, give the explanation TWICE, in two steps:
         This way the child learns the pattern, not just the answer.
       - Be positive and encouraging. Never say "you can't", "wrong" or
         "not allowed"; prefer friendly words such as "ගැළපෙන්නේ" or
-        "හරියටම ගැළපෙනවා". You may start with a short word of praise.
+        "හරියටම ගැළපෙනවා".
 
 Return ONLY valid JSON, no markdown:
 {{
