@@ -1086,8 +1086,6 @@ export default function ResultsPage() {
           <ResultPhoto src={resultImage} caption={resultImageCaption} t={t} />
         )}
         </div>
-        )}
-
       </section>
 
 
