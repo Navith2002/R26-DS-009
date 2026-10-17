@@ -11,7 +11,7 @@ import time
 from typing import Optional
 
 logger = logging.getLogger(__name__)
-DEFAULT_MODEL = "gemini-flash-lite-latesth"
+DEFAULT_MODEL = "gemini-flash-lite-latest"
 TRANSIENT_CODES = {429, 500, 502, 503, 504}
 # Without a deadline a stalled Gemini request hangs the check forever.
 REQUEST_TIMEOUT_MS = int(os.environ.get("GEMINI_TIMEOUT_MS", "60000"))

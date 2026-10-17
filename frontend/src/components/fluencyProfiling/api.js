@@ -50,11 +50,12 @@ function toWavNamedFile(audioBlob) {
   })
 }
 
-export async function submitAssessment({ audioBlob, sentenceId, studentId }) {
+export async function submitAssessment({ audioBlob, sentenceId, studentId, lang }) {
   const form = new FormData()
   form.append('audio', toWavNamedFile(audioBlob))
   form.append('sentence_id', sentenceId)
   form.append('student_id', studentId || '')
+  form.append('lang', lang || 'si')
 
   const res = await fetch(`${BASE_URL}/assess`, {
     method: 'POST',
@@ -63,11 +64,12 @@ export async function submitAssessment({ audioBlob, sentenceId, studentId }) {
   return handleResponse(res)
 }
 
-export async function submitCustomAssessment({ audioBlob, groundTruth, studentId }) {
+export async function submitCustomAssessment({ audioBlob, groundTruth, studentId, lang }) {
   const form = new FormData()
   form.append('audio', toWavNamedFile(audioBlob))
   form.append('ground_truth', groundTruth)
   form.append('student_id', studentId || '')
+  form.append('lang', lang || 'si')
 
   const res = await fetch(`${BASE_URL}/assess/custom`, {
     method: 'POST',
