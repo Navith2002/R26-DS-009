@@ -39,6 +39,18 @@ export function formatDate(dateValue, language = 'sinhala') {
   }).format(date);
 }
 
+// Plain numeric "YYYY.MM.DD, HH.MM" timestamp (no locale month names).
+export function formatDateNumeric(dateValue) {
+  const date = dateValue ? new Date(dateValue) : new Date();
+  const pad = (value) => String(value).padStart(2, '0');
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  return `${year}.${month}.${day}, ${hours}.${minutes}`;
+}
+
 export function stageStatus(result) {
   return result?.input_validation?.status || result?.analysis_status || 'Unknown';
 }

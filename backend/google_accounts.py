@@ -169,7 +169,10 @@ class ChildProfile(NamedProfile):
 
 
 class HistoryRecord(BaseModel):
-    kind: Literal["handwriting", "grammar", "fluency", "reading"]
+    # "fluencyPlan" is the fluency-profiling component's own practice-plan
+    # record (see frontend/src/context/AppContext.jsx's createFluencyPlan) --
+    # additive only, the other 4 kinds are unchanged.
+    kind: Literal["handwriting", "grammar", "fluency", "reading", "fluencyPlan"]
     createdAt: str = Field(min_length=1, max_length=40)
     payload: str = Field(max_length=800000)
 

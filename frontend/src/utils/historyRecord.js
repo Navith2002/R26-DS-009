@@ -23,5 +23,10 @@ export function partitionHistory(records) {
     grammarRuns: sorted.filter((item) => item.kind === 'grammar').reverse(),
     fluencyRuns: sorted.filter((item) => item.kind === 'fluency').reverse(),
     readingRuns: sorted.filter((item) => item.kind === 'reading'),
+    // "කියවුම් පුහුණුව" practice plans -- a frozen set of 5 recommended
+    // activities created from one fluency assessment's recommendations
+    // (see AppContext.jsx's createFluencyPlan). Separate `kind` so this
+    // never mixes into the other 3 components' lists above.
+    fluencyPlans: sorted.filter((item) => item.kind === 'fluencyPlan').reverse(),
   };
 }

@@ -3,16 +3,16 @@ import { CalendarDays, Mic, Printer, RotateCcw, Star, UserRound } from 'lucide-r
 import ProfileSummary from './Profilesummary'
 import { useLanguage } from '../../context/FluencyLanguageContext'
 import { useApp } from '../../context/useApp'
-import { formatDate } from '../../utils/format'
+import { formatDateNumeric } from '../../utils/format'
 
 const RING = 2 * Math.PI * 52
 const STARS = { Fluent: 3, Moderate: 2, Struggling: 1 }
 
 // Fluency report: same exercise-book report card as the grammar check
 // (.gc-hero in bhasha.css), then the reading profile details.
-export default function ResultsStage({ result, audioUrl, onRecordAnother, onBackToDashboard, when }) {
+export default function ResultsStage({ result, audioUrl, onRecordAnother, onBackToDashboard, when, onStartPractice }) {
   const { t, td } = useLanguage()
-  const { profile, language, t: appT } = useApp()
+  const { profile, t: appT } = useApp()
   const accuracy = result.wer >= 0 ? Math.round(Math.max(0, 1 - result.wer) * 100) : 0
   const stars = STARS[result.fluency_label] || 1
 
@@ -41,7 +41,7 @@ export default function ResultsStage({ result, audioUrl, onRecordAnother, onBack
           <span className="gc-hero-meta">
             <span className="fl-level-pill"><Mic size={15} />{td(`profile.fluencyLabel.${result.fluency_label}`, t('profile.keepPractising'))}</span>
             {profile?.name && <span><UserRound size={15} />{profile.name}</span>}
-            <span><CalendarDays size={15} />{formatDate(when || new Date(), language)}</span>
+            <span><CalendarDays size={15} />{formatDateNumeric(when || new Date())}</span>
           </span>
         </div>
         <div className="gc-hero-actions">
@@ -51,7 +51,7 @@ export default function ResultsStage({ result, audioUrl, onRecordAnother, onBack
         </div>
       </section>
 
-      <ProfileSummary result={result} audioUrl={audioUrl} />
+      <ProfileSummary result={result} audioUrl={audioUrl} onStartPractice={onStartPractice} />
     </div>
   )
 }
