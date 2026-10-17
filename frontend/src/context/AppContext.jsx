@@ -24,7 +24,7 @@ export function AppProvider({ children }) {
   const scopeRef = useRef(scope);
   scopeRef.current = scope;
   const activeRecords = recordState?.scope === scope ? recordState : null;
-  const { history, grammarRuns, fluencyRuns, readingRuns } = partitionHistory(activeRecords?.items || []);
+  const { history, grammarRuns, fluencyRuns, readingRuns, fluencyPlans } = partitionHistory(activeRecords?.items || []);
   const t = (key, vars) => translate(language, key, vars);
 
   useEffect(() => {
@@ -124,9 +124,23 @@ export function AppProvider({ children }) {
       ...summarizeRun(result),
     });
   }
-  async function registerFluencyRun(result, studentId, runLanguage) {
+  async function registerFluencyRun(result, studentId, runLanguage, planMeta) {
     return persist('fluency', {
       createdAt: new Date().toISOString(), language: runLanguage, result,
+      // planMeta ties this run back to a "කියවුම් පුහුණුව" practice plan
+      // (see createFluencyPlan below) -- omitted entirely for an ordinary
+      // assessment, so existing callers/shapes are unaffected.
+      ...(planMeta ? { planId: planMeta.planId, planIndex: planMeta.planIndex } : {}),
+    });
+  }
+  // Freezes one assessment's 5 recommendations into an ordered practice
+  // plan the student works through on the "කියවුම් පුහුණුව" page. Stored
+  // as its own history `kind` so it never appears in fluencyRuns/history
+  // and can't affect the other 3 components' lists.
+  async function createFluencyPlan(activities, runLanguage, sourceRunId) {
+    return persist('fluencyPlan', {
+      createdAt: new Date().toISOString(), language: runLanguage, activities,
+      sourceRunId: sourceRunId || null,
     });
   }
   async function registerReadingRun(result, runLanguage) {
@@ -157,11 +171,11 @@ export function AppProvider({ children }) {
     familyError: currentFamily?.error,
     retryFamily: () => setRetry((count) => count + 1),
     scope, language, setLanguage, t,
-    history, grammarRuns, fluencyRuns, readingRuns,
+    history, grammarRuns, fluencyRuns, readingRuns, fluencyPlans,
     historyLoading: Boolean(scope && (!activeRecords || activeRecords.loading)),
     historyError: activeRecords?.error,
     clearHistory, deleteHistoryEntry,
-    registerAnalysis, registerGrammarRun, registerFluencyRun, registerReadingRun,
+    registerAnalysis, registerGrammarRun, registerFluencyRun, registerReadingRun, createFluencyPlan,
     latestResult: latest?.scope === scope ? latest.result : null,
     setLatestResult: (result) => setLatest({ scope, result }),
     latestPreview: preview?.scope === scope ? preview.value : null,

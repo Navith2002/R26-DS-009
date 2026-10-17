@@ -1312,8 +1312,6 @@ input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
 /* Report */
 .app-shell .fl .gc-gauge .value { stroke: var(--fl); }
 .fl-level-pill { padding: 2px 12px; border-radius: 999px; background: var(--fl-t); color: var(--fl-d) !important; font-weight: 700; }
-.fl-weak { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; }
-.fl-weak-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; background: #fdeceb; color: #b42318; font-weight: 600; }
 .fl-metrics { display: flex; flex-wrap: wrap; gap: 8px; }
 .fl-metrics span { padding: 4px 12px; border-radius: 999px; background: #f6efe2; color: var(--ink-muted); }
 .fl-metrics b { color: var(--ink); font-weight: 700; }
@@ -1332,11 +1330,10 @@ input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
 .fl-skill-track { height: 10px; border-radius: 99px; background: #f3ece0; overflow: hidden; }
 .fl-skill-track i { display: block; height: 100%; border-radius: 99px; background: var(--fl); transform-origin: left; animation: pv-grow-x .9s cubic-bezier(.2, .8, .2, 1) both; }
 .fl-skill-value { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
-.fl-skill.weak .fl-skill-name, .fl-skill.weak .fl-skill-value { color: #b42318; }
-.fl-skill.weak .fl-skill-track i { background: #d64933; }
 .fl-recs { display: flex; flex-direction: column; gap: 10px; }
-/* One activity per line: level | name + description | skill */
-.fl-rec { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'level name skill' 'level desc skill'; align-items: center; column-gap: 16px; row-gap: 2px; padding: 12px 16px; border-radius: 14px; background: #fffaf2; border: 1px solid #f3e6cf; transition: transform .15s; }
+/* One activity per line: level | name + description | skill, with the
+   practice sentence spanning the full width underneath. */
+.fl-rec { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'level name skill' 'level desc skill' 'sentence sentence sentence'; align-items: center; column-gap: 16px; row-gap: 2px; padding: 12px 16px; border-radius: 14px; background: #fffaf2; border: 1px solid #f3e6cf; transition: transform .15s; }
 .fl-rec:hover { transform: translateX(3px); }
 .fl-rec-top { display: contents; }
 .fl-rec-top .gc-muted { grid-area: skill; white-space: nowrap; }
@@ -1344,14 +1341,26 @@ input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
 .fl-rec > .gc-muted { grid-area: desc; }
 .fl-rec-level { grid-area: level; align-self: center; padding: 2px 10px; border-radius: 999px; background: var(--fl); color: #fff; font-weight: 600; white-space: nowrap; }
 .fl-rec strong { font-weight: 700; color: var(--ink); }
+.fl-rec-sentence { grid-area: sentence; margin-top: 8px; padding: 10px 14px; border-radius: 10px; background: #fff; border: 1px solid #f3e6cf; color: var(--ink); font-weight: 600; }
+.fl-feedback { margin-top: 6px; color: var(--ink); }
+/* "කියවුම් පුහුණුව" (reading practice) -- extra action button on a
+   recommendation card. Not part of the .fl-rec grid-template-areas
+   above, so it auto-places into a new implicit row and just needs to
+   span the full card width. */
+.fl-rec-practice-btn { grid-column: 1 / -1; margin-top: 10px; justify-self: start; }
+
+/* "කියවුම් පුහුණුව" plan list/detail pages -- reuse .history-cards/
+   .gc-card layout, just the extra bits those pages need. */
+.fl-plan-progress { font-weight: 600; color: var(--ink-muted); }
+.fl-plan-activity-status { margin-left: auto; }
 
 @media (max-width: 900px) {
   .fl-options, .fl-compare-grid { grid-template-columns: 1fr; }
-  .fl-rec { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'level' 'name' 'desc' 'skill'; justify-items: start; }
+  .fl-rec { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'level' 'name' 'desc' 'skill' 'sentence'; justify-items: start; }
   .fl-skill { grid-template-columns: minmax(0, 1fr) minmax(80px, 1fr) 48px; }
 }
 @media print {
-  .fl-recorder, .fl-back { display: none !important; }
+  .fl-recorder, .fl-back, .fl-rec-practice-btn { display: none !important; }
 }
 
 /* ============================================================

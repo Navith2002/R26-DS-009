@@ -1,4 +1,4 @@
-import { ArrowDown, BookOpenCheck, Ear, Lightbulb, Star } from 'lucide-react'
+import { BookOpenCheck, Ear, Lightbulb, Star } from 'lucide-react'
 import { useApp } from '../../context/useApp'
 import { localizedActivity } from '../../i18n/fluencyActivities'
 import { wordDiff } from '../../utils/wordDiff'
@@ -10,6 +10,7 @@ const PROFILE_NAMES = {
   'Accurate & Slow Reader & Hesitant': 'account.slowReader',
   'Moderate Accuracy': 'account.moderateReader',
   'Moderate Accuracy & Slow Reader & Hesitant': 'account.moderateSlowReader',
+  'Needs Accuracy': 'account.needsAccuracyReader',
 }
 const LEVELS = { Beginner: 'account.beginner', Intermediate: 'account.intermediate', Advanced: 'account.advanced' }
 const SKILLS = { Accuracy: 'account.accuracy', Fluency: 'account.fluency', Hesitation: 'account.hesitation', 'Sentence Length': 'account.sentenceLength' }
@@ -17,14 +18,30 @@ const TOKEN_CLASS = { wrong: 'gc-word wrong', insertion: 'gc-word wrong', deleti
 
 // Body of the fluency report: reader profile coach card, what was read vs
 // heard, the 4-skill reading profile and suggested activities.
-export default function ProfileSummary({ result, audioUrl }) {
+//
+// hideRecommendations / onStartPractice are only used by the
+// "කියවුම් පුහුණුව" (reading practice) flow (FluencyPage.jsx,
+// ReadingPracticePage*.jsx): hideRecommendations drops the whole
+// suggested-activities section once the student is already working
+// through a frozen practice plan, and onStartPractice -- when passed --
+// adds a per-activity button that turns a fresh assessment's
+// recommendations into a plan. Both default to off, so every other
+// caller (FluencyResultPage.jsx's history view, plain ResultsStage)
+// renders exactly as before.
+export default function ProfileSummary({ result, audioUrl, hideRecommendations = false, onStartPractice = null }) {
   const { t, td } = useLanguage()
   const { language, t: appT } = useApp()
-  const weakest = result.weakest || []
   const hasGroundTruth = Boolean(result.ground_truth)
   const tokens = hasGroundTruth ? wordDiff(result.ground_truth, result.transcript) : []
   const formatDim = (key) => td(`profile.dims.${key}`, appT('account.fluency'))
   const pct = (value) => (value >= 0 ? `${(value * 100).toFixed(1)}%` : appT('account.notAvailable'))
+  // profile_desc_key is the backend's accuracy-gated key (see
+  // resolve_profile_desc_key in backend/fluency_profiling/main.py) -- it
+  // overrides the raw RF cluster name (profile_name) whenever accuracy is
+  // too low for that cluster's usual reassuring blurb to make sense next
+  // to the fluency_label badge above. Falls back to profile_name for
+  // older saved profiles that predate this field.
+  const descKey = result.profile_desc_key || result.profile_name
 
   return (
     <>
@@ -32,13 +49,10 @@ export default function ProfileSummary({ result, audioUrl }) {
         <span className="gc-coach-icon"><Lightbulb size={22} /></span>
         <span className="gc-coach-body">
           <small>{appT('fl.coachTitle')}</small>
-          <strong>{appT(PROFILE_NAMES[result.profile_name] || 'account.fluency')}</strong>
-          <span className="gc-coach-tip">{td(`profile.descs.${result.profile_name}`, t('profile.keepPractising'))}</span>
-          {weakest.length > 0 && (
-            <span className="fl-weak">
-              <span className="gc-muted">{appT('fl.focusOn')}:</span>
-              {weakest.map((dim) => <span key={dim} className="fl-weak-chip"><ArrowDown size={14} />{formatDim(dim)}</span>)}
-            </span>
+          <strong>{appT(PROFILE_NAMES[descKey] || 'account.fluency')}</strong>
+          <span className="gc-coach-tip">{td(`profile.descs.${descKey}`, t('profile.keepPractising'))}</span>
+          {result.feedback_text && (
+            <span className="fl-feedback">{result.feedback_text}</span>
           )}
         </span>
       </section>
@@ -83,9 +97,8 @@ export default function ProfileSummary({ result, audioUrl }) {
         <section className="gc-card fl-skills">
           <header className="gc-card-head"><h3>{t('profile.readingProfile')}</h3></header>
           {Object.entries(result.skill_4d || {}).map(([key, value]) => {
-            const weak = weakest.includes(key)
             return (
-              <div className={`fl-skill ${weak ? 'weak' : ''}`} key={key}>
+              <div className="fl-skill" key={key}>
                 <span className="fl-skill-name">{formatDim(key)}</span>
                 <span className="fl-skill-track"><i style={{ width: `${Math.min(Math.max(value, 0), 1) * 100}%` }} /></span>
                 <span className="fl-skill-value">{value.toFixed(2)}</span>
@@ -94,7 +107,7 @@ export default function ProfileSummary({ result, audioUrl }) {
           })}
         </section>
 
-        {result.recommendations?.length > 0 && (
+        {!hideRecommendations && result.recommendations?.length > 0 && (
           <section className="gc-card fl-recs">
             <header className="gc-card-head"><h3><BookOpenCheck size={20} />{t('profile.suggestedActivities')}</h3></header>
             {result.recommendations.map((act) => {
@@ -106,7 +119,15 @@ export default function ProfileSummary({ result, audioUrl }) {
                     <span className="gc-muted">{appT(SKILLS[act.target_skill] || 'account.fluency')}</span>
                   </span>
                   <strong>{activity.name}</strong>
-                  <span className="gc-muted">{activity.description}</span>
+                  <span className="gc-muted">{act.rationale || activity.description}</span>
+                  {act.practice_sentence && (
+                    <span className="fl-rec-sentence">{act.practice_sentence}</span>
+                  )}
+                  {onStartPractice && (
+                    <button type="button" className="chunky-btn orange fl-rec-practice-btn" onClick={onStartPractice}>
+                      {appT('fl.startPractice')}
+                    </button>
+                  )}
                 </article>
               )
             })}

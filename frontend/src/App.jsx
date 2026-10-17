@@ -18,6 +18,10 @@ import GrammarResultPage from './pages/GrammarResultPage';
 import FluencyPage from './pages/FluencyPage';
 import FluencyResultPage from './pages/FluencyResultPage';
 import ReadingErrorPage from './pages/ReadingErrorPage';
+import ReadingPracticePage from './pages/ReadingPracticePage';
+import ReadingPracticePlanPage from './pages/ReadingPracticePlanPage';
+import ReadingPracticeActivityPage from './pages/ReadingPracticeActivityPage';
+import ReadingPracticeSummaryPage from './pages/ReadingPracticeSummaryPage';
 
 export default function App() {
   const location = useLocation();
@@ -44,6 +48,10 @@ export default function App() {
         <Route path="/grammar-results/:id" element={<GrammarResultPage />} />
         <Route path="/fluency" element={<FluencyPage />} />
         <Route path="/fluency-results/:id" element={<FluencyResultPage />} />
+        <Route path="/fluency-practice" element={<ReadingPracticePage />} />
+        <Route path="/fluency-practice/:planId" element={<ReadingPracticePlanPage />} />
+        <Route path="/fluency-practice/:planId/activity/:index" element={<ReadingPracticeActivityPage />} />
+        <Route path="/fluency-practice/:planId/summary" element={<ReadingPracticeSummaryPage />} />
         <Route path="/reading-results/:id" element={<ReadingResultPage />} />
         <Route path="/reading-error" element={<ReadingErrorPage />} />
         <Route path="*" element={<NotFoundPage />} />
