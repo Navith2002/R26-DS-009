@@ -300,6 +300,15 @@ For each sentence that DID change, give the explanation TWICE, in two steps:
       - Talk directly to the child ("ඔයා"), warm and simple, 1-2 sentences.
       - Point at the exact word(s) in quotes, explain why simply — do not
         name the grammar category, just describe it in everyday words.
+      - TEACH, don't just correct. When a verb ending does not match the
+        subject, explain the matching idea in two short parts:
+          1) which subject the ending the child wrote belongs with (the
+             person that ending is used for), and
+          2) which ending goes with the subject the child actually wrote.
+        This way the child learns the pattern, not just the answer.
+      - Be positive and encouraging. Never say "you can't", "wrong" or
+        "not allowed"; prefer friendly words such as "ගැළපෙන්නේ" or
+        "හරියටම ගැළපෙනවා".
 
 Return ONLY valid JSON, no markdown:
 {{
