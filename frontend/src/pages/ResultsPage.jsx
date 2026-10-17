@@ -1,7 +1,15 @@
-import { TryAgainCat } from '../components/Lottie';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   AlertTriangle,
+  ArrowRight,
+  Camera,
+  Lightbulb,
+  Pencil,
+  Sprout,
+  Star,
+  Target,
+  X,
   ArrowLeft,
   CheckCircle2,
   ChevronDown,
@@ -16,6 +24,7 @@ import { assetUrl } from '../services/api';
 
 import {
   analysisStatus,
+  isBlockedQualityResult,
   formatNumber,
   friendlyStatus,
   mostLikelyLabel,
@@ -40,6 +49,20 @@ function toneForSeverity(severity) {
   if (severity === 'high') return 'danger';
   if (severity === 'medium') return 'warning';
   return 'info';
+}
+
+function resultQualityTone(label) {
+  const normalized = String(label || '').trim().toLowerCase().replace(/[_-]+/g, ' ').replace(/\s+/g, ' ');
+  const tones = {
+    excellent: 'good',
+    'very good': 'good',
+    good: 'good',
+    'above average': 'above-average',
+    average: 'average',
+    'below average': 'below-average',
+    poor: 'poor',
+  };
+  return tones[normalized] || qualityTone(label);
 }
 
 
@@ -399,6 +422,9 @@ function childReason(reason = '', t) {
    ========================================================= */
 
 function mergedPrediction(result) {
+  if (isBlockedQualityResult(result)) {
+    return { available: false, label: null, confidence: null, probabilities: {} };
+  }
   const qualityPrediction =
     result?.quality_prediction || {};
 
@@ -510,6 +536,149 @@ function recommendationForIssue(
    MAIN RESULTS PAGE
    ========================================================= */
 
+const SKILL_FEEDBACK = [
+  { id: 'spacing', title: 'results.skillSpacing', icon: '↔',
+    features: ['spacing_std', 'word_spacing_variation'], types: ['spacing', 'word_spacing'] },
+  { id: 'alignment', title: 'results.skillAlignment', icon: '☰',
+    features: ['baseline_std', 'local_baseline_drift'], types: ['baseline_alignment', 'local_baseline_drift'] },
+  { id: 'size', title: 'results.skillSize', icon: 'அ',
+    features: ['avg_size_variation', 'character_proportion_variation'], types: ['size_variation', 'character_proportion'] },
+];
+
+function excludedSkillFeatures(explanation) {
+  const named = items => (Array.isArray(items) ? items : [])
+    .map(item => typeof item === 'string' ? item : item?.feature);
+  return new Set([
+    ...named(explanation?.suppressed_features),
+    ...named(explanation?.missing_features),
+    ...named(explanation?.soft_warning_features),
+  ]);
+}
+
+function finiteMeasurement(value) {
+  return typeof value === 'number' && Number.isFinite(value);
+}
+
+function trustworthyIssue(issue, result, explanation) {
+  return explanation?.available === true
+    && ['strong', 'moderate'].includes(issue?.reliability)
+    && ['high', 'medium', 'low'].includes(issue?.severity)
+    && !(issue?.reliability_warnings?.length)
+    && finiteMeasurement(result?.raw_features?.[issue.feature])
+    && !excludedSkillFeatures(explanation).has(issue.feature);
+}
+
+function skillFeedbackStates(result, issues, explanation) {
+  const usable = explanation?.available === true;
+  const raw = result?.raw_features || {};
+  const excluded = excludedSkillFeatures(explanation);
+  // Only complete, explicit coverage supports a no-concern state. Absence of
+  // an issue alone never proves that a skill was assessed or was good.
+  const expected = Number(explanation?.expected_feature_count);
+  const fullyEvaluated = usable && Number.isFinite(expected) && expected > 0
+    && Number(explanation?.calibrated_feature_count) === expected
+    && Number(explanation?.evaluated_feature_count) === expected
+    && explanation?.partial_feedback !== true;
+  return SKILL_FEEDBACK.map(skill => {
+    const related = issues.filter(issue => skill.features.includes(issue.feature)
+      || skill.types.includes(normalizeIssueType(issue)));
+    const practice = usable && related.some(issue => trustworthyIssue(issue, result, explanation));
+    const required = skill.features.filter(name => result?.language === 'sinhala' || !['word_spacing_variation', 'character_proportion_variation'].includes(name));
+    const hasEvidence = required.length > 0 && required.every(name => finiteMeasurement(raw[name]));
+    const uncertain = related.some(issue => !trustworthyIssue(issue, result, explanation))
+      || skill.features.some(name => excluded.has(name));
+    const state = practice ? 'practice'
+      : fullyEvaluated && hasEvidence && !uncertain && !related.length ? 'clear' : 'unknown';
+    return { ...skill, state };
+  });
+}
+
+function SkillFeedbackCards({ skills, language, t }) {
+  const labels = { clear: 'results.skillClear', practice: 'results.skillPractice', unknown: 'results.skillUnknown' };
+  return (
+    <section className="hw-skill-section" aria-labelledby="hw-skills-title">
+      <div className="hw-section-title"><Sprout aria-hidden="true" /><h3 id="hw-skills-title">{t('results.mySkills')}</h3><span aria-hidden="true">✦</span></div>
+      <div className="hw-skill-grid">
+        {skills.map(skill => (
+          <article className={`hw-skill-card hw-skill-${skill.state}`} key={skill.id}>
+            <div className="hw-skill-content">
+              <span className={`hw-skill-icon hw-skill-icon-${skill.id}`} aria-hidden="true">{skill.id === 'size' ? (language === 'tamil' ? 'அ' : 'අ') : skill.icon}</span>
+              <h4>{t(skill.title)}</h4>
+              <p>{t(`results.skillDescription.${skill.id}`)}</p>
+            </div>
+            <div className="hw-skill-indicator">
+              <div className="hw-skill-ring" role="img" aria-label={`${t(skill.title)}: ${t(labels[skill.state])}`}>
+                <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="39" pathLength="100" /></svg>
+                <span aria-hidden="true">{skill.state === 'clear' ? '✓' : skill.state === 'practice' ? '✎' : '?'}</span>
+              </div>
+              <span className="hw-skill-state">{t(labels[skill.state])}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p className="hw-indicator-note"><Info size={14} aria-hidden="true" />{t('results.skillIndicatorsNote')}</p>
+    </section>
+  );
+}
+
+function ResultPhoto({ src, caption, t }) {
+  const dialog = useRef(null);
+  if (!src) return null;
+  return (
+    <figure className="hw-result-photo">
+      <div className="hw-photo-heading"><Camera size={19} aria-hidden="true" /><span>{t('results.myHandwriting')}</span></div>
+      <button type="button" className="hw-photo-open" onClick={() => dialog.current?.showModal()} aria-label={t('results.enlargeImage')}>
+        <img src={src} alt={caption} />
+        <span className="hw-photo-enlarge">{t('results.enlargeImage')}</span>
+      </button>
+      <figcaption>{caption}</figcaption>
+      <dialog ref={dialog} className="hw-photo-dialog" aria-label={t('results.myHandwriting')} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
+        <button type="button" className="hw-photo-close" onClick={() => dialog.current?.close()} aria-label={t('results.closeImage')}><X size={22} /></button>
+        <img src={src} alt={caption} />
+        <p>{caption}</p>
+      </dialog>
+    </figure>
+  );
+}
+
+function FocusPracticeCard({ focus, secondary, language, navigate, t }) {
+  const glyph = language === 'tamil' ? 'அ' : 'අ';
+  const open = item => navigate('/practice', { state: { focus: item.focus, language } });
+  return (
+    <section className="hw-practice-section" aria-labelledby="hw-practice-title">
+      <div className="hw-section-title"><Target aria-hidden="true" /><h3 id="hw-practice-title">{t('results.todayPractice')}</h3><span aria-hidden="true">✦</span></div>
+      <div className="hw-practice-body">
+        <div className="hw-practice-copy">
+          <span className="hw-practice-label">{t(focus.personalized ? 'results.nextSmallStep' : 'results.generalPractice')}</span>
+          <h4>{focus.title}</h4><p>{focus.text}</p>
+          <div className={`hw-tracing-guide hw-tracing-${focus.focus}`} aria-hidden="true">
+            <span className="hw-pencil-sticker">✏️</span>
+            {[0, 1, 2, 3].map(i => <span key={i} className={i < 2 ? 'hw-trace-faded' : 'hw-trace-ink'}>{glyph}</span>)}
+          </div>
+          <small className="hw-practice-example-note">{t('results.practiceExample')}</small>
+        </div>
+        <div className="hw-practice-actions">
+          <button type="button" className="primary-action" onClick={() => open(focus)}><Pencil size={20} aria-hidden="true" />{t('results.practice')}<ArrowRight size={20} aria-hidden="true" /></button>
+          <div className="hw-small-tip"><Lightbulb size={21} aria-hidden="true" /><div><strong>{t('results.smallTip')}</strong><p>{t('results.smallTipText')}</p></div></div>
+        </div>
+      </div>
+      {secondary && <div className="hw-secondary-focus"><span>{childIssueIcon(secondary.focus)}</span><div><strong>{secondary.title}</strong><p>{secondary.text}</p></div><button type="button" onClick={() => open(secondary)}>{t('results.tryIt')}<ArrowRight size={16} aria-hidden="true" /></button></div>}
+    </section>
+  );
+}
+
+function EffortBadges({ t }) {
+  return (
+    <section className="hw-effort-section" aria-labelledby="hw-effort-title">
+      <div className="hw-section-title"><Star aria-hidden="true" /><h3 id="hw-effort-title">{t('results.effortTitle')}</h3></div>
+      <div className="hw-effort-grid">
+        <article className="hw-effort-badge hw-effort-star"><span className="hw-sticker" aria-hidden="true">🌟</span><div><strong>{t('results.effortChecked')}</strong><p>{t('results.effortCheckedText')}</p></div></article>
+        <article className="hw-effort-badge hw-effort-pencil"><span className="hw-sticker" aria-hidden="true">✏️</span><div><strong>{t('results.effortNext')}</strong><p>{t('results.effortNextText')}</p></div></article>
+      </div>
+    </section>
+  );
+}
+
 export default function ResultsPage() {
   const { id } = useParams();
 
@@ -528,7 +697,25 @@ export default function ResultsPage() {
   // Resolve from this child's records only. Navigation state can survive a
   // sign-out or child switch and must never bypass account isolation.
   const result = history.find((item) => item.id === id);
-  const preview = result ? location.state?.preview : null;
+  // The Analyze page owns and revokes its blob URL on unmount. Create a
+  // separate Results-page URL from the original File passed in route state.
+  const previewFile = result && location.state?.previewFile instanceof Blob
+    ? location.state.previewFile
+    : null;
+  const [ownedPreview, setOwnedPreview] = useState(null);
+
+  useEffect(() => {
+    if (!previewFile) return undefined;
+    const url = URL.createObjectURL(previewFile);
+    setOwnedPreview({ file: previewFile, url });
+    return () => URL.revokeObjectURL(url);
+  }, [previewFile]);
+
+  const preview = result
+    ? (ownedPreview?.file === previewFile ? ownedPreview?.url : null)
+      || (previewFile ? null : location.state?.preview)
+      || null
+    : null;
 
 
   /* =======================================================
@@ -580,7 +767,7 @@ export default function ResultsPage() {
     || mostLikelyLabel(result);
 
   const tone =
-    qualityTone(finalModelLabel);
+    resultQualityTone(finalModelLabel);
 
   const validation =
     result?.input_validation || {};
@@ -608,6 +795,12 @@ export default function ResultsPage() {
 
   const outputs =
     result?.output_files || {};
+
+  const resultImage =
+    preview || assetUrl(outputs?.preprocessing?.skew_corrected);
+  const resultImageCaption = preview
+    ? t('results.uploaded')
+    : t('results.skewCorrected');
 
   const debug =
     result?.debug || {};
@@ -641,13 +834,12 @@ export default function ResultsPage() {
 
   const reviewRecommended =
     Boolean(
-      prediction?.review_recommended
+      prediction?.low_confidence ?? prediction?.review_recommended
     );
 
-  const confidence =
-    Number(
-      prediction?.confidence
-    );
+  const confidence = prediction?.confidence != null
+    ? Number(prediction.confidence)
+    : null;
 
   const topProbability =
     Object.entries(
@@ -667,25 +859,10 @@ export default function ResultsPage() {
     const isModelError =
       status === 'MODEL_ERROR';
 
-    const reasons =
-      status === 'SEGMENTATION_UNRELIABLE'
-        ? (
-            segmentation.reasons
-            || segmentation.warnings
-            || []
-          )
-        : (
-            validation.reasons
-            || []
-          );
 
-    const retryRecommendations = [
-      ...recommendations.priority,
-      ...recommendations.normal,
-    ].slice(0, 2);
 
     return (
-      <div className="results-page page-stack gc hw">
+      <div className="results-page page-stack gc hw hw-kids-results">
 
         <ResultTopbar
           navigate={navigate}
@@ -698,7 +875,7 @@ export default function ResultsPage() {
 
         <section
           className={
-            `kid-result-hero tone-${
+            `kid-result-hero quality-result-hero hw-result-header tone-${
               statusInfo?.tone || 'retake'
             }`
           }
@@ -745,123 +922,20 @@ export default function ResultsPage() {
           </div>
 
 
-          <div
-            className="kid-result-mascot"
-            aria-hidden="true"
-          >
-            📷
+          <div className="hw-result-visuals hw-result-visuals-kids">
+            <div className="kid-result-mascot" aria-hidden="true">📷</div>
+            {resultImage && (
+          <ResultPhoto src={resultImage} caption={resultImageCaption} t={t} />
+        )}
           </div>
 
         </section>
 
 
-        {
-          reasons.length > 0 && (
-            <section
-              className="result-card child-card"
-            >
-
-              <div className="card-heading-row">
-
-                <div>
-
-                  <span className="eyebrow">
-                    {t('results.photoTips')}
-                  </span>
-
-                  <h3>
-                    {t('results.whatFix')}
-                  </h3>
-
-                </div>
-
-              </div>
-
-
-              <div className="friendly-reason-grid">
-
-                {
-                  reasons
-                    .slice(0, 4)
-                    .map(
-                      (reason, index) => (
-                        <div
-                          className="friendly-reason"
-                          key={
-                            `${reason}-${index}`
-                          }
-                        >
-
-                          <AlertTriangle
-                            size={17}
-                          />
-
-                          <span>
-                            {
-                              childReason(
-                                reason,
-                                t
-                              )
-                            }
-                          </span>
-
-                        </div>
-                      )
-                    )
-                }
-
-              </div>
-
-            </section>
-          )
-        }
-
-
-        {
-          retryRecommendations.length > 0 && (
-            <section
-              className={
-                "result-card " +
-                "recommendation-card " +
-                "child-card"
-              }
-            >
-
-              <div className="card-heading-row">
-
-                <div>
-
-                  <span className="eyebrow">
-                    {t('results.nextPhoto')}
-                  </span>
-
-                  <h3>
-                    {t('results.helpfulTips')}
-                  </h3>
-
-                </div>
-
-                <Sparkles size={22} />
-
-              </div>
-
-
-              <NormalRecommendationList
-                items={
-                  retryRecommendations
-                }
-                analysisLanguage={
-                  result.language
-                }
-                uiLanguage={language}
-                navigate={navigate}
-                t={t}
-              />
-
-            </section>
-          )
-        }
-
+        <section className="hw-capture-help">
+          <Camera size={28} aria-hidden="true" />
+          <div><h3>{t('results.captureHelpTitle')}</h3><p>{t('results.captureHelpText')}</p></div>
+        </section>
 
         <TechnicalDetails
           result={result}
@@ -898,12 +972,6 @@ export default function ResultsPage() {
   const rawDisplayLabel =
     finalModelLabel;
 
-  const childQuality =
-    childQualityCopy(
-      rawDisplayLabel,
-      t
-    );
-
   const displayLabel =
     qualityLabelText(
       rawDisplayLabel,
@@ -911,21 +979,42 @@ export default function ResultsPage() {
     )
     || t('home.completed');
 
-  const firstPractice =
-    recommendations.priority[0];
-
-  const primaryFocus =
-    firstPractice?.practiceFocus
-    || firstPractice?.issueType
-    || normalizeIssueType(issues[0])
-    || 'general';
-
-  const visibleIssues =
-    issues.slice(0, 3);
+  const skills = skillFeedbackStates(result, issues, explainability);
+  const severityOrder = { high: 3, medium: 2, low: 1 };
+  const trusted = feedbackAvailable ? issues.filter(issue => trustworthyIssue(issue, result, explainability))
+    .sort((a, b) => (severityOrder[b.severity] || 0) - (severityOrder[a.severity] || 0)) : [];
+  const distinct = trusted.filter((issue, index, all) => all.findIndex(other => normalizeIssueType(other) === normalizeIssueType(issue)) === index);
+  const practiceItems = distinct.slice(0, 2).map(issue => {
+    const type = normalizeIssueType(issue);
+    const copy = localizedRecommendation(type, language);
+    const item = [...recommendations.priority, ...recommendations.normal]
+      .find(candidate => normalizeIssueType({ issue_type: candidate.issueType }) === type);
+    const focus = type === 'word_spacing' ? 'spacing' : type;
+    return { focus, title: copy.title, text: copy.text, personalized: true, source: item };
+  });
+  const primaryPractice = practiceItems[0] || { focus: 'general', title: t('results.generalPracticeTitle'), text: t('results.generalPracticeText'), personalized: false };
+  const primaryFocus = primaryPractice.focus;
+  const visibleIssues = feedbackAvailable ? issues.slice(0, 3) : [];
+  const gradePalette = {
+    good: { ink: '#1f7a3f', soft: '#e3f3e6' },
+    'above-average': { ink: '#946b00', soft: '#fff7d6' },
+    average: { ink: '#b64e0b', soft: '#fff0e2' },
+    'below-average': { ink: '#b64e0b', soft: '#fff0e2' },
+    poor: { ink: '#b52d32', soft: '#fff0ef' },
+  }[tone] || { ink: '#365b50', soft: '#edf4ef' };
+  const GradeIcon = tone === 'good' ? Star
+    : tone === 'above-average' ? Sparkles
+      : tone === 'average' ? Sprout
+        : tone === 'below-average' ? Pencil : Target;
+  const visualIcon = tone === 'good'
+    ? /^(excellent|very good)$/i.test(String(rawDisplayLabel || '').trim()) ? '🌟' : '⭐'
+    : tone === 'above-average' ? '✨'
+      : tone === 'average' ? '🌱'
+        : tone === 'below-average' ? '✏️' : '💪';
 
 
   return (
-    <div className="results-page page-stack gc hw">
+    <div className="results-page page-stack gc hw hw-kids-results">
 
       <ResultTopbar
         navigate={navigate}
@@ -943,7 +1032,7 @@ export default function ResultsPage() {
       <section
         className={
           `kid-result-hero ` +
-          `quality-result-hero ` +
+          `quality-result-hero hw-result-header hw-quality-hero ` +
           `tone-${tone}`
         }
       >
@@ -959,379 +1048,76 @@ export default function ResultsPage() {
             }
           </span>
 
-          <span className="eyebrow">
-            {t('results.modelResult')}
+          <span className="eyebrow hw-grade-eyebrow" style={{ color: gradePalette.ink, backgroundColor: gradePalette.soft }}>
+            {t(tone === 'good' ? 'results.effortChecked' : 'results.modelResult')}
           </span>
 
-          <h2>
-            {childQuality.title}
-          </h2>
-
-          <p className="child-quality-message">
-            {childQuality.text}
-          </p>
-
-
-          {/* IMPORTANT:
-              Translation comes from Translation.js
-          */}
-
-          <div className="child-model-level">
-
-            <span>
-              {t('results.handwritingLevel')}
-            </span>
-
-            <strong>
-              {displayLabel}
-            </strong>
-
+          <div className="hw-grade-heading" style={{ '--hw-grade-ink': gradePalette.ink, '--hw-grade-soft': gradePalette.soft }}>
+            <span className="hw-grade-symbol" aria-hidden="true"><GradeIcon size={36} strokeWidth={2.3} /></span>
+            <h2 className="hw-grade-label" style={{ color: gradePalette.ink, WebkitTextFillColor: gradePalette.ink }}>{displayLabel}</h2>
           </div>
 
-
-          {
-            reviewRecommended && (
-              <div
-                className="teacher-review-inline"
-                role="note"
-              >
-
-                <span>
-                  🧑‍🏫
-                </span>
-
-                <div>
-
-                  <strong>
-                    {t('results.teacherReview')}
-                  </strong>
-
-                </div>
-
+          {reviewRecommended && (
+            <div className="teacher-review-inline" role="alert">
+              <AlertTriangle size={20} aria-hidden="true" />
+              <div>
+                <strong><span aria-hidden="true">🧑‍🏫 </span>{t('results.teacherReview')}</strong>
+                <p>{t('results.teacherReviewText')}</p>
               </div>
-            )
-          }
+            </div>
+          )}
 
+          <p className="child-quality-message">
+            {t('results.heroEncouragement')}
+          </p>
 
-          {
-            (
-              visibleIssues.length > 0
-              ||
-              recommendations.priority.length > 0
-            ) && (
-              <div className="result-action-row">
-
-                <button
-                  className="primary-action"
-                  onClick={() =>
-                    navigate(
-                      '/practice',
-                      {
-                        state: {
-                          focus:
-                            primaryFocus,
-                          language:
-                            result.language,
-                        },
-                      }
-                    )
-                  }
-                >
-
-                  <Sparkles size={17} />
-
-                  {t('results.topTip')}
-
-                </button>
-
-              </div>
-            )
-          }
+          <div className="result-action-row">
+            <button type="button" className="primary-action" onClick={() => navigate('/practice', { state: { focus: primaryFocus, language: result.language } })}>
+              <Pencil size={20} aria-hidden="true" />{t('results.practice')}<ArrowRight size={20} aria-hidden="true" />
+            </button>
+          </div>
 
         </div>
 
 
-        {(tone === 'below-average' || tone === 'poor') ? <TryAgainCat /> : (
-<div
-          className={
-            "kid-result-mascot " +
-            "quality-mascot"
-          }
-          aria-hidden="true"
-        >
-
-          {
-            String(
-              rawDisplayLabel || ''
-            ).toLowerCase() === 'very good'
-              ? '🌟'
-              : String(
-                  rawDisplayLabel || ''
-                ).toLowerCase() === 'good'
-                ? '⭐'
-                : String(
-                    rawDisplayLabel || ''
-                  ).toLowerCase() === 'average'
-                  ? '🌱'
-                  : String(
-                      rawDisplayLabel || ''
-                    ).toLowerCase() ===
-                    'below average'
-                    ? '✏️'
-                    : '💪'
-          }
-
-        </div>
+        <div className="hw-result-visuals hw-result-visuals-kids">
+          <div className="kid-result-mascot quality-mascot" aria-hidden="true">{visualIcon}</div>
+          {resultImage && (
+          <ResultPhoto src={resultImage} caption={resultImageCaption} t={t} />
         )}
+        </div>
 
       </section>
 
 
-      {/* ===================================================
-          CHILD RESULTS
-          =================================================== */}
+      <SkillFeedbackCards skills={skills} language={result.language} t={t} />
 
-      <div
-        className={
-          "child-results-grid " +
-          "single-result-column"
-        }
-      >
+      {(!feedbackAvailable || partialFeedback) && (
+        <div className="hw-feedback-note" role="note"><Info size={18} aria-hidden="true" /><p>{t(feedbackAvailable ? 'results.skillPartialNote' : 'results.skillUnavailableNote')}</p></div>
+      )}
 
+      {visibleIssues.length > 0 && (
+        <section className="result-card child-card child-issues-card">
+          <div className="card-heading-row">
+            <div>
+              <span className="eyebrow">{t('results.whatINoticed')}</span>
+              <h3>{t('results.workOnFirst')}</h3>
+            </div>
+            <span className="count-badge">{visibleIssues.length}</span>
+          </div>
+          <ChildIssueList
+            issues={visibleIssues}
+            recommendations={recommendations}
+            analysisLanguage={result.language}
+            uiLanguage={language}
+            navigate={navigate}
+            t={t}
+          />
+        </section>
+      )}
 
-        {/* =================================================
-            FEEDBACK UNAVAILABLE
-            ================================================= */}
-
-        {
-          !feedbackAvailable && (
-            <section
-              className={
-                "result-card " +
-                "child-card " +
-                "feedback-unavailable-card"
-              }
-            >
-
-              <div className="feedback-state-row">
-
-                <Info size={24} />
-
-                <div>
-
-                  <h3>
-                    {feedbackMessage.title}
-                  </h3>
-
-                  <p>
-                    {feedbackMessage.text}
-                  </p>
-
-                </div>
-
-              </div>
-
-            </section>
-          )
-        }
-
-
-        {/* =================================================
-            PARTIAL FEEDBACK
-            ================================================= */}
-
-        {
-          feedbackAvailable
-          && partialFeedback
-          && (
-            <section
-              className={
-                "result-card " +
-                "child-card " +
-                "partial-feedback-card"
-              }
-            >
-
-              <div className="feedback-state-row">
-
-                <Sparkles size={23} />
-
-                <div>
-
-                  <h3>
-                    {
-                      feedbackCopy(
-                        'PARTIAL',
-                        t
-                      ).title
-                    }
-                  </h3>
-
-                  <p>
-                    {
-                      feedbackCopy(
-                        'PARTIAL',
-                        t
-                      ).text
-                    }
-                  </p>
-
-                </div>
-
-              </div>
-
-            </section>
-          )
-        }
-
-
-        {/* =================================================
-            ISSUES
-            ================================================= */}
-
-        {
-          feedbackAvailable
-          && visibleIssues.length > 0
-          && (
-            <section
-              className={
-                "result-card " +
-                "child-card " +
-                "child-issues-card"
-              }
-            >
-
-              <div className="card-heading-row">
-
-                <div>
-
-                  <span className="eyebrow">
-                    {t('results.whatINoticed')}
-                  </span>
-
-                  <h3>
-                    {t('results.workOnFirst')}
-                  </h3>
-
-                </div>
-
-                <span className="count-badge">
-                  {visibleIssues.length}
-                </span>
-
-              </div>
-
-
-              <ChildIssueList
-                issues={visibleIssues}
-                recommendations={
-                  recommendations
-                }
-                analysisLanguage={
-                  result.language
-                }
-                uiLanguage={language}
-                navigate={navigate}
-                t={t}
-              />
-
-            </section>
-          )
-        }
-
-
-        {/* =================================================
-            NO ISSUES
-            ================================================= */}
-
-        {
-          feedbackAvailable
-          && visibleIssues.length === 0
-          && (
-            <section
-              className="result-card child-card"
-            >
-
-              <div className="positive-state">
-
-                <CheckCircle2
-                  size={28}
-                />
-
-                <div>
-
-                  <h4>
-                    {t('results.noIssueTitle')}
-                  </h4>
-
-                  <p>
-                    {t('results.noIssueText')}
-                  </p>
-
-                </div>
-
-              </div>
-
-            </section>
-          )
-        }
-
-
-        {/* =================================================
-            RECOMMENDATIONS
-            ================================================= */}
-
-        {
-          feedbackAvailable
-          && recommendations.priority.length > 0
-          && visibleIssues.length === 0
-          && (
-            <section
-              className={
-                "result-card " +
-                "child-card " +
-                "recommendations-showcase"
-              }
-            >
-
-              <div className="card-heading-row">
-
-                <div>
-
-                  <h3>
-                    {t('results.planTitle')}
-                  </h3>
-
-                </div>
-
-                <span className="count-badge">
-                  {
-                    recommendations
-                      .priority.length
-                  }
-                </span>
-
-              </div>
-
-
-              <PriorityRecommendationList
-                items={
-                  recommendations.priority
-                }
-                analysisLanguage={
-                  result.language
-                }
-                uiLanguage={language}
-                navigate={navigate}
-                t={t}
-              />
-
-            </section>
-          )
-        }
-
-      </div>
-
+      <FocusPracticeCard focus={primaryPractice} secondary={practiceItems[1]} language={result.language} navigate={navigate} t={t} />
+      <EffortBadges t={t} />
 
       {/* ===================================================
           TECHNICAL DETAILS
@@ -1856,11 +1642,8 @@ function TechnicalDetails({
             <strong>
 
               {
-                Number.isFinite(
-                  Number(
-                    prediction?.confidence
-                  )
-                )
+                prediction?.confidence != null &&
+                Number.isFinite(Number(prediction.confidence))
                   ? `${
                       formatNumber(
                         prediction.confidence,
@@ -2046,7 +1829,7 @@ function TechnicalDetails({
                             className={
                               `probability-fill ` +
                               `tone-${
-                                qualityTone(name)
+                                resultQualityTone(name)
                               }`
                             }
                             style={{

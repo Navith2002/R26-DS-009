@@ -1,20 +1,8 @@
-"""
-segmentation_quality.py
-=======================
+"""Stage 1B structural segmentation gate.
 
-Stage 1B segmentation-reliability sanity gate  —  RELAXED LIMITS.
-
-Purpose
--------
-A photograph may pass Stage 1A image-quality validation but still be
-segmented incorrectly. This gate catches catastrophic segmentation
-failures only.
-
-CHANGES vs previous version
-----------------------------
-All limits have been significantly relaxed so that only truly broken
-segmentation (e.g. 500 words on a 3-line page) blocks the ML result.
-Borderline cases are downgraded from hard failures to soft warnings.
+Missing records, combined merged-line failures and severe fragmentation block
+classification. Isolated borderline geometry remains advisory. These are
+engineering safeguards requiring evaluation on labelled captures.
 """
 
 from __future__ import annotations
@@ -22,31 +10,8 @@ from __future__ import annotations
 import cv2
 import numpy as np
 
-from image_utils import ensure_ink_white
+from image_utils import ensure_canonical_binary as ensure_ink_white
 
-
-# ============================================================
-# RELAXED DEVELOPMENT SANITY LIMITS
-# ============================================================
-#
-# CHANGES vs previous version:
-#   max_lines:                        40   ->  60
-#   max_words:                       250   -> 400
-#   max_character_regions:          1200   -> 2000
-#   max_average_words_per_line:       22   ->  35
-#   max_median_words_per_line:        20   ->  30
-#   max_average_regions_per_word:     12   ->  20
-#   max_median_regions_per_word:      10   ->  16
-#   max_tiny_word_ratio:            0.60   ->  0.80
-#   max_tiny_region_ratio:          0.70   ->  0.85
-#   max_largest_line_height_ratio:  0.62   ->  0.80
-#   max_line_height_to_median_ratio: 3.5  ->  5.0
-#   max_largest_line_ink_share:     0.78   ->  0.90
-#   max_text_components_per_word:     18   ->  30
-#   min_words_when_many_components:    6   ->  3
-#   min_word_ink_coverage:          0.45   ->  0.20
-#   many_component_count:             60   ->  80
-# ============================================================
 
 SEGMENTATION_LIMITS = {
 
@@ -417,8 +382,8 @@ def evaluate_segmentation_reliability(segmentation):
     """
     Evaluate whether segmentation is reliable enough for Stage 2.
 
-    RELAXED: only catastrophic failures block the ML model.
-    Borderline issues are downgraded to warnings.
+    Missing records, combined merged-line evidence and severe fragmentation
+    block the model. Isolated borderline measurements remain warnings.
     """
 
     line_count = int(len(segmentation.get("lines", []) or []))
@@ -478,10 +443,21 @@ def evaluate_segmentation_reliability(segmentation):
     # ========================================================
     # 1. EMPTY SEGMENTATION  — only block when truly empty
     # ========================================================
-    if line_count <= 0 and word_count <= 0:
+    if line_count <= 0 or word_count <= 0:
         reasons.append(
             "No reliable handwriting lines or words were segmented."
         )
+
+    records = segmentation.get("line_records", []) or []
+    if line_count and len(records) != line_count:
+        reasons.append("Line records are missing or inconsistent with detected lines.")
+    recorded_words = sum(len(r.get("word_records", []) or []) for r in records)
+    if word_count and recorded_words != word_count:
+        reasons.append("Word records are missing or inconsistent with detected words.")
+
+    if (many_text_components and components_per_word > 60
+            and word_geometry["tiny_region_ratio"] > .65):
+        reasons.append("Too many fragmented components and tiny regions make word measurements unreliable.")
 
     # ========================================================
     # 2. OVER-SEGMENTATION  — only extreme cases
@@ -499,6 +475,13 @@ def evaluate_segmentation_reliability(segmentation):
     if character_count > limits["max_character_regions"]:
         reasons.append(
             "Character-region segmentation produced an implausibly large number of regions."
+        )
+
+    # Audited catastrophic over-segmentation pattern.
+    if word_count >= 350 and character_count >= 1500:
+        reasons.append(
+            "The handwriting was severely over-segmented into too many "
+            "word and character regions."
         )
 
     # Words-per-line and regions-per-word: downgraded to warnings
@@ -533,14 +516,28 @@ def evaluate_segmentation_reliability(segmentation):
         )
 
     # ========================================================
-    # 3. UNDER-SEGMENTATION  — downgraded to warnings
+    # 3. UNDER-SEGMENTATION — combined extremes block; individual warnings
     # ========================================================
     substantial_page_evidence = bool(
         line_count >= 3 or many_text_components
     )
 
-    if (
+    merged_line_failure = bool(
         substantial_page_evidence
+        and metrics["largest_line_height_ratio"]
+        > limits["max_largest_line_height_ratio"]
+        and metrics["line_height_to_median_ratio"]
+        > limits["max_line_height_to_median_ratio"]
+    )
+    if merged_line_failure:
+        reasons.append(
+            "Possible merged handwriting lines were detected; "
+            "too few word regions may represent multiple writing rows."
+        )
+
+    if (
+        not merged_line_failure
+        and substantial_page_evidence
         and metrics["largest_line_height_ratio"] > limits["max_largest_line_height_ratio"]
     ):
         warnings.append(
@@ -548,7 +545,8 @@ def evaluate_segmentation_reliability(segmentation):
         )
 
     if (
-        substantial_page_evidence
+        not merged_line_failure
+        and substantial_page_evidence
         and metrics["line_height_to_median_ratio"] > limits["max_line_height_to_median_ratio"]
     ):
         warnings.append(
@@ -596,7 +594,7 @@ def evaluate_segmentation_reliability(segmentation):
         and word_count > 0
         and word_ink_coverage < limits["min_word_ink_coverage"]
     ):
-        if word_ink_coverage < 0.08:
+        if word_ink_coverage < limits["min_word_ink_coverage"]:
             reasons.append(
                 "Detected word regions cover almost no handwriting ink."
             )
@@ -640,9 +638,123 @@ def evaluate_segmentation_reliability(segmentation):
         ),
         "reliable": bool(reliable),
         "reliable_for_stage2": bool(reliable),
-        "threshold_source": "relaxed_segmentation_gate_v2",
+        "threshold_source": "structural_segmentation_gate_v3",
         "metrics": metrics,
         "limits": dict(limits),
         "warnings": warnings,
         "reasons": reasons,
+    }
+
+
+def _repeated_glyph_metrics(mask):
+    """Find multiple exactly repeated raster shapes, supporting print suspicion.
+
+    No rejection is based on neatness, equal spacing or equal character size.
+    Six distinct repeated substantial bitmap shapes are required. This only
+    catches some digital print; it cannot certify photographed print/handwriting.
+    """
+    from collections import Counter
+
+    count, labels, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+    signatures = []
+    for index in range(1, count):
+        x, y, width, height, area = stats[index]
+        if (height >= 10 and width >= 5 and area >= 25
+                and .08 < area / (width * height) < .85):
+            glyph = labels[y:y+height, x:x+width] == index
+            signatures.append((int(width), int(height), np.packbits(glyph).tobytes()))
+    counts = Counter(signatures)
+    duplicates = [value for value in counts.values() if value >= 2]
+    suspected = bool(len(signatures) >= 30 and len(duplicates) >= 6)
+    return {"substantial_component_count": len(signatures),
+            "exact_repeated_shape_groups": len(duplicates),
+            "exact_repeated_component_count": sum(duplicates),
+            "suspected_printed_text": suspected}
+
+
+def evaluate_handwriting_presence(binary):
+    """Screen text structure; passing is not proof of handwritten origin.
+
+    This existing module owns Stage 1 presence and segmentation validation.
+    The limits are development safeguards, not validated detector accuracy.
+    """
+    mask = ensure_ink_white(binary)
+    reasons, metrics = [], {}
+    status = "NON_HANDWRITING_INPUT"
+    if mask is None:
+        reasons.append("No usable writing mask was available.")
+    else:
+        repetition = _repeated_glyph_metrics(mask)
+        # Analysis-only resizing: never alter the Stage 2 feature scale.
+        scale = min(1.0, 1200.0 / max(mask.shape))
+        if scale < 1:
+            mask = cv2.resize(mask, None, fx=scale, fy=scale,
+                              interpolation=cv2.INTER_NEAREST)
+        h, w = mask.shape
+        ink = int(np.count_nonzero(mask))
+        density = ink / mask.size
+        n, _, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+        candidates = []
+        for i in range(1, n):
+            x, y, cw, ch, area = stats[i]
+            # Exclude speckles, ruling/borders and large pictorial shapes.
+            if (area >= 5 and 3 <= ch <= h * .9
+                    and 2 <= cw <= w * .35 and .06 <= cw / ch <= 18
+                    and area / mask.size <= .15 and area / (cw * ch) <= .9):
+                candidates.append((i, x, y, cw, ch, area))
+        candidate_ink = sum(int(c[-1]) for c in candidates)
+        # Group components by vertical centre with a script-neutral tolerance.
+        rows = []
+        median_height = float(np.median([c[4] for c in candidates])) if candidates else 0
+        for c in sorted(candidates, key=lambda c: c[2] + c[4] / 2):
+            cy = c[2] + c[4] / 2
+            if rows and abs(cy - np.median([a[2] + a[4]/2 for a in rows[-1]])) <= max(4, median_height * .65):
+                rows[-1].append(c)
+            else:
+                rows.append([c])
+        aligned = [c for row in rows if len(row) >= 3 for c in row]
+        largest_share = float(stats[1:, cv2.CC_STAT_AREA].max() / max(ink, 1)) if n > 1 else 0
+        row_ink = np.count_nonzero(mask, axis=1).astype(float)
+        nonempty = np.flatnonzero(row_ink)
+        content_rows = row_ink[nonempty[0]:nonempty[-1]+1] if len(nonempty) else row_ink
+        p10, p90 = np.percentile(content_rows, [10, 90])
+        row_modulation = float((p90 - p10) / max(p90, 1))
+        metrics = {
+            **repetition,
+            "row_projection_modulation": round(row_modulation, 4),
+            "ink_fraction": round(density, 4),
+            "text_like_component_count": len(candidates),
+            "text_like_ink_fraction": round(candidate_ink / max(ink, 1), 4),
+            "aligned_component_fraction": round(len(aligned) / max(len(candidates), 1), 4),
+            "supported_row_count": sum(len(row) >= 3 for row in rows),
+            "largest_component_ink_fraction": round(largest_share, 4),
+        }
+        if ink < 20 or density < .001:
+            status = "INPUT_RETAKE_REQUIRED"
+            reasons.append("The image has too little visible writing to assess.")
+        else:
+            if repetition["suspected_printed_text"]:
+                reasons.append("Multiple exactly repeated character shapes suggest printed or digitally repeated text; upload an original handwriting sample.")
+            if row_modulation < .50:
+                reasons.append("Foreground texture is distributed uniformly instead of forming writing rows.")
+            if density > .45:
+                reasons.append("The foreground is too dense to be a writing sample.")
+            if len(candidates) < 6:
+                reasons.append("Too few separate text-like strokes support handwriting analysis.")
+            if candidate_ink / max(ink, 1) < .35:
+                reasons.append("Most foreground belongs to large shapes, rules or non-text regions.")
+            if len(aligned) / max(len(candidates), 1) < .45:
+                reasons.append("The marks do not provide enough evidence of text arranged in rows.")
+            if largest_share > .65:
+                reasons.append("A single connected object dominates the foreground.")
+    accepted = not reasons
+    return {
+        "status": "TEXT_LIKE_STRUCTURE" if accepted else status,
+        "valid_for_stage2": accepted,
+        "handwritten_origin_verified": False,
+        "method": "text_structure_and_raster_repetition_screen_v2",
+        "metrics": metrics,
+        "reasons": reasons,
+        "limitations": ["Printed text and text-like drawings can pass this structural screen.",
+                        "A separately validated handwriting-versus-print/photo detector is required for that distinction."],
     }

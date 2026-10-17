@@ -12,7 +12,7 @@ explainability and future teacher-validated character analysis.
 import cv2
 import numpy as np
 
-from image_utils import ensure_ink_white
+from image_utils import ensure_canonical_binary as ensure_ink_white
 
 
 MAX_EXPOSED_REGIONS = 120

@@ -51,8 +51,19 @@ def ensure_ink_white(image):
 
 
 def is_canonical_binary(image):
-    binary = ensure_ink_white(image)
-    if binary is None:
-        return False
-    values = set(np.unique(binary).tolist())
-    return values.issubset({0, 255})
+    return bool(
+        isinstance(image, np.ndarray) and image.size
+        and image.ndim == 2 and image.dtype == np.uint8
+        and np.all((image == 0) | (image == 255))
+    )
+
+
+def ensure_canonical_binary(image):
+    """Preserve a known ink=255 mask, including dense tightly cropped glyphs.
+
+    Polarity must be inferred at the photograph boundary, never re-inferred
+    from the majority colour of a word or character crop.
+    """
+    if is_canonical_binary(image):
+        return image.copy()
+    return ensure_ink_white(image)

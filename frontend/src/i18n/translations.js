@@ -193,6 +193,14 @@ const translations = {
     'results.reasonWord': 'ප්‍රමාණවත් පැහැදිලි ලිවීමේ කලාප හඳුනාගත නොහැකි විය.',
     'results.reasonDefault': 'ඡායාරූපය තවත් පැහැදිලි විය යුතුයි.',
 
+    'status.nonWritingTitle': 'අතින් ලියූ නියැදියක් අවශ්‍යයි',
+    'status.nonWritingText':
+      'මෙම රූපයේ අත්අකුරු විශ්ලේෂණයට ප්‍රමාණවත් සාක්ෂි හමු නොවීය. පැහැදිලිව අතින් ලියූ වචන කිහිපයක ඡායාරූපයක් යොමු කරන්න. ගුණාත්මක මට්ටමක් ලබා දී නැත.',
+
+    'results.teacherReview': 'ගුරු සමාලෝචනය අවශ්‍යයි',
+    'results.teacherReviewText':
+      'මෙම අනාවැකියේ විශ්වාසය අඩු බැවින්, ප්‍රතිඵලය ගුරුවරයෙකු ලවා තහවුරු කරගන්න.',
+
         // =========================================================
     // NEW RESULTS PAGE — CHILD FEEDBACK / EXPLAINABILITY
     // =========================================================
@@ -423,6 +431,66 @@ const translations = {
     'history.writingCheck': 'ලිවීමේ පරීක්ෂණය',
     'history.sinhalaWriting': 'සිංහල ලිවීම',
     'history.tamilWriting': 'දෙමළ ලිවීම',
+
+    'results.mySkills': 'මගේ ලිවීමේ හැකියාවන්',
+    'results.skillSpacing': 'වචන අතර ඉඩ',
+    'results.skillAlignment': 'පේළි පිළිවෙළ',
+    'results.skillSize': 'අකුරු ප්‍රමාණය',
+    'results.skillDescription.spacing': 'වචන අතර පැහැදිලි ඉඩ තැබීම.',
+    'results.skillDescription.alignment': 'එකම පේළියක අකුරු ලිවීම.',
+    'results.skillDescription.size': 'අකුරු එකම ප්‍රමාණයෙන් ලිවීම.',
+
+    'results.skillClear': 'ගැටලුවක් හමු නොවීය',
+    'results.skillPractice': 'පුහුණු වෙමු',
+    'results.skillUnknown': 'තව පරීක්ෂා කරමු',
+    'results.skillIndicatorsNote':
+      'මේවා මෙම නියැදියේ ප්‍රතිචාර පමණි; ලකුණු හෝ ප්‍රතිශත නොවේ.',
+
+    'results.myHandwriting': 'මගේ අත්අකුරු',
+    'results.enlargeImage': 'රූපය විශාල කර බලන්න',
+    'results.closeImage': 'රූපය වසන්න',
+
+    'results.todayPractice': 'අද පුහුණුව',
+    'results.nextSmallStep': 'ඊළඟට මේ දේ උත්සාහ කරමු',
+    'results.generalPractice': 'අපි එකට පුහුණු වෙමු',
+    'results.generalPracticeTitle': 'කෙටි පේළියක් සෙමින් ලියමු',
+    'results.generalPracticeText':
+      'හුරුපුරුදු වචන කිහිපයක් තෝරා, සුවපහසු වේගයකින් කෙටි පේළියක් ලියන්න.',
+    'results.practiceExample':
+      'පුහුණු උදාහරණයක් පමණි; ඔබේ ලිවීමේ සලකුණු කිරීමක් නොවේ.',
+
+    'results.smallTip': 'පුංචි ඉඟියක්',
+    'results.smallTipText':
+      'පෑන සැහැල්ලුවෙන් අල්ලාගෙන, සුවපහසුවෙන් වාඩි වී සෙමින් ලියන්න.',
+
+    'results.effortTitle': 'ඔබේ උත්සාහය අගය කරමු!',
+    'results.effortChecked': 'හොඳ උත්සාහයක්!',
+    'results.effortCheckedText': 'ඔබේ ලිවීමේ නියැදිය පරීක්ෂා කළා.',
+    'results.effortNext': 'ඊළඟ පුංචි පියවර',
+    'results.effortNextText': 'කෙටි පුහුණුවක් උත්සාහ කර ඉගෙන ගනිමු.',
+
+    'results.heroEncouragement':
+      'සෑම දිනකම පුංචි පුහුණුවක්. අපි ටිකෙන් ටික ඉදිරියට යමු!',
+    'results.skillPartialNote':
+      'සමහර හැකියාවන් තව පරීක්ෂා කළ යුතුයි. පැහැදිලි ප්‍රතිචාර ඇති තැන්වලින් පුහුණුව පටන් ගමු.',
+    'results.skillUnavailableNote':
+      'මෙම නියැදියෙන් විශ්වාසදායක පුහුණු ප්‍රතිචාර ප්‍රමාණවත් ලෙස ලැබී නැත. දැනට සාමාන්‍ය පුහුණුවක් කරමු; ගුරුවරයෙකුගෙන්ද විමසන්න.',
+
+    'results.captureHelpTitle': 'පැහැදිලි අත්අකුරු ඡායාරූපයක් ගනිමු',
+    'results.captureHelpText':
+      'හොඳ ආලෝකයකදී, කැමරාව පිටුවට කෙළින් ඉහළින් තබා අතින් ලියූ වචන කිහිපයක් පැහැදිලිව ඡායාරූපයට ගන්න. මෙවර ලිවීමේ මට්ටමක් ලබා දී නැත.',
+
+    'results.teacherReview': 'ගුරු සමාලෝචනය අවශ්‍යයි',
+    'results.teacherReviewText':
+      'මෙම අනාවැකියේ විශ්වාසය අඩු බැවින්, ප්‍රතිඵලය ගුරුවරයෙකු ලවා තහවුරු කරගන්න.',
+
+    'status.nonWritingTitle': 'අතින් ලියූ නියැදියක් අවශ්‍යයි',
+    'status.nonWritingText':
+      'මෙම රූපයේ අත්අකුරු විශ්ලේෂණයට ප්‍රමාණවත් සාක්ෂි හමු නොවීය. පැහැදිලිව අතින් ලියූ වචන කිහිපයක ඡායාරූපයක් යොමු කරන්න. ගුණාත්මක මට්ටමක් ලබා දී නැත.',
+
+    'status.featureTitle': 'ගුරු සමාලෝචනයක් අවශ්‍යයි',
+    'status.featureText':
+      'ලිවීම මැනීමට ප්‍රමාණවත් විශ්වාසදායක තොරතුරු නැත. පැහැදිලි නියැදියක් යොමු කරන්න හෝ ගුරුවරයෙකුගෙන් විමසන්න. ගුණාත්මක මට්ටමක් ලබා දී නැත.',
 
     // Practice
     'practice.eyebrow': 'පුහුණුව',
@@ -663,7 +731,13 @@ const translations = {
     'analyze.errLarge': 'இந்தப் படம் மிகப் பெரியது. 10 MB க்குக் குறைவான படத்தைத் தேர்வு செய்யுங்கள்.',
     'analyze.errType': 'PNG, JPG/JPEG, BMP, TIF அல்லது TIFF படத்தைப் பயன்படுத்துங்கள்.',
     'analyze.errGeneric': 'இப்போது இந்தக் கையெழுத்தைச் சரிபார்க்க முடியவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.',
+    'status.nonWritingTitle': 'கையெழுத்து மாதிரி தேவை',
+    'status.nonWritingText':
+      'இந்தப் படத்தில் கையெழுத்தை ஆய்வு செய்வதற்குப் போதுமான ஆதாரம் கிடைக்கவில்லை. தெளிவாகக் கையால் எழுதப்பட்ட சில சொற்களின் புகைப்படத்தைப் பதிவேற்றுங்கள். கையெழுத்துத் தரநிலை வழங்கப்படவில்லை.',
 
+    'results.teacherReview': 'ஆசிரியர் மதிப்பாய்வு தேவை',
+    'results.teacherReviewText':
+      'இந்தக் கணிப்பின் நம்பிக்கை குறைவாக இருப்பதால், பெறுபேற்றை ஆசிரியரிடம் உறுதிப்படுத்துங்கள்.',
     // Results
     'results.newCheck': 'புதிய எழுத்தைச் சரிபார்',
     'results.checkId': 'எழுத்துச் சரிபார்ப்பு {id}',
@@ -916,6 +990,67 @@ const translations = {
 
     'results.missingFeatures':
       'கிடைக்காத அம்சங்கள்',
+
+    'results.mySkills': 'என் எழுத்துத் திறன்கள்',
+    'results.skillSpacing': 'சொல் இடைவெளி',
+    'results.skillAlignment': 'வரி ஒழுங்கு',
+    'results.skillSize': 'எழுத்து அளவு',
+
+    'results.skillDescription.spacing': 'சொற்களுக்கு இடையில் தெளிவான இடம் விடுதல்.',
+    'results.skillDescription.alignment': 'ஒரே வரியில் எழுத்துகளை எழுதுதல்.',
+    'results.skillDescription.size': 'எழுத்துகளை ஒரே அளவில் எழுதுதல்.',
+
+    'results.skillClear': 'சிக்கல் சுட்டப்படவில்லை',
+    'results.skillPractice': 'பயிற்சி',
+    'results.skillUnknown': 'மேலும் பார்க்கலாம்',
+    'results.skillIndicatorsNote':
+      'இவை இந்த மாதிரிக்கான குறிப்புகள்; மதிப்பெண்களோ சதவீதங்களோ அல்ல.',
+
+    'results.myHandwriting': 'என் கையெழுத்து',
+    'results.enlargeImage': 'படத்தைப் பெரிதாகப் பார்',
+    'results.closeImage': 'படத்தை மூடு',
+
+    'results.todayPractice': 'இன்றைய பயிற்சி',
+    'results.nextSmallStep': 'அடுத்து இதை முயற்சி செய்வோம்',
+    'results.generalPractice': 'ஒன்றாகப் பயிற்சி செய்வோம்',
+    'results.generalPracticeTitle': 'ஒரு சிறிய வரியை மெதுவாக எழுதுவோம்',
+    'results.generalPracticeText':
+      'உனக்குத் தெரிந்த சில சொற்களைத் தேர்ந்தெடுத்து, வசதியான வேகத்தில் ஒரு சிறிய வரியை எழுது.',
+    'results.practiceExample':
+      'பயிற்சி உதாரணம் மட்டுமே; உன் கையெழுத்தில் செய்யப்பட்ட குறியீடு அல்ல.',
+
+    'results.smallTip': 'சிறிய குறிப்பு',
+    'results.smallTipText':
+      'பேனாவை மென்மையாகப் பிடித்து, வசதியாக அமர்ந்து மெதுவாக எழுது.',
+
+    'results.effortTitle': 'உன் முயற்சிக்குப் பாராட்டு!',
+    'results.effortChecked': 'நல்ல முயற்சி!',
+    'results.effortCheckedText': 'உன் கையெழுத்து மாதிரி சரிபார்க்கப்பட்டது.',
+    'results.effortNext': 'அடுத்த சிறிய படி',
+    'results.effortNextText': 'ஒரு குறுகிய பயிற்சியை முயற்சி செய்து தொடர்ந்து கற்றுக்கொள்.',
+
+    'results.heroEncouragement':
+      'தினமும் கொஞ்சம் பயிற்சி. சிறிய படிகளில் முன்னேறுவோம்!',
+    'results.skillPartialNote':
+      'சில திறன்களை இன்னும் சரிபார்க்க வேண்டும். தெளிவான குறிப்புகள் உள்ளவற்றிலிருந்து பயிற்சியைத் தொடங்குவோம்.',
+    'results.skillUnavailableNote':
+      'இந்த மாதிரியிலிருந்து போதுமான நம்பகமான பயிற்சிக் குறிப்புகள் கிடைக்கவில்லை. இப்போது பொதுவான பயிற்சியைச் செய்வோம்; ஆசிரியரிடமும் கேளுங்கள்.',
+
+    'results.captureHelpTitle': 'தெளிவான கையெழுத்துப் படத்தை எடுப்போம்',
+    'results.captureHelpText':
+      'நல்ல வெளிச்சத்தில், கேமராவைப் பக்கத்திற்கு நேராக மேலே வைத்து, கையால் எழுதிய சில சொற்களைத் தெளிவாகப் படம் எடு. இந்த முறை கையெழுத்துத் தரநிலை வழங்கப்படவில்லை.',
+
+    'results.teacherReview': 'ஆசிரியர் மதிப்பாய்வு தேவை',
+    'results.teacherReviewText':
+      'இந்தக் கணிப்பின் நம்பிக்கை குறைவாக இருப்பதால், பெறுபேற்றை ஆசிரியரிடம் உறுதிப்படுத்துங்கள்.',
+
+    'status.nonWritingTitle': 'கையெழுத்து மாதிரி தேவை',
+    'status.nonWritingText':
+      'இந்தப் படத்தில் கையெழுத்தை ஆய்வு செய்வதற்குப் போதுமான ஆதாரம் கிடைக்கவில்லை. தெளிவாகக் கையால் எழுதப்பட்ட சில சொற்களின் புகைப்படத்தைப் பதிவேற்றுங்கள். கையெழுத்துத் தரநிலை வழங்கப்படவில்லை.',
+
+    'status.featureTitle': 'ஆசிரியர் மதிப்பாய்வு தேவை',
+    'status.featureText':
+      'கையெழுத்தை அளவிடப் போதுமான நம்பகமான தகவல்கள் இல்லை. தெளிவான மாதிரியைப் பதிவேற்றுங்கள் அல்லது ஆசிரியரிடம் கேளுங்கள். தரநிலை வழங்கப்படவில்லை.',
 
     // Reliability values
     'reliability.strong': 'உயர் நம்பகத்தன்மை',

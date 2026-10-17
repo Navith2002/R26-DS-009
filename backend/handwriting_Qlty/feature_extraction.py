@@ -50,7 +50,7 @@ import cv2
 import numpy as np
 from scipy.ndimage import distance_transform_edt
 
-from image_utils import ensure_gray, ensure_ink_white
+from image_utils import ensure_gray, ensure_canonical_binary as ensure_ink_white
 
 
 TAMIL_QUALITY_FEATURES = [
