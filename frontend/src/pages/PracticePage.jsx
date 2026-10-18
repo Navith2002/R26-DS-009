@@ -258,65 +258,90 @@ export default function PracticePage() {
       <style>
         {`
           @media print {
-
             @page {
               size: A4 portrait;
               margin: 12mm;
             }
 
-            body {
-              background: #ffffff !important;
-              margin: 0 !important;
-            }
-
-            body * {
-              visibility: hidden !important;
-            }
-
-            #practice-print-card,
-            #practice-print-card * {
-              visibility: visible !important;
-            }
-
-            #practice-print-card {
-              position: absolute !important;
-              top: 0 !important;
-              left: 0 !important;
-
+            /* Remove the app layout, including space reserved by hidden UI. */
+            html,
+            body,
+            #root,
+            .app-shell,
+            .app-shell .main-area,
+            .app-shell .main-area > .practice-page-kids,
+            .practice-page-kids > .practice-workspace {
+              display: block !important;
+              position: static !important;
               width: 100% !important;
               max-width: none !important;
-
+              height: auto !important;
+              min-height: 0 !important;
               margin: 0 !important;
-              padding: 20px !important;
-
-              border: none !important;
-              border-radius: 0 !important;
-              box-shadow: none !important;
-
+              padding: 0 !important;
+              overflow: visible !important;
               background: #ffffff !important;
+              box-sizing: border-box !important;
             }
 
-            #practice-print-card .practice-print-actions {
-              display: none !important;
+            /* Transform animations can anchor the old absolute print card. */
+            .app-shell,
+            .app-shell * {
+              animation: none !important;
+              transition: none !important;
+              transform: none !important;
+              translate: none !important;
+              scale: none !important;
+              rotate: none !important;
             }
 
+            .app-shell .sidebar,
+            .app-shell .top-header,
+            .app-shell .mobile-nav,
+            .app-shell .app-footer,
+            .practice-page-kids > :not(.practice-workspace),
+            .practice-page-kids .practice-picker-panel,
+            #practice-print-card .practice-print-actions,
             #practice-print-card .practice-paper-footer button {
               display: none !important;
             }
 
-            #practice-print-card .writing-sheet {
-              break-inside: avoid !important;
-              page-break-inside: avoid !important;
+            /* Keep the worksheet in normal flow at the top of the page. */
+            #practice-print-card {
+              display: block !important;
+              position: static !important;
+              width: 100% !important;
+              max-width: none !important;
+              height: auto !important;
+              min-height: 0 !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              border: none !important;
+              border-radius: 0 !important;
+              box-shadow: none !important;
+              background: #ffffff !important;
+              overflow: visible !important;
+              box-sizing: border-box !important;
             }
 
-            #practice-print-card .practice-example-picture {
-              break-inside: avoid !important;
-              page-break-inside: avoid !important;
-            }
-
+            #practice-print-card .practice-paper-heading,
+            #practice-print-card .practice-example-picture,
             #practice-print-card .practice-prompt {
               break-inside: avoid !important;
               page-break-inside: avoid !important;
+              break-after: avoid !important;
+              page-break-after: avoid !important;
+            }
+
+            #practice-print-card .writing-sheet,
+            #practice-print-card .practice-paper-footer {
+              break-inside: avoid !important;
+              page-break-inside: avoid !important;
+            }
+
+            #practice-print-card .practice-paper-footer {
+              break-before: avoid !important;
+              page-break-before: avoid !important;
             }
           }
         `}
