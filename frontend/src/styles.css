@@ -956,3 +956,314 @@
   }
 
 }
+
+/* Handwriting Quality: model label, review warning and source image. */
+.results-page .quality-result-hero.hw-result-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+  align-items: start;
+  gap: 28px;
+}
+
+.results-page .hw-result-header .kid-result-copy {
+  min-width: 0;
+  max-width: none;
+}
+
+.results-page .hw-result-photo {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  min-width: 0;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #eadfce;
+  border-radius: 20px;
+}
+
+.results-page .hw-result-photo img {
+  display: block;
+  width: 100%;
+  height: 250px;
+  object-fit: contain;
+  background: #faf9f5;
+  border-radius: 12px;
+}
+
+.results-page .hw-result-photo figcaption {
+  margin-top: 8px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.results-page .hw-result-header .teacher-review-inline {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 12px 0;
+  padding: 12px 14px;
+  background: #fff7df;
+  border: 1px solid #e9bf55;
+  border-radius: 12px;
+}
+
+.results-page .hw-result-header .teacher-review-inline svg {
+  flex-shrink: 0;
+  color: #956000;
+}
+
+.results-page .hw-result-header .teacher-review-inline strong {
+  display: block;
+  font-size: 14px;
+  color: #805200;
+}
+
+.results-page .hw-result-header .teacher-review-inline p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .results-page .quality-result-hero.hw-result-header {
+    grid-template-columns: 1fr;
+  }
+
+  .results-page .hw-result-photo img {
+    height: 220px;
+  }
+}
+
+/* Keep the original results animations/icons beside the source-image panel. */
+.results-page .hw-result-header .hw-result-visuals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.results-page .hw-result-visuals .hw-result-photo {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.results-page .hw-result-animation {
+  display: grid;
+  place-items: center;
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.results-page .hw-result-animation > * {
+  max-width: 100%;
+}
+
+/* Bhasha Handwriting Quality — child-friendly results theme. */
+.results-page.hw-kids-results {
+  --hw-forest: #123d32;
+  --hw-orange: #f36b08;
+  --hw-sage: #eaf8e8;
+  --hw-cream: #fffdf7;
+  gap: 20px;
+  width: 100%;
+  max-width: 1260px;
+  margin-inline: auto;
+  color: var(--hw-forest);
+}
+
+.results-page.hw-kids-results .hw-result-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(240px, .85fr);
+  align-items: center;
+  gap: 32px;
+  padding: clamp(24px, 3vw, 42px);
+  background: linear-gradient(120deg, #fffef9, #fffdf7 65%, #f1fbed);
+  border: 1px solid #efd9b7;
+  border-radius: 28px;
+  box-shadow: 0 8px 0 #e6efdf, 0 18px 38px #244b3010;
+  overflow: visible;
+}
+
+.results-page.hw-kids-results .hw-result-header::before,
+.results-page.hw-kids-results .hw-result-header::after { display: none; }
+/* Quality colours are limited to the Handwriting Quality results page. */
+.results-page.hw-kids-results .tone-good { --tone: #1f7a3f; --tone-soft: #e3f3e6; }
+.results-page.hw-kids-results .tone-above-average { --tone: #946b00; --tone-soft: #fff7d6; }
+.results-page.hw-kids-results .tone-average,
+.results-page.hw-kids-results .tone-below-average { --tone: #b64e0b; --tone-soft: #fff0e2; }
+.results-page.hw-kids-results .tone-poor { --tone: #b52d32; --tone-soft: #fff0ef; }
+.results-page.hw-kids-results .probability-fill[class*="tone-"] { background: var(--tone); }
+.results-page.hw-kids-results .hw-result-header .kid-result-copy { max-width: none; min-width: 0; }
+.results-page.hw-kids-results .hw-result-header .result-language { display: inline-flex; padding: 5px 12px; margin: 0 8px 10px 0; border-radius: 18px; border: 1px solid #dcebd9; background: #fff; font-size: 13px; }
+.results-page.hw-kids-results .hw-result-header .eyebrow { display: inline-flex; align-items: center; padding: 7px 12px; background: #ffe7d5; color: #ae4208; border-radius: 18px; font-size: 12px; }
+.results-page.hw-kids-results .hw-result-header h2 { margin: 18px 0 16px; font-size: clamp(34px, 4.5vw, 66px); line-height: 1.35; letter-spacing: -.025em; overflow-wrap: anywhere; color: var(--tone, var(--hw-forest)); }
+.results-page.hw-kids-results .hw-result-header .child-quality-message { font-size: 16px; line-height: 1.85; color: #395b4c; margin: 16px 0; }
+/* Explicit grade treatment: independent of shared heading colours. */
+/* Faint single-ruled paper, drawn in CSS without an extra image asset. */
+.results-page.hw-kids-results .hw-quality-hero {
+  background:
+    linear-gradient(90deg, transparent 22px, rgba(215, 118, 118, .16) 22px, rgba(215, 118, 118, .16) 23px, transparent 23px),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 37px, rgba(109, 149, 181, .13) 37px, rgba(109, 149, 181, .13) 38px),
+    linear-gradient(120deg, #fffef9, #fffdf7 70%, #f5fbef) !important;
+  align-items: start;
+}
+.results-page.hw-kids-results .hw-quality-hero .hw-grade-eyebrow { display: flex; width: fit-content; max-width: 100%; margin-top: 12px; padding: 6px 12px; font-size: 14px; font-weight: 800; line-height: 1.6; text-transform: none; letter-spacing: 0; }
+.results-page.hw-kids-results .hw-quality-hero .kid-result-copy { padding-top: 8px; }
+.results-page.hw-kids-results .hw-quality-hero .hw-grade-heading { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 14px; margin: 16px 0 20px; }
+.results-page.hw-kids-results .hw-quality-hero .hw-grade-symbol { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; color: var(--hw-grade-ink); background: var(--hw-grade-soft); border: 2px solid currentColor; box-shadow: 0 4px 0 var(--hw-grade-soft); }
+.results-page.hw-kids-results .hw-quality-hero .hw-grade-heading > .hw-grade-label { margin: 0; padding: 0; min-width: 0; font-size: clamp(30px, 3.6vw, 54px); line-height: 1.45; font-weight: 800; letter-spacing: 0; overflow-wrap: anywhere; color: var(--hw-grade-ink) !important; -webkit-text-fill-color: var(--hw-grade-ink) !important; }
+.results-page.hw-kids-results .hw-quality-hero .teacher-review-inline { margin: 0 0 18px; border-radius: 16px; background: #fff7df !important; border: 1px solid #e9bf55; align-items: flex-start; }
+.results-page.hw-kids-results .hw-quality-hero .hw-result-visuals-kids { align-self: start; }
+@media (max-width: 600px) {
+  .results-page.hw-kids-results .hw-quality-hero .hw-grade-heading { grid-template-columns: 48px minmax(0, 1fr); gap: 10px 12px; }
+  .results-page.hw-kids-results .hw-quality-hero .hw-grade-symbol { width: 48px; height: 48px; border-radius: 15px; }
+  .results-page.hw-kids-results .hw-quality-hero .hw-grade-symbol svg { width: 28px; height: 28px; }
+  .results-page.hw-kids-results .hw-quality-hero .hw-grade-heading > .hw-grade-label { font-size: clamp(28px, 7vw, 40px); }
+}
+@container (max-width: 480px) {
+  .results-page.hw-kids-results .hw-quality-hero .hw-grade-heading { grid-template-columns: 48px minmax(0, 1fr); gap: 10px 12px; }
+  .results-page.hw-kids-results .hw-quality-hero .hw-grade-symbol { width: 48px; height: 48px; border-radius: 15px; }
+  .results-page.hw-kids-results .hw-quality-hero .hw-grade-symbol svg { width: 28px; height: 28px; }
+  .results-page.hw-kids-results .hw-quality-hero .hw-grade-heading > .hw-grade-label { font-size: 30px; }
+}
+.results-page.hw-kids-results .teacher-review-inline { max-width: none; background: #fff7df; border-color: #edce72; box-shadow: none; }
+.results-page.hw-kids-results .hw-result-header .teacher-review-inline strong { font-size: 13px; line-height: 1.6; }
+.results-page.hw-kids-results .hw-result-header .teacher-review-inline p { font-size: 12px; line-height: 1.8; }
+.results-page.hw-kids-results .primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 13px 22px; border: 1px solid #dd5802; border-radius: 16px; background: linear-gradient(#ff8116, #ee6204); color: #fff; font-weight: 800; font-size: 15px; box-shadow: 0 4px 0 #bf4d09, 0 8px 16px #ef6b0720; cursor: pointer; }
+.results-page.hw-kids-results .primary-action:hover { background: #e65e06; transform: translateY(-1px); }
+.results-page.hw-kids-results button:focus-visible { outline: 3px solid #175f97; outline-offset: 4px; }
+.results-page.hw-kids-results .hw-result-visuals-kids { position: relative; gap: 10px; min-width: 0; }
+.results-page.hw-kids-results .hw-result-visuals-kids > .kid-result-mascot { position: absolute; right: -10px; top: -24px; width: 62px; height: 62px; border-radius: 50%; font-size: 31px; z-index: 4; background: #fff2c8; border: 5px solid #fff; box-shadow: 0 5px 14px #8c6d1220; }
+.results-page.hw-kids-results .hw-result-animation { max-width: 140px; align-self: end; }
+.results-page.hw-kids-results .hw-result-photo { position: relative; width: 100%; padding: 10px; border-radius: 22px; border-color: #dfdfd2; background: #fff; box-shadow: 0 5px 0 #e8ecdf, 0 12px 24px #304e3710; }
+.results-page.hw-kids-results .hw-photo-heading { display: flex; align-items: center; justify-content: center; gap: 8px; margin: -1px -1px 10px; padding: 11px 8px; background: #ddf2ff; border-radius: 15px; font-weight: 800; font-size: 14px; color: #163e57; }
+.results-page.hw-kids-results .hw-photo-open { display: block; position: relative; width: 100%; padding: 0; border: 0; border-radius: 13px; overflow: hidden; background: #f7f7f2; cursor: zoom-in; }
+.results-page.hw-kids-results .hw-photo-open img { height: 245px; width: 100%; object-fit: contain; }
+.results-page.hw-kids-results .hw-photo-enlarge { display: block; padding: 8px; background: #f4f9f0; color: #3c6651; font-size: 11px; }
+.results-page.hw-kids-results .hw-result-photo figcaption { padding: 0 28px; font-size: 11px; line-height: 1.6; }
+.results-page.hw-kids-results .hw-peeking-cat { position: absolute; right: -15px; bottom: 4px; font-size: 49px; transform: rotate(-8deg); pointer-events: none; filter: drop-shadow(0 4px 2px #243a2020); animation: hw-cat-peek 4s ease-in-out infinite; }
+@keyframes hw-cat-peek { 0%,100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(-4deg) translateY(-5px); } }
+.results-page.hw-kids-results .hw-photo-dialog { position: fixed; inset: 0; margin: auto; width: fit-content; height: fit-content; max-width: min(calc(100vw - 32px), 1050px); max-height: calc(100dvh - 32px); padding: 44px 18px 16px; border: 0; border-radius: 20px; overflow: auto; color: var(--hw-forest); background: #fffef8; }
+.results-page.hw-kids-results .hw-photo-dialog::backdrop { background: #102a23bb; }
+.results-page.hw-kids-results .hw-photo-dialog > img { display: block; width: auto; max-width: 100%; height: auto; max-height: 72dvh; margin: auto; object-fit: contain; }
+.results-page.hw-kids-results .hw-photo-dialog > p { padding: 10px 8px 0; text-align: center; font-size: 13px; }
+.results-page.hw-kids-results .hw-photo-close { position: absolute; right: 8px; top: 6px; display: grid; place-items: center; width: 40px; height: 36px; border-radius: 12px; color: var(--hw-forest); background: #edf5e8; cursor: pointer; }
+
+.results-page.hw-kids-results .hw-skill-section,
+.results-page.hw-kids-results .hw-practice-section,
+.results-page.hw-kids-results .hw-effort-section { background: #fffefa; padding: clamp(18px, 2.3vw, 26px); border-radius: 25px; border: 1px solid #e2ead8; box-shadow: 0 6px 18px #244b3008; }
+.results-page.hw-kids-results .hw-section-title { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.results-page.hw-kids-results .hw-section-title > svg { flex-shrink: 0; width: 28px; height: 28px; color: #6d9f36; }
+.results-page.hw-kids-results .hw-section-title h3 { margin: 0; font-size: clamp(18px, 2.3vw, 25px); line-height: 1.6; color: #153d32; }
+.results-page.hw-kids-results .hw-section-title > span { color: #edb721; font-size: 27px; }
+.results-page.hw-kids-results .hw-skill-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.results-page.hw-kids-results .hw-skill-card { display: grid; grid-template-columns: minmax(0, 1fr) 94px; align-items: center; gap: 10px; padding: 18px 14px; border: 1px solid #d8e8d0; border-radius: 20px; background: #f3fbef; min-width: 0; }
+.results-page.hw-kids-results .hw-skill-practice { background: #fff9e9; border-color: #efdca9; }
+.results-page.hw-kids-results .hw-skill-unknown { background: #f5f8fa; border-color: #dce5e8; }
+.results-page.hw-kids-results .hw-skill-icon { display: inline-grid; place-items: center; min-width: 52px; min-height: 44px; padding: 4px 10px; margin-bottom: 10px; border-radius: 15px; background: #fff; color: #317357; font-size: 30px; font-weight: 800; }
+.results-page.hw-kids-results .hw-skill-icon-size { color: #29618b; }
+.results-page.hw-kids-results .hw-skill-content h4 { font-size: 14px; line-height: 1.6; margin: 0 0 6px; }
+.results-page.hw-kids-results .hw-skill-content p { font-size: 11px; line-height: 1.8; color: #5e7468; margin: 0; }
+.results-page.hw-kids-results .hw-skill-indicator { display: flex; flex-direction: column; align-items: center; gap: 9px; min-width: 0; }
+.results-page.hw-kids-results .hw-skill-ring { width: 86px; height: 86px; position: relative; color: #4fa24a; }
+.results-page.hw-kids-results .hw-skill-ring svg { display: block; width: 100%; height: 100%; transform: rotate(-90deg); }
+.results-page.hw-kids-results .hw-skill-ring circle { stroke: currentColor; stroke-width: 12; fill: none; stroke-dasharray: 8 4.5; stroke-linecap: round; }
+.results-page.hw-kids-results .hw-skill-ring > span { position: absolute; inset: 22px; display: grid; place-items: center; border-radius: 50%; background: #d9f1d1; color: #27622a; font-size: 26px; font-weight: 900; }
+.results-page.hw-kids-results .hw-skill-state { width: 100%; padding: 5px 7px; border-radius: 16px; background: #dbf2d4; color: #2c622b; text-align: center; font-size: 10px; line-height: 1.6; font-weight: 800; overflow-wrap: anywhere; }
+.results-page.hw-kids-results .hw-skill-practice .hw-skill-ring { color: #eab134; }
+.results-page.hw-kids-results .hw-skill-practice .hw-skill-ring > span { background: #ffedbd; color: #956008; }
+.results-page.hw-kids-results .hw-skill-practice .hw-skill-state { background: #ffedbd; color: #956008; }
+.results-page.hw-kids-results .hw-skill-unknown .hw-skill-ring { color: #b7c5cd; }
+.results-page.hw-kids-results .hw-skill-unknown .hw-skill-ring > span { background: #e5ecef; color: #566e7b; }
+.results-page.hw-kids-results .hw-skill-unknown .hw-skill-state { background: #e5ecef; color: #566e7b; }
+.results-page.hw-kids-results .hw-indicator-note { display: flex; justify-content: flex-end; align-items: flex-start; gap: 6px; margin: 14px 0 0; font-size: 11px; line-height: 1.7; color: #617a6c; }
+.results-page.hw-kids-results .hw-indicator-note svg { flex-shrink: 0; margin-top: 3px; }
+.results-page.hw-kids-results .hw-feedback-note { display: flex; gap: 10px; align-items: flex-start; padding: 13px 18px; color: #536c60; background: #f4f8ef; border: 1px dashed #cfddc1; border-radius: 16px; }
+.results-page.hw-kids-results .hw-feedback-note svg { flex-shrink: 0; margin-top: 4px; }
+.results-page.hw-kids-results .hw-feedback-note p { margin: 0; font-size: 12px; line-height: 1.8; }
+
+.results-page.hw-kids-results .hw-practice-section { border-color: #f0d5ae; background: linear-gradient(110deg, #fff9ef, #fffdf9); }
+.results-page.hw-kids-results .hw-practice-section .hw-section-title > svg { color: #e7621e; }
+.results-page.hw-kids-results .hw-practice-section .hw-section-title h3 { color: #ba4b13; }
+.results-page.hw-kids-results .hw-practice-body { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(220px, .85fr); gap: 24px; padding: 22px; border: 1px solid #f4e3cb; border-radius: 20px; background: #fff; }
+.results-page.hw-kids-results .hw-practice-label { font-size: 11px; font-weight: 800; color: #a75d22; }
+.results-page.hw-kids-results .hw-practice-copy h4 { margin: 9px 0; font-size: 19px; line-height: 1.7; }
+.results-page.hw-kids-results .hw-practice-copy p { margin: 0; color: #617569; font-size: 13px; line-height: 1.9; }
+.results-page.hw-kids-results .hw-tracing-guide { position: relative; display: flex; align-items: center; justify-content: space-evenly; gap: 10px; min-height: 105px; margin: 20px 0 7px; padding: 6px 10px; border: 1px dashed #cedcc8; border-radius: 12px; background: repeating-linear-gradient(to bottom, #fff 0, #fff 33px, #d6e5f2 33px, #d6e5f2 35px); }
+.results-page.hw-kids-results .hw-tracing-guide > span:not(.hw-pencil-sticker) { font-size: 43px; line-height: 1.5; }
+.results-page.hw-kids-results .hw-trace-faded { color: #bcc9cf; }
+.results-page.hw-kids-results .hw-trace-ink { color: #2253a7; }
+.results-page.hw-kids-results .hw-pencil-sticker { position: absolute; left: -23px; bottom: 1px; font-size: 43px; transform: rotate(-12deg); }
+.results-page.hw-kids-results .hw-practice-example-note { display: block; font-size: 10px; line-height: 1.7; color: #788c7f; }
+.results-page.hw-kids-results .hw-practice-actions { display: flex; flex-direction: column; justify-content: center; gap: 18px; min-width: 0; }
+.results-page.hw-kids-results .hw-practice-actions .primary-action { width: 100%; }
+.results-page.hw-kids-results .hw-small-tip { display: flex; gap: 9px; padding: 14px; border-radius: 15px; background: #fff9e9; border: 1px solid #f4e2b7; }
+.results-page.hw-kids-results .hw-small-tip svg { flex-shrink: 0; color: #e79d0b; }
+.results-page.hw-kids-results .hw-small-tip strong { font-size: 12px; color: #ac630b; }
+.results-page.hw-kids-results .hw-small-tip p { font-size: 11px; line-height: 1.8; margin: 5px 0 0; color: #6b7a65; }
+.results-page.hw-kids-results .hw-secondary-focus { display: flex; align-items: center; gap: 12px; margin-top: 14px; padding: 14px 16px; border: 1px solid #ecdcc4; border-radius: 15px; background: #fffdf8; }
+.results-page.hw-kids-results .hw-secondary-focus > span { font-size: 25px; }
+.results-page.hw-kids-results .hw-secondary-focus > div { flex: 1; min-width: 0; }
+.results-page.hw-kids-results .hw-secondary-focus strong { font-size: 12px; }
+.results-page.hw-kids-results .hw-secondary-focus p { margin: 4px 0 0; font-size: 11px; line-height: 1.8; color: #657b6e; }
+.results-page.hw-kids-results .hw-secondary-focus button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 12px; border-radius: 12px; color: #b75b1e; background: #fff0d8; font-size: 12px; font-weight: 800; flex-shrink: 0; cursor: pointer; }
+.results-page.hw-kids-results .hw-effort-section { background: #fffef8; }
+.results-page.hw-kids-results .hw-effort-section .hw-section-title > svg { color: #eebc19; fill: #fbd456; }
+.results-page.hw-kids-results .hw-effort-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.results-page.hw-kids-results .hw-effort-badge { display: flex; align-items: center; gap: 18px; padding: 19px; border-radius: 19px; background: #e5f3fd; }
+.results-page.hw-kids-results .hw-effort-pencil { background: #edf9e7; }
+.results-page.hw-kids-results .hw-sticker { font-size: 49px; filter: drop-shadow(0 4px 1px #96873b18); }
+.results-page.hw-kids-results .hw-effort-badge strong { display: block; font-size: 15px; line-height: 1.7; }
+.results-page.hw-kids-results .hw-effort-badge p { margin: 5px 0 0; font-size: 12px; line-height: 1.85; color: #527262; }
+.results-page.hw-kids-results .hw-capture-help { display: flex; align-items: flex-start; gap: 16px; padding: 22px; background: #fffdf5; border: 1px solid #eed8ad; border-radius: 20px; }
+.results-page.hw-kids-results .hw-capture-help svg { flex-shrink: 0; color: #c58020; }
+.results-page.hw-kids-results .hw-capture-help h3 { font-size: 18px; margin: 0 0 7px; }
+.results-page.hw-kids-results .hw-capture-help p { font-size: 14px; line-height: 1.9; color: #657665; margin: 0; }
+.results-page.hw-kids-results .technical-details { border-radius: 20px; border-color: #dbe6d2; background: #fffef9; }
+.results-page.hw-kids-results .technical-details > summary { min-height: 58px; padding: 17px 20px; color: #234c3c; }
+
+@media (max-width: 1060px) {
+  .results-page.hw-kids-results .hw-skill-grid { grid-template-columns: 1fr; }
+  .results-page.hw-kids-results .hw-skill-card { grid-template-columns: minmax(0, 1fr) 110px; padding: 18px 22px; }
+  .results-page.hw-kids-results .hw-skill-content { display: grid; grid-template-columns: 60px minmax(0, 1fr); align-items: center; column-gap: 14px; }
+  .results-page.hw-kids-results .hw-skill-icon { grid-row: 1 / 3; margin: 0; }
+  .results-page.hw-kids-results .hw-skill-content p { grid-column: 2; }
+}
+@media (max-width: 720px) {
+  .results-page.hw-kids-results { gap: 16px; }
+  .results-page.hw-kids-results .hw-result-header { grid-template-columns: 1fr; padding: 24px 21px; gap: 24px; }
+  .results-page.hw-kids-results .hw-result-header h2 { font-size: clamp(30px, 8vw, 44px); }
+  .results-page.hw-kids-results .hw-result-visuals { width: 100%; max-width: 420px; margin-inline: auto; }
+  .results-page.hw-kids-results .hw-practice-body { grid-template-columns: 1fr; padding: 18px; gap: 18px; }
+  .results-page.hw-kids-results .hw-practice-actions .primary-action { width: 100%; }
+  .results-page.hw-kids-results .hw-secondary-focus { flex-wrap: wrap; }
+  .results-page.hw-kids-results .hw-secondary-focus button { margin-left: auto; }
+  .results-page.hw-kids-results .hw-effort-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 400px) {
+  .results-page.hw-kids-results .hw-skill-card { grid-template-columns: minmax(0, 1fr) 84px; gap: 6px; padding: 16px 12px; }
+  .results-page.hw-kids-results .hw-skill-content { display: block; }
+  .results-page.hw-kids-results .hw-skill-icon { margin-bottom: 8px; }
+  .results-page.hw-kids-results .hw-skill-ring { width: 76px; height: 76px; }
+  .results-page.hw-kids-results .hw-effort-badge { padding: 15px; gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .results-page.hw-kids-results .hw-peeking-cat { animation: none; }
+  .results-page.hw-kids-results .primary-action:hover { transform: none; }
+}
+
+/* Respond to the available page width when the app's sidebar is visible. */
+.results-page.hw-kids-results { container-type: inline-size; }
+.results-page.hw-kids-results .primary-action { white-space: normal; line-height: 1.65; }
+@container (max-width: 780px) {
+  .results-page.hw-kids-results .hw-result-header { grid-template-columns: 1fr; }
+  .results-page.hw-kids-results .hw-result-visuals { width: 100%; max-width: 420px; margin-inline: auto; }
+  .results-page.hw-kids-results .hw-skill-grid { grid-template-columns: 1fr; }
+  .results-page.hw-kids-results .hw-practice-body { grid-template-columns: 1fr; }
+  .results-page.hw-kids-results .hw-effort-grid { grid-template-columns: 1fr; }
+}

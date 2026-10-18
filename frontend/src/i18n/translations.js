@@ -85,6 +85,21 @@ const translations = {
     'home.descGrammar': 'වචන සහ වාක්‍ය නිවැරදිද බලමු.',
     'home.descFluency': 'වාක්‍යයක් හයියෙන් කියවමු.',
     'home.descReading': 'කියවන විට වරදින තැන් හොයමු.',
+    'home.heroText': 'අද එක පිටුවක් ලියමු, එක වාක්‍යයක් කියවමු.',
+    'home.start': 'අරඹමු',
+    'home.goalToday': 'අද ඉලක්කය',
+    'home.goalDone': 'අද ඉලක්කය සම්පූර්ණයි!',
+    'home.streak': 'දින {count}',
+    'home.thisWeek': 'මේ සතිය',
+    'home.weekDays': 'සඳු,අඟ,බදා,බ්‍රහ,සිකු,සෙන,ඉරි',
+    'home.learn': 'ඉගෙන ගන්න',
+    'home.new': 'අලුත්',
+    'home.accuracyTitle': 'ලිවීමේ නිවැරදි බව',
+    'home.accuracyCorrect': 'නිවැරදියි',
+    'home.descCheck': 'ලියපු පිටුවේ ඡායාරූපයක් ගන්න.',
+    'home.descGrammar': 'වචන සහ වාක්‍ය නිවැරදිද බලමු.',
+    'home.descFluency': 'වාක්‍යයක් හයියෙන් කියවමු.',
+    'home.descReading': 'කියවන විට වරදින තැන් හොයමු.',
     'home.noChecks': 'තවම ලිවීමේ පරීක්ෂණ නැහැ',
     'home.noChecksText': 'ඔබේ මෑත අත්අකුරු ප්‍රතිඵල මෙහි පෙන්වයි.',
     'home.tipTitle': 'අද පුංචි උපදෙස',
@@ -193,6 +208,14 @@ const translations = {
     'results.reasonVisibility': 'ලිවීමේ කොටස් කිහිපයක් පැහැදිලිව පෙනෙන්නේ නැහැ.',
     'results.reasonWord': 'ප්‍රමාණවත් පැහැදිලි ලිවීමේ කලාප හඳුනාගත නොහැකි විය.',
     'results.reasonDefault': 'ඡායාරූපය තවත් පැහැදිලි විය යුතුයි.',
+
+    'status.nonWritingTitle': 'අතින් ලියූ නියැදියක් අවශ්‍යයි',
+    'status.nonWritingText':
+      'මෙම රූපයේ අත්අකුරු විශ්ලේෂණයට ප්‍රමාණවත් සාක්ෂි හමු නොවීය. පැහැදිලිව අතින් ලියූ වචන කිහිපයක ඡායාරූපයක් යොමු කරන්න. ගුණාත්මක මට්ටමක් ලබා දී නැත.',
+
+    'results.teacherReview': 'ගුරු සමාලෝචනය අවශ්‍යයි',
+    'results.teacherReviewText':
+      'මෙම අනාවැකියේ විශ්වාසය අඩු බැවින්, ප්‍රතිඵලය ගුරුවරයෙකු ලවා තහවුරු කරගන්න.',
 
         // =========================================================
     // NEW RESULTS PAGE — CHILD FEEDBACK / EXPLAINABILITY
@@ -344,6 +367,7 @@ const translations = {
     'progress.completed': 'සම්පූර්ණ පරීක්ෂණ',
     'progress.languages': 'පුහුණු කළ භාෂා',
     'progress.recentJourney': 'මෑත අත්අකුරු ගමන',
+    'progress.recentJourney': 'මෑත අත්අකුරු ගමන',
     'progress.lastResults': 'අවසන් අත්අකුරු පරීක්ෂණ සම්පූර්ණ ප්‍රතිඵල {count}',
     'progress.areasTitle': 'මගේ ඉගෙනුම් ක්ෂේත්‍ර',
     'progress.periodWeek': 'සතිය',
@@ -360,27 +384,10 @@ const translations = {
     'fl.cheer2': 'හොඳයි, තව ටිකයි!',
     'fl.cheer1': 'දිගටම පුහුණු වෙමු!',
     'fl.coachTitle': 'ඔබේ කියවීම',
+    'fl.focusOn': 'අවධානය යොමු කරමු',
     'fl.compareTitle': 'කියවූ ආකාරය',
     'fl.print': 'වාර්තාව මුද්‍රණය',
     'fl.sentenceCount': 'වාක්‍ය {count}',
-    'fl.startPractice': 'කියවුම් පුහුණුව ආරම්භ කරන්න',
-    'fl.planTitle': 'කියවුම් පුහුණු සැලසුම',
-    'fl.planEmptyTitle': 'තවම පුහුණු සැලසුම් නැත',
-    'fl.planEmptyText': 'ඇගයීමකින් පසු, යෝජිත ක්‍රියාකාරකමක ඇති "කියවුම් පුහුණුව ආරම්භ කරන්න" බොත්තම ඔබන්න.',
-    'fl.planProgress': 'ක්‍රියාකාරකම් {done} / {total} සම්පූර්ණයි',
-    'fl.activityLabel': 'ක්‍රියාකාරකම {index}',
-    'fl.activityCompleted': 'සම්පූර්ණයි',
-    'fl.activityPending': 'තවම සම්පූර්ණ නොවීය',
-    'fl.assessReading': 'කියවීම ඇගයීම',
-    'fl.reassessReading': 'මෙම වාක්‍යය නැවත ඇගයීම',
-    'fl.activityDoneTitle': 'ක්‍රියාකාරකම සම්පූර්ණයි!',
-    'fl.nextActivity': 'ඊළඟ යෝජිත ක්‍රියාකාරකමට යන්න',
-    'fl.viewFullSummary': 'සම්පූර්ණ සාරාංශය බලන්න',
-    'fl.backToPractice': 'කියවුම් පුහුණුවට ආපසු',
-    'fl.downloadSummary': 'සාරාංශය මුද්‍රණය කරන්න',
-    'fl.summaryTitle': 'සියලු ක්‍රියාකාරකම් සම්පූර්ණයි — සම්පූර්ණ සාරාංශය',
-    'fl.noPracticeSentence': 'මෙම ක්‍රියාකාරකම සඳහා වාක්‍යයක් හමු නොවිණි.',
-    'fl.planNotFound': 'මෙම පුහුණු සැලසුම හමු නොවීය.',
     'pv.qualityTitle': 'අත්අකුරු ගුණාත්මකභාවය',
     'pv.less': 'අඩු',
     'pv.more': 'වැඩි',
@@ -442,6 +449,66 @@ const translations = {
     'history.sinhalaWriting': 'සිංහල ලිවීම',
     'history.tamilWriting': 'දෙමළ ලිවීම',
 
+    'results.mySkills': 'මගේ ලිවීමේ හැකියාවන්',
+    'results.skillSpacing': 'වචන අතර ඉඩ',
+    'results.skillAlignment': 'පේළි පිළිවෙළ',
+    'results.skillSize': 'අකුරු ප්‍රමාණය',
+    'results.skillDescription.spacing': 'වචන අතර පැහැදිලි ඉඩ තැබීම.',
+    'results.skillDescription.alignment': 'එකම පේළියක අකුරු ලිවීම.',
+    'results.skillDescription.size': 'අකුරු එකම ප්‍රමාණයෙන් ලිවීම.',
+
+    'results.skillClear': 'ගැටලුවක් හමු නොවීය',
+    'results.skillPractice': 'පුහුණු වෙමු',
+    'results.skillUnknown': 'තව පරීක්ෂා කරමු',
+    'results.skillIndicatorsNote':
+      'මේවා මෙම නියැදියේ ප්‍රතිචාර පමණි; ලකුණු හෝ ප්‍රතිශත නොවේ.',
+
+    'results.myHandwriting': 'මගේ අත්අකුරු',
+    'results.enlargeImage': 'රූපය විශාල කර බලන්න',
+    'results.closeImage': 'රූපය වසන්න',
+
+    'results.todayPractice': 'අද පුහුණුව',
+    'results.nextSmallStep': 'ඊළඟට මේ දේ උත්සාහ කරමු',
+    'results.generalPractice': 'අපි එකට පුහුණු වෙමු',
+    'results.generalPracticeTitle': 'කෙටි පේළියක් සෙමින් ලියමු',
+    'results.generalPracticeText':
+      'හුරුපුරුදු වචන කිහිපයක් තෝරා, සුවපහසු වේගයකින් කෙටි පේළියක් ලියන්න.',
+    'results.practiceExample':
+      'පුහුණු උදාහරණයක් පමණි; ඔබේ ලිවීමේ සලකුණු කිරීමක් නොවේ.',
+
+    'results.smallTip': 'පුංචි ඉඟියක්',
+    'results.smallTipText':
+      'පෑන සැහැල්ලුවෙන් අල්ලාගෙන, සුවපහසුවෙන් වාඩි වී සෙමින් ලියන්න.',
+
+    'results.effortTitle': 'ඔබේ උත්සාහය අගය කරමු!',
+    'results.effortChecked': 'හොඳ උත්සාහයක්!',
+    'results.effortCheckedText': 'ඔබේ ලිවීමේ නියැදිය පරීක්ෂා කළා.',
+    'results.effortNext': 'ඊළඟ පුංචි පියවර',
+    'results.effortNextText': 'කෙටි පුහුණුවක් උත්සාහ කර ඉගෙන ගනිමු.',
+
+    'results.heroEncouragement':
+      'සෑම දිනකම පුංචි පුහුණුවක්. අපි ටිකෙන් ටික ඉදිරියට යමු!',
+    'results.skillPartialNote':
+      'සමහර හැකියාවන් තව පරීක්ෂා කළ යුතුයි. පැහැදිලි ප්‍රතිචාර ඇති තැන්වලින් පුහුණුව පටන් ගමු.',
+    'results.skillUnavailableNote':
+      'මෙම නියැදියෙන් විශ්වාසදායක පුහුණු ප්‍රතිචාර ප්‍රමාණවත් ලෙස ලැබී නැත. දැනට සාමාන්‍ය පුහුණුවක් කරමු; ගුරුවරයෙකුගෙන්ද විමසන්න.',
+
+    'results.captureHelpTitle': 'පැහැදිලි අත්අකුරු ඡායාරූපයක් ගනිමු',
+    'results.captureHelpText':
+      'හොඳ ආලෝකයකදී, කැමරාව පිටුවට කෙළින් ඉහළින් තබා අතින් ලියූ වචන කිහිපයක් පැහැදිලිව ඡායාරූපයට ගන්න. මෙවර ලිවීමේ මට්ටමක් ලබා දී නැත.',
+
+    'results.teacherReview': 'ගුරු සමාලෝචනය අවශ්‍යයි',
+    'results.teacherReviewText':
+      'මෙම අනාවැකියේ විශ්වාසය අඩු බැවින්, ප්‍රතිඵලය ගුරුවරයෙකු ලවා තහවුරු කරගන්න.',
+
+    'status.nonWritingTitle': 'අතින් ලියූ නියැදියක් අවශ්‍යයි',
+    'status.nonWritingText':
+      'මෙම රූපයේ අත්අකුරු විශ්ලේෂණයට ප්‍රමාණවත් සාක්ෂි හමු නොවීය. පැහැදිලිව අතින් ලියූ වචන කිහිපයක ඡායාරූපයක් යොමු කරන්න. ගුණාත්මක මට්ටමක් ලබා දී නැත.',
+
+    'status.featureTitle': 'ගුරු සමාලෝචනයක් අවශ්‍යයි',
+    'status.featureText':
+      'ලිවීම මැනීමට ප්‍රමාණවත් විශ්වාසදායක තොරතුරු නැත. පැහැදිලි නියැදියක් යොමු කරන්න හෝ ගුරුවරයෙකුගෙන් විමසන්න. ගුණාත්මක මට්ටමක් ලබා දී නැත.',
+
     // Practice
     'practice.eyebrow': 'පුහුණුව',
     'practice.title': 'විනෝද ලිවීමේ ක්‍රියාකාරකමක් තෝරන්න ✏️',
@@ -465,8 +532,10 @@ const translations = {
     'profile.eyebrow': 'පැතිකඩ',
     'profile.title': 'මගේ පැතිකඩ 🙂',
     'profile.text': 'Bhasha ඔබව පිළිගන්නා විට භාවිතා කළ යුතු නම තෝරන්න.',
+    'profile.text': 'Bhasha ඔබව පිළිගන්නා විට භාවිතා කළ යුතු නම තෝරන්න.',
     'profile.displayName': 'පෙන්වන නම',
     'profile.namePlaceholder': 'ඉගෙනුම්කරුගේ නම',
+    'profile.role': 'මම Bhasha භාවිතා කරන්නේ',
     'profile.role': 'මම Bhasha භාවිතා කරන්නේ',
     'profile.saved': 'සුරකින ලදී!',
     'profile.save': 'පැතිකඩ සුරකින්න',
@@ -649,6 +718,21 @@ const translations = {
     'home.descGrammar': 'சொற்களும் வாக்கியங்களும் சரியா என்று பார்ப்போம்.',
     'home.descFluency': 'ஒரு வாக்கியத்தை சத்தமாக படிப்போம்.',
     'home.descReading': 'படிக்கும்போது தவறும் இடங்களைக் கண்டுபிடிப்போம்.',
+    'home.heroText': 'இன்று ஒரு பக்கம் எழுதுவோம், ஒரு வாக்கியம் படிப்போம்.',
+    'home.start': 'தொடங்குவோம்',
+    'home.goalToday': 'இன்றைய இலக்கு',
+    'home.goalDone': 'இன்றைய இலக்கு முடிந்தது!',
+    'home.streak': '{count} நாள்',
+    'home.thisWeek': 'இந்த வாரம்',
+    'home.weekDays': 'திங்,செவ்,புத,வியா,வெள்,சனி,ஞாயி',
+    'home.learn': 'கற்போம்',
+    'home.new': 'புதியது',
+    'home.accuracyTitle': 'எழுத்தின் சரித்தன்மை',
+    'home.accuracyCorrect': 'சரி',
+    'home.descCheck': 'எழுதிய பக்கத்தை புகைப்படம் எடுங்கள்.',
+    'home.descGrammar': 'சொற்களும் வாக்கியங்களும் சரியா என்று பார்ப்போம்.',
+    'home.descFluency': 'ஒரு வாக்கியத்தை சத்தமாக படிப்போம்.',
+    'home.descReading': 'படிக்கும்போது தவறும் இடங்களைக் கண்டுபிடிப்போம்.',
     'home.noChecks': 'இன்னும் எழுத்துச் சரிபார்ப்புகள் இல்லை',
     'home.noChecksText': 'உங்கள் சமீப கையெழுத்துப் பெறுபேறுகள் இங்கே காணப்படும்.',
     'home.tipTitle': 'இன்றைய சிறிய ஆலோசனை',
@@ -682,7 +766,13 @@ const translations = {
     'analyze.errLarge': 'இந்தப் படம் மிகப் பெரியது. 10 MB க்குக் குறைவான படத்தைத் தேர்வு செய்யுங்கள்.',
     'analyze.errType': 'PNG, JPG/JPEG, BMP, TIF அல்லது TIFF படத்தைப் பயன்படுத்துங்கள்.',
     'analyze.errGeneric': 'இப்போது இந்தக் கையெழுத்தைச் சரிபார்க்க முடியவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.',
+    'status.nonWritingTitle': 'கையெழுத்து மாதிரி தேவை',
+    'status.nonWritingText':
+      'இந்தப் படத்தில் கையெழுத்தை ஆய்வு செய்வதற்குப் போதுமான ஆதாரம் கிடைக்கவில்லை. தெளிவாகக் கையால் எழுதப்பட்ட சில சொற்களின் புகைப்படத்தைப் பதிவேற்றுங்கள். கையெழுத்துத் தரநிலை வழங்கப்படவில்லை.',
 
+    'results.teacherReview': 'ஆசிரியர் மதிப்பாய்வு தேவை',
+    'results.teacherReviewText':
+      'இந்தக் கணிப்பின் நம்பிக்கை குறைவாக இருப்பதால், பெறுபேற்றை ஆசிரியரிடம் உறுதிப்படுத்துங்கள்.',
     // Results
     'results.newCheck': 'புதிய எழுத்தைச் சரிபார்',
     'results.checkId': 'எழுத்துச் சரிபார்ப்பு {id}',
@@ -936,6 +1026,67 @@ const translations = {
     'results.missingFeatures':
       'கிடைக்காத அம்சங்கள்',
 
+    'results.mySkills': 'என் எழுத்துத் திறன்கள்',
+    'results.skillSpacing': 'சொல் இடைவெளி',
+    'results.skillAlignment': 'வரி ஒழுங்கு',
+    'results.skillSize': 'எழுத்து அளவு',
+
+    'results.skillDescription.spacing': 'சொற்களுக்கு இடையில் தெளிவான இடம் விடுதல்.',
+    'results.skillDescription.alignment': 'ஒரே வரியில் எழுத்துகளை எழுதுதல்.',
+    'results.skillDescription.size': 'எழுத்துகளை ஒரே அளவில் எழுதுதல்.',
+
+    'results.skillClear': 'சிக்கல் சுட்டப்படவில்லை',
+    'results.skillPractice': 'பயிற்சி',
+    'results.skillUnknown': 'மேலும் பார்க்கலாம்',
+    'results.skillIndicatorsNote':
+      'இவை இந்த மாதிரிக்கான குறிப்புகள்; மதிப்பெண்களோ சதவீதங்களோ அல்ல.',
+
+    'results.myHandwriting': 'என் கையெழுத்து',
+    'results.enlargeImage': 'படத்தைப் பெரிதாகப் பார்',
+    'results.closeImage': 'படத்தை மூடு',
+
+    'results.todayPractice': 'இன்றைய பயிற்சி',
+    'results.nextSmallStep': 'அடுத்து இதை முயற்சி செய்வோம்',
+    'results.generalPractice': 'ஒன்றாகப் பயிற்சி செய்வோம்',
+    'results.generalPracticeTitle': 'ஒரு சிறிய வரியை மெதுவாக எழுதுவோம்',
+    'results.generalPracticeText':
+      'உனக்குத் தெரிந்த சில சொற்களைத் தேர்ந்தெடுத்து, வசதியான வேகத்தில் ஒரு சிறிய வரியை எழுது.',
+    'results.practiceExample':
+      'பயிற்சி உதாரணம் மட்டுமே; உன் கையெழுத்தில் செய்யப்பட்ட குறியீடு அல்ல.',
+
+    'results.smallTip': 'சிறிய குறிப்பு',
+    'results.smallTipText':
+      'பேனாவை மென்மையாகப் பிடித்து, வசதியாக அமர்ந்து மெதுவாக எழுது.',
+
+    'results.effortTitle': 'உன் முயற்சிக்குப் பாராட்டு!',
+    'results.effortChecked': 'நல்ல முயற்சி!',
+    'results.effortCheckedText': 'உன் கையெழுத்து மாதிரி சரிபார்க்கப்பட்டது.',
+    'results.effortNext': 'அடுத்த சிறிய படி',
+    'results.effortNextText': 'ஒரு குறுகிய பயிற்சியை முயற்சி செய்து தொடர்ந்து கற்றுக்கொள்.',
+
+    'results.heroEncouragement':
+      'தினமும் கொஞ்சம் பயிற்சி. சிறிய படிகளில் முன்னேறுவோம்!',
+    'results.skillPartialNote':
+      'சில திறன்களை இன்னும் சரிபார்க்க வேண்டும். தெளிவான குறிப்புகள் உள்ளவற்றிலிருந்து பயிற்சியைத் தொடங்குவோம்.',
+    'results.skillUnavailableNote':
+      'இந்த மாதிரியிலிருந்து போதுமான நம்பகமான பயிற்சிக் குறிப்புகள் கிடைக்கவில்லை. இப்போது பொதுவான பயிற்சியைச் செய்வோம்; ஆசிரியரிடமும் கேளுங்கள்.',
+
+    'results.captureHelpTitle': 'தெளிவான கையெழுத்துப் படத்தை எடுப்போம்',
+    'results.captureHelpText':
+      'நல்ல வெளிச்சத்தில், கேமராவைப் பக்கத்திற்கு நேராக மேலே வைத்து, கையால் எழுதிய சில சொற்களைத் தெளிவாகப் படம் எடு. இந்த முறை கையெழுத்துத் தரநிலை வழங்கப்படவில்லை.',
+
+    'results.teacherReview': 'ஆசிரியர் மதிப்பாய்வு தேவை',
+    'results.teacherReviewText':
+      'இந்தக் கணிப்பின் நம்பிக்கை குறைவாக இருப்பதால், பெறுபேற்றை ஆசிரியரிடம் உறுதிப்படுத்துங்கள்.',
+
+    'status.nonWritingTitle': 'கையெழுத்து மாதிரி தேவை',
+    'status.nonWritingText':
+      'இந்தப் படத்தில் கையெழுத்தை ஆய்வு செய்வதற்குப் போதுமான ஆதாரம் கிடைக்கவில்லை. தெளிவாகக் கையால் எழுதப்பட்ட சில சொற்களின் புகைப்படத்தைப் பதிவேற்றுங்கள். கையெழுத்துத் தரநிலை வழங்கப்படவில்லை.',
+
+    'status.featureTitle': 'ஆசிரியர் மதிப்பாய்வு தேவை',
+    'status.featureText':
+      'கையெழுத்தை அளவிடப் போதுமான நம்பகமான தகவல்கள் இல்லை. தெளிவான மாதிரியைப் பதிவேற்றுங்கள் அல்லது ஆசிரியரிடம் கேளுங்கள். தரநிலை வழங்கப்படவில்லை.',
+
     // Reliability values
     'reliability.strong': 'உயர் நம்பகத்தன்மை',
     'reliability.moderate': 'மிதமான நம்பகத்தன்மை',
@@ -979,27 +1130,10 @@ const translations = {
     'fl.cheer2': 'நன்று, இன்னும் கொஞ்சம்!',
     'fl.cheer1': 'தொடர்ந்து பயிற்சி செய்வோம்!',
     'fl.coachTitle': 'உன் வாசிப்பு',
+    'fl.focusOn': 'கவனம் செலுத்துவோம்',
     'fl.compareTitle': 'வாசித்த விதம்',
     'fl.print': 'அறிக்கையை அச்சிடு',
     'fl.sentenceCount': '{count} வாக்கியங்கள்',
-    'fl.startPractice': 'வாசிப்புப் பயிற்சியைத் தொடங்கு',
-    'fl.planTitle': 'வாசிப்புப் பயிற்சித் திட்டம்',
-    'fl.planEmptyTitle': 'இன்னும் பயிற்சித் திட்டங்கள் இல்லை',
-    'fl.planEmptyText': 'மதிப்பீட்டிற்குப் பிறகு, பரிந்துரைக்கப்பட்ட செயல்பாட்டில் உள்ள "வாசிப்புப் பயிற்சியைத் தொடங்கு" பொத்தானைக் கிளிக் செய்யவும்.',
-    'fl.planProgress': 'செயல்பாடுகள் {done} / {total} முடிந்தது',
-    'fl.activityLabel': 'செயல்பாடு {index}',
-    'fl.activityCompleted': 'முடிந்தது',
-    'fl.activityPending': 'இன்னும் முடிக்கப்படவில்லை',
-    'fl.assessReading': 'வாசிப்பை மதிப்பிடு',
-    'fl.reassessReading': 'இந்த வாக்கியத்தை மீண்டும் மதிப்பிடு',
-    'fl.activityDoneTitle': 'செயல்பாடு முடிந்தது!',
-    'fl.nextActivity': 'அடுத்த பரிந்துரைக்கப்பட்ட செயல்பாட்டிற்குச் செல்',
-    'fl.viewFullSummary': 'முழு சுருக்கத்தைக் காண்க',
-    'fl.backToPractice': 'வாசிப்புப் பயிற்சிக்குத் திரும்பு',
-    'fl.downloadSummary': 'சுருக்கத்தைப் பதிவிறக்கு / அச்சிடு',
-    'fl.summaryTitle': 'அனைத்து செயல்பாடுகளும் முடிந்தன — முழு சுருக்கம்',
-    'fl.noPracticeSentence': 'இந்தச் செயல்பாட்டிற்கான வாக்கியம் கிடைக்கவில்லை.',
-    'fl.planNotFound': 'இந்தப் பயிற்சித் திட்டம் கிடைக்கவில்லை.',
     'pv.qualityTitle': 'கையெழுத்துத் தரம்',
     'pv.less': 'குறைவு',
     'pv.more': 'அதிகம்',
@@ -1084,8 +1218,10 @@ const translations = {
     'profile.eyebrow': 'சுயவிவரம்',
     'profile.title': 'என் சுயவிவரம் 🙂',
     'profile.text': 'Bhasha உங்களை வரவேற்கும்போது பயன்படுத்த வேண்டிய பெயரைத் தேர்வு செய்யுங்கள்.',
+    'profile.text': 'Bhasha உங்களை வரவேற்கும்போது பயன்படுத்த வேண்டிய பெயரைத் தேர்வு செய்யுங்கள்.',
     'profile.displayName': 'காட்சிப் பெயர்',
     'profile.namePlaceholder': 'கற்றுக்கொள்பவரின் பெயர்',
+    'profile.role': 'நான் Bhasha-ஐ பயன்படுத்துவது',
     'profile.role': 'நான் Bhasha-ஐ பயன்படுத்துவது',
     'profile.saved': 'சேமிக்கப்பட்டது!',
     'profile.save': 'சுயவிவரத்தைச் சேமி',

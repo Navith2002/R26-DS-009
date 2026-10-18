@@ -36,6 +36,7 @@ const allowedTypes = [
   'image/jpeg',
   'image/png',
   'image/bmp',
+  'image/x-ms-bmp',
   'image/tiff',
 ];
 
@@ -207,7 +208,7 @@ export default function AnalyzePage() {
   // =========================================================
 
   function validateFile(nextFile) {
-    if (!nextFile) {
+    if (!nextFile || nextFile.size === 0) {
       return t('analyze.errNoFile');
     }
 
@@ -219,6 +220,11 @@ export default function AnalyzePage() {
       nextFile.type
       && !allowedTypes.includes(nextFile.type)
     ) {
+      return t('analyze.errType');
+    }
+
+    // A missing MIME type does not make an arbitrary file an image.
+    if (!/\.(jpe?g|png|bmp|tiff?)$/i.test(nextFile.name || '')) {
       return t('analyze.errType');
     }
 
@@ -237,7 +243,11 @@ export default function AnalyzePage() {
 
     const message = validateFile(nextFile);
 
+    // A newly selected file supersedes any in-flight handwriting request.
+    controllerRef.current?.abort();
+
     if (message) {
+      removeImage();
       setError(message);
       return;
     }
@@ -466,6 +476,7 @@ export default function AnalyzePage() {
   // =========================================================
 
   function removeImage() {
+    controllerRef.current?.abort();
     if (
       preview
       && preview.startsWith('blob:')
@@ -502,8 +513,8 @@ export default function AnalyzePage() {
 
     controllerRef.current?.abort();
 
-    controllerRef.current =
-      new AbortController();
+    const requestController = new AbortController();
+    controllerRef.current = requestController;
 
     try {
       /*
@@ -519,13 +530,20 @@ export default function AnalyzePage() {
           file,
           language,
           signal:
-            controllerRef.current.signal,
+            requestController.signal,
         });
+
+      if (requestController.signal.aborted || controllerRef.current !== requestController) return;
+      if (!result?.input_validation || !result?.quality_prediction) {
+        throw new Error('Invalid handwriting-analysis response.');
+      }
 
       const entry =
         await registerAnalysis(result);
 
-      setStatus('success');
+      if (requestController.signal.aborted || controllerRef.current !== requestController) return;
+
+      setStatus(isAcceptedQualityResult(result) ? 'success' : 'rejected');
 
       navigate(
         `/results/${entry.id}`,
@@ -533,11 +551,14 @@ export default function AnalyzePage() {
           state: {
             result,
             preview,
+            // Results creates its own object URL after this page unmounts.
+            previewFile: file,
           },
         },
       );
     } catch (err) {
-      if (err?.name === 'AbortError') {
+      if (err?.name === 'AbortError' || requestController.signal.aborted
+          || controllerRef.current !== requestController) {
         return;
       }
 

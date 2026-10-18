@@ -8,10 +8,12 @@ Flow
 ----
 Image
  -> preprocessing
+ -> independent text-structure screen (not a trained handwriting detector)
  -> line/word/character-region segmentation
  -> Stage 1A input-image quality gate
  -> Stage 1B segmentation reliability gate
  -> Stage 2 language-specific structural features
+ -> finite feature-evidence gate
  -> calibrated ML model
  -> model label + confidence + teacher-review advisory
  -> teacher-calibrated issue explanations
@@ -36,7 +38,7 @@ import sklearn
 #   from handwriting_Qlty.analysis_service import ...
 # and direct module execution during local debugging.
 try:
-    from .image_utils import ensure_gray, ensure_ink_white
+    from .image_utils import ensure_gray, ensure_canonical_binary as ensure_ink_white
     from .preprocessing import (
         correct_skew,
         remove_shadow,
@@ -67,7 +69,7 @@ try:
         generate_recommendations,
     )
 except ImportError:
-    from image_utils import ensure_gray, ensure_ink_white
+    from image_utils import ensure_gray, ensure_canonical_binary as ensure_ink_white
     from preprocessing import (
         correct_skew,
         remove_shadow,
@@ -97,6 +99,11 @@ except ImportError:
     from recommendations import (
         generate_recommendations,
     )
+
+try:
+    from .segmentation_quality import evaluate_handwriting_presence
+except ImportError:
+    from segmentation_quality import evaluate_handwriting_presence
 
 
 # ============================================================
@@ -1553,9 +1560,13 @@ def predict_quality(
 
     try:
         ordered = validate_feature_vector(
-            raw_features,
+            {name: raw_features.get(name, np.nan) for name in expected_features},
             expected_features,
         )
+
+        evidence = evaluate_feature_evidence(ordered)
+        if not evidence["sufficient"]:
+            return _blocked_prediction("INSUFFICIENT_FEATURE_EVIDENCE", evidence)
 
         sample = pd.DataFrame(
             [ordered],
@@ -1570,13 +1581,19 @@ def predict_quality(
                 "Saved model does not support predict_proba()."
             )
 
-        probabilities = model.predict_proba(
-            sample
-        )[0]
+        probability_matrix = np.asarray(model.predict_proba(sample), dtype=float)
 
         classes = np.asarray(
             model.classes_
         )
+
+        if (probability_matrix.shape != (1, len(classes))
+                or not np.all(np.isfinite(probability_matrix))
+                or np.any(probability_matrix < 0)
+                or np.any(probability_matrix > 1)
+                or not np.isclose(probability_matrix[0].sum(), 1.0)):
+            raise ValueError("The model returned invalid class probabilities.")
+        probabilities = probability_matrix[0]
 
         best_index = int(
             np.argmax(probabilities)
@@ -1666,6 +1683,7 @@ def predict_quality(
             ],
             "features_used":
                 list(expected_features),
+            "feature_evidence": evidence,
             "selected_classifier":
                 metadata.get(
                     "selected_classifier"
@@ -1697,6 +1715,34 @@ def predict_quality(
 # ============================================================
 # USER-FACING STAGE 1 / 1B HELPERS
 # ============================================================
+
+def evaluate_feature_evidence(ordered):
+    """Do not let median imputation invent the majority of a writing sample.
+
+    This coverage policy is a development safeguard, not an accuracy claim.
+    Zero is a real measurement; NaN/Inf are unavailable measurements.
+    """
+    finite = [key for key, value in ordered.items() if np.isfinite(value)]
+    missing = [key for key in ordered if key not in finite]
+    geometry = {"spacing_std", "baseline_std", "local_baseline_drift", "avg_size_variation"}
+    stroke = {"curve_smoothness", "loop_roundness", "stroke_continuity", "stroke_thickness_consistency"}
+    sufficient = bool(finite and len(finite) / max(len(ordered), 1) >= .8)
+    # Apply family coverage only to the real multi-feature model contract.
+    if len(ordered) >= 10:
+        sufficient = sufficient and bool(geometry.intersection(finite)) and bool(stroke.intersection(finite))
+    return {"sufficient": bool(sufficient), "finite_count": len(finite),
+            "expected_count": len(ordered), "missing_features": missing,
+            "minimum_finite_fraction": .8,
+            "reasons": [] if sufficient else ["Too many structural handwriting measurements are unavailable. No quality level was assigned."]}
+
+
+def _blocked_prediction(status, evidence):
+    return {"available": False, "status": status, "accepted": False,
+            "accepted_for_automatic_decision": False, "review_recommended": True,
+            "review_note": "Needs Teacher Review", "predicted_label": None,
+            "most_likely_label": None, "final_label": None, "reported_label": None,
+            "confidence": None, "low_confidence": None, "probabilities": None,
+            "feature_evidence": evidence, "error": " ".join(evidence["reasons"])}
 
 def _stage1_recommendations(status):
     if status == "Low Image Quality":
@@ -1752,23 +1798,15 @@ def _output_files(
             for name in (names or [])
         ]
 
+    def _overlay(key):
+        name = segmentation.get(key)
+        return "/outputs/debug/" + name if name else None
+
     segmentation_files = {
-        "line_overlay": (
-            "/outputs/debug/"
-            + segmentation["line_debug_filename"]
-        ),
-        "word_overlay": (
-            "/outputs/debug/"
-            + segmentation["word_page_debug_filename"]
-        ),
-        "character_overlay": (
-            "/outputs/debug/"
-            + segmentation["character_page_debug_filename"]
-        ),
-        "combined_overlay": (
-            "/outputs/debug/"
-            + segmentation["combined_page_debug_filename"]
-        ),
+        "line_overlay": _overlay("line_debug_filename"),
+        "word_overlay": _overlay("word_page_debug_filename"),
+        "character_overlay": _overlay("character_page_debug_filename"),
+        "combined_overlay": _overlay("combined_page_debug_filename"),
         "line_crops": _urls(
             "lines",
             segmentation.get("line_image_filenames"),
@@ -1825,11 +1863,15 @@ def analyze_handwriting(
         image_id,
     )
 
+    presence = evaluate_handwriting_presence(preprocessing["binary"])
     segmentation = segment_handwriting(
         preprocessing["binary"],
         image_id,
         language,
-    )
+    ) if presence["valid_for_stage2"] else {
+        "page_binary": preprocessing["binary"], "lines": [], "line_records": [],
+        "all_words": [], "all_word_boxes": [], "character_region_count": 0,
+    }
 
     stage1 = evaluate_input_quality(
         preprocessing[
@@ -1844,6 +1886,12 @@ def analyze_handwriting(
         len(segmentation["lines"]),
         len(segmentation["all_words"]),
     )
+
+    stage1["handwriting_presence"] = presence
+    if not presence["valid_for_stage2"]:
+        stage1["valid_for_stage2"] = False
+        stage1["status"] = presence["status"]
+        stage1["reasons"] = presence["reasons"] + stage1.get("reasons", [])
 
     output_files = _output_files(
         preprocessing,
@@ -1887,7 +1935,8 @@ def analyze_handwriting(
         return {
             "language": language,
             "analysis_status":
-                "INPUT_RETAKE_REQUIRED",
+                ("NON_HANDWRITING_INPUT" if presence["status"] == "NON_HANDWRITING_INPUT"
+                 else "INPUT_RETAKE_REQUIRED"),
             "feedback_status": "NOT_RUN",
             "input_validation": stage1,
             "segmentation_reliability": {
@@ -2055,6 +2104,25 @@ def analyze_handwriting(
         language,
         raw_features,
     )
+
+    if prediction.get("status") == "INSUFFICIENT_FEATURE_EVIDENCE":
+        return {
+            "language": language, "analysis_status": "INSUFFICIENT_FEATURE_EVIDENCE",
+            "feedback_status": "NOT_RUN", "input_validation": stage1,
+            "feature_evidence": prediction["feature_evidence"],
+            "segmentation_reliability": segmentation_reliability,
+            "quality_prediction": prediction,
+            "ml_prediction": {"available": False, "label": None, "reported_label": None,
+                              "most_likely_label": None, "confidence": None, "probabilities": None},
+            "overall_score": None, "score_source": None,
+            "raw_features": _json_features(raw_features), "issues": [],
+            "explainability": {"available": False, "source": "not_run", "issues": [], "recommendations": []},
+            "character_level_analysis": {"available": False, "affects_final_prediction": False},
+            "recommendations": _segmentation_retake_recommendations(),
+            "recommendation_texts": _segmentation_retake_recommendations(),
+            "output_files": output_files, "debug": base_debug,
+            "architecture_notes": {"stage2_ran": False, "feature_extraction_ran": True},
+        }
 
     character_analysis = (
         analyze_character_records(
@@ -2241,6 +2309,7 @@ def analyze_handwriting(
         "architecture_notes": {
             "final_quality_source":
                 "calibrated_language_specific_ml_model",
+            "stage2_ran": True,
             "stage1_image_quality_separate_from_stage2": True,
             "segmentation_reliability_gate_enabled": True,
             "low_confidence_policy":
